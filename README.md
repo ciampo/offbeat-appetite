@@ -1,24 +1,8 @@
-# Netx.js Template Project
+# The Offbeat Appetite website
 
-This is a template for a next.js project. Features:
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8a466cb6-4eef-463d-81be-18240576884d/deploy-status)](https://app.netlify.com/sites/offbeatappetite/deploys)
 
-- `Next.js`
-- `yarn`
-- typescript
-- bundle analyzer used to help debugging code splitting modules
-- `preact` used instead of `react` for smaller bundles
-- styles written in CSS. Using `tailwind` (+ `autoprefixer`, `cssnano`, `purgecss`)
-- styles linted by `stylelint`
-- scripts linted by `eslint` / `prettier` / `tsc`
-- git `hooks` (including pre-{commit, push} linting)
-- page transitions (using `framer-motion`)
-- get `contentful` data script (with sample typings)
-- project wise variables stored in `.env`
-- ie11 support w/ polyfills
-- google analytics
-- seo: comprehensive meta tags, favicons, webmanifest, preview sharing image, sitemap.xml,  robots.txt
-- enhanced security `HTTP` headers (including CSP)
-- app structure (w header nav, footer, main and alternative page layout)
+Based on [this next.js template](https://github.com/ciampo/_nextjs-template).
 
 ## 🛠 Setup
 
@@ -72,3 +56,4 @@ Lints scripts and styles, and tries to auto-fix any errors.
 ## 👻 Contributors
 
 - [Marco Ciampini](https://github.com/ciampo)
+- [Marie Claire Tonna](https://github.com/mctonna)

@@ -1,11 +1,11 @@
 {
-  "name": "nextjs-template",
+  "name": "offbeat-appetite",
   "version": "1.2.1",
   "main": "pages/index.js",
   "author": "Marco Ciampini <marco.ciampo@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ciampo/_nextjs-template.git"
+    "url": "https://github.com/ciampo/offbeat-appetite.git"
   },
   "license": "MIT",
   "private": true,
