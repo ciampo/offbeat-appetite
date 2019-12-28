@@ -9,6 +9,7 @@ module.exports = [
   },
   {
     route: '/post/[id]',
+    // parentRoute: '/posts',
     contentfulPageData: 'page-project',
     dynamicRoute: {
       contentfulItemsData: 'personal-projects',

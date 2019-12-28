@@ -26,6 +26,9 @@ body {
 
 a,
 button,
+input,
+label,
+video,
 canvas {
   -webkit-tap-highlight-color: transparent;
 }

@@ -1,11 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { NextComponentType, NextPageContext } from 'next';
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
-import { ContentfulApiPageAbout } from '../typings';
+import RichTextRenderer from '../components/utils/RichTextRenderer';
+import { generateWebpageStructuredData } from '../components/utils/structured-data';
+import { initialDefaultPageProps } from '../components/utils/initial-props';
+import { ContentfulApiPageAbout, ContentfulApiStructuredData } from '../typings';
 import routesConfig from '../routes-config';
 
 type PageAboutProps = ContentfulApiPageAbout & {
@@ -17,10 +18,24 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
   path,
   title,
   bio,
+  structuredDataTemplate,
 }) => {
   return (
     <>
-      <PageMeta key="page-meta" title={meta.title} description={meta.description} path={path} />
+      <PageMeta
+        key="page-meta"
+        title={meta.title}
+        description={meta.description}
+        previewImage={meta.previewImage.file.url}
+        path={path}
+        webPageStructuredData={
+          structuredDataTemplate &&
+          generateWebpageStructuredData(structuredDataTemplate, {
+            title: meta.title,
+            description: meta.description,
+          })
+        }
+      />
 
       <DefaultPageTransitionWrapper>
         <section className="pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-48 container mx-auto">
@@ -28,7 +43,9 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
 
           {/* Bio */}
           {bio && (
-            <div className="lg:flex-1 rich-text-container">{documentToReactComponents(bio)}</div>
+            <div className="lg:flex-1 rich-text-container">
+              <RichTextRenderer richText={bio} />
+            </div>
           )}
         </section>
       </DefaultPageTransitionWrapper>
@@ -38,12 +55,9 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
 
 About.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageAboutProps> => {
   const toReturn: PageAboutProps = {
+    ...initialDefaultPageProps,
     path: '/na',
     title: 'About me',
-    meta: {
-      title: 'About',
-      description: 'About page',
-    },
     bio: undefined,
   };
 
@@ -60,18 +74,12 @@ About.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageAbout
     toReturn.bio = aboutData.bio;
   }
 
-  return toReturn;
-};
+  const structuredDataTemplate: ContentfulApiStructuredData = await import(
+    `../data/structured-data-template.json`
+  ).then((m) => m.default);
+  toReturn.structuredDataTemplate = structuredDataTemplate;
 
-About.propTypes = {
-  path: PropTypes.string.isRequired,
-  meta: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-  }).isRequired,
-  title: PropTypes.string.isRequired,
-  // using 'any' avoids strange incompatibilities with Typescript type
-  bio: PropTypes.any,
+  return toReturn;
 };
 
 export default About;

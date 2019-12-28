@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { NextComponentType, NextPageContext } from 'next';
 
 import PageMeta from '../components/PageMeta';
@@ -21,7 +20,7 @@ const CustomError: NextComponentType<{}, {}, ErrorPageProps> = ({ statusCode }) 
 
   return (
     <>
-      <PageMeta title={`${statusCode}: ${title}`} description="An error occurred" path="/" />
+      <PageMeta title={`${statusCode}: ${title}`} description="An error occurred" path="/404" />
 
       <DefaultPageTransitionWrapper>
         <header className="pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-48 container mx-auto text-center text-primary">
@@ -37,10 +36,6 @@ CustomError.getInitialProps = ({ res, err }: NextPageContext): ErrorPageProps =>
   const statusCode = res && res.statusCode ? res.statusCode : err ? err.statusCode : 404;
 
   return { statusCode: statusCode || -1 };
-};
-
-CustomError.propTypes = {
-  statusCode: PropTypes.number.isRequired,
 };
 
 export default CustomError;

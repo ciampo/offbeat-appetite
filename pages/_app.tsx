@@ -46,6 +46,18 @@ export default class MyApp extends App<CustomAppProps> {
     }
   }
 
+  componentDidMount(): void {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }
+
+  componentWillUnmount(): void {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'auto';
+    }
+  }
+
   render(): JSX.Element {
     const { Component, pageProps, router, navLinks } = this.props;
 

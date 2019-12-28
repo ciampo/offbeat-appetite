@@ -1,18 +1,32 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { NextComponentType, NextPageContext } from 'next';
 
 import PageMeta from '../../components/PageMeta';
 import ContentfulImage from '../../components/media/image';
 import ContentfulVideo from '../../components/media/video';
 import DefaultPageTransitionWrapper from '../../components/page-transition-wrappers/Default';
-import { ContentfulApiPageProject, ContentfulApiProject, ContentfulMedia } from '../../typings';
+import { initialDefaultPageProps } from '../../components/utils/initial-props';
+
+import {
+  ContentfulApiPageProject,
+  ContentfulApiProject,
+  ContentfulMedia,
+  ContentfulApiStructuredData,
+} from '../../typings';
+import {
+  generateWebpageStructuredData,
+  generateArticleStructuredData,
+} from '../../components/utils/structured-data';
 import routesConfig from '../../routes-config';
 import { content, narrowMedia } from '../../components/media/sizes-presets';
 
 type PagePostProps = ContentfulApiPageProject & {
   path: string;
   project?: ContentfulApiProject;
+  parentPage?: {
+    path: string;
+    title: string;
+  };
 };
 
 const articleMedia = (
@@ -27,14 +41,14 @@ const articleMedia = (
 ): JSX.Element => (
   <div className={wrapperClassName}>
     {/video/.test(mediaObj.source.file.contentType) ? (
-      <ContentfulVideo src={mediaObj.source.file.url} className="mt-24" />
+      <ContentfulVideo src={mediaObj.source.file.url} className="mb-24" />
     ) : (
       <ContentfulImage
         baseSrc={mediaObj.source.file.url}
         resolutions={sizePreset.resolutions}
         sizes={sizePreset.sizes}
         label={mediaObj.source.description}
-        className="relative mt-24"
+        className="relative mb-24"
         ratio={
           mediaObj.source.file.details.image
             ? mediaObj.source.file.details.image.height / mediaObj.source.file.details.image.width
@@ -52,10 +66,39 @@ const Post: NextComponentType<{}, PagePostProps, PagePostProps> = ({
   project,
   meta,
   path,
+  structuredDataTemplate,
+  parentPage,
 }) =>
   project ? (
     <>
-      <PageMeta title={meta.title} description={meta.description} path={path} />
+      <PageMeta
+        title={meta.title}
+        description={meta.description}
+        previewImage={meta.previewImage.file.url}
+        path={path}
+        webPageStructuredData={
+          structuredDataTemplate &&
+          generateWebpageStructuredData(structuredDataTemplate, {
+            title: meta.title,
+            description: meta.description,
+            breadcrumbsPages: parentPage && [
+              {
+                name: parentPage.title,
+                url: parentPage.path,
+              },
+            ],
+          })
+        }
+        articleStructuredData={
+          structuredDataTemplate &&
+          generateArticleStructuredData(structuredDataTemplate, {
+            title: project.title,
+            image: `https:${project.tileImage.file.url}?w=1280&fit=fill&fm=jpg&q=70`,
+            publicationDate: project.publicationDate,
+            modifiedDate: project._updatedAt,
+          })
+        }
+      />
 
       <DefaultPageTransitionWrapper>
         <section className="pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-48 container mx-auto">
@@ -83,13 +126,11 @@ const Post: NextComponentType<{}, PagePostProps, PagePostProps> = ({
 
 Post.getInitialProps = async ({ pathname, query }: NextPageContext): Promise<PagePostProps> => {
   const toReturn: PagePostProps = {
+    ...initialDefaultPageProps,
     path: 'N/A',
     mediaSectionTitle: 'Media',
-    meta: {
-      title: 'Project',
-      description: 'Project',
-    },
     project: undefined,
+    parentPage: undefined,
   };
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
@@ -126,6 +167,7 @@ Post.getInitialProps = async ({ pathname, query }: NextPageContext): Promise<Pag
           '[project-description]',
           currentPost.title
         ),
+        previewImage: currentPost.tileImage,
       };
 
       toReturn.mediaSectionTitle = projectPageData.mediaSectionTitle;
@@ -137,20 +179,29 @@ Post.getInitialProps = async ({ pathname, query }: NextPageContext): Promise<Pag
       }
 
       toReturn.project = currentPost;
+
+      const structuredDataTemplate: ContentfulApiStructuredData = await import(
+        `../../data/structured-data-template.json`
+      ).then((m) => m.default);
+      toReturn.structuredDataTemplate = structuredDataTemplate;
     }
+
+    // if (routeConfig.parentRoute) {
+    //   const parentRouteConfig = routesConfig.find(({ route }) => route === routeConfig.parentRoute);
+    //   if (parentRouteConfig && parentRouteConfig.contentfulPageData) {
+    //     const parentPageData: ContentfulApiPageProjectsList = await import(
+    //       `../../data/${parentRouteConfig.contentfulPageData}.json`
+    //     ).then((m) => m.default);
+
+    //     toReturn.parentPage = {
+    //       path: routeConfig.parentRoute,
+    //       title: parentPageData.title,
+    //     };
+    //   }
+    // }
   }
 
   return toReturn;
-};
-
-Post.propTypes = {
-  path: PropTypes.string.isRequired,
-  meta: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-  }).isRequired,
-  mediaSectionTitle: PropTypes.string.isRequired,
-  project: PropTypes.any,
 };
 
 export default Post;

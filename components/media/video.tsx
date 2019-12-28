@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { NextComponentType } from 'next';
 
 type ContentfulVideoProps = {
@@ -11,12 +10,25 @@ const ContentfulVideo: NextComponentType<{}, ContentfulVideoProps, ContentfulVid
   src,
   className,
 }) => {
-  return <video src={src} className={`block ${className || ''}`} />;
-};
+  const [hasPlayedOnce, setPlayedOnce] = useState(false);
 
-ContentfulVideo.propTypes = {
-  src: PropTypes.string.isRequired,
-  className: PropTypes.string,
+  return (
+    <div
+      className={`video-player ${hasPlayedOnce ? '' : 'video-player--paused'} ${className || ''}`}
+    >
+      <video
+        muted
+        loop
+        controls
+        preload="auto"
+        playsInline
+        src={src}
+        className="block cursor-pointer"
+        autoPlay
+        onPlaying={(): void => setPlayedOnce(true)}
+      />
+    </div>
+  );
 };
 
 export default ContentfulVideo;

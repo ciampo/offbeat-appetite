@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import PropTypes from 'prop-types';
 import { NextComponentType } from 'next';
 import { useIntersection } from 'react-use';
 
@@ -27,7 +26,7 @@ function getSrcSet(baseSrc: string, resolutions: number[], format: string): stri
 
 const ioOptions: IntersectionObserverInit = {
   root: null,
-  rootMargin: '0px',
+  rootMargin: '100px',
   threshold: 0.01,
 };
 
@@ -109,18 +108,6 @@ const ContentfulImage: NextComponentType<{}, ContentfulImageProps, ContentfulIma
       </picture>
     </div>
   );
-};
-
-ContentfulImage.propTypes = {
-  baseSrc: PropTypes.string.isRequired,
-  resolutions: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
-  sizes: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  className: PropTypes.string,
-  ratio: PropTypes.number,
-  lazy: PropTypes.bool,
-  stallLazyInit: PropTypes.bool,
-  base64Thumb: PropTypes.string,
 };
 
 export default ContentfulImage;

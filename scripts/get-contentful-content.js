@@ -87,13 +87,15 @@ function flattenContentfulApis(obj) {
       obj[i] = flattenContentfulApis(child);
       i += 1;
     }
-  } else if (typeof obj === 'object') {
+  } else if (typeof obj === 'object' && obj.nodeType !== 'document') {
     if ('sys' in obj && 'fields' in obj) {
       const id = obj.sys.id;
+      const updatedAt = obj.sys.updatedAt;
       const fields = obj.fields;
 
       obj = {
         id,
+        _updatedAt: updatedAt,
         ...fields,
       };
     }
@@ -114,13 +116,13 @@ async function getEntries(type, filename, isSingleton = false, filterFuntion = (
 
   let contents = flattenContentfulApis(entries.items).filter(filterFuntion);
 
+  if (contents.length === 0) {
+    return;
+  }
+
   // When singleton, assume the first entry is the only entry.
   if (isSingleton) {
-    if (contents.length > 0) {
-      contents = contents[0];
-    } else {
-      contents = [];
-    }
+    contents = contents[0];
   }
 
   contents = await addBase64ThumbData(contents);
@@ -138,10 +140,10 @@ const pullContentfulData = async () => {
   await getEntries('homePage', 'page-home', true);
   await getEntries('pageProject', 'page-project', true);
   await getEntries('about', 'page-about', true);
-  await getEntries('globalMeta', 'global-meta', true);
   await getEntries('project', 'personal-projects', false, (projectItem) =>
     /personal/i.test(projectItem.client)
   );
+  await getEntries('structuredData', 'structured-data-template', true);
 };
 
 pullContentfulData();

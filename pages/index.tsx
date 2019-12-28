@@ -1,11 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { NextComponentType, NextPageContext } from 'next';
 import Link from 'next/link';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
-import { ContentfulApiPageHome, ContentfulApiProject } from '../typings';
+import { generateWebpageStructuredData } from '../components/utils/structured-data';
+import { initialDefaultPageProps } from '../components/utils/initial-props';
+import {
+  ContentfulApiPageHome,
+  ContentfulApiProject,
+  ContentfulApiStructuredData,
+} from '../typings';
 import routesConfig from '../routes-config';
 
 type PageHomeProps = ContentfulApiPageHome & {
@@ -21,14 +26,26 @@ const PostLink: React.FC<{ id: string; label: string }> = ({ id, label }) => (
   </li>
 );
 
-PostLink.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-};
-
-const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta, projects }) => (
+const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({
+  path,
+  meta,
+  projects,
+  structuredDataTemplate,
+}) => (
   <>
-    <PageMeta title={meta.title} description={meta.description} path={path} />
+    <PageMeta
+      title={meta.title}
+      description={meta.description}
+      previewImage={meta.previewImage.file.url}
+      path={path}
+      webPageStructuredData={
+        structuredDataTemplate &&
+        generateWebpageStructuredData(structuredDataTemplate, {
+          title: meta.title,
+          description: meta.description,
+        })
+      }
+    />
 
     <DefaultPageTransitionWrapper>
       <section className="pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-48 container mx-auto">
@@ -50,13 +67,10 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
 );
 
 Home.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageHomeProps> => {
-  const toReturn = {
-    path: '/na',
-    pageTitle: 'Home',
-    meta: {
-      title: 'Home',
-      description: 'Home page',
-    },
+  const toReturn: PageHomeProps = {
+    ...initialDefaultPageProps,
+    pageTitle: 'Home Page',
+    path: '/',
     projects: [] as ContentfulApiProject[],
   };
 
@@ -72,23 +86,19 @@ Home.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageHomePr
     toReturn.meta = homeData.meta;
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
   const projects: ContentfulApiProject[] = await import('../data/personal-projects.json').then(
     (m) => m.default
   );
-
   toReturn.projects = projects;
 
-  return toReturn;
-};
+  const structuredDataTemplate: ContentfulApiStructuredData = await import(
+    `../data/structured-data-template.json`
+  ).then((m) => m.default);
+  toReturn.structuredDataTemplate = structuredDataTemplate as ContentfulApiStructuredData;
 
-Home.propTypes = {
-  path: PropTypes.string.isRequired,
-  meta: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-  }).isRequired,
-  pageTitle: PropTypes.string.isRequired,
-  projects: PropTypes.array.isRequired,
+  return toReturn;
 };
 
 export default Home;
