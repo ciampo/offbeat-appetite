@@ -7,6 +7,9 @@ const del = require('del');
 const { promisify } = require('util');
 const { createClient } = require('contentful');
 
+const routesConfig = require('../routes-config.js');
+
+const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
 const existsAsync = promisify(fs.exists);
 const mkdirAsync = promisify(fs.mkdir);
@@ -138,7 +141,138 @@ async function getEntries(
   console.info(`Data saved to disk: ${filename}`);
 }
 
-const pullContentfulData = async () => {
+const manipulateContentfulData = async () => {
+  const allCategories = JSON.parse(
+    await readFileAsync(path.join(DATA_FOLDER, `categories.json`), { encoding: 'utf8' })
+  );
+  const allPosts = JSON.parse(
+    await readFileAsync(path.join(DATA_FOLDER, `posts.json`), { encoding: 'utf8' })
+  );
+
+  // Individual posts (with full data)
+  const INDIVIDUAL_POSTS_FOLDER = 'posts';
+  await mkdirAsync(path.join(DATA_FOLDER, INDIVIDUAL_POSTS_FOLDER), { recursive: true });
+  for (const post of allPosts) {
+    await writeFileAsync(
+      path.join(DATA_FOLDER, INDIVIDUAL_POSTS_FOLDER, `${post.slug}.json`),
+      JSON.stringify(post, null, 2)
+    );
+    console.info(`Data saved to disk: ${INDIVIDUAL_POSTS_FOLDER}/${post.slug}`);
+  }
+
+  // All posts, but only preview
+  const allPostsPreview = allPosts.map(({ slug, title, category, tileImage, featured }) => ({
+    slug,
+    title,
+    category: {
+      slug: category.slug,
+      name: category.name,
+    },
+    tileImage,
+    featured,
+  }));
+
+  await writeFileAsync(
+    path.join(DATA_FOLDER, `posts--preview.json`),
+    JSON.stringify(allPostsPreview, null, 2)
+  );
+
+  console.info(`Data saved to disk: posts--preview`);
+
+  // Featured posts
+  const featuredPosts = allPostsPreview.filter(({ featured }) => featured);
+
+  await writeFileAsync(
+    path.join(DATA_FOLDER, `posts--featured.json`),
+    JSON.stringify(featuredPosts, null, 2)
+  );
+
+  console.info(`Data saved to disk: posts--featured`);
+
+  // Posts by category (only preview data)
+  const postsByCategory = allCategories.reduce((dict, category) => {
+    dict[category.slug] = [];
+    return dict;
+  }, {});
+
+  for (const post of allPostsPreview) {
+    if (post.category.slug in postsByCategory) {
+      postsByCategory[post.category.slug].push(post);
+    }
+  }
+
+  for (const [categorySlug, posts] of Object.entries(postsByCategory)) {
+    await writeFileAsync(
+      path.join(DATA_FOLDER, `posts--category-${categorySlug}.json`),
+      JSON.stringify(posts, null, 2)
+    );
+
+    console.info(`Data saved to disk: posts--category-${categorySlug}`);
+  }
+
+  // Nav links
+  const navLinks = [];
+  for (const routeConfig of routesConfig) {
+    if (!routeConfig.headerNav || !routeConfig.contentfulPageData) {
+      continue;
+    }
+
+    const routeData = JSON.parse(
+      await readFileAsync(path.join(DATA_FOLDER, `${routeConfig.contentfulPageData}.json`), {
+        encoding: 'utf8',
+      })
+    );
+
+    if (!routeData || !routeData.navLabel) {
+      continue;
+    }
+
+    if (
+      routeConfig.dynamicRoute &&
+      routeConfig.dynamicRoute.contentfulItemsData &&
+      routeConfig.dynamicRoute.params
+    ) {
+      // Dynamic routes based on Contentful content.
+      const dataItems = JSON.parse(
+        await readFileAsync(
+          path.join(DATA_FOLDER, `${routeConfig.dynamicRoute.contentfulItemsData}.json`),
+          {
+            encoding: 'utf8',
+          }
+        )
+      );
+
+      for (const dataItem of dataItems) {
+        let as = routeConfig.route;
+        let label = routeData.navLabel;
+
+        for (const [pattern, replacerFn] of Object.entries(routeConfig.dynamicRoute.params)) {
+          if (replacerFn) {
+            as = as.replace(`[${pattern}]`, replacerFn(dataItem));
+          }
+        }
+
+        for (const [pattern, replacerFn] of Object.entries(
+          routeConfig.dynamicRoute.contentParams || {}
+        )) {
+          if (replacerFn) {
+            label = label.replace(`:${pattern}`, replacerFn(dataItem));
+          }
+        }
+
+        navLinks.push({ href: routeConfig.route, as, label });
+      }
+    } else {
+      navLinks.push({ href: routeConfig.route, label: routeData.navLabel });
+    }
+  }
+
+  await writeFileAsync(path.join(DATA_FOLDER, `nav-links.json`), JSON.stringify(navLinks, null, 2));
+
+  console.info(`Data saved to disk: nav-links`);
+};
+
+const getData = async () => {
   await cleanDataFolder();
 
   // Pages and global data
@@ -156,6 +290,9 @@ const pullContentfulData = async () => {
   await getEntries('tag', 'tags', false, 'fields.name');
   await getEntries('author', 'authors', false, 'fields.name');
   await getEntries('blogPost', 'posts', false, '-fields.datePublished');
+
+  console.log('\n\nManipulating...');
+  await manipulateContentfulData();
 };
 
-pullContentfulData();
+getData();

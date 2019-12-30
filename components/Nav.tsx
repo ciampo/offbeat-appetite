@@ -37,12 +37,12 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
       <nav className="fixed top-0 left-0 w-full h-12 flex items-center bg-gray-200 shadow text-center contain-layout-paint">
         {links && links.length && (
           <ul className="flex justify-between w-full py-1 px-4">
-            {links.map(({ href, label }, index) => (
+            {links.map(({ href, label, as }, index) => (
               <li key={`${index}-${slugify(label)}`} className="flex py-1 px-2">
-                <Link href={href} scroll={false}>
+                <Link href={href} scroll={false} as={as}>
                   <a
                     className={`outline-none no-underline text-sm text-primary focus:border-primary  contain-layout-paint nav-link ${
-                      router.route === href ? 'nav-link--selected' : ''
+                      router.asPath === (as ? as : href) ? 'nav-link--selected' : ''
                     } ${loadingRoute === href ? 'nav-link--loading' : ''}`}
                   >
                     {label}
