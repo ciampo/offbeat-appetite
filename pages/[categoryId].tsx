@@ -3,10 +3,10 @@ import { NextComponentType } from 'next';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 
-const About: NextComponentType = () => (
+const Category: NextComponentType = () => (
   <DefaultPageTransitionWrapper>
-    <h1>About</h1>
+    <h1>Category</h1>
   </DefaultPageTransitionWrapper>
 );
 
-export default About;
+export default Category;

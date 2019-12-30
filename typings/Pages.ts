@@ -1,23 +1,48 @@
 import { Document } from '@contentful/rich-text-types';
 
-import { Meta } from './Meta';
-import { ContentfulApiStructuredData } from './StructuredData';
+import { ContentfulMedia, ContentfulAuthor } from '.';
 
-export type ContentfulApiPageGeneric = {
-  meta: Meta;
-  navTitle?: string;
-  structuredDataTemplate?: ContentfulApiStructuredData;
+export type ContentfulPageGeneric = {
+  navLabel?: string;
+  seoTitle: string;
+  seoDescription: string;
 };
 
-export type ContentfulApiPageHome = ContentfulApiPageGeneric & {
-  pageTitle: string;
-};
-
-export type ContentfulApiPageAbout = ContentfulApiPageGeneric & {
+export type ContentfulPageHome = ContentfulPageGeneric & {
   title: string;
-  bio?: Document;
+  previewSharingImage: ContentfulMedia;
+  heroImage: ContentfulMedia;
 };
 
-export type ContentfulApiPageProject = ContentfulApiPageGeneric & {
-  mediaSectionTitle: string;
+export type ContentfulPageAbout = ContentfulPageGeneric & {
+  title: string;
+  previewSharingImage: ContentfulMedia;
+  aboutProjectSectionTitle: string;
+  aboutProjectText: Document;
+  aboutAuthorSectionTitle: string;
+  author: ContentfulAuthor;
+};
+
+export type ContentfulPageCategory = ContentfulPageGeneric & {
+  title: string;
+};
+
+export type ContentfulPageSearch = ContentfulPageGeneric & {
+  title: string;
+  previewSharingImage: ContentfulMedia;
+  filtersTitle: string;
+  categoryFilterTitle: string;
+  tagFilterTitle: string;
+};
+
+export type ContentfulPageGallery = ContentfulPageGeneric & {
+  title: string;
+  previewSharingImage: ContentfulMedia;
+  filtersTitle: string;
+  categoryFilterTitle: string;
+  tagFilterTitle: string;
+};
+
+export type ContentfulPagePost = ContentfulPageGeneric & {
+  authorLabel: string;
 };

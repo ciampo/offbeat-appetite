@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fs = require('fs');
 const path = require('path');
-const urlParser = require('url');
-const https = require('https');
+// const urlParser = require('url');
+// const https = require('https');
 const del = require('del');
 const { promisify } = require('util');
 const { createClient } = require('contentful');
@@ -24,8 +24,6 @@ const client = createClient({
 const ROOT_FOLDER = process.cwd();
 const DATA_FOLDER = path.join(ROOT_FOLDER, 'data');
 
-const THUMB_KEY = '__base64Thumb';
-
 const cleanDataFolder = async () => {
   if (await existsAsync(DATA_FOLDER)) {
     // Using `del` as fs.rmdir can not delete folders recursively.
@@ -35,25 +33,26 @@ const cleanDataFolder = async () => {
   await mkdirAsync(DATA_FOLDER, { recursive: true });
 };
 
-async function downloadBase64ThumbData(url) {
-  return new Promise((resolve) => {
-    https
-      .get(urlParser.parse(`https:${url}?w=20&fit=fill&fm=jpg&q=10`), (response) => {
-        const chunks = [];
+// const THUMB_KEY = '__base64Thumb';
+// async function downloadBase64ThumbData(url) {
+//   return new Promise((resolve) => {
+//     https
+//       .get(urlParser.parse(`https:${url}?w=20&fit=fill&fm=jpg&q=10`), (response) => {
+//         const chunks = [];
 
-        response
-          .on('data', (chunk) => {
-            chunks.push(chunk);
-          })
-          .on('end', () => {
-            resolve(`data:image/jpeg;base64,${Buffer.concat(chunks).toString('base64')}`);
-          });
-      })
-      .on('error', (err) => {
-        console.error(err);
-      });
-  });
-}
+//         response
+//           .on('data', (chunk) => {
+//             chunks.push(chunk);
+//           })
+//           .on('end', () => {
+//             resolve(`data:image/jpeg;base64,${Buffer.concat(chunks).toString('base64')}`);
+//           });
+//       })
+//       .on('error', (err) => {
+//         console.error(err);
+//       });
+//   });
+// }
 
 async function addBase64ThumbData(obj) {
   if (Array.isArray(obj)) {
@@ -63,11 +62,11 @@ async function addBase64ThumbData(obj) {
       obj[i] = await addBase64ThumbData(child);
       i += 1;
     }
-  } else if (typeof obj === 'object') {
-    if ('contentType' in obj && /image/.test(obj.contentType)) {
-      // eslint-disable-next-line require-atomic-updates
-      obj[THUMB_KEY] = await downloadBase64ThumbData(obj.url);
-    }
+  } else if (obj !== null && typeof obj === 'object') {
+    // if ('contentType' in obj && /image/.test(obj.contentType)) {
+    //   // eslint-disable-next-line require-atomic-updates
+    //   obj[THUMB_KEY] = await downloadBase64ThumbData(obj.url);
+    // }
 
     for (const [key, value] of Object.entries(obj)) {
       // eslint-disable-next-line require-atomic-updates
@@ -87,16 +86,13 @@ function flattenContentfulApis(obj) {
       obj[i] = flattenContentfulApis(child);
       i += 1;
     }
-  } else if (typeof obj === 'object' && obj.nodeType !== 'document') {
+  } else if (obj !== null && typeof obj === 'object' && obj.nodeType !== 'document') {
     if ('sys' in obj && 'fields' in obj) {
-      const id = obj.sys.id;
-      const updatedAt = obj.sys.updatedAt;
-      const fields = obj.fields;
-
       obj = {
-        id,
-        _updatedAt: updatedAt,
-        ...fields,
+        id: obj.sys.id,
+        _updatedAt: obj.sys.updatedAt,
+        _contentType: obj.sys.contentType ? obj.sys.contentType.sys.id : null,
+        ...obj.fields,
       };
     }
 
@@ -108,10 +104,17 @@ function flattenContentfulApis(obj) {
   return obj;
 }
 
-async function getEntries(type, filename, isSingleton = false, filterFuntion = () => true) {
+async function getEntries(
+  type,
+  filename,
+  isSingleton = false,
+  order = 'sys.updatedAt',
+  filterFuntion = () => true
+) {
   const entries = await client.getEntries({
     // eslint-disable-next-line @typescript-eslint/camelcase
     content_type: type,
+    order,
   });
 
   let contents = flattenContentfulApis(entries.items).filter(filterFuntion);
@@ -132,18 +135,27 @@ async function getEntries(type, filename, isSingleton = false, filterFuntion = (
     JSON.stringify(contents, null, 2)
   );
 
-  console.info(`${filename} data saved to disk`);
+  console.info(`Data saved to disk: ${filename}`);
 }
 
 const pullContentfulData = async () => {
   await cleanDataFolder();
+
+  // Pages and global data
   await getEntries('homePage', 'page-home', true);
-  await getEntries('pageProject', 'page-project', true);
-  await getEntries('about', 'page-about', true);
-  await getEntries('project', 'personal-projects', false, (projectItem) =>
-    /personal/i.test(projectItem.client)
-  );
-  await getEntries('structuredData', 'structured-data-template', true);
+  await getEntries('aboutPage', 'page-about', true);
+  await getEntries('searchPage', 'page-search', true);
+  await getEntries('photoGalleryPage', 'page-gallery', true);
+  await getEntries('categoryPage', 'page-category', true);
+  await getEntries('blogPostPage', 'page-blog-post', true);
+  await getEntries('misc', 'site-misc', true);
+  await getEntries('structuredDataTemplate', 'structured-data-template', true);
+
+  // Entries
+  await getEntries('category', 'categories', false, 'fields.order');
+  await getEntries('tag', 'tags', false, 'fields.name');
+  await getEntries('author', 'authors', false, 'fields.name');
+  await getEntries('blogPost', 'posts', false, '-fields.datePublished');
 };
 
 pullContentfulData();

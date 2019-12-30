@@ -8,16 +8,39 @@ module.exports = [
     contentfulPageData: 'page-about',
   },
   {
-    route: '/post/[id]',
-    // parentRoute: '/posts',
-    contentfulPageData: 'page-project',
+    route: '/[categoryId]',
+    contentfulPageData: 'page-category',
     dynamicRoute: {
-      contentfulItemsData: 'personal-projects',
+      contentfulItemsData: 'categories',
       params: {
-        // Replace "[id]" with the slug of the contentful item
-        // and pass the slug to the router query under the "id" key.
-        id: (contentItem) => contentItem.slug,
+        // Replace "[categoryId]" and "[categoryName]" with the slugs form Contentful
+        // Replace ":categoryId" and ":categoryName" in the page data (for titles, seo fields..)
+        // Pass the "categoryId" param to the router.
+        categoryId: (categoryItem) => categoryItem.slug,
+        categoryName: (categoryItem) => categoryItem.name,
       },
     },
+  },
+  {
+    route: '/[categoryId]/[postId]',
+    contentfulPageData: 'page-blog-post',
+    dynamicRoute: {
+      contentfulItemsData: 'posts',
+      params: {
+        // Replace "[categoryId]" and "[postId]" with the slugs form Contentful
+        // Replace ":categoryId" and and ":postId" in the page data (for titles, seo fields..)
+        // Pass the "categoryId" and "postId" params to the router.
+        categoryId: (postItem) => postItem.category.slug,
+        postId: (postItem) => postItem.slug,
+      },
+    },
+  },
+  {
+    route: '/search',
+    contentfulPageData: 'page-search',
+  },
+  {
+    route: '/gallery',
+    contentfulPageData: 'page-gallery',
   },
 ];

@@ -1,4 +1,4 @@
-import { ContentfulApiStructuredData } from '../../typings';
+import { ContentfulStructuredData } from '../../typings';
 
 interface PostInfo {
   title: string;
@@ -29,7 +29,7 @@ const generateBreadcrumbs = (breadcrumbsPages: BreadcrumbPage[]): object => ({
   })),
 });
 
-const generateWebsiteStructuredData = (data: ContentfulApiStructuredData): object =>
+const generateWebsiteStructuredData = (data: ContentfulStructuredData): object =>
   JSON.parse(
     JSON.stringify(data.website)
       .replace(/":organization"/g, JSON.stringify(data.organisation))
@@ -38,7 +38,7 @@ const generateWebsiteStructuredData = (data: ContentfulApiStructuredData): objec
   );
 
 const generateWebpageStructuredData = (
-  data: ContentfulApiStructuredData,
+  data: ContentfulStructuredData,
   pageInfo: PageInfo
 ): object => {
   const webpageData = JSON.parse(
@@ -59,7 +59,7 @@ const generateWebpageStructuredData = (
 };
 
 const generateArticleStructuredData = (
-  data: ContentfulApiStructuredData,
+  data: ContentfulStructuredData,
   postInfo: PostInfo
 ): object =>
   JSON.parse(

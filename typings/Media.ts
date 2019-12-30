@@ -6,7 +6,7 @@ export type ContentfulFile = {
   };
   fileName: string;
   contentType: string;
-  __base64Thumb?: string;
+  // __base64Thumb?: string;
 };
 
 export type ContentfulMedia = {
