@@ -1,15 +1,12 @@
 import React from 'react';
 
 const HONEYPOT_FIELD_NAME = 'bot-bait';
+const FORM_NAME = 'newsletter';
 
 const NewsletterSubcribe = (): JSX.Element => {
   return (
-    <form
-      name="newsletter"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot={HONEYPOT_FIELD_NAME}
-    >
+    <form name={FORM_NAME} method="POST" data-netlify="true" netlify-honeypot={HONEYPOT_FIELD_NAME}>
+      <input type="hidden" name="form-name" value={FORM_NAME} />
       <div hidden aria-hidden="true">
         <label>
           Don’t fill this out if you&apos;re human:
