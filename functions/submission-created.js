@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/camelcase */
 
 const fetch = require('node-fetch');
 
@@ -6,13 +7,9 @@ const fetch = require('node-fetch');
 require('dotenv').config();
 const { NEWSLETTER_API_KEY, NEWSLETTER_SUBSCRIBERS_GROUP_ID } = process.env;
 
-exports.handler = (event, context) => {
-  console.log(event);
-  console.log(context);
-  console.log(NEWSLETTER_API_KEY);
-
-  const email = JSON.parse(event.body).payload.email;
-  console.log(`Recieved a submission: ${email}`);
+exports.handler = (event) => {
+  const { email, name, form_name } = JSON.parse(event.body).payload;
+  console.log(`SUBMISSION: ${email} // ${name} // ${form_name}`);
 
   return fetch(
     `https://api.mailerlite.com/api/v2/groups/${NEWSLETTER_SUBSCRIBERS_GROUP_ID}/subscribers`,
@@ -27,7 +24,8 @@ exports.handler = (event, context) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log(`Response from mailer lite:\n ${data}`);
+      console.log('Response from mailer lite');
+      console.log(JSON.stringify(data, null, 2));
     })
     .catch((error) => ({ statusCode: 422, body: String(error) }));
 };
