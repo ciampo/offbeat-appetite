@@ -8,8 +8,11 @@ require('dotenv').config();
 const { NEWSLETTER_API_KEY, NEWSLETTER_SUBSCRIBERS_GROUP_ID } = process.env;
 
 exports.handler = (event) => {
-  const { email, name, form_name } = JSON.parse(event.body).payload;
-  if (form_name === 'newsletter') {
+  const { payload } = JSON.parse(event.body);
+  console.log('FORM:', payload.form_name);
+
+  if (payload.form_name === 'newsletter') {
+    const { email, name } = payload;
     console.log(`NEWSLETTER SUBMISSION: [${name}] ${email}`);
 
     return fetch(
