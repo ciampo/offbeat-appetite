@@ -15,6 +15,8 @@ exports.handler = async (event) => {
     const email = (payload.email || '').trim();
     const name = (payload.name || '').trim();
 
+    console.log(`NEWSLETTER SUBMISSION: [${name}] ${email}`);
+
     if (email.length === 0 || name.length === 0) {
       const msg = 'Name and Email are mandatory fields';
 
@@ -25,8 +27,6 @@ exports.handler = async (event) => {
         body: msg,
       };
     }
-
-    console.log(`NEWSLETTER SUBMISSION: [${name}] ${email}`);
 
     return (
       // First, send user information to MailerLite
@@ -60,7 +60,24 @@ exports.handler = async (event) => {
             },
             method: 'POST',
             body: JSON.stringify({
-              text: `New submission for the newsletter form: ${name}, ${email}`,
+              blocks: [
+                {
+                  type: 'section',
+                  text: {
+                    type: 'mrkdwn',
+                    text: `New submission for the *${payload.form_name}* form:`,
+                  },
+                  block_id: 'intro',
+                },
+                {
+                  type: 'section',
+                  text: {
+                    type: 'mrkdwn',
+                    text: `*Name*: ${name}\n*Email*: ${email}`,
+                  },
+                  block_id: 'info',
+                },
+              ],
             }),
           }).then(() => ({
             statusCode: 200,
