@@ -85,16 +85,36 @@ exports.handler = async (event) => {
           }));
         })
 
-        // Error:
+        // Error: send slack error notification, then return an error code
         .catch((error) => {
           const msg = `Oops! Something went wrong:\n${error}`;
+          console.log(msg);
 
           return fetch(SLACK_WEBHOOK_URL, {
             headers: {
               'Content-Type': 'application/json',
             },
             method: 'POST',
-            body: JSON.stringify({ text: msg }),
+            body: JSON.stringify({
+              blocks: [
+                {
+                  type: 'section',
+                  text: {
+                    type: 'mrkdwn',
+                    text: `Error during a submission for the *${payload.form_name}* form:\n_${error}_`,
+                  },
+                  block_id: 'intro',
+                },
+                {
+                  type: 'section',
+                  text: {
+                    type: 'mrkdwn',
+                    text: `*Name*: ${name}\n*Email*: ${email}`,
+                  },
+                  block_id: 'info',
+                },
+              ],
+            }),
           }).then(() => ({
             statusCode: 422,
             body: msg,
