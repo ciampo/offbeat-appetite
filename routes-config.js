@@ -46,6 +46,12 @@ module.exports = [
     headerNav: true,
     contentfulPageData: 'page-search',
   },
+  {
+    route: '/thanks',
+    headerNav: false,
+    noIndex: true,
+    contentfulPageData: 'page-thanks',
+  },
   // {
   //   route: '/gallery',
   //   headerNav: true,
