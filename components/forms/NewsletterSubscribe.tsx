@@ -12,6 +12,7 @@ const FIELD_NAMES = {
 
 const ERROR_MESSAGES = {
   PREVIEW_DISABLED: 'Form submissions are disabled on preview sites.',
+  GENERIC: 'There was an issue with your submission.',
 };
 
 const isPreview = process.env.IS_PREVIEW_SITE === 'true';
@@ -23,7 +24,7 @@ function encode(data: { [key: string]: string }): string {
 }
 
 export default function NewsletterSubcribe(): JSX.Element {
-  const [errorMessages] = useState({
+  const [errorMessages, setErrorMessages] = useState({
     [FIELD_NAMES.NAME]: '',
     [FIELD_NAMES.EMAIL]: '',
     form: isPreview ? ERROR_MESSAGES.PREVIEW_DISABLED : '',
@@ -55,8 +56,15 @@ export default function NewsletterSubcribe(): JSX.Element {
         ...formData,
       }),
     })
-      .then((response) => console.log(response.status, response))
-      .catch((error) => alert(error));
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+        } else {
+          setErrorMessages({ ...errorMessages, form: ERROR_MESSAGES.GENERIC });
+          console.error(response);
+        }
+      })
+      .catch((error) => console.error(error));
   }
 
   return (
