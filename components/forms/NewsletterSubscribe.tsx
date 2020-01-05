@@ -1,28 +1,89 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const FORM_NAME = 'newsletter';
+const FORM_METHOD = 'newsletter';
+const FORM_ACTION = '/thanks';
 
-const NewsletterSubcribe = (): JSX.Element => {
+const FIELD_NAMES = {
+  BOT: 'bot-field',
+  NAME: 'name',
+  EMAIL: 'email',
+};
+
+function encode(data: { [key: string]: string }): string {
+  return Object.keys(data)
+    .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+    .join('&');
+}
+
+export default function NewsletterSubcribe(): JSX.Element {
+  const [state, setState] = useState({
+    [FIELD_NAMES.BOT]: '',
+    [FIELD_NAMES.NAME]: '',
+    [FIELD_NAMES.EMAIL]: '',
+  });
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
+    setState({ ...state, [e.target.name]: e.target.value });
+    // TODO: Validate field
+  }
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
+    e.preventDefault();
+    // TODO: Validate all fields
+    fetch('/', {
+      method: FORM_METHOD,
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: encode({
+        'form-name': FORM_NAME,
+        ...state,
+      }),
+    })
+      .then((response) => console.log(response.status, response))
+      .catch((error) => alert(error));
+  }
+
   return (
     <form
+      className="m-4 p-4 border border-gray-700"
       name={FORM_NAME}
-      method="POST"
-      action="/"
+      method={FORM_METHOD}
+      action={FORM_ACTION}
       data-netlify="true"
-      data-netlify-honeypot="bot-field"
+      data-netlify-honeypot={FIELD_NAMES.BOT}
+      onSubmit={handleSubmit}
     >
+      {/* Form name (for netlify) */}
       <input type="hidden" name="form-name" value={FORM_NAME} />
+
+      {/* Honeypot field (anti-spam) */}
       <div hidden aria-hidden="true">
         <label>
           Don’t fill this out if you&apos;re human:
-          <input name="bot-field" />
+          <input name={FIELD_NAMES.BOT} onChange={handleChange} />
         </label>
       </div>
-      <input id="name" type="text" name="name" placeholder="Name" required />
-      <input id="email" type="email" name="email" placeholder="Email Address" required />
-      <button type="submit">Subscribe</button>
+
+      {/* Name field */}
+      <input
+        type="text"
+        required
+        name={FIELD_NAMES.NAME}
+        onChange={handleChange}
+        placeholder="Name"
+      />
+
+      {/* Email field */}
+      <input
+        type="email"
+        required
+        name={FIELD_NAMES.EMAIL}
+        onChange={handleChange}
+        placeholder="Email Address"
+      />
+
+      {/* Submit button */}
+      <button type="submit">Join the list!</button>
     </form>
   );
-};
-
-export default NewsletterSubcribe;
+}
