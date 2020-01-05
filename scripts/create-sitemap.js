@@ -12,7 +12,11 @@ const DATA_FOLDER = path.join(ROOT_FOLDER, 'data');
 
 const sitemapPages = [];
 
-for (const { route, dynamicRoute } of routesConfig) {
+for (const { route, dynamicRoute, noIndex } of routesConfig) {
+  if (noIndex) {
+    continue;
+  }
+
   if (dynamicRoute && dynamicRoute.contentfulItemsData && dynamicRoute.params) {
     const dataItems = JSON.parse(
       fs.readFileSync(path.join(DATA_FOLDER, `${dynamicRoute.contentfulItemsData}.json`), {
