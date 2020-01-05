@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const FORM_NAME = 'newsletter';
 const FORM_METHOD = 'POST';
-const FORM_ACTION = '/thanks';
+// const FORM_ACTION = '/thanks';
 
 const FIELD_NAMES = {
   BOT: 'bot-field',
@@ -61,7 +61,7 @@ export default function NewsletterSubcribe(): JSX.Element {
           console.log(response);
         } else {
           setErrorMessages({ ...errorMessages, form: ERROR_MESSAGES.GENERIC });
-          console.error(response);
+          console.error(response.body);
         }
       })
       .catch((error) => console.error(error));
@@ -72,7 +72,7 @@ export default function NewsletterSubcribe(): JSX.Element {
       className="m-4 p-4 border border-gray-700"
       name={FORM_NAME}
       method={FORM_METHOD}
-      action={FORM_ACTION}
+      // action={FORM_ACTION}
       data-netlify="true"
       data-netlify-honeypot={FIELD_NAMES.BOT}
       onSubmit={handleSubmit}
