@@ -15,7 +15,7 @@ exports.handler = async (event) => {
     const email = (payload.email || '').trim();
     const name = (payload.name || '').trim();
 
-    console.log(`NEWSLETTER SUBMISSION: [${name}] ${email}`);
+    console.log(`NEWSLETTER SUBMISSION: ${name} // ${email}`);
 
     if (email.length === 0 || name.length === 0) {
       const msg = 'Name and Email are mandatory fields';
