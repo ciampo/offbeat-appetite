@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const FORM_NAME = 'newsletter';
-const FORM_METHOD = 'newsletter';
+const FORM_METHOD = 'POST';
 const FORM_ACTION = '/thanks';
 
 const FIELD_NAMES = {
