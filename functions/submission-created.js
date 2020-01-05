@@ -60,6 +60,7 @@ exports.handler = async (event) => {
             },
             method: 'POST',
             body: JSON.stringify({
+              text: `New submission for the *${payload.form_name}* form:`,
               blocks: [
                 {
                   type: 'section',
@@ -96,6 +97,7 @@ exports.handler = async (event) => {
             },
             method: 'POST',
             body: JSON.stringify({
+              text: `Error during a submission for the *${payload.form_name}* form`,
               blocks: [
                 {
                   type: 'section',
