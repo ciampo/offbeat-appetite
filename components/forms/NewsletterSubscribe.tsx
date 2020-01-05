@@ -5,7 +5,7 @@ const FORM_METHOD = 'POST';
 const FORM_ACTION = '/thanks';
 
 const FIELD_NAMES = {
-  BOT: 'bot-field',
+  BOT: 'full-name',
   NAME: 'name',
   EMAIL: 'email',
 };
@@ -24,11 +24,10 @@ function encode(data: { [key: string]: string }): string {
 }
 
 export default function NewsletterSubcribe(): JSX.Element {
-  const [errorMessages, setErrorMessages] = useState({
-    [FIELD_NAMES.NAME]: '',
-    [FIELD_NAMES.EMAIL]: '',
-    form: isPreview ? ERROR_MESSAGES.PREVIEW_DISABLED : '',
-  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(
+    isPreview ? ERROR_MESSAGES.PREVIEW_DISABLED : ''
+  );
   const [formData, setFormData] = useState({
     [FIELD_NAMES.BOT]: '',
     [FIELD_NAMES.NAME]: '',
@@ -37,7 +36,6 @@ export default function NewsletterSubcribe(): JSX.Element {
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // TODO: Validate field
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
@@ -47,7 +45,9 @@ export default function NewsletterSubcribe(): JSX.Element {
       return;
     }
 
-    // TODO: Validate all fields
+    setIsSubmitting(true);
+    setErrorMessage('');
+
     fetch('/', {
       method: FORM_METHOD,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -60,11 +60,15 @@ export default function NewsletterSubcribe(): JSX.Element {
         if (response.status === 200) {
           console.log(response.body);
         } else {
-          setErrorMessages({ ...errorMessages, form: ERROR_MESSAGES.GENERIC });
+          setErrorMessage(ERROR_MESSAGES.GENERIC);
           console.error(response);
         }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        setErrorMessage(ERROR_MESSAGES.GENERIC);
+        console.error(error);
+      })
+      .finally(() => setIsSubmitting(false));
   }
 
   return (
@@ -76,6 +80,7 @@ export default function NewsletterSubcribe(): JSX.Element {
       data-netlify="true"
       data-netlify-honeypot={FIELD_NAMES.BOT}
       onSubmit={handleSubmit}
+      // noValidate={process.browser}
     >
       {/* Form name (for netlify) */}
       <input type="hidden" name="form-name" value={FORM_NAME} />
@@ -100,6 +105,7 @@ export default function NewsletterSubcribe(): JSX.Element {
       {/* Email field */}
       <input
         type="email"
+        pattern="^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*(\.\w{2,})+$"
         required
         name={FIELD_NAMES.EMAIL}
         onChange={handleChange}
@@ -107,11 +113,11 @@ export default function NewsletterSubcribe(): JSX.Element {
       />
 
       {/* Submit button */}
-      <button type="submit" disabled={isPreview}>
+      <button type="submit" disabled={isSubmitting || isPreview}>
         Join the list!
       </button>
 
-      {errorMessages.form && <div>{errorMessages.form}</div>}
+      {errorMessage && <div>{errorMessage}</div>}
     </form>
   );
 }
