@@ -10,6 +10,12 @@ const FIELD_NAMES = {
   EMAIL: 'email',
 };
 
+const ERROR_MESSAGES = {
+  PREVIEW_DISABLED: 'Form submissions are disabled on preview sites.',
+};
+
+const isPreview = process.env.IS_PREVIEW_SITE === 'true';
+
 function encode(data: { [key: string]: string }): string {
   return Object.keys(data)
     .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
@@ -17,26 +23,36 @@ function encode(data: { [key: string]: string }): string {
 }
 
 export default function NewsletterSubcribe(): JSX.Element {
-  const [state, setState] = useState({
+  const [errorMessages] = useState({
+    [FIELD_NAMES.NAME]: '',
+    [FIELD_NAMES.EMAIL]: '',
+    form: isPreview ? ERROR_MESSAGES.PREVIEW_DISABLED : '',
+  });
+  const [formData, setFormData] = useState({
     [FIELD_NAMES.BOT]: '',
     [FIELD_NAMES.NAME]: '',
     [FIELD_NAMES.EMAIL]: '',
   });
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
-    setState({ ...state, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
     // TODO: Validate field
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
+
+    if (isPreview) {
+      return;
+    }
+
     // TODO: Validate all fields
     fetch('/', {
       method: FORM_METHOD,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: encode({
         'form-name': FORM_NAME,
-        ...state,
+        ...formData,
       }),
     })
       .then((response) => console.log(response.status, response))
@@ -83,7 +99,11 @@ export default function NewsletterSubcribe(): JSX.Element {
       />
 
       {/* Submit button */}
-      <button type="submit">Join the list!</button>
+      <button type="submit" disabled={isPreview}>
+        Join the list!
+      </button>
+
+      {errorMessages.form && <div>{errorMessages.form}</div>}
     </form>
   );
 }
