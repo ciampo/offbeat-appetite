@@ -9,6 +9,8 @@ const { NEWSLETTER_API_KEY, NEWSLETTER_SUBSCRIBERS_GROUP_ID, SLACK_WEBHOOK_URL }
 
 exports.handler = async (event) => {
   const { payload } = JSON.parse(event.body);
+  console.log(event);
+
   console.log('FORM NAME:', payload.form_name);
 
   if (payload.form_name === 'newsletter') {
