@@ -10,15 +10,11 @@ const { NEWSLETTER_API_KEY, NEWSLETTER_SUBSCRIBERS_GROUP_ID, SLACK_WEBHOOK_URL }
 exports.handler = async (event) => {
   const { payload, site } = JSON.parse(event.body);
 
-  console.log(event);
-
-  console.log('FORM NAME:', payload.form_name);
+  console.log(`NEW SUBMISSION FOR ${payload.form_name}:`, payload.data);
 
   if (payload.form_name === 'newsletter') {
     const email = (payload.data.email || '').trim();
     const name = (payload.data.name || '').trim();
-
-    console.log(`NEWSLETTER SUBMISSION: ${name} // ${email}`);
 
     if (email.length === 0 || name.length === 0) {
       const msg = 'Validation Error: `name` and `email` are mandatory fields';
@@ -45,15 +41,16 @@ exports.handler = async (event) => {
           {
             type: 'mrkdwn',
             text: [
-              `Submitted to the *${site.name}* site`,
+              `Submitted to the *${payload.form_name}* (_${
+                payload.data['form-instance']
+              }_) form on the *${site.name}* site`,
               `on the *${new Date(payload.created_at).toLocaleString('en-GB', {
                 dateStyle: 'long',
                 timeStyle: 'long',
                 timeZone: 'Europe/Rome',
               })}*`,
-              `from the url ${payload.data.referrer}`,
-              // `from the *${payload.data['form-instance']}* instance`,
-            ],
+              `from ${payload.data.referrer}`,
+            ].join('\n'),
           },
         ],
       },
