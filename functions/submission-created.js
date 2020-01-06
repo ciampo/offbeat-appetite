@@ -14,8 +14,8 @@ exports.handler = async (event) => {
   console.log('FORM NAME:', payload.form_name);
 
   if (payload.form_name === 'newsletter') {
-    const email = (payload.email || '').trim();
-    const name = (payload.name || '').trim();
+    const email = (payload.data.email || '').trim();
+    const name = (payload.data.name || '').trim();
 
     console.log(`NEWSLETTER SUBMISSION: ${name} // ${email}`);
 
