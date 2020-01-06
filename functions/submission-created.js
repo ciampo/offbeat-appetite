@@ -113,10 +113,14 @@ exports.handler = async (event) => {
                 ...slackCommonBlocks,
               ],
             }),
-          }).then(() => ({
-            statusCode: 200,
-            body: 'success',
-          }));
+          })
+            .then(() => ({
+              statusCode: 200,
+              body: 'success',
+            }))
+            .catch((error) => {
+              throw new Error(`Slack: ${error}`);
+            });
         })
 
         // Error: send slack error notification, then return an error code
@@ -144,10 +148,14 @@ exports.handler = async (event) => {
                 ...slackCommonBlocks,
               ],
             }),
-          }).then(() => ({
-            statusCode: 422,
-            body: consoleMessage,
-          }));
+          })
+            .then(() => ({
+              statusCode: 422,
+              body: consoleMessage,
+            }))
+            .catch((error) => {
+              console.log(`Slack: ${error}`);
+            });
         })
     );
   }
