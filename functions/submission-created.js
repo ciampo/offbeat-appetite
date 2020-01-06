@@ -49,13 +49,10 @@ exports.handler = async (event) => {
                 timeStyle: 'long',
                 timeZone: 'Europe/Rome',
               })}*`,
-              `from ${payload.data.referrer}`,
+              `on the page ${payload.data.referrer}`,
             ].join('\n'),
           },
         ],
-      },
-      {
-        type: 'divider',
       },
       {
         type: 'section',
@@ -63,6 +60,9 @@ exports.handler = async (event) => {
           type: 'mrkdwn',
           text: `*<https://app.netlify.com/sites/${site.name}/forms/${payload.form_id}|See all form submissions on Netlify>*`,
         },
+      },
+      {
+        type: 'divider',
       },
     ];
 
