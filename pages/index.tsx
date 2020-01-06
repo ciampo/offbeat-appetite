@@ -10,7 +10,10 @@ const Home: NextComponentType = () => (
   <DefaultPageTransitionWrapper>
     <h1>Home</h1>
 
-    <NewsletterSubcribe variant={NewsletterSubcribeVariant.horizontal} />
+    <NewsletterSubcribe
+      variant={NewsletterSubcribeVariant.horizontal}
+      formInstance="subcribe-home"
+    />
   </DefaultPageTransitionWrapper>
 );
 
