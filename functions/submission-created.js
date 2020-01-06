@@ -10,6 +10,8 @@ const { NEWSLETTER_API_KEY, NEWSLETTER_SUBSCRIBERS_GROUP_ID, SLACK_WEBHOOK_URL }
 exports.handler = async (event) => {
   const { payload, site } = JSON.parse(event.body);
 
+  console.log(event);
+
   console.log('FORM NAME:', payload.form_name);
 
   if (payload.form_name === 'newsletter') {
@@ -50,7 +52,7 @@ exports.handler = async (event) => {
                 timeZone: 'Europe/Rome',
               })}*`,
               `from the url ${payload.data.referrer}`,
-              `from the *${payload.data['form-instance']}* instance`,
+              // `from the *${payload.data['form-instance']}* instance`,
             ],
           },
         ],
