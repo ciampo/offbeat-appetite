@@ -9,7 +9,6 @@ const { NEWSLETTER_API_KEY, NEWSLETTER_SUBSCRIBERS_GROUP_ID, SLACK_WEBHOOK_URL }
 
 exports.handler = async (event) => {
   const { payload, site } = JSON.parse(event.body);
-  console.log(event);
 
   console.log('FORM NAME:', payload.form_name);
 
@@ -20,9 +19,9 @@ exports.handler = async (event) => {
     console.log(`NEWSLETTER SUBMISSION: ${name} // ${email}`);
 
     if (email.length === 0 || name.length === 0) {
-      const msg = 'Name and Email are mandatory fields';
+      const msg = 'Validation Error: `name` and `email` are mandatory fields';
 
-      console.log(`Error: ${msg}`);
+      console.log(msg);
 
       return {
         statusCode: 422,
@@ -32,13 +31,10 @@ exports.handler = async (event) => {
 
     const slackCommonBlocks = [
       {
-        type: 'divider',
-      },
-      {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: ['*Name*:', name, '*Email*:', email].join('\n'),
+          text: [`*Name*: ${name}`, `*Email*: ${email}`].join('\n'),
         },
       },
       {
@@ -46,20 +42,15 @@ exports.handler = async (event) => {
         elements: [
           {
             type: 'mrkdwn',
-            text: `🖥 Submitted to the *${site.name}* site from ${payload.data.referrer}`,
-          },
-        ],
-      },
-      {
-        type: 'context',
-        elements: [
-          {
-            type: 'mrkdwn',
-            text: `⏱ Submitted on *${new Date(payload.created_at).toLocaleString('en-GB', {
-              dateStyle: 'long',
-              timeStyle: 'long',
-              timeZone: 'Europe/Rome',
-            })}*`,
+            text: [
+              `Submitted to the *${site.name}* site`,
+              `on the *${new Date(payload.created_at).toLocaleString('en-GB', {
+                dateStyle: 'long',
+                timeStyle: 'long',
+                timeZone: 'Europe/Rome',
+              })}*`,
+              `from ${payload.data.referrer}`,
+            ],
           },
         ],
       },
