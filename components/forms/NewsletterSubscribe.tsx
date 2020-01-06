@@ -8,6 +8,7 @@ const FIELD_NAMES = {
   BOT: 'full-name',
   NAME: 'name',
   EMAIL: 'email',
+  INSTANCE: 'form-instance',
 };
 
 // TODO: get from Contentful
@@ -61,9 +62,13 @@ function encode(data: { [key: string]: string }): string {
 
 type NewsletterSubcribeProps = {
   variant: NewsletterSubcribeVariant;
+  formInstance: string;
 };
 
-export default function NewsletterSubcribe({ variant }: NewsletterSubcribeProps): JSX.Element {
+export default function NewsletterSubcribe({
+  variant,
+  formInstance,
+}: NewsletterSubcribeProps): JSX.Element {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackMessage, setfeedbackMessage] = useState({
     isError: isPreview ? true : false,
@@ -152,6 +157,9 @@ export default function NewsletterSubcribe({ variant }: NewsletterSubcribeProps)
       <div className={`${VARIANT_CLASSNAMES[variant].fields}`}>
         {/* Form name (for netlify) */}
         <input type="hidden" name="form-name" value={FORM_NAME} />
+
+        {/* Form instance (useful for analytics) */}
+        <input type="hidden" name={FIELD_NAMES.INSTANCE} value={formInstance} />
 
         {/* Honeypot field (anti-spam) */}
         <div hidden aria-hidden="true">
