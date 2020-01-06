@@ -5,7 +5,8 @@ import DefaultPageTransitionWrapper from '../components/page-transition-wrappers
 
 const Thanks: NextComponentType = () => (
   <DefaultPageTransitionWrapper>
-    <h1>Thanks</h1>
+    {/* TODO: get from contentful */}
+    <h1>Thank you for subscribing! You should receive an email from us shortly.</h1>
   </DefaultPageTransitionWrapper>
 );
 

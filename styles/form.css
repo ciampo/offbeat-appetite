@@ -1,0 +1,20 @@
+.ao-form__submit {
+  @apply relative;
+}
+
+.ao-form__submit:disabled {
+  @apply cursor-not-allowed;
+}
+
+.ao-form__submit::after {
+  @apply absolute w-full h-full top-0 left-0 opacity-0;
+
+  background: inherit;
+  content: '';
+}
+
+.ao-form__submit:disabled::after {
+  @apply opacity-75;
+
+  transition: opacity .2s ease-out;
+}
