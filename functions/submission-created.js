@@ -8,7 +8,7 @@ require('dotenv').config();
 const { NEWSLETTER_API_KEY, NEWSLETTER_SUBSCRIBERS_GROUP_ID, SLACK_WEBHOOK_URL } = process.env;
 
 exports.handler = async (event) => {
-  const { payload } = JSON.parse(event.body);
+  const { payload, site } = JSON.parse(event.body);
   console.log(event);
 
   console.log('FORM NAME:', payload.form_name);
@@ -29,6 +29,51 @@ exports.handler = async (event) => {
         body: msg,
       };
     }
+
+    const slackCommonBlocks = [
+      {
+        type: 'divider',
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: ['*Name*:', name, '*Email*:', email].join('\n'),
+        },
+      },
+      {
+        type: 'context',
+        elements: [
+          {
+            type: 'mrkdwn',
+            text: `🖥 Submitted to the *${site.name}* site from ${payload.data.referrer}`,
+          },
+        ],
+      },
+      {
+        type: 'context',
+        elements: [
+          {
+            type: 'mrkdwn',
+            text: `⏱ Submitted on *${new Date(payload.created_at).toLocaleString('en-GB', {
+              dateStyle: 'long',
+              timeStyle: 'long',
+              timeZone: 'Europe/Rome',
+            })}*`,
+          },
+        ],
+      },
+      {
+        type: 'divider',
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*<https://app.netlify.com/sites/${site.name}/forms/${payload.form_id}|See all form submissions on Netlify>*`,
+        },
+      },
+    ];
 
     return (
       // First, send user information to MailerLite
@@ -56,30 +101,24 @@ exports.handler = async (event) => {
         .then(() => {
           console.log('Success!');
 
+          const slackSuccessMessage = `New submission for the *${payload.form_name}* form:`;
+
           return fetch(SLACK_WEBHOOK_URL, {
             headers: {
               'Content-Type': 'application/json',
             },
             method: 'POST',
             body: JSON.stringify({
-              text: `New submission for the *${payload.form_name}* form:`,
+              text: slackSuccessMessage,
               blocks: [
                 {
                   type: 'section',
                   text: {
                     type: 'mrkdwn',
-                    text: `New submission for the *${payload.form_name}* form:`,
+                    text: slackSuccessMessage,
                   },
-                  block_id: 'intro',
                 },
-                {
-                  type: 'section',
-                  text: {
-                    type: 'mrkdwn',
-                    text: `*Name*: ${name}\n*Email*: ${email}`,
-                  },
-                  block_id: 'info',
-                },
+                ...slackCommonBlocks,
               ],
             }),
           }).then(() => ({
@@ -90,8 +129,10 @@ exports.handler = async (event) => {
 
         // Error: send slack error notification, then return an error code
         .catch((error) => {
-          const msg = `Oops! Something went wrong:\n${error}`;
-          console.log(msg);
+          const consoleMessage = `Oops! Something went wrong:\n${error}`;
+          console.log(consoleMessage);
+
+          const slackMessage = `Error during a submission for the *${payload.form_name}* form:`;
 
           return fetch(SLACK_WEBHOOK_URL, {
             headers: {
@@ -99,29 +140,21 @@ exports.handler = async (event) => {
             },
             method: 'POST',
             body: JSON.stringify({
-              text: `Error during a submission for the *${payload.form_name}* form`,
+              text: slackMessage,
               blocks: [
                 {
                   type: 'section',
                   text: {
                     type: 'mrkdwn',
-                    text: `Error during a submission for the *${payload.form_name}* form:\n_${error}_`,
+                    text: `${slackMessage}\n_${error}_`,
                   },
-                  block_id: 'intro',
                 },
-                {
-                  type: 'section',
-                  text: {
-                    type: 'mrkdwn',
-                    text: `*Name*: ${name}\n*Email*: ${email}`,
-                  },
-                  block_id: 'info',
-                },
+                ...slackCommonBlocks,
               ],
             }),
           }).then(() => ({
             statusCode: 422,
-            body: msg,
+            body: consoleMessage,
           }));
         })
     );
