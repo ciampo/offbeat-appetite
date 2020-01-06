@@ -58,7 +58,7 @@ exports.handler = async (event) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*<https://app.netlify.com/sites/${site.name}/forms/${payload.form_id}|See all form submissions on Netlify>*`,
+          text: `*<https://app.netlify.com/sites/${site.name}/forms/${payload.form_id}|See all ${site.name} submissions>*  |  *<https://app.mailerlite.com/subscribers/view|See MailerLite subscribers>*`,
         },
       },
       {
