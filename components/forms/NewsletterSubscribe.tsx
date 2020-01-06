@@ -60,7 +60,7 @@ export default function NewsletterSubcribe(): JSX.Element {
     })
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.body);
+          console.log(response);
         } else {
           setErrorMessage(ERROR_MESSAGES.GENERIC);
           console.error(response);
