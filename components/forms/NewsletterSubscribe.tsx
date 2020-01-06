@@ -118,6 +118,7 @@ export default function NewsletterSubcribe({
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: encode({
             'form-name': FORM_NAME,
+            [FIELD_NAMES.INSTANCE]: formInstance,
             ...formData,
           }),
         })
