@@ -48,6 +48,8 @@ export default function NewsletterSubcribe(): JSX.Element {
     setIsSubmitting(true);
     setErrorMessage('');
 
+    console.log(formData);
+
     fetch('/', {
       method: FORM_METHOD,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
