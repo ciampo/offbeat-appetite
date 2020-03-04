@@ -52,4 +52,20 @@ fs.writeFileSync(path.join(OUT_FOLDER, '_headers'), _headersContent, {
   encoding: 'utf8',
 });
 
-console.log('Netlify headers added successfully');
+console.log('Done.\nGenerating Netlify redirects...');
+
+const _redirectsContent = `
+# These rules will change if you change your site’s custom domains or HTTPS settings
+
+# PRODUCTION: Redirect default Netlify subdomain to primary domain
+https://offbeatappetite.netlify.com/* https://offbeatappetite.com/:splat 301!
+
+# STAGING: Redirect default Netlify subdomain to primary domain
+https://offbeatappetite-staging.netlify.com/* https://staging.offbeatappetite.com/:splat 301!
+`;
+
+fs.writeFileSync(path.join(OUT_FOLDER, '_redirects'), _redirectsContent, {
+  encoding: 'utf8',
+});
+
+console.log('Done.\nNetlify headers and redirects added successfully');

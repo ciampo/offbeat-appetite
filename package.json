@@ -17,7 +17,7 @@
     "generate:seo": "node scripts/create-robots.js && node scripts/create-sitemap.js",
     "test": "stylelint '**/*.css' && tsc --noEmit && eslint '*/**/*.{js,ts,tsx}'",
     "test:fix": "yarn test --fix",
-    "static": "rm -rf .next/ out/ && yarn data && yarn build && yarn next export && node ./scripts/add-netlify-headers.js",
+    "static": "rm -rf .next/ out/ && yarn data && yarn build && yarn next export && node ./scripts/add-netlify-config.js",
     "serve:static": "yarn netlify dev --dir out",
     "serve:ssr": "NODE_ENV=production node server.js"
   },
