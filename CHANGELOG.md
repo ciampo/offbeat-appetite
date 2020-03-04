@@ -45,5 +45,5 @@ in case of vulnerabilities.
 
 - Stamped from Next.js template v1.2.1
 
-[Unreleased]: https://github.com/ciampo/_nextjs-template/compare/v0.0.1...HEAD
-[0.0.1]: https://github.com/ciampo/_nextjs-template/releases/tag/v0.0.1
+[Unreleased]: https://github.com/ciampo/offbeat-appetite/compare/v0.0.1...HEAD
+[0.0.1]: https://github.com/ciampo/offbeat-appetite/releases/tag/v0.0.1
