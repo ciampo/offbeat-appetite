@@ -52,7 +52,8 @@ const VARIANT_CLASSNAMES: NewletterSubscriveVariantClassNames = {
   },
 };
 
-const isPreview = process.env.IS_PREVIEW_SITE === 'true';
+const isSubmitFormEnabled = process.env.IS_SUBMIT_FORM_ENABLED !== 'true';
+console.log(process.env.IS_SUBMIT_FORM_ENABLED);
 
 function encode(data: { [key: string]: string }): string {
   return Object.keys(data)
@@ -71,8 +72,8 @@ export default function NewsletterSubcribe({
 }: NewsletterSubcribeProps): JSX.Element {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackMessage, setfeedbackMessage] = useState({
-    isError: isPreview ? true : false,
-    message: isPreview ? FEEDBACK_MESSAGES.ERROR_PREVIEW_DISABLED : '',
+    isError: isSubmitFormEnabled ? true : false,
+    message: isSubmitFormEnabled ? FEEDBACK_MESSAGES.ERROR_PREVIEW_DISABLED : '',
   });
   const [formData, setFormData] = useState({
     [FIELD_NAMES.BOT]: '',
@@ -87,7 +88,7 @@ export default function NewsletterSubcribe({
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
 
-    if (isPreview) {
+    if (isSubmitFormEnabled) {
       return;
     }
 
@@ -199,7 +200,7 @@ export default function NewsletterSubcribe({
         <button
           className={`ao-form__submit p-2 flex-shrink-0 ${VARIANT_CLASSNAMES[variant].submit}`}
           type="submit"
-          disabled={isSubmitting || isPreview}
+          disabled={isSubmitting || isSubmitFormEnabled}
         >
           Join the list!
         </button>
