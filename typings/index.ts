@@ -7,3 +7,7 @@ export * from './Post';
 export * from './StructuredData';
 export * from './Tag';
 export * from './ui';
+
+export * from './sanity/category';
+export * from './sanity/tag';
+export * from './sanity/blogPost';
