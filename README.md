@@ -53,6 +53,20 @@ Lints scripts and styles.
 
 Lints scripts and styles, and tries to auto-fix any errors.
 
+## ⚖️ Staging vs Production deploys
+
+The [`staging`](https://app.netlify.com/sites/offbeatappetite-staging) and [`production`](https://app.netlify.com/sites/offbeatappetite) sites **are hosted on Netlify and are both *static sites***. Both projects are deployed via a CI/CD pipeline triggered by new commits to the master branch on this repo.
+
+There are a few differences between the staging and production sites:
+
+| Feature (via env variables) | Dev (local) |  Staging | Production |
+|:---------------------------:|:-----------:|:--------:|:----------:|
+| Google Analytics            |   staging   |  staging |    prod    |
+| Subscribe Form              |   enabled   | disabled |   enabled  |
+| Sanity Token for drafts     |     Yes     |    Yes   |     No     |
+| Canonical URL               |     prod    |  staging |    prod    |
+
+
 ## 👻 Contributors
 
 - [Marco Ciampini](https://github.com/ciampo)
