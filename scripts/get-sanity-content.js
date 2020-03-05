@@ -11,8 +11,8 @@ const { sanityFetch } = require('./sanity-client');
 const { allCategoriesQuery } = require('../queries/category');
 const { allBlogPostsQuery } = require('../queries/blogPost');
 const { allTagsQuery } = require('../queries/tag');
-// const { siteSettingsQuery } = require('../queries/siteSettings');
-// const { siteMiscContentQuery } = require('../queries/siteMiscContent');
+const { siteSettingsQuery } = require('../queries/siteSettings');
+const { siteMiscContentQuery } = require('../queries/siteMiscContent');
 const {
   pageHomeQuery,
   pageAboutQuery,
@@ -23,7 +23,7 @@ const {
   pageThankYouQuery,
 } = require('../queries/pages.js');
 
-const readFileAsync = promisify(fs.readFile);
+// const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
 const existsAsync = promisify(fs.exists);
 const mkdirAsync = promisify(fs.mkdir);
@@ -57,14 +57,14 @@ const getData = async () => {
 
   await Promise.all(
     [
-      // {
-      //   query: siteMiscContentQuery,
-      //   onResultsFetched: (data) => saveToFile(data[0], 'siteMiscContent'),
-      // },
-      // {
-      //   query: siteSettingsQuery,
-      //   onResultsFetched: (data) => saveToFile(data[0], 'siteSettings'),
-      // },
+      {
+        query: siteMiscContentQuery,
+        onResultsFetched: (data) => saveToFile(data[0], 'siteMiscContent'),
+      },
+      {
+        query: siteSettingsQuery,
+        onResultsFetched: (data) => saveToFile(data[0], 'siteSettings'),
+      },
       {
         query: pageHomeQuery,
         onResultsFetched: (data) => saveToFile(data[0], 'pageHome'),
