@@ -5,7 +5,8 @@ const withCSS = require('@zeit/next-css');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
-const Dotenv = require('dotenv-webpack');
+
+require('dotenv').config();
 
 const routesConfig = require('./routes-config.js');
 
@@ -63,18 +64,6 @@ const nextConfig = {
       'react-dom$': 'preact/compat',
     };
 
-    // Add custom plugins.
-    config.plugins = config.plugins || [];
-    config.plugins = [
-      ...config.plugins,
-
-      // Access values in the .env file
-      new Dotenv({
-        path: path.join(__dirname, '.env'),
-        systemvars: true,
-      }),
-    ];
-
     config.module.rules.push({
       test: /\.(js|ts|tsx)$/,
       exclude: /node_modules/,
@@ -97,6 +86,11 @@ const nextConfig = {
     };
 
     return config;
+  },
+  env: {
+    GA: process.env.GA,
+    CANONICAL_URL: process.env.CANONICAL_URL,
+    IS_SUBMIT_FORM_ENABLED: process.env.IS_SUBMIT_FORM_ENABLED,
   },
 };
 
