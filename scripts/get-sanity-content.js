@@ -5,14 +5,14 @@ const del = require('del');
 const { promisify } = require('util');
 const chalk = require('chalk');
 
-const routesConfig = require('../routes-config.js');
+// const routesConfig = require('../routes-config.js');
 
 const { sanityFetch } = require('./sanity-client');
 const { allCategoriesQuery } = require('../queries/category');
 const { allBlogPostsQuery } = require('../queries/blogPost');
 const { allTagsQuery } = require('../queries/tag');
-const { siteSettingsQuery } = require('../queries/siteSettings');
-const { siteMiscContentQuery } = require('../queries/siteMiscContent');
+// const { siteSettingsQuery } = require('../queries/siteSettings');
+// const { siteMiscContentQuery } = require('../queries/siteMiscContent');
 const {
   pageHomeQuery,
   pageAboutQuery,
@@ -57,14 +57,14 @@ const getData = async () => {
 
   await Promise.all(
     [
-      {
-        query: siteMiscContentQuery,
-        onResultsFetched: (data) => saveToFile(data[0], 'siteMiscContent'),
-      },
-      {
-        query: siteSettingsQuery,
-        onResultsFetched: (data) => saveToFile(data[0], 'siteSettings'),
-      },
+      // {
+      //   query: siteMiscContentQuery,
+      //   onResultsFetched: (data) => saveToFile(data[0], 'siteMiscContent'),
+      // },
+      // {
+      //   query: siteSettingsQuery,
+      //   onResultsFetched: (data) => saveToFile(data[0], 'siteSettings'),
+      // },
       {
         query: pageHomeQuery,
         onResultsFetched: (data) => saveToFile(data[0], 'pageHome'),
