@@ -92,6 +92,9 @@ const nextConfig = {
     CANONICAL_URL: process.env.CANONICAL_URL,
     IS_SUBMIT_FORM_ENABLED: process.env.IS_SUBMIT_FORM_ENABLED,
   },
+  experimental: {
+    polyfillsOptimization: true,
+  },
 };
 
 module.exports = withBundleAnalyzer(withCSS(nextConfig));
