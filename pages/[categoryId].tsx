@@ -29,7 +29,7 @@ Category.getInitialProps = async ({
     category: undefined,
   };
 
-  const routeConfig = routesConfig.find(({ route }: { route: string }) => route === pathname);
+  const routeConfig = routesConfig.find(({ route }) => route === pathname);
 
   if (
     routeConfig &&
@@ -45,6 +45,8 @@ Category.getInitialProps = async ({
       let matchFound = true;
 
       for (const pattern of Object.keys(routeConfig.dynamicRoute.params)) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
         const replacerFn = routeConfig.dynamicRoute.params[pattern];
         matchFound = matchFound && query[pattern] === replacerFn(item);
       }
@@ -64,6 +66,8 @@ Category.getInitialProps = async ({
       };
 
       for (const pattern of Object.keys(routeConfig.dynamicRoute.params)) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
         const replacerFn = routeConfig.dynamicRoute.params[pattern];
         toReturn.path = toReturn.path.replace(`[${pattern}]`, replacerFn(currentCategory));
       }
