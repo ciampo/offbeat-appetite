@@ -41,9 +41,7 @@ exports.handler = async (event) => {
           {
             type: 'mrkdwn',
             text: [
-              `Submitted to the *${payload.form_name}* (_${
-                payload.data['form-instance']
-              }_) form on the *${site.name}* site`,
+              `Submitted to the *${payload.form_name}* (_${payload.data['form-instance']}_) form on the *${site.name}* site`,
               `on the *${new Date(payload.created_at).toLocaleString('en-GB', {
                 dateStyle: 'long',
                 timeStyle: 'long',

@@ -14,6 +14,7 @@
 			"typescript",
 			"typescriptreact"
 		],
+		"eslint.packageManager": "yarn",
 		"markdownlint.config": {
 			"MD024": false
 		},
