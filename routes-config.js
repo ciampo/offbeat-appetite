@@ -1,22 +1,34 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
+const {
+  pageHomeType,
+  pageAboutType,
+  pageCategoryType,
+  pageBlogPostType,
+  // pageSearchType,
+  // pageGalleryType,
+  pageThankYouType,
+} = require('./queries/pages.js');
+
+const { categoryType } = require('./queries/category');
+const { blogPostType } = require('./queries/blogPost');
+
 module.exports = [
   {
     route: '/',
-    headerNav: true,
-    contentfulPageData: 'page-home',
+    dataType: pageHomeType,
   },
   {
     route: '/about',
-    headerNav: true,
-    contentfulPageData: 'page-about',
+    dataType: pageAboutType,
   },
   {
     route: '/[categoryId]',
-    headerNav: true,
-    contentfulPageData: 'page-category',
+    dataType: pageCategoryType,
     dynamicRoute: {
-      contentfulItemsData: 'categories',
-      params: {
-        // Replace "[categoryId]" with the slugs form Contentful
+      dynamicDataType: categoryType,
+      routeParams: {
+        // Replace "[categoryId]" with the slugs form CMS data
         // Pass the "categoryId" param to the router.
         categoryId: (categoryItem) => categoryItem.slug,
       },
@@ -28,12 +40,11 @@ module.exports = [
   },
   {
     route: '/[categoryId]/[postId]',
-    headerNav: false,
-    contentfulPageData: 'page-blog-post',
+    dataType: pageBlogPostType,
     dynamicRoute: {
-      contentfulItemsData: 'posts',
-      params: {
-        // Replace "[categoryId]" and "[postId]" with the slugs form Contentful
+      dynamicDataType: blogPostType,
+      routeParams: {
+        // Replace "[categoryId]" and "[postId]" with the slugs form CMS data
         // Replace ":categoryId" and and ":postId" in the page data (for titles, seo fields..)
         // Pass the "categoryId" and "postId" params to the router.
         categoryId: (postItem) => postItem.category.slug,
@@ -42,19 +53,16 @@ module.exports = [
     },
   },
   {
-    route: '/search',
-    headerNav: true,
-    contentfulPageData: 'page-search',
-  },
-  {
     route: '/thanks',
-    headerNav: false,
-    noIndex: true,
-    contentfulPageData: 'page-thanks',
+    dataType: pageThankYouType,
   },
+  // Search and Gallery Pages are disabled for now
+  // {
+  //   route: '/search',
+  //   dataType: pageSearchType,
+  // },
   // {
   //   route: '/gallery',
-  //   headerNav: true,
-  //   contentfulPageData: 'page-gallery',
+  //   dataType: pageGalleryType,
   // },
 ];
