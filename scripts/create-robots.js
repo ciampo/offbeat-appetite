@@ -4,19 +4,20 @@ const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
 
-const routesConfig = require('../routes-config.js');
-
 const ROOT_FOLDER = process.cwd();
+const DATA_FOLDER = path.join(ROOT_FOLDER, 'data-sanity');
 const PUBLIC_FOLDER = path.join(ROOT_FOLDER, 'public');
 
-const noIndexRoutes = routesConfig.filter((rc) => rc.noIndex);
+const { excludedPaths } = JSON.parse(
+  fs.readFileSync(path.join(DATA_FOLDER, 'pathIndexConfig.json'))
+);
 
 const robotsString = `User-agent: *
 
 ${
-  noIndexRoutes.length === 0
+  excludedPaths.length === 0
     ? 'Allow: /'
-    : noIndexRoutes.map((rc) => `Disallow: ${rc.route}`).join('\n')
+    : excludedPaths.map((route) => `Disallow: ${route}`).join('\n')
 }
 
 Sitemap: ${process.env.CANONICAL_URL}/sitemap.xml`;

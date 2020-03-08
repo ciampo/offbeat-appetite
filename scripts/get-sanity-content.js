@@ -5,25 +5,33 @@ const del = require('del');
 const { promisify } = require('util');
 const chalk = require('chalk');
 
-// const routesConfig = require('../routes-config.js');
+const routesConfig = require('../routes-config.js');
+const { compileSingleRoute } = require('./compile-routes.js');
 
 const { sanityFetch } = require('./sanity-client');
-const { allCategoriesQuery } = require('../queries/category');
-const { allBlogPostsQuery } = require('../queries/blogPost');
-const { allTagsQuery } = require('../queries/tag');
-const { siteSettingsQuery } = require('../queries/siteSettings');
-const { siteMiscContentQuery } = require('../queries/siteMiscContent');
+const { allCategoriesQuery, categoryType } = require('../queries/category');
+const { allBlogPostsQuery, blogPostType } = require('../queries/blogPost');
+const { allTagsQuery, tagType } = require('../queries/tag');
+const { siteSettingsQuery, siteSettingsType } = require('../queries/siteSettings');
+const { siteMiscContentQuery, siteMiscContentType } = require('../queries/siteMiscContent');
 const {
+  pageHomeType,
   pageHomeQuery,
+  pageAboutType,
   pageAboutQuery,
+  pageCategoryType,
   pageCategoryQuery,
+  pageBlogPostType,
   pageBlogPostQuery,
+  pageSearchType,
   pageSearchQuery,
+  pageGalleryType,
   pageGalleryQuery,
+  pageThankYouType,
   pageThankYouQuery,
 } = require('../queries/pages.js');
 
-// const readFileAsync = promisify(fs.readFile);
+const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
 const existsAsync = promisify(fs.exists);
 const mkdirAsync = promisify(fs.mkdir);
@@ -32,9 +40,8 @@ const ROOT_FOLDER = process.cwd();
 const DATA_FOLDER = path.join(ROOT_FOLDER, 'data-sanity');
 
 // TODO: swap placeholders (:category... :siteName...)
-// Create UI links
 // Add base64 thumbs?
-// Merge category page info?
+// Merge Page data with single items data? (although it brings duplication)
 
 async function cleanDataFolder() {
   if (await existsAsync(DATA_FOLDER)) {
@@ -51,63 +58,116 @@ async function saveToFile(data, name) {
   console.info(`${chalk.blue('Saved to disk:')} ${chalk.cyan(fileName)}`);
 }
 
-const getData = async () => {
+async function generateNavLinks() {
+  const siteSettings = JSON.parse(
+    await readFileAsync(path.join(DATA_FOLDER, `${siteSettingsType}.json`), {
+      encoding: 'utf-8',
+    })
+  );
+  const navLinks = [];
+
+  siteSettings.navItems.forEach(({ label, page: pageType }) => {
+    const matchingRoute = routesConfig.find(({ dataType }) => pageType === dataType);
+    if (matchingRoute) {
+      const compiledPaths = compileSingleRoute(matchingRoute).map(({ path }) => path);
+      navLinks.push(
+        compiledPaths.map((compiledPath) => ({
+          label,
+          href: compiledPath,
+        }))
+      );
+    }
+  });
+
+  saveToFile(navLinks, 'navLinks');
+}
+
+async function generatePathsIndexConfig() {
+  const siteSettings = JSON.parse(
+    await readFileAsync(path.join(DATA_FOLDER, `${siteSettingsType}.json`), {
+      encoding: 'utf-8',
+    })
+  );
+  const indexedPaths = [];
+  const excludedPaths = [];
+
+  routesConfig.forEach((routeConfig) => {
+    const compiledPaths = compileSingleRoute(routeConfig).map(({ path }) => path);
+    if (siteSettings.noIndexPages.findIndex((pageType) => pageType === routeConfig.dataType) > -1) {
+      excludedPaths.push(...compiledPaths);
+    } else {
+      indexedPaths.push(...compiledPaths);
+    }
+  });
+
+  saveToFile({ indexedPaths, excludedPaths }, 'pathIndexConfig');
+}
+
+async function getData() {
   await cleanDataFolder();
   console.log(chalk.blue('Cleaned data folder'));
 
+  console.log(chalk.blue('\nDownloading data from Sanity...'));
   await Promise.all(
     [
       {
         query: siteMiscContentQuery,
-        onResultsFetched: (data) => saveToFile(data[0], 'siteMiscContent'),
+        onResultsFetched: (data) => saveToFile(data[0], siteMiscContentType),
       },
       {
         query: siteSettingsQuery,
-        onResultsFetched: (data) => saveToFile(data[0], 'siteSettings'),
+        onResultsFetched: (data) => saveToFile(data[0], siteSettingsType),
       },
       {
         query: pageHomeQuery,
-        onResultsFetched: (data) => saveToFile(data[0], 'pageHome'),
+        onResultsFetched: (data) => saveToFile(data[0], pageHomeType),
       },
       {
         query: pageAboutQuery,
-        onResultsFetched: (data) => saveToFile(data[0], 'pageAbout'),
+        onResultsFetched: (data) => saveToFile(data[0], pageAboutType),
       },
       {
         query: pageCategoryQuery,
-        onResultsFetched: (data) => saveToFile(data[0], 'pageCategory'),
+        onResultsFetched: (data) => saveToFile(data[0], pageCategoryType),
       },
       {
         query: pageBlogPostQuery,
-        onResultsFetched: (data) => saveToFile(data[0], 'pageBlogPost'),
+        onResultsFetched: (data) => saveToFile(data[0], pageBlogPostType),
       },
       {
         query: pageSearchQuery,
-        onResultsFetched: (data) => saveToFile(data[0], 'pageSearch'),
+        onResultsFetched: (data) => saveToFile(data[0], pageSearchType),
       },
       {
         query: pageGalleryQuery,
-        onResultsFetched: (data) => saveToFile(data[0], 'pageGallery'),
+        onResultsFetched: (data) => saveToFile(data[0], pageGalleryType),
       },
       {
         query: pageThankYouQuery,
-        onResultsFetched: (data) => saveToFile(data[0], 'pageThankYou'),
+        onResultsFetched: (data) => saveToFile(data[0], pageThankYouType),
       },
       {
         query: allBlogPostsQuery,
-        onResultsFetched: (data) => saveToFile(data, 'blogPost'),
+        onResultsFetched: (data) => saveToFile(data, blogPostType),
       },
       {
         query: allCategoriesQuery,
         // TODO: sort categories following siteSettings
-        onResultsFetched: (data) => saveToFile(data, 'category'),
+        onResultsFetched: (data) => saveToFile(data, categoryType),
       },
       {
         query: allTagsQuery,
-        onResultsFetched: (data) => saveToFile(data, 'tag'),
+        onResultsFetched: (data) => saveToFile(data, tagType),
       },
     ].map(({ query, onResultsFetched }) => sanityFetch(query).then(onResultsFetched))
   );
-};
+
+  console.log(chalk.blue('\nProcessing data...'));
+  // TODO: swap placeholders
+
+  console.log(chalk.blue('\nGenerating derived data...'));
+  // TODO: generate dynamic routes related shit
+  await Promise.all([generateNavLinks(), generatePathsIndexConfig()]);
+}
 
 getData();
