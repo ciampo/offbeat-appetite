@@ -50,6 +50,12 @@ module.exports = [
         categoryId: (postItem) => postItem.category.slug,
         postId: (postItem) => postItem.slug,
       },
+      contentParams: {
+        // Replace ":categoryName" in the page data (for titles, seo fields..)
+        categoryName: (postItem) => postItem.category.name,
+        blogPostTitle: (postItem) => postItem.title,
+        blogPostExcerpt: (postItem) => postItem.excerpt,
+      },
     },
   },
   {

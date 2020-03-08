@@ -69,11 +69,12 @@ async function generateNavLinks() {
   siteSettings.navItems.forEach(({ label, page: pageType }) => {
     const matchingRoute = routesConfig.find(({ dataType }) => pageType === dataType);
     if (matchingRoute) {
-      const compiledPaths = compileSingleRoute(matchingRoute).map(({ path }) => path);
+      // Array of { routeInfo, content }
+      const compiledSingleRoute = compileSingleRoute(matchingRoute, label);
       navLinks.push(
-        compiledPaths.map((compiledPath) => ({
-          label,
-          href: compiledPath,
+        ...compiledSingleRoute.map(({ routeInfo, content }) => ({
+          label: content,
+          href: routeInfo.path,
         }))
       );
     }
