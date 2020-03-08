@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const siteMiscContentQuery = /* groq */ `*[_type == "siteMiscContent"] {
+const siteMiscContentType = 'siteMiscContent';
+const siteMiscContentQuery = /* groq */ `*[_type == "${siteMiscContentType}"] {
   _id,
   authorLabel,
   recipeBlockTitle,
@@ -19,4 +20,5 @@ const siteMiscContentQuery = /* groq */ `*[_type == "siteMiscContent"] {
 
 module.exports = {
   siteMiscContentQuery,
+  siteMiscContentType,
 };

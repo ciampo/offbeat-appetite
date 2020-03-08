@@ -5,7 +5,8 @@ const {
   accessibleImageProjection,
 } = require('./projections.js');
 
-const pageHomeQuery = /* groq */ `*[_type == "pageHome"] {
+const pageHomeType = 'pageHome';
+const pageHomeQuery = /* groq */ `*[_type == "${pageHomeType}"] {
   _id,
   title,
   subtitle,
@@ -23,7 +24,8 @@ const pageHomeQuery = /* groq */ `*[_type == "pageHome"] {
   "seoImage": seoImage.asset->url,
 }`;
 
-const pageAboutQuery = /* groq */ `*[_type == "pageAbout"] {
+const pageAboutType = 'pageAbout';
+const pageAboutQuery = /* groq */ `*[_type == "${pageAboutType}"] {
   _id,
   title,
   content[] ${simplePortabletextProjection},
@@ -32,20 +34,23 @@ const pageAboutQuery = /* groq */ `*[_type == "pageAbout"] {
   "seoImage": seoImage.asset->url,
 }`;
 
-const pageCategoryQuery = /* groq */ `*[_type == "pageCategory"] {
+const pageCategoryType = 'pageCategory';
+const pageCategoryQuery = /* groq */ `*[_type == "${pageCategoryType}"] {
   _id,
   title,
   seoTitle,
   seoDescription,
 }`;
 
-const pageBlogPostQuery = /* groq */ `*[_type == "pageBlogPost"] {
+const pageBlogPostType = 'pageBlogPost';
+const pageBlogPostQuery = /* groq */ `*[_type == "${pageBlogPostType}"] {
   _id,
   seoTitle,
   seoDescription,
 }`;
 
-const pageSearchQuery = /* groq */ `*[_type == "pageSearch"] {
+const pageSearchType = 'pageSearch';
+const pageSearchQuery = /* groq */ `*[_type == "${pageSearchType}"] {
   _id,
   title,
   tagFilterTitle,
@@ -55,7 +60,8 @@ const pageSearchQuery = /* groq */ `*[_type == "pageSearch"] {
   "seoImage": seoImage.asset->url,
 }`;
 
-const pageGalleryQuery = /* groq */ `*[_type == "pageGallery"] {
+const pageGalleryType = 'pageGallery';
+const pageGalleryQuery = /* groq */ `*[_type == "${pageGalleryType}"] {
   _id,
   title,
   images[]->${accessibleImageProjection},
@@ -64,6 +70,7 @@ const pageGalleryQuery = /* groq */ `*[_type == "pageGallery"] {
   "seoImage": seoImage.asset->url,
 }`;
 
+const pageThankYouType = 'pageThankYou';
 const pageThankYouQuery = /* groq */ `*[_type == "pageThankYou"] {
   _id,
   title,
@@ -74,11 +81,18 @@ const pageThankYouQuery = /* groq */ `*[_type == "pageThankYou"] {
 }`;
 
 module.exports = {
+  pageHomeType,
   pageHomeQuery,
+  pageAboutType,
   pageAboutQuery,
+  pageCategoryType,
   pageCategoryQuery,
+  pageBlogPostType,
   pageBlogPostQuery,
+  pageSearchType,
   pageSearchQuery,
+  pageGalleryType,
   pageGalleryQuery,
+  pageThankYouType,
   pageThankYouQuery,
 };
