@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const siteSettingsQuery = /* groq */ `*[_type == "siteSettings"] {
+const siteSettingsType = 'siteSettings';
+const siteSettingsQuery = /* groq */ `*[_type == "${siteSettingsType}"] {
   _id,
   canonicalUrl,
   "categoriesOrder": categoriesOrder[]->slug.current,
@@ -12,5 +13,6 @@ const siteSettingsQuery = /* groq */ `*[_type == "siteSettings"] {
 }`;
 
 module.exports = {
+  siteSettingsType,
   siteSettingsQuery,
 };
