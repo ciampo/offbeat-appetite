@@ -19,10 +19,6 @@ const {
   pageHomeQuery,
   pageAboutType,
   pageAboutQuery,
-  pageCategoryType,
-  pageCategoryQuery,
-  pageBlogPostType,
-  pageBlogPostQuery,
   pageSearchType,
   pageSearchQuery,
   pageGalleryType,
@@ -126,14 +122,6 @@ async function getData() {
       {
         query: pageAboutQuery,
         onResultsFetched: (data) => saveToFile(data[0], pageAboutType),
-      },
-      {
-        query: pageCategoryQuery,
-        onResultsFetched: (data) => saveToFile(data[0], pageCategoryType),
-      },
-      {
-        query: pageBlogPostQuery,
-        onResultsFetched: (data) => saveToFile(data[0], pageBlogPostType),
       },
       {
         query: pageSearchQuery,
