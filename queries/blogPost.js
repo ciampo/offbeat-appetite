@@ -10,6 +10,7 @@ const allBlogPostsQuery = /* groq */ `*[_type == "${blogPostType}"] {
   "slug": slug.current,
   author->${personPreviewProjection},
 	category->${categoryPreviewProjection},
+  excerpt,
   "seoTitle": ${pageBlogPostQuery}[0].seoTitle,
   "seoDescription": ${pageBlogPostQuery}[0].seoDescription,
   "seoImage": seoImage.asset->url,

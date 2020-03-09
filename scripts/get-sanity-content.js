@@ -32,12 +32,14 @@ const writeFileAsync = promisify(fs.writeFile);
 const existsAsync = promisify(fs.exists);
 const mkdirAsync = promisify(fs.mkdir);
 
+const CATEGORIES_FOLDERNAME = 'categories';
+const POSTS_FOLDERNAME = 'posts';
 const ROOT_FOLDER = process.cwd();
 const DATA_FOLDER = path.join(ROOT_FOLDER, 'data-sanity');
+const POSTS_FOLDER = path.join(DATA_FOLDER, POSTS_FOLDERNAME);
+const CATEGORIES_FOLDER = path.join(DATA_FOLDER, CATEGORIES_FOLDERNAME);
 
-// TODO: swap placeholders (:category... :siteName...)
-// Add base64 thumbs?
-// Merge Page data with single items data? (although it brings duplication)
+let siteName;
 
 async function cleanDataFolder() {
   if (await existsAsync(DATA_FOLDER)) {
@@ -46,11 +48,17 @@ async function cleanDataFolder() {
   }
 
   await mkdirAsync(DATA_FOLDER, { recursive: true });
+  await mkdirAsync(POSTS_FOLDER, { recursive: true });
+  await mkdirAsync(CATEGORIES_FOLDER, { recursive: true });
 }
 
 async function saveToFile(data, name) {
   const fileName = `${name}.json`;
-  await writeFileAsync(path.join(DATA_FOLDER, fileName), JSON.stringify(data, null, 2));
+  let dataAsString = JSON.stringify(data, null, 2);
+  if (siteName) {
+    dataAsString = dataAsString.replace(/:siteName/g, siteName);
+  }
+  await writeFileAsync(path.join(DATA_FOLDER, fileName), dataAsString);
   console.info(`${chalk.blue('Saved to disk:')} ${chalk.cyan(fileName)}`);
 }
 
@@ -105,48 +113,78 @@ async function getData() {
   console.log(chalk.blue('Cleaned data folder'));
 
   console.log(chalk.blue('\nDownloading data from Sanity...'));
+  // First, download siteMiscContent as it contains the `siteName`
+  await sanityFetch(siteMiscContentQuery).then((data) => {
+    siteName = data[0].siteName;
+    saveToFile(data[0], siteMiscContentType);
+  });
+  // Then, download all other data and swap placeholder content as needed.
   await Promise.all(
     [
       {
-        query: siteMiscContentQuery,
-        onResultsFetched: (data) => saveToFile(data[0], siteMiscContentType),
-      },
-      {
         query: siteSettingsQuery,
-        onResultsFetched: (data) => saveToFile(data[0], siteSettingsType),
+        onResultsFetched: async (data) => await saveToFile(data[0], siteSettingsType),
       },
       {
         query: pageHomeQuery,
-        onResultsFetched: (data) => saveToFile(data[0], pageHomeType),
+        onResultsFetched: async (data) => await saveToFile(data[0], pageHomeType),
       },
       {
         query: pageAboutQuery,
-        onResultsFetched: (data) => saveToFile(data[0], pageAboutType),
+        onResultsFetched: async (data) => await saveToFile(data[0], pageAboutType),
       },
       {
         query: pageSearchQuery,
-        onResultsFetched: (data) => saveToFile(data[0], pageSearchType),
+        onResultsFetched: async (data) => await saveToFile(data[0], pageSearchType),
       },
       {
         query: pageGalleryQuery,
-        onResultsFetched: (data) => saveToFile(data[0], pageGalleryType),
+        onResultsFetched: async (data) => await saveToFile(data[0], pageGalleryType),
       },
       {
         query: pageThankYouQuery,
-        onResultsFetched: (data) => saveToFile(data[0], pageThankYouType),
+        onResultsFetched: async (data) => await saveToFile(data[0], pageThankYouType),
       },
       {
         query: allBlogPostsQuery,
-        onResultsFetched: (data) => saveToFile(data, blogPostType),
+        onResultsFetched: async (allBlogPostsData) => {
+          const allBlogPostsReplacedData = [];
+
+          // TODO: sort
+          for (const blogPostData of allBlogPostsData) {
+            const replacedData = JSON.parse(
+              JSON.stringify(blogPostData)
+                .replace(/:blogPostTitle/g, blogPostData.title)
+                .replace(/:blogPostExcerpt/g, blogPostData.excerpt)
+                .replace(/:categoryName/g, blogPostData.category.name)
+            );
+            allBlogPostsReplacedData.push(replacedData);
+            await saveToFile(replacedData, path.join(POSTS_FOLDERNAME, blogPostData.slug));
+          }
+
+          await saveToFile(allBlogPostsReplacedData, blogPostType);
+        },
       },
       {
         query: allCategoriesQuery,
         // TODO: sort categories following siteSettings
-        onResultsFetched: (data) => saveToFile(data, categoryType),
+        onResultsFetched: async (allCategoriesData) => {
+          const allCategoriesReplacedData = [];
+
+          for (const categoryData of allCategoriesData) {
+            const replacedData = JSON.parse(
+              JSON.stringify(categoryData).replace(/:categoryName/g, categoryData.name)
+            );
+            allCategoriesReplacedData.push(replacedData);
+            await saveToFile(replacedData, path.join(CATEGORIES_FOLDERNAME, categoryData.slug));
+          }
+
+          await saveToFile(allCategoriesReplacedData, categoryType);
+        },
       },
       {
         query: allTagsQuery,
-        onResultsFetched: (data) => saveToFile(data, tagType),
+        onResultsFetched: async (data) => await saveToFile(data, tagType),
       },
     ].map(({ query, onResultsFetched }) => sanityFetch(query).then(onResultsFetched))
   );
