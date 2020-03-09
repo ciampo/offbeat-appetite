@@ -38,12 +38,10 @@
   },
   "lint-staged": {
     "*.{js|ts|tsx}": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ],
     "*.css": [
-      "stylelint",
-      "git add"
+      "stylelint"
     ]
   },
   "dependencies": {
