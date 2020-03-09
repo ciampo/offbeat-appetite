@@ -40,6 +40,7 @@ const POSTS_FOLDER = path.join(DATA_FOLDER, POSTS_FOLDERNAME);
 const CATEGORIES_FOLDER = path.join(DATA_FOLDER, CATEGORIES_FOLDERNAME);
 
 let siteName;
+let categoriesOrder;
 
 async function cleanDataFolder() {
   if (await existsAsync(DATA_FOLDER)) {
@@ -113,11 +114,27 @@ async function getData() {
   console.log(chalk.blue('Cleaned data folder'));
 
   console.log(chalk.blue('\nDownloading data from Sanity...'));
-  // First, download siteMiscContent as it contains the `siteName`
-  await sanityFetch(siteMiscContentQuery).then((data) => {
-    siteName = data[0].siteName;
-    saveToFile(data[0], siteMiscContentType);
-  });
+  // First, download siteSettings and siteMiscContent as they contain some data
+  // used in processing the rest of the downloaded content (siteName and categoriesOrder)
+  await Promise.all(
+    [
+      {
+        query: siteMiscContentQuery,
+        onResultsFetched: async (data) => {
+          siteName = data[0].siteName;
+          await saveToFile(data[0], siteMiscContentType);
+        },
+      },
+      {
+        query: siteSettingsQuery,
+        onResultsFetched: async (data) => {
+          categoriesOrder = data[0].categoriesOrder;
+          await saveToFile(data[0], siteSettingsType);
+        },
+      },
+    ].map(({ query, onResultsFetched }) => sanityFetch(query).then(onResultsFetched))
+  );
+
   // Then, download all other data and swap placeholder content as needed.
   await Promise.all(
     [
@@ -167,10 +184,15 @@ async function getData() {
       },
       {
         query: allCategoriesQuery,
-        // TODO: sort categories following siteSettings
         onResultsFetched: async (allCategoriesData) => {
-          const allCategoriesReplacedData = [];
+          // Sorting according to SiteSettings.
+          allCategoriesData.sort(
+            (c1, c2) =>
+              categoriesOrder.findIndex((cat) => cat === c1.slug) -
+              categoriesOrder.findIndex((cat) => cat === c2.slug)
+          );
 
+          const allCategoriesReplacedData = [];
           for (const categoryData of allCategoriesData) {
             const replacedData = JSON.parse(
               JSON.stringify(categoryData).replace(/:categoryName/g, categoryData.name)
