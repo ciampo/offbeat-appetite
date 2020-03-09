@@ -77,10 +77,20 @@ async function generateNavLinks() {
       // Array of { routeInfo, content }
       const compiledSingleRoute = compileSingleRoute(matchingRoute, label);
       navLinks.push(
-        ...compiledSingleRoute.map(({ routeInfo, content }) => ({
-          label: content,
-          href: routeInfo.path,
-        }))
+        ...compiledSingleRoute.map(({ routeInfo, content }) => {
+          if (matchingRoute.dynamicRoute && routeInfo.query) {
+            return {
+              label: content,
+              href: matchingRoute.route,
+              as: routeInfo.path,
+            };
+          } else {
+            return {
+              label: content,
+              href: routeInfo.path,
+            };
+          }
+        })
       );
     }
   });
