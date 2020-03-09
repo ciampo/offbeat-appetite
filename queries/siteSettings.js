@@ -3,7 +3,6 @@
 const siteSettingsType = 'siteSettings';
 const siteSettingsQuery = /* groq */ `*[_type == "${siteSettingsType}"] {
   _id,
-  canonicalUrl,
   "categoriesOrder": categoriesOrder[]->slug.current,
   "navItems": navItems[]{
   	label,
