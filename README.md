@@ -2,7 +2,11 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/8a466cb6-4eef-463d-81be-18240576884d/deploy-status)](https://app.netlify.com/sites/offbeatappetite/deploys)
 
-Based on [this next.js template](https://github.com/ciampo/_nextjs-template).
+TL;DR:
+
+- [Sanity](https://sanity.io) as Headless CMS ([repo here](https://github.com/ciampo/offbeat-appetite-sanity))
+- [Next.js](https://nextjs.org/) as Static Site Generator
+- [Netlify](https://www.netlify.com/) as Static Site Hosting
 
 ## 🛠 Setup
 
@@ -65,7 +69,6 @@ There are a few differences between the staging and production sites:
 | Subscribe Form              |   enabled   | disabled |   enabled  |
 | Sanity Token for drafts     |     Yes     |    Yes   |     No     |
 | Canonical URL               |     prod    |  staging |    prod    |
-
 
 ## 👻 Contributors
 
