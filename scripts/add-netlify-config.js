@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const chalk = require('chalk');
 
 const routesConfig = require('../routes-config.js');
 
@@ -12,7 +13,7 @@ const _headersContent = `/*
   X-Frame-Options: DENY
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
 ${routesConfig
-  // reaplce [placeholder] with :placeholder
+  // replace `[placeholder]` with `:placeholder`
   .map((rc) => rc.route.replace(/\/\[([^/]+)\]/g, '/:$1'))
   .map(
     (routePath) => `${routePath}
@@ -52,7 +53,7 @@ fs.writeFileSync(path.join(OUT_FOLDER, '_headers'), _headersContent, {
   encoding: 'utf8',
 });
 
-console.log('Done.\nGenerating Netlify redirects...');
+console.log('Generating Netlify redirects...');
 
 const _redirectsContent = `
 # These rules will change if you change your site’s custom domains or HTTPS settings
@@ -68,4 +69,4 @@ fs.writeFileSync(path.join(OUT_FOLDER, '_redirects'), _redirectsContent, {
   encoding: 'utf8',
 });
 
-console.log('Done.\nNetlify headers and redirects added successfully');
+console.log(chalk.blue('Netlify headers and redirects added successfully'));

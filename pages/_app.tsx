@@ -20,7 +20,7 @@ export default class MyApp extends App<CustomAppProps> {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    const navLinks: UiLink[] = await import(`../data/nav-links.json`).then((m) => m.default);
+    const navLinks: UiLink[] = await import(`../data-sanity/navLinks.json`).then((m) => m.default);
 
     return { pageProps, navLinks };
   }
