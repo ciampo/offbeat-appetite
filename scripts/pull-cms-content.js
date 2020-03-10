@@ -10,7 +10,7 @@ const { compileSingleRoute } = require('./compile-routes.js');
 
 const { sanityFetch } = require('../sanity/client');
 const { allCategoriesQuery, categoryType, replaceCategoryContent } = require('../sanity/category');
-const { allBlogPostsQuery, blogPostType } = require('../sanity/blogPost');
+const { allBlogPostsQuery, blogPostType, replaceBlogPostContent } = require('../sanity/blogPost');
 const { allTagsQuery, tagType } = require('../sanity/tag');
 const { siteSettingsQuery, siteSettingsType } = require('../sanity/siteSettings');
 const { siteMiscContentQuery, siteMiscContentType } = require('../sanity/siteMiscContent');
@@ -200,11 +200,15 @@ async function getData() {
       {
         query: allBlogPostsQuery,
         onResultsFetched: async (allBlogPostsData) => {
-          for (const blogPostData of allBlogPostsData) {
+          const replacedBlogPostsContent = allBlogPostsData.map((blogPostItem) =>
+            replaceBlogPostContent(blogPostItem, blogPostItem)
+          );
+
+          for (const blogPostData of replacedBlogPostsContent) {
             await saveToFile(blogPostData, path.join(POSTS_FOLDERNAME, blogPostData.slug));
           }
 
-          await saveToFile(allBlogPostsData, blogPostType);
+          await saveToFile(replacedBlogPostsContent, blogPostType);
         },
       },
       {
@@ -216,12 +220,15 @@ async function getData() {
               categoriesOrder.findIndex((cat) => cat === c1.slug) -
               categoriesOrder.findIndex((cat) => cat === c2.slug)
           );
+          const replacedCategoriesContent = allCategoriesData.map((catItem) =>
+            replaceCategoryContent(catItem, catItem)
+          );
 
-          for (const categoryData of allCategoriesData) {
+          for (const categoryData of replacedCategoriesContent) {
             await saveToFile(categoryData, path.join(CATEGORIES_FOLDERNAME, categoryData.slug));
           }
 
-          await saveToFile(allCategoriesData, categoryType);
+          await saveToFile(replacedCategoriesContent, categoryType);
         },
       },
       {
@@ -232,7 +239,6 @@ async function getData() {
   );
 
   console.log(chalk.blue('\nGenerating derived data...'));
-  // TODO: generate dynamic routes related shit
   await Promise.all([generateNavLinks(), generatePathsIndexConfig()]);
 }
 
