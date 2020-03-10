@@ -6,9 +6,9 @@ const {
   pageThankYouType,
   pageBlogPostType,
   pageCategoryType,
-} = require('./queries/pages.js');
-const { categoryType } = require('./queries/category');
-const { blogPostType } = require('./queries/blogPost');
+} = require('./sanity/pages.js');
+const { categoryType } = require('./sanity/category');
+const { blogPostType } = require('./sanity/blogPost');
 
 module.exports = [
   {
@@ -24,9 +24,6 @@ module.exports = [
     dataType: pageCategoryType,
     dynamicDataType: categoryType,
     generateParams: (catItem) => ({ categoryId: catItem.slug }),
-    replaceContent: (catItem) => ({
-      categoryName: catItem.name,
-    }),
   },
   {
     route: '/[categoryId]/[postId]',
@@ -35,11 +32,6 @@ module.exports = [
     generateParams: (postItem) => ({
       categoryId: postItem.category.slug,
       postId: postItem.slug,
-    }),
-    replaceContent: (postItem) => ({
-      categoryName: postItem.category.name,
-      blogPostTitle: postItem.title,
-      blogPostExcerpt: postItem.excerpt,
     }),
   },
   {

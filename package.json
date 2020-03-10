@@ -11,7 +11,7 @@
   "private": true,
   "scripts": {
     "analyze": "ANALYZE=true yarn build",
-    "data": "node scripts/get-sanity-content.js",
+    "data": "node scripts/pull-cms-content.js",
     "dev": "yarn generate:seo && node server.js",
     "build": "yarn generate:seo && next build",
     "generate:seo": "node scripts/create-robots.js && node scripts/create-sitemap.js",

@@ -17,7 +17,12 @@ const allCategoriesQuery = /* groq */ `*[_type == "${categoryType}"] {
   "seoImage": seoImage.asset->url,
 }`;
 
+function replaceCategoryContent(categoryItem, content) {
+  return JSON.parse(JSON.stringify(content).replace(/:categoryName/g, categoryItem.name));
+}
+
 module.exports = {
   allCategoriesQuery,
   categoryType,
+  replaceCategoryContent,
 };
