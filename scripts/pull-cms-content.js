@@ -8,22 +8,22 @@ const chalk = require('chalk');
 const routesConfig = require('../routes-config.js');
 const { compileSingleRoute } = require('./compile-routes.js');
 
-const { sanityFetch } = require('./sanity-client');
-const { allCategoriesQuery, categoryType } = require('../queries/category');
-const { allBlogPostsQuery, blogPostType } = require('../queries/blogPost');
-const { allTagsQuery, tagType } = require('../queries/tag');
-const { siteSettingsQuery, siteSettingsType } = require('../queries/siteSettings');
-const { siteMiscContentQuery, siteMiscContentType } = require('../queries/siteMiscContent');
+const { sanityFetch } = require('../sanity/client');
+const { allCategoriesQuery, categoryType, replaceCategoryContent } = require('../sanity/category');
+const { allBlogPostsQuery, blogPostType } = require('../sanity/blogPost');
+const { allTagsQuery, tagType } = require('../sanity/tag');
+const { siteSettingsQuery, siteSettingsType } = require('../sanity/siteSettings');
+const { siteMiscContentQuery, siteMiscContentType } = require('../sanity/siteMiscContent');
 const {
   pageHomeType,
   pageHomeQuery,
   pageAboutType,
   pageAboutQuery,
-  pageBlogPostType,
   pageCategoryType,
+  pageCategoryQuery,
   pageThankYouType,
   pageThankYouQuery,
-} = require('../queries/pages.js');
+} = require('../sanity/pages.js');
 
 const readFileAsync = promisify(fs.readFile);
 const writeFileAsync = promisify(fs.writeFile);
@@ -62,39 +62,64 @@ async function saveToFile(data, name) {
 }
 
 async function generateNavLinks() {
-  const siteSettings = JSON.parse(
-    await readFileAsync(path.join(DATA_FOLDER, `${siteSettingsType}.json`), {
+  // Categories
+  const categoryRoute = routesConfig.find(({ dataType }) => dataType === pageCategoryType);
+  const categoryPage = JSON.parse(
+    await readFileAsync(path.join(DATA_FOLDER, `${categoryRoute.dataType}.json`), {
       encoding: 'utf-8',
     })
   );
-  const navLinks = [];
-
-  siteSettings.navItems.forEach(({ label, page: pageType }) => {
-    const matchingRoute = routesConfig.find(({ dataType }) => pageType === dataType);
-    if (matchingRoute) {
-      // Array of { routeInfo, content }
-      const compiledSingleRoute = compileSingleRoute({
-        routeConfig: matchingRoute,
-        content: label,
-      });
-      navLinks.push(
-        ...compiledSingleRoute.map(({ routeInfo, content }) => {
-          if (routeInfo.query) {
-            return {
-              label: content,
-              href: routeInfo.page,
-              as: routeInfo.path,
-            };
-          } else {
-            return {
-              label: label,
-              href: routeInfo.path,
-            };
-          }
-        })
-      );
-    }
+  const categoryItems = JSON.parse(
+    await readFileAsync(path.join(DATA_FOLDER, `${categoryRoute.dynamicDataType}.json`), {
+      encoding: 'utf-8',
+    })
+  );
+  const compiledCategories = compileSingleRoute({
+    routeConfig: categoryRoute,
+    dynamicItemsData: categoryItems,
   });
+
+  // Home page
+  const homeRoute = routesConfig.find(({ dataType }) => dataType === pageHomeType);
+  const homePage = JSON.parse(
+    await readFileAsync(path.join(DATA_FOLDER, `${homeRoute.dataType}.json`), {
+      encoding: 'utf-8',
+    })
+  );
+
+  // About page
+  const aboutRoute = routesConfig.find(({ dataType }) => dataType === pageAboutType);
+  const aboutPage = JSON.parse(
+    await readFileAsync(path.join(DATA_FOLDER, `${aboutRoute.dataType}.json`), {
+      encoding: 'utf-8',
+    })
+  );
+
+  const navLinks = {
+    beforeLogo: [
+      ...compiledCategories.map(({ routeInfo }) => {
+        const categoryItem = categoryItems.find(({ slug }) => slug === routeInfo.query.categoryId);
+
+        return {
+          href: routeInfo.page,
+          as: routeInfo.path,
+          label: replaceCategoryContent(categoryItem, categoryPage.title),
+        };
+      }),
+    ],
+    logo: [
+      {
+        href: homeRoute.route,
+        label: homePage.title,
+      },
+    ],
+    afterLogo: [
+      {
+        href: aboutRoute.route,
+        label: aboutPage.title,
+      },
+    ],
+  };
 
   saveToFile(navLinks, 'navLinks');
 }
@@ -163,6 +188,10 @@ async function getData() {
       {
         query: pageAboutQuery,
         onResultsFetched: async (data) => await saveToFile(data[0], pageAboutType),
+      },
+      {
+        query: pageCategoryQuery,
+        onResultsFetched: async (data) => await saveToFile(data[0], pageCategoryType),
       },
       {
         query: pageThankYouQuery,

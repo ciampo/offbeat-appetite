@@ -5,8 +5,8 @@ const path = require('path');
 const ROOT_FOLDER = process.cwd();
 const DATA_FOLDER = path.join(ROOT_FOLDER, 'data-sanity');
 
-function compileDynamicItem({ dynamicItem, routeConfig, content = '' }) {
-  const { route, generateParams, replaceContent = () => ({}) } = routeConfig;
+function compileDynamicItem({ dynamicItem, routeConfig }) {
+  const { route, generateParams } = routeConfig;
 
   // Generate dynamic route (replace query params).
   let dynamicRoute = route;
@@ -15,24 +15,14 @@ function compileDynamicItem({ dynamicItem, routeConfig, content = '' }) {
     dynamicRoute = dynamicRoute.replace(`[${paramKey}]`, paramValue);
   }
 
-  // Generate dynamic content (replace content placeholders).
-  let replacedContent = JSON.stringify(content);
-  const dynamicContent = replaceContent(dynamicItem);
-  for (const [paramKey, paramValue] of Object.entries(dynamicContent)) {
-    const replaceRegex = new RegExp(`:${paramKey}`, 'g');
-    replacedContent = replacedContent.replace(replaceRegex, paramValue);
-  }
-
   return {
     routeInfo: { page: route, path: dynamicRoute, query: dynamicParams },
-    content: JSON.parse(replacedContent),
   };
 }
 
-function compileStaticItem({ routeConfig, content = '' }) {
+function compileStaticItem({ routeConfig }) {
   return {
     routeInfo: { page: routeConfig.route, path: routeConfig.route, query: {} },
-    content,
   };
 }
 
@@ -46,7 +36,7 @@ function compileStaticItem({ routeConfig, content = '' }) {
 //   },
 //   content: replacedContent,
 // }
-function compileSingleRoute({ routeConfig, content = '', dynamicItemsData = null }) {
+function compileSingleRoute({ routeConfig, dynamicItemsData = null }) {
   const { generateParams, dynamicDataType } = routeConfig;
   if (generateParams && dynamicDataType) {
     // If `dynamicItems` are not provided, read them from disk.
@@ -62,12 +52,11 @@ function compileSingleRoute({ routeConfig, content = '', dynamicItemsData = null
       compileDynamicItem({
         routeConfig,
         dynamicItem,
-        content,
       })
     );
   } else {
     // Simple
-    return [compileStaticItem({ routeConfig, content })];
+    return [compileStaticItem({ routeConfig })];
   }
 }
 

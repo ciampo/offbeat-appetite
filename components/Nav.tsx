@@ -3,14 +3,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { NextComponentType } from 'next';
 
-import { slugify } from './utils/utils';
 import { UiLink } from '../typings';
+import { slugify } from './utils/utils';
+import { beforeLogo, logo, afterLogo } from '../data-sanity/navLinks.json';
 
-type NavProps = {
-  links: UiLink[];
-};
-
-const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
+const Nav: NextComponentType = () => {
   const [loadingRoute, setLoadingRoute] = useState<string | null>(null);
   const router = useRouter();
 
@@ -32,12 +29,14 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
     };
   }, [router.events]);
 
+  const navLinks: UiLink[] = [...beforeLogo, ...logo, ...afterLogo];
+
   return (
     <>
       <nav className="fixed top-0 left-0 w-full h-12 flex items-center bg-gray-200 shadow text-center contain-layout-paint">
-        {links && links.length && (
+        {navLinks && navLinks.length && (
           <ul className="flex justify-between w-full py-1 px-4">
-            {links.map(({ href, label, as }, index) => (
+            {navLinks.map(({ href, label, as }, index) => (
               <li key={`${index}-${slugify(label)}`} className="flex py-1 px-2">
                 <Link href={href} scroll={false} as={as}>
                   <a
