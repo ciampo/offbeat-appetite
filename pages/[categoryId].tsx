@@ -1,80 +1,83 @@
 import React from 'react';
-import { NextComponentType, NextPageContext } from 'next';
+import { NextComponentType, GetStaticProps, GetStaticPaths } from 'next';
+import { useRouter } from 'next/router';
 
 import routesConfig from '../routes-config';
+import { compileSingleRoute } from '../scripts/compile-routes';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
-import { initialDefaultPageProps } from '../components/utils/initial-props';
-import { ContentfulCategory, ContentfulPageCategory } from '../typings';
 
-type PageCategoryProps = ContentfulPageCategory & {
-  path: string;
-  category?: ContentfulCategory;
+// type RouteConfig = {
+//   route: string;
+//   dataType: string;
+//   dynamicDataType?: string;
+//   generateParams?: (arg0: object) => { [key: string]: string };
+// };
+
+type CompiledRoute = {
+  routeInfo: {
+    page: string;
+    path: string;
+    query: { [key: string]: string | string[] };
+  };
+}[];
+
+type PageCategoryProps = {
+  categoryTitle?: string;
 };
 
-const Category: NextComponentType<{}, PageCategoryProps, PageCategoryProps> = ({ category }) =>
-  category ? (
-    <DefaultPageTransitionWrapper>
-      <h1>{category.name}</h1>
-    </DefaultPageTransitionWrapper>
-  ) : null;
+const Category: NextComponentType<{}, PageCategoryProps, PageCategoryProps> = ({
+  categoryTitle,
+}) => {
+  const router = useRouter();
+  if (categoryTitle) {
+    return (
+      <DefaultPageTransitionWrapper>
+        <h1>Category: {categoryTitle}</h1>
+        <p>{router.pathname}</p>
+      </DefaultPageTransitionWrapper>
+    );
+  } else return null;
+};
 
-Category.getInitialProps = async ({
-  pathname,
-  query,
-}: NextPageContext): Promise<PageCategoryProps> => {
-  let toReturn: PageCategoryProps = {
-    ...initialDefaultPageProps,
-    title: '',
-    path: pathname,
-    category: undefined,
-  };
+export const getStaticPaths: GetStaticPaths = async () => {
+  const categoryRoute = routesConfig.find(({ route }) => route === '/[categoryId]');
 
-  const routeConfig = routesConfig.find(({ route }) => route === pathname);
-
-  if (
-    routeConfig &&
-    routeConfig.dynamicRoute &&
-    routeConfig.dynamicRoute.contentfulItemsData &&
-    routeConfig.dynamicRoute.params
-  ) {
-    const categoriesData: ContentfulCategory[] = await import(
-      `../data/${routeConfig.dynamicRoute.contentfulItemsData}.json`
-    ).then((m) => m.default);
-
-    const currentCategory = categoriesData.find((item) => {
-      let matchFound = true;
-
-      for (const pattern of Object.keys(routeConfig.dynamicRoute.params)) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore
-        const replacerFn = routeConfig.dynamicRoute.params[pattern];
-        matchFound = matchFound && query[pattern] === replacerFn(item);
-      }
-
-      return matchFound;
-    });
-
-    if (currentCategory) {
-      const categoriesPageData: ContentfulPageCategory = await import(
-        `../data/${routeConfig.contentfulPageData}.json`
-      ).then((m) => m.default);
-
-      toReturn = {
-        ...toReturn,
-        ...categoriesPageData,
-        category: currentCategory,
-      };
-
-      for (const pattern of Object.keys(routeConfig.dynamicRoute.params)) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore
-        const replacerFn = routeConfig.dynamicRoute.params[pattern];
-        toReturn.path = toReturn.path.replace(`[${pattern}]`, replacerFn(currentCategory));
-      }
-    }
+  if (!categoryRoute) {
+    return {
+      paths: [],
+      fallback: false,
+    };
   }
 
-  return toReturn;
+  const allCategoriesData = await import(
+    `../data-sanity/${categoryRoute.dynamicDataType}.json`
+  ).then((m) => m.default);
+
+  const compiledCategoryRoute: CompiledRoute = compileSingleRoute({
+    routeConfig: categoryRoute,
+    dynamicItemsData: allCategoriesData,
+  });
+
+  return {
+    paths: compiledCategoryRoute.map(({ routeInfo }) => ({ params: routeInfo.query })),
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  if (!context.params) {
+    return { props: {} };
+  }
+
+  const categoryData = await import(
+    `../data-sanity/categories/${context.params.categoryId}.json`
+  ).then((m) => m.default);
+
+  return {
+    props: {
+      categoryTitle: categoryData.title,
+    },
+  };
 };
 
 export default Category;

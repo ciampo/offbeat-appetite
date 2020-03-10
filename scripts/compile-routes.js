@@ -5,71 +5,73 @@ const path = require('path');
 const ROOT_FOLDER = process.cwd();
 const DATA_FOLDER = path.join(ROOT_FOLDER, 'data-sanity');
 
-function compileSingleRoute({ route, dynamicRoute = {} }, content) {
-  const { dynamicDataType, routeParams, contentParams } = dynamicRoute;
+function compileDynamicItem({ dynamicItem, routeConfig, content = '' }) {
+  const { route, generateParams, replaceContent = () => ({}) } = routeConfig;
 
-  if (dynamicRoute && dynamicDataType && routeParams && contentParams) {
-    const dynamicItems = JSON.parse(
-      fs.readFileSync(path.join(DATA_FOLDER, `${dynamicDataType}.json`), {
-        encoding: 'utf8',
-      })
-    );
-
-    return dynamicItems.map((dynamicItem) => {
-      let replacedContent = JSON.stringify(content || '');
-      let itemRoute = route;
-      const queryParams = {};
-
-      // For each dynamic route parameter, replace the placeholder
-      // in the original route and store the query parameters
-      for (const [pattern, replacerFn] of Object.entries(routeParams)) {
-        const replacementValue = replacerFn(dynamicItem);
-        itemRoute = itemRoute.replace(`[${pattern}]`, replacementValue);
-        queryParams[pattern] = replacementValue;
-      }
-
-      for (const [pattern, replacerFn] of Object.entries(contentParams)) {
-        const replacementValue = replacerFn(dynamicItem);
-        replacedContent = replacedContent.replace(`:${pattern}`, replacementValue);
-      }
-
-      return {
-        routeInfo: { path: itemRoute, query: queryParams },
-        content: JSON.parse(replacedContent),
-      };
-    });
-  } else {
-    // Simple
-    return [
-      {
-        routeInfo: { path: route },
-        content,
-      },
-    ];
+  // Generate dynamic route (replace query params).
+  let dynamicRoute = route;
+  const dynamicParams = generateParams(dynamicItem);
+  for (const [paramKey, paramValue] of Object.entries(dynamicParams)) {
+    dynamicRoute = dynamicRoute.replace(`[${paramKey}]`, paramValue);
   }
+
+  // Generate dynamic content (replace content placeholders).
+  let replacedContent = JSON.stringify(content);
+  const dynamicContent = replaceContent(dynamicItem);
+  for (const [paramKey, paramValue] of Object.entries(dynamicContent)) {
+    const replaceRegex = new RegExp(`:${paramKey}`, 'g');
+    replacedContent = replacedContent.replace(replaceRegex, paramValue);
+  }
+
+  return {
+    routeInfo: { page: route, path: dynamicRoute, query: dynamicParams },
+    content: JSON.parse(replacedContent),
+  };
 }
 
-function compileAllRoutes(routesConfig) {
-  const allRoutes = {};
+function compileStaticItem({ routeConfig, content = '' }) {
+  return {
+    routeInfo: { page: routeConfig.route, path: routeConfig.route, query: {} },
+    content,
+  };
+}
 
-  for (const routeConfig of routesConfig) {
-    allRoutes[routeConfig.route] = {};
-    for (const { routeInfo } of compileSingleRoute(routeConfig)) {
-      const { path, query } = routeInfo;
-      allRoutes[routeConfig.route][path] = { page: routeConfig.route };
-      if (query) {
-        allRoutes[routeConfig.route][path] = {
-          ...allRoutes[routeConfig.route][path],
-          query,
-        };
-      }
-    }
+// Returns an array of objects of type:
+//
+// {
+//   routeInfo: {
+//     page: string,
+//     path: string, // for non-dynamic routes, page === path
+//     query: dynamicParams  // for non-dynamic routes, query is {}
+//   },
+//   content: replacedContent,
+// }
+function compileSingleRoute({ routeConfig, content = '', dynamicItemsData = null }) {
+  const { generateParams, dynamicDataType } = routeConfig;
+  if (generateParams && dynamicDataType) {
+    // If `dynamicItems` are not provided, read them from disk.
+    const dynamicItems =
+      dynamicItemsData ||
+      JSON.parse(
+        fs.readFileSync(path.join(DATA_FOLDER, `${dynamicDataType}.json`), {
+          encoding: 'utf8',
+        })
+      );
+
+    return dynamicItems.map((dynamicItem) =>
+      compileDynamicItem({
+        routeConfig,
+        dynamicItem,
+        content,
+      })
+    );
+  } else {
+    // Simple
+    return [compileStaticItem({ routeConfig, content })];
   }
-
-  return allRoutes;
 }
 
 module.exports = {
+  compileDynamicItem,
   compileSingleRoute,
-  compileAllRoutes,
 };

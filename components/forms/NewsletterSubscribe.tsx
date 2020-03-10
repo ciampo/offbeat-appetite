@@ -53,7 +53,6 @@ const VARIANT_CLASSNAMES: NewletterSubscriveVariantClassNames = {
 };
 
 const isSubmitFormEnabled = process.env.IS_SUBMIT_FORM_ENABLED !== 'true';
-console.log(process.env.IS_SUBMIT_FORM_ENABLED);
 
 function encode(data: { [key: string]: string }): string {
   return Object.keys(data)

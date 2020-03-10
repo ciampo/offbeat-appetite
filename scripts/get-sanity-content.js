@@ -19,10 +19,8 @@ const {
   pageHomeQuery,
   pageAboutType,
   pageAboutQuery,
-  pageSearchType,
-  pageSearchQuery,
-  pageGalleryType,
-  pageGalleryQuery,
+  pageBlogPostType,
+  pageCategoryType,
   pageThankYouType,
   pageThankYouQuery,
 } = require('../queries/pages.js');
@@ -75,18 +73,21 @@ async function generateNavLinks() {
     const matchingRoute = routesConfig.find(({ dataType }) => pageType === dataType);
     if (matchingRoute) {
       // Array of { routeInfo, content }
-      const compiledSingleRoute = compileSingleRoute(matchingRoute, label);
+      const compiledSingleRoute = compileSingleRoute({
+        routeConfig: matchingRoute,
+        content: label,
+      });
       navLinks.push(
         ...compiledSingleRoute.map(({ routeInfo, content }) => {
-          if (matchingRoute.dynamicRoute && routeInfo.query) {
+          if (routeInfo.query) {
             return {
               label: content,
-              href: matchingRoute.route,
+              href: routeInfo.page,
               as: routeInfo.path,
             };
           } else {
             return {
-              label: content,
+              label: label,
               href: routeInfo.path,
             };
           }
@@ -108,7 +109,10 @@ async function generatePathsIndexConfig() {
   const excludedPaths = [];
 
   routesConfig.forEach((routeConfig) => {
-    const compiledPaths = compileSingleRoute(routeConfig).map(({ path }) => path);
+    const compiledPaths = compileSingleRoute({ routeConfig }).map(
+      ({ routeInfo }) => routeInfo.path
+    );
+
     if (siteSettings.noIndexPages.findIndex((pageType) => pageType === routeConfig.dataType) > -1) {
       excludedPaths.push(...compiledPaths);
     } else {
@@ -161,35 +165,17 @@ async function getData() {
         onResultsFetched: async (data) => await saveToFile(data[0], pageAboutType),
       },
       {
-        query: pageSearchQuery,
-        onResultsFetched: async (data) => await saveToFile(data[0], pageSearchType),
-      },
-      {
-        query: pageGalleryQuery,
-        onResultsFetched: async (data) => await saveToFile(data[0], pageGalleryType),
-      },
-      {
         query: pageThankYouQuery,
         onResultsFetched: async (data) => await saveToFile(data[0], pageThankYouType),
       },
       {
         query: allBlogPostsQuery,
         onResultsFetched: async (allBlogPostsData) => {
-          const allBlogPostsReplacedData = [];
-
-          // TODO: sort
           for (const blogPostData of allBlogPostsData) {
-            const replacedData = JSON.parse(
-              JSON.stringify(blogPostData)
-                .replace(/:blogPostTitle/g, blogPostData.title)
-                .replace(/:blogPostExcerpt/g, blogPostData.excerpt)
-                .replace(/:categoryName/g, blogPostData.category.name)
-            );
-            allBlogPostsReplacedData.push(replacedData);
-            await saveToFile(replacedData, path.join(POSTS_FOLDERNAME, blogPostData.slug));
+            await saveToFile(blogPostData, path.join(POSTS_FOLDERNAME, blogPostData.slug));
           }
 
-          await saveToFile(allBlogPostsReplacedData, blogPostType);
+          await saveToFile(allBlogPostsData, blogPostType);
         },
       },
       {
@@ -202,16 +188,11 @@ async function getData() {
               categoriesOrder.findIndex((cat) => cat === c2.slug)
           );
 
-          const allCategoriesReplacedData = [];
           for (const categoryData of allCategoriesData) {
-            const replacedData = JSON.parse(
-              JSON.stringify(categoryData).replace(/:categoryName/g, categoryData.name)
-            );
-            allCategoriesReplacedData.push(replacedData);
-            await saveToFile(replacedData, path.join(CATEGORIES_FOLDERNAME, categoryData.slug));
+            await saveToFile(categoryData, path.join(CATEGORIES_FOLDERNAME, categoryData.slug));
           }
 
-          await saveToFile(allCategoriesReplacedData, categoryType);
+          await saveToFile(allCategoriesData, categoryType);
         },
       },
       {
@@ -220,9 +201,6 @@ async function getData() {
       },
     ].map(({ query, onResultsFetched }) => sanityFetch(query).then(onResultsFetched))
   );
-
-  console.log(chalk.blue('\nProcessing data...'));
-  // TODO: swap placeholders
 
   console.log(chalk.blue('\nGenerating derived data...'));
   // TODO: generate dynamic routes related shit

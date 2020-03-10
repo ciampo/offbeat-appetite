@@ -6,25 +6,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 require('dotenv').config();
 
-const routesConfig = require('./routes-config.js');
-const { compileAllRoutes } = require('./scripts/compile-routes.js');
-
 const nextConfig = {
-  exportPathMap() {
-    const pathMap = {};
-
-    // Compile all routes (i.e, transform dynamic routes into all of the
-    // available real routes, given the data coming from the CMS)
-    const allCompiledRoutes = compileAllRoutes(routesConfig);
-
-    for (const singlePathCompiledRoutes of Object.values(allCompiledRoutes)) {
-      for (const [path, compiledRoute] of Object.entries(singlePathCompiledRoutes)) {
-        pathMap[path] = compiledRoute;
-      }
-    }
-
-    return pathMap;
-  },
   webpack(config, options) {
     // From preact netx.js example
     if (options.isServer) {
@@ -67,9 +49,6 @@ const nextConfig = {
     GA: process.env.GA,
     CANONICAL_URL: process.env.CANONICAL_URL,
     IS_SUBMIT_FORM_ENABLED: process.env.IS_SUBMIT_FORM_ENABLED,
-  },
-  experimental: {
-    polyfillsOptimization: true,
   },
 };
 
