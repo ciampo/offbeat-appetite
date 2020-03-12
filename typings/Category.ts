@@ -1,8 +1,16 @@
-import { ContentfulMedia } from '.';
+import { SanityBlogPostPreview } from '.';
 
-export type ContentfulCategory = {
+export type SanityCategoryPreview = {
+  _id: string;
   name: string;
   slug: string;
-  order: number;
-  previewSharingImage: ContentfulMedia;
+};
+
+export type SanityCategoryFull = SanityCategoryPreview & {
+  featuredBlogPosts: SanityBlogPostPreview[];
+  allBlogPosts: SanityBlogPostPreview[];
+  title: string;
+  seoDescription: string;
+  seoTitle: string;
+  seoImage: string;
 };
