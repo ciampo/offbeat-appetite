@@ -134,9 +134,18 @@ async function generatePathsIndexConfig() {
   const excludedPaths = [];
 
   routesConfig.forEach((routeConfig) => {
-    const compiledPaths = compileSingleRoute({ routeConfig }).map(
-      ({ routeInfo }) => routeInfo.path
-    );
+    let dynamicItemsData = null;
+    if (routeConfig.dynamicDataType) {
+      dynamicItemsData = JSON.parse(
+        fs.readFileSync(path.join(DATA_FOLDER, `${routeConfig.dynamicDataType}.json`), {
+          encoding: 'utf8',
+        })
+      );
+    }
+    const compiledPaths = compileSingleRoute({
+      routeConfig,
+      dynamicItemsData,
+    }).map(({ routeInfo }) => routeInfo.path);
 
     if (siteSettings.noIndexPages.findIndex((pageType) => pageType === routeConfig.dataType) > -1) {
       excludedPaths.push(...compiledPaths);
