@@ -5,7 +5,7 @@ const path = require('path');
 require('dotenv').config();
 
 const ROOT_FOLDER = process.cwd();
-const DATA_FOLDER = path.join(ROOT_FOLDER, 'data-sanity');
+const DATA_FOLDER = path.join(ROOT_FOLDER, 'data');
 const PUBLIC_FOLDER = path.join(ROOT_FOLDER, 'public');
 
 // Read pre-compiled list of routes

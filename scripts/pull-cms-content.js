@@ -33,7 +33,7 @@ const mkdirAsync = promisify(fs.mkdir);
 const CATEGORIES_FOLDERNAME = 'categories';
 const POSTS_FOLDERNAME = 'posts';
 const ROOT_FOLDER = process.cwd();
-const DATA_FOLDER = path.join(ROOT_FOLDER, 'data-sanity');
+const DATA_FOLDER = path.join(ROOT_FOLDER, 'data');
 const POSTS_FOLDER = path.join(DATA_FOLDER, POSTS_FOLDERNAME);
 const CATEGORIES_FOLDER = path.join(DATA_FOLDER, CATEGORIES_FOLDERNAME);
 

@@ -40,9 +40,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
     };
   }
 
-  const allBlogPostsData = await import(
-    `../../data-sanity/${blogPostRoute.dynamicDataType}.json`
-  ).then((m) => m.default);
+  const allBlogPostsData = await import(`../../data/${blogPostRoute.dynamicDataType}.json`).then(
+    (m) => m.default
+  );
 
   const compiledBlogPostRoute: CompiledRoute = compileSingleRoute({
     routeConfig: blogPostRoute,
@@ -60,7 +60,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return { props: {} };
   }
 
-  const blogPostData = await import(`../../data-sanity/posts/${context.params.postId}.json`).then(
+  const blogPostData = await import(`../../data/posts/${context.params.postId}.json`).then(
     (m) => m.default
   );
 

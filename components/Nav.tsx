@@ -5,7 +5,7 @@ import { NextComponentType } from 'next';
 
 import { UiLink } from '../typings';
 import { slugify } from './utils/utils';
-import { beforeLogo, logo, afterLogo } from '../data-sanity/navLinks.json';
+import { beforeLogo, logo, afterLogo } from '../data/navLinks.json';
 
 const Nav: NextComponentType = () => {
   const [loadingRoute, setLoadingRoute] = useState<string | null>(null);
