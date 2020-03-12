@@ -23,10 +23,26 @@ const categoryPreviewProjection = /* groq */ `{
   "slug": slug.current
 }`;
 
+const tagPreviewProjection = /* groq */ `{
+  _id,
+  name,
+  "slug": slug.current
+}`;
+
 const personPreviewProjection = /* groq */ `{
   _id,
   name,
   image->${accessibleImageProjection},
+}`;
+
+const personFullProjection = /* groq */ `{
+  _id,
+  name,
+  image->${accessibleImageProjection},
+  country,
+  email,
+  homepage,
+  bio[] ${simplePortabletextProjection},
 }`;
 
 const blogPostPreviewProjection = /* groq */ `{
@@ -34,16 +50,19 @@ const blogPostPreviewProjection = /* groq */ `{
   "slug": slug.current,
   title,
   excerpt,
-  datePublished,
   author->${personPreviewProjection},
-  previewImage->${accessibleImageProjection},
   category->${categoryPreviewProjection},
+  "tags":tags[]->${tagPreviewProjection},
+  datePublished,
+  previewImage->${accessibleImageProjection},
 }`;
 
 module.exports = {
   simplePortabletextProjection,
   blogPostPreviewProjection,
   categoryPreviewProjection,
+  tagPreviewProjection,
   personPreviewProjection,
+  personFullProjection,
   accessibleImageProjection,
 };
