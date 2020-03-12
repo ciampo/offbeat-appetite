@@ -1,16 +1,21 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { categoryPreviewProjection, personPreviewProjection } = require('./projections');
+const {
+  categoryPreviewProjection,
+  personPreviewProjection,
+  tagPreviewProjection,
+} = require('./projections');
 
 const { pageBlogPostQuery } = require('./pages.js');
 
 const blogPostType = 'blogPost';
 const allBlogPostsQuery = /* groq */ `*[_type == "${blogPostType}"] {
   _id,
-  title,
   "slug": slug.current,
+  title,
+  excerpt,
   author->${personPreviewProjection},
 	category->${categoryPreviewProjection},
-  excerpt,
+  "tags":tags[]->${tagPreviewProjection},
   "seoTitle": ${pageBlogPostQuery}[0].seoTitle,
   "seoDescription": ${pageBlogPostQuery}[0].seoDescription,
   "seoImage": seoImage.asset->url,
