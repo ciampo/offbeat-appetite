@@ -1,42 +1,29 @@
 import React from 'react';
 import { NextComponentType, GetStaticProps, GetStaticPaths } from 'next';
-import { useRouter } from 'next/router';
 
 import routesConfig from '../routes-config';
 import { compileSingleRoute } from '../scripts/compile-routes';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
+import BlogPostPreview from '../components/blog-post/BlogPostPreview';
 
-// type RouteConfig = {
-//   route: string;
-//   dataType: string;
-//   dynamicDataType?: string;
-//   generateParams?: (arg0: object) => { [key: string]: string };
-// };
+import { CompiledRoute, SanityCategoryFull } from '../typings';
 
-type CompiledRoute = {
-  routeInfo: {
-    page: string;
-    path: string;
-    query: { [key: string]: string | string[] };
-  };
-}[];
+const Category: NextComponentType<{}, SanityCategoryFull, SanityCategoryFull> = (categoryData) => {
+  const { title, allBlogPosts } = categoryData;
 
-type PageCategoryProps = {
-  categoryTitle?: string;
-};
-
-const Category: NextComponentType<{}, PageCategoryProps, PageCategoryProps> = ({
-  categoryTitle,
-}) => {
-  const router = useRouter();
-  if (categoryTitle) {
-    return (
-      <DefaultPageTransitionWrapper>
-        <h1>Category: {categoryTitle}</h1>
-        <p>{router.pathname}</p>
-      </DefaultPageTransitionWrapper>
-    );
-  } else return null;
+  return (
+    <DefaultPageTransitionWrapper>
+      <h1>{title}</h1>
+      <p>All posts:</p>
+      <ul>
+        {allBlogPosts.map((blogPostData) => (
+          <li key={blogPostData._id}>
+            <BlogPostPreview blogPostData={blogPostData} />
+          </li>
+        ))}
+      </ul>
+    </DefaultPageTransitionWrapper>
+  );
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -75,7 +62,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      categoryTitle: categoryData.title,
+      ...categoryData,
     },
   };
 };
