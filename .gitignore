@@ -12,7 +12,6 @@
 /.next/
 /out/
 /data/
-/data-sanity/
 
 # generated files
 public/sitemap.xml

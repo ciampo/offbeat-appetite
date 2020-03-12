@@ -49,9 +49,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
     };
   }
 
-  const allCategoriesData = await import(
-    `../data-sanity/${categoryRoute.dynamicDataType}.json`
-  ).then((m) => m.default);
+  const allCategoriesData = await import(`../data/${categoryRoute.dynamicDataType}.json`).then(
+    (m) => m.default
+  );
 
   const compiledCategoryRoute: CompiledRoute = compileSingleRoute({
     routeConfig: categoryRoute,
@@ -69,9 +69,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return { props: {} };
   }
 
-  const categoryData = await import(
-    `../data-sanity/categories/${context.params.categoryId}.json`
-  ).then((m) => m.default);
+  const categoryData = await import(`../data/categories/${context.params.categoryId}.json`).then(
+    (m) => m.default
+  );
 
   return {
     props: {
