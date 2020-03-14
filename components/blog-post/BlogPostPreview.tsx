@@ -25,7 +25,7 @@ const BlogPostPreview: React.FC<BlogPostPreviewProps> = ({ blogPostData }) => {
       <a>
         <p>{blogPostData.title}</p>
         <p>{blogPostData.excerpt}</p>
-        <AccessibleImage image={blogPostData.previewImage} />
+        <AccessibleImage image={blogPostData.previewImage} lazy={true} />
       </a>
     </Link>
   );
