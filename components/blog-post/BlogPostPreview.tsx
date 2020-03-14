@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
+import { AccessibleImage } from '../media/image';
+
 import routesConfig from '../../routes-config';
 import { compileSingleRoute } from '../../scripts/compile-routes';
 
@@ -20,7 +22,11 @@ const BlogPostPreview: React.FC<BlogPostPreviewProps> = ({ blogPostData }) => {
 
   return (
     <Link href={compiledBlogPostRoute.routeInfo.page} as={compiledBlogPostRoute.routeInfo.path}>
-      {blogPostData.title}
+      <a>
+        <p>{blogPostData.title}</p>
+        <p>{blogPostData.excerpt}</p>
+        <AccessibleImage image={blogPostData.previewImage} />
+      </a>
     </Link>
   );
 };
