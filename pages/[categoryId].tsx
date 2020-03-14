@@ -1,33 +1,48 @@
 import React from 'react';
 import { NextComponentType, GetStaticProps, GetStaticPaths } from 'next';
 
-import routesConfig from '../routes-config';
-import { compileSingleRoute } from '../scripts/compile-routes';
+import PageMeta from '../components/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import BlogPostPreview from '../components/blog-post/BlogPostPreview';
 
+import { compileSingleRoute, compileDynamicItem } from '../scripts/compile-routes';
+import routesConfig from '../routes-config';
 import { CompiledRoute, SanityCategoryFull } from '../typings';
 
-const Category: NextComponentType<{}, SanityCategoryFull, SanityCategoryFull> = (categoryData) => {
-  const { title, allBlogPosts } = categoryData;
+const PAGE_ROUTE = '/[categoryId]';
 
-  return (
+type CategoryProps = {
+  categoryData: SanityCategoryFull;
+  path: string;
+};
+const CategoryPage: NextComponentType<{}, CategoryProps, CategoryProps> = ({
+  categoryData,
+  path,
+}) => (
+  <>
+    <PageMeta
+      path={path}
+      title={categoryData.seoTitle}
+      description={categoryData.seoDescription}
+      previewImage={categoryData.seoImage}
+    />
+
     <DefaultPageTransitionWrapper>
-      <h1>{title}</h1>
+      <h1>{categoryData.title}</h1>
       <p>All posts:</p>
       <ul>
-        {allBlogPosts.map((blogPostData) => (
+        {categoryData.allBlogPosts.map((blogPostData) => (
           <li key={blogPostData._id}>
             <BlogPostPreview blogPostData={blogPostData} />
           </li>
         ))}
       </ul>
     </DefaultPageTransitionWrapper>
-  );
-};
+  </>
+);
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const categoryRoute = routesConfig.find(({ route }) => route === '/[categoryId]');
+  const categoryRoute = routesConfig.find(({ route }) => route === PAGE_ROUTE);
 
   if (!categoryRoute) {
     return {
@@ -60,11 +75,17 @@ export const getStaticProps: GetStaticProps = async (context) => {
     (m) => m.default
   );
 
+  const compiledCategoryItem = compileDynamicItem({
+    routeConfig: routesConfig.find(({ route }) => route === PAGE_ROUTE),
+    dynamicItem: categoryData,
+  });
+
   return {
     props: {
-      ...categoryData,
+      categoryData,
+      path: compiledCategoryItem.routeInfo.path,
     },
   };
 };
 
-export default Category;
+export default CategoryPage;
