@@ -117,9 +117,22 @@ import { SanityAccessibleImage } from '../../typings';
 type AccessibleImageProps = {
   image: SanityAccessibleImage;
 };
-
 const AccessibleImage: React.FC<AccessibleImageProps> = ({ image, ...props }) => (
   <img alt={image.alt} src={image.url} {...props} />
 );
 
-export { AccessibleImage };
+type CaptionedImageProps = {
+  image: SanityAccessibleImage;
+  caption?: string;
+};
+const CaptionedImage: React.FC<CaptionedImageProps> = ({ image, caption }) =>
+  caption ? (
+    <figure>
+      <AccessibleImage image={image} />
+      <figcaption>{caption}</figcaption>
+    </figure>
+  ) : (
+    <AccessibleImage image={image} />
+  );
+
+export { AccessibleImage, CaptionedImage };
