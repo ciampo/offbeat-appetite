@@ -1,19 +1,38 @@
 import React from 'react';
-import { NextComponentType } from 'next';
+import { NextComponentType, GetStaticProps } from 'next';
 
+import PageMeta from '../components/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
-import NewsletterSubcribe, {
-  NewsletterSubcribeVariant,
-} from '../components/forms/NewsletterSubscribe';
 
-const About: NextComponentType = () => (
-  <DefaultPageTransitionWrapper>
-    <h1>About</h1>
-    <NewsletterSubcribe
-      variant={NewsletterSubcribeVariant.vertical}
-      formInstance="subcribe-about"
+import { SanityPageAbout } from '../typings';
+
+type HomeProps = {
+  aboutData: SanityPageAbout;
+};
+const AboutPage: NextComponentType<{}, HomeProps, HomeProps> = ({ aboutData }) => (
+  <>
+    <PageMeta
+      path="/about"
+      title={aboutData.seoTitle}
+      description={aboutData.seoDescription}
+      previewImage={aboutData.seoImage}
     />
-  </DefaultPageTransitionWrapper>
+
+    <DefaultPageTransitionWrapper>
+      <h1>{aboutData.title}</h1>
+
+      {/* TODO: content block */}
+    </DefaultPageTransitionWrapper>
+  </>
 );
 
-export default About;
+export const getStaticProps: GetStaticProps = async () => {
+  const aboutData = await import(`../data/pageAbout.json`).then((m) => m.default);
+
+  return {
+    props: {
+      aboutData,
+    },
+  };
+};
+export default AboutPage;
