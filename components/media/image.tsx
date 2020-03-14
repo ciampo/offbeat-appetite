@@ -114,25 +114,28 @@ import { SanityAccessibleImage } from '../../typings';
 
 // export default ContentfulImage;
 
+// TODO: use sanity's client to format URL correctly
 type AccessibleImageProps = {
   image: SanityAccessibleImage;
+  lazy?: boolean;
 };
-const AccessibleImage: React.FC<AccessibleImageProps> = ({ image, ...props }) => (
-  <img alt={image.alt} src={image.url} {...props} />
+const AccessibleImage: React.FC<AccessibleImageProps> = ({ image, lazy, ...props }) => (
+  <img alt={image.alt} src={image.url} loading={lazy ? 'lazy' : undefined} {...props} />
 );
 
 type CaptionedImageProps = {
   image: SanityAccessibleImage;
+  lazy?: boolean;
   caption?: string;
 };
-const CaptionedImage: React.FC<CaptionedImageProps> = ({ image, caption }) =>
+const CaptionedImage: React.FC<CaptionedImageProps> = ({ image, lazy, caption }) =>
   caption ? (
     <figure>
-      <AccessibleImage image={image} />
+      <AccessibleImage image={image} lazy={lazy} />
       <figcaption>{caption}</figcaption>
     </figure>
   ) : (
-    <AccessibleImage image={image} />
+    <AccessibleImage image={image} lazy={lazy} />
   );
 
 export { AccessibleImage, CaptionedImage };
