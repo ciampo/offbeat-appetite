@@ -7,7 +7,7 @@ import NewsletterSubcribe, {
   NewsletterSubcribeVariant,
 } from '../components/forms/NewsletterSubscribe';
 import BlogPostPreview from '../components/blog-post/BlogPostPreview';
-import { AccessibleImage } from '../components/media/image';
+import AccessibleImage from '../components/media/AccessibleImage';
 
 import { SanityPageHome, SanityPageHomeCategorySection } from '../typings';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { AccessibleImage } from '../media/image';
+import AccessibleImage from '../media/AccessibleImage';
 
 import routesConfig from '../../routes-config';
 import { compileSingleRoute } from '../../scripts/compile-routes';
