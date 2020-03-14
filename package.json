@@ -82,6 +82,7 @@
     "node-fetch": "^2.6.0",
     "postcss-easy-import": "^3.0.0",
     "postcss-reporter": "^6.0.1",
+    "preact-devtools": "^0.0.1",
     "preact-render-to-string": "^5.1.1",
     "preact-ssr-prepass": "^1.0.0",
     "prettier": "^1.18.2",

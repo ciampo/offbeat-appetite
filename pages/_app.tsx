@@ -1,3 +1,4 @@
+// import 'preact/debug';
 import '../styles/index.css';
 
 import React from 'react';
