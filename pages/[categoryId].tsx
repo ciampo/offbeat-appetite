@@ -9,7 +9,7 @@ import { compileSingleRoute, compileDynamicItem } from '../scripts/compile-route
 import routesConfig from '../routes-config';
 import { CompiledRoute, SanityCategoryFull } from '../typings';
 
-const PAGE_ROUTE = '/[categoryId]';
+const CATEGORY_PAGE_ROUTE = '/[categoryId]';
 
 type CategoryProps = {
   categoryData: SanityCategoryFull;
@@ -42,7 +42,7 @@ const CategoryPage: NextComponentType<{}, CategoryProps, CategoryProps> = ({
 );
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const categoryRoute = routesConfig.find(({ route }) => route === PAGE_ROUTE);
+  const categoryRoute = routesConfig.find(({ route }) => route === CATEGORY_PAGE_ROUTE);
 
   if (!categoryRoute) {
     return {
@@ -76,7 +76,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   );
 
   const compiledCategoryItem = compileDynamicItem({
-    routeConfig: routesConfig.find(({ route }) => route === PAGE_ROUTE),
+    routeConfig: routesConfig.find(({ route }) => route === CATEGORY_PAGE_ROUTE),
     dynamicItem: categoryData,
   });
 

@@ -1,34 +1,42 @@
 import React from 'react';
 import { NextComponentType, GetStaticProps, GetStaticPaths } from 'next';
-import { useRouter } from 'next/router';
 
-import routesConfig from '../../routes-config';
-import { compileSingleRoute } from '../../scripts/compile-routes';
+import PageMeta from '../../components/PageMeta';
+import AccessibleImage from '../../components/media/AccessibleImage';
+import RichPortableText from '../../components/portable-text/RichPortableText';
 import DefaultPageTransitionWrapper from '../../components/page-transition-wrappers/Default';
 
-type CompiledRoute = {
-  routeInfo: {
-    page: string;
-    path: string;
-    query: { [key: string]: string | string[] };
-  };
-}[];
+import routesConfig from '../../routes-config';
+import { compileSingleRoute, compileDynamicItem } from '../../scripts/compile-routes';
+import { CompiledRoute, SanityBlogPostFull } from '../../typings';
+
+const CATEGORY_PAGE_ROUTE = '/[categoryId]';
 
 type PageBlogPostProps = {
-  title?: string;
+  blogPostData: SanityBlogPostFull;
+  path: string;
 };
+const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
+  blogPostData,
+  path,
+}) => (
+  <>
+    <PageMeta
+      path={path}
+      title={blogPostData.seoTitle}
+      description={blogPostData.seoDescription}
+      previewImage={blogPostData.seoImage}
+    />
 
-const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({ title }) => {
-  const router = useRouter();
-  if (title) {
-    return (
-      <DefaultPageTransitionWrapper>
-        <h1>Post: {title}</h1>
-        <p>{router.pathname}</p>
-      </DefaultPageTransitionWrapper>
-    );
-  } else return null;
-};
+    <DefaultPageTransitionWrapper>
+      <h1>{blogPostData.title}</h1>
+      <p>{blogPostData.excerpt}</p>
+      <AccessibleImage image={blogPostData.heroImage} />
+
+      <RichPortableText blocks={blogPostData.content} />
+    </DefaultPageTransitionWrapper>
+  </>
+);
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const blogPostRoute = routesConfig.find(({ route }) => route === '/[categoryId]/[postId]');
@@ -64,9 +72,15 @@ export const getStaticProps: GetStaticProps = async (context) => {
     (m) => m.default
   );
 
+  const compiledBlogPostItem = compileDynamicItem({
+    routeConfig: routesConfig.find(({ route }) => route === CATEGORY_PAGE_ROUTE),
+    dynamicItem: blogPostData,
+  });
+
   return {
     props: {
-      title: blogPostData.title,
+      blogPostData,
+      path: compiledBlogPostItem.routeInfo.path,
     },
   };
 };
