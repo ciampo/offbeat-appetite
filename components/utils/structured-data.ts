@@ -76,3 +76,13 @@
 //   generateWebpageStructuredData,
 //   generateArticleStructuredData,
 // };
+
+const generateWebsiteStructuredData = (): string => 'YOLO';
+const generateWebpageStructuredData = (): string => 'YOLO';
+const generateArticleStructuredData = (): string => 'YOLO';
+
+export {
+  generateWebsiteStructuredData,
+  generateWebpageStructuredData,
+  generateArticleStructuredData,
+};
