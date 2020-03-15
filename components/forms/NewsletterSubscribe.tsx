@@ -195,6 +195,9 @@ export default function NewsletterSubcribe({
           onInput={onInputInput}
         />
 
+        {/* Recaptha (automatically added by Netlify at build time) */}
+        <div data-netlify-recaptcha="true"></div>
+
         {/* Submit button */}
         <button
           className={`ao-form__submit p-2 flex-shrink-0 ${VARIANT_CLASSNAMES[variant].submit}`}
