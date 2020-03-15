@@ -1,6 +1,12 @@
-import { SanityAccessibleImage, SanityPersonPreview, SanityTag, SanityCategoryPreview } from '.';
+import {
+  SanityAccessibleImage,
+  SanityPersonPreview,
+  SanityTag,
+  SanityCategoryPreview,
+  SanityBlock,
+} from '.';
 
-export type SanityBlogPostPreview = {
+export type SanityBlogPostBase = {
   _id: string;
   slug: string;
   title: string;
@@ -9,18 +15,16 @@ export type SanityBlogPostPreview = {
   category: SanityCategoryPreview;
   tags: SanityTag[];
   datePublished: string;
+};
+
+export type SanityBlogPostPreview = SanityBlogPostBase & {
   previewImage: SanityAccessibleImage;
 };
 
-export type SanityBlogPost = {
-  _id: string;
-  title: string;
-  author: {
-    slug: string;
-    name: string;
-  };
-  category: {
-    slug: string;
-    name: string;
-  };
+export type SanityBlogPostFull = SanityBlogPostBase & {
+  heroImage: SanityAccessibleImage;
+  content: SanityBlock[];
+  seoTitle: string;
+  seoDescription: string;
+  seoImage: string;
 };

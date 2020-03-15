@@ -26,7 +26,7 @@ export type SanityPageHome = {
 export type SanityPageAbout = {
   _id: string;
   title: string;
-  content: SanityBlock;
+  content: SanityBlock[];
   seoDescription: string;
   seoImage: string;
   seoTitle: string;

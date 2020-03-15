@@ -3,6 +3,8 @@ const {
   categoryPreviewProjection,
   personPreviewProjection,
   tagPreviewProjection,
+  accessibleImageProjection,
+  richPortabletextProjection,
 } = require('./projections');
 
 const { pageBlogPostQuery } = require('./pages.js');
@@ -12,10 +14,13 @@ const allBlogPostsQuery = /* groq */ `*[_type == "${blogPostType}"] {
   _id,
   "slug": slug.current,
   title,
+  heroImage->${accessibleImageProjection},
   excerpt,
+  content[] ${richPortabletextProjection},
   author->${personPreviewProjection},
 	category->${categoryPreviewProjection},
   "tags":tags[]->${tagPreviewProjection},
+  datePublished,
   "seoTitle": ${pageBlogPostQuery}[0].seoTitle,
   "seoDescription": ${pageBlogPostQuery}[0].seoDescription,
   "seoImage": seoImage.asset->url,
