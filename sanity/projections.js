@@ -21,20 +21,22 @@ const captionedVideoProjection = /* groq */ `{
   video->${accessibleVideoProjection}
 }`;
 
-const simplePortabletextProjection = /* groq */ `{
+const portableTextCustomMarkDefProjection = /* groq */ `{
   ...,
-  "markDefs": markDefs[]{
-    ...,
-    _type == "internalLink" => {
-      "reference": reference->{
-        _id,
+  _type == "internalLink" => {
+    "reference": reference->{
+      _id,
+      "slug": slug.current,
+      "category": category->{
         "slug": slug.current,
-        "category": category->{
-          "slug": slug.current,
-        },
       },
     },
-  }
+  },
+}`;
+
+const simplePortabletextProjection = /* groq */ `{
+  ...,
+  "markDefs": markDefs[] ${portableTextCustomMarkDefProjection}
 }`;
 
 const richPortabletextProjection = /* groq */ `{
@@ -48,18 +50,15 @@ const richPortabletextProjection = /* groq */ `{
       _type == "captionedVideo" => ${captionedVideoProjection},
     },
   },
-  "markDefs": markDefs[]{
+  _type == "recipe" => {
     ...,
-    _type == "internalLink" => {
-      "reference": reference->{
-        _id,
-        "slug": slug.current,
-        "category": category->{
-          "slug": slug.current,
-        }
-      }
+    ingredients[] {
+      ...,
+      "unit": unit[0],
     },
-  }
+    method[] ${simplePortabletextProjection},
+  },
+  "markDefs": markDefs[] ${portableTextCustomMarkDefProjection},
 }`;
 
 const categoryPreviewProjection = /* groq */ `{
