@@ -17,8 +17,8 @@ const PageMeta: React.FC<PageMetaProps> = ({
   description,
   path,
   previewImage,
-  webPageStructuredData,
-  articleStructuredData,
+  // webPageStructuredData,
+  // articleStructuredData,
 }) => (
   <Head>
     <meta name="viewport" content="width=device-width,initial-scale=1" key="viewport" />
@@ -48,7 +48,7 @@ const PageMeta: React.FC<PageMetaProps> = ({
     )}
 
     {/* Structured data */}
-    {webPageStructuredData && (
+    {/* {webPageStructuredData && (
       <script
         type="application/ld+json"
         key="structured-data-webpage"
@@ -56,8 +56,8 @@ const PageMeta: React.FC<PageMetaProps> = ({
           __html: JSON.stringify(webPageStructuredData),
         }}
       />
-    )}
-    {articleStructuredData && (
+    )} */}
+    {/* {articleStructuredData && (
       <script
         type="application/ld+json"
         key="structured-data-article"
@@ -65,7 +65,7 @@ const PageMeta: React.FC<PageMetaProps> = ({
           __html: JSON.stringify(articleStructuredData),
         }}
       />
-    )}
+    )} */}
   </Head>
 );
 
