@@ -2,6 +2,7 @@ import React from 'react';
 import { NextComponentType, GetStaticProps } from 'next';
 
 import PageMeta from '../components/PageMeta';
+import SimplePortableText from '../components/portable-text/SimplePortableText';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 
 import { SanityPageAbout } from '../typings';
@@ -21,7 +22,7 @@ const AboutPage: NextComponentType<{}, HomeProps, HomeProps> = ({ aboutData }) =
     <DefaultPageTransitionWrapper>
       <h1>{aboutData.title}</h1>
 
-      {/* TODO: content block */}
+      <SimplePortableText blocks={aboutData.content} />
     </DefaultPageTransitionWrapper>
   </>
 );
