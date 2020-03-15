@@ -2,12 +2,10 @@ import React from 'react';
 
 import AccessibleImage from './AccessibleImage';
 
-import { SanityAccessibleImage } from '../../typings';
+import { SanityCaptionedImage } from '../../typings';
 
-type CaptionedImageProps = {
-  image: SanityAccessibleImage;
+type CaptionedImageProps = SanityCaptionedImage & {
   lazy?: boolean;
-  caption?: string;
 };
 const CaptionedImage: React.FC<CaptionedImageProps> = ({ image, lazy, caption }) =>
   caption ? (

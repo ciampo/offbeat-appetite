@@ -3,6 +3,24 @@ const accessibleImageProjection = /* groq */ `{
   "alt": image.alt,
 }`;
 
+const captionedImageProjection = /* groq */ `{
+  _type,
+  caption,
+  image->${accessibleImageProjection}
+}`;
+
+const accessibleVideoProjection = /* groq */ `{
+  "url": video.asset->url,
+  "alt": video.alt,
+  "poster": video.poster.asset->url,
+}`;
+
+const captionedVideoProjection = /* groq */ `{
+  _type,
+  caption,
+  video->${accessibleVideoProjection}
+}`;
+
 const simplePortabletextProjection = /* groq */ `{
   ...,
   "markDefs": markDefs[]{
@@ -11,7 +29,34 @@ const simplePortabletextProjection = /* groq */ `{
       "reference": reference->{
         _id,
         "slug": slug.current,
-        "categorySlug": category->slug.current,
+        "category": category->{
+          "slug": slug.current,
+        },
+      },
+    },
+  }
+}`;
+
+const richPortabletextProjection = /* groq */ `{
+  ...,
+  _type == "captionedImage" => ${captionedImageProjection},
+  _type == "captionedVideo" => ${captionedVideoProjection},
+  _type == "mediaGallery" => {
+    ...,
+    items[] {
+      _type == "captionedImage" => ${captionedImageProjection},
+      _type == "captionedVideo" => ${captionedVideoProjection},
+    },
+  },
+  "markDefs": markDefs[]{
+    ...,
+    _type == "internalLink" => {
+      "reference": reference->{
+        _id,
+        "slug": slug.current,
+        "category": category->{
+          "slug": slug.current,
+        }
       }
     },
   }
@@ -59,10 +104,12 @@ const blogPostPreviewProjection = /* groq */ `{
 
 module.exports = {
   simplePortabletextProjection,
+  richPortabletextProjection,
   blogPostPreviewProjection,
   categoryPreviewProjection,
   tagPreviewProjection,
   personPreviewProjection,
   personFullProjection,
   accessibleImageProjection,
+  accessibleVideoProjection,
 };
