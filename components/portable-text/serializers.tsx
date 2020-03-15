@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import CaptionedImage from '../media/CaptionedImage';
 import CaptionedVideo from '../media/CaptionedVideo';
+import Recipe from '../recipe/Recipe';
 
 import routesConfig from '../../routes-config';
 import { compileDynamicItem } from '../../scripts/compile-routes';
@@ -13,6 +14,7 @@ import {
   SanityCaptionedImage,
   SanityCaptionedVideo,
   SanityMediaGallery,
+  SanityRecipe,
 } from '../../typings';
 
 const InternalLink: React.FC<SanityMarkNode> = ({ children, mark }) => {
@@ -71,13 +73,17 @@ const MediaGalleryWrapper: React.FC<SanityBlockType<SanityMediaGallery>> = (prop
   </div>
 );
 
+const RecipeWrapper: React.FC<SanityBlockType<SanityRecipe>> = (props) => (
+  <Recipe recipe={props.node} />
+);
+
 const richSerializers = {
   ...simpleSerializers,
   types: {
     captionedImage: CaptionedImageWrapper,
     captionedVideo: CaptionedVideoWrapper,
     mediaGallery: MediaGalleryWrapper,
-    // 'recipe'
+    recipe: RecipeWrapper,
   },
 };
 
