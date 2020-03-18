@@ -7,10 +7,10 @@ import DefaultPageTransitionWrapper from '../components/page-transition-wrappers
 
 import { SanityPageAbout } from '../typings';
 
-type HomeProps = {
+type AboutProps = {
   aboutData: SanityPageAbout;
 };
-const AboutPage: NextComponentType<{}, HomeProps, HomeProps> = ({ aboutData }) => (
+const AboutPage: NextComponentType<{}, AboutProps, AboutProps> = ({ aboutData }) => (
   <>
     <PageMeta
       path="/about"
