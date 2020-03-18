@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
+const { personFullProjection } = require('./projections');
+
 const siteMiscContentType = 'siteMiscContent';
 const siteMiscContentQuery = /* groq */ `*[_type == "${siteMiscContentType}"] {
   _id,
@@ -11,6 +13,8 @@ const siteMiscContentQuery = /* groq */ `*[_type == "${siteMiscContentType}"] {
   recipeTimeUnitLabel,
   recipeServingsLabel,
   siteName,
+  organisationEmail,
+  organisationAuthor->${personFullProjection},
   socialLinksLabel,
   socialShareLabel,
   subscribeEmailLabel,

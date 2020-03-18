@@ -10,5 +10,5 @@ export type SanityPersonFull = SanityPersonPreview & {
   country: string;
   email: string;
   homepage: string;
-  // bio: SanitySimpleRichText;
+  bio: string;
 };

@@ -1,6 +1,6 @@
 import {
   SanityAccessibleImage,
-  SanityPersonPreview,
+  SanityPersonFull,
   SanityTag,
   SanityCategoryPreview,
   SanityBlock,
@@ -11,7 +11,7 @@ export type SanityBlogPostBase = {
   slug: string;
   title: string;
   excerpt: string;
-  author: SanityPersonPreview;
+  author: SanityPersonFull;
   category: SanityCategoryPreview;
   tags: SanityTag[];
   datePublished: string;

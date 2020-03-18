@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const {
   categoryPreviewProjection,
-  personPreviewProjection,
+  personFullProjection,
   tagPreviewProjection,
   accessibleImageProjection,
   richPortabletextProjection,
@@ -17,7 +17,7 @@ const allBlogPostsQuery = /* groq */ `*[_type == "${blogPostType}"] {
   heroImage->${accessibleImageProjection},
   excerpt,
   content[] ${richPortabletextProjection},
-  author->${personPreviewProjection},
+  author->${personFullProjection},
 	category->${categoryPreviewProjection},
   "tags":tags[]->${tagPreviewProjection},
   datePublished,

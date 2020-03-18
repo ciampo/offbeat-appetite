@@ -10,7 +10,10 @@ export * from './category';
 export * from './tag';
 export * from './blog-post';
 export * from './pages';
+export * from './site-misc-content';
 
+// Ui
 export * from './ui';
 
+// TODO: to remove
 export * from './structured-data';
