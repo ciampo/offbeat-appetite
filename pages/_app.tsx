@@ -6,7 +6,7 @@ import App from 'next/app';
 import { AnimatePresence } from 'framer-motion';
 
 import MainLayout from '../components/layouts/Main';
-import Analytics from '../components/utils/Analytics';
+import Analytics from '../components/Analytics';
 
 export default class MyApp extends App {
   scrollToTop(): void {

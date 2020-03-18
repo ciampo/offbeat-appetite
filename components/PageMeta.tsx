@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { joinUrl } from './utils/utils';
+import { joinUrl } from '../scripts/utils';
 
 interface PageMetaProps {
   title: string;
