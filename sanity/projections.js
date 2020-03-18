@@ -86,7 +86,7 @@ const personFullProjection = /* groq */ `{
   country,
   email,
   homepage,
-  bio[] ${simplePortabletextProjection},
+  bio,
 }`;
 
 const blogPostPreviewProjection = /* groq */ `{
