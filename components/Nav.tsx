@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import { NextComponentType } from 'next';
 
 import { UiLink } from '../typings';
-import { slugify } from './utils/utils';
 import { beforeLogo, logo, afterLogo } from '../data/navLinks.json';
 
 const Nav: NextComponentType = () => {
@@ -37,7 +36,7 @@ const Nav: NextComponentType = () => {
         {navLinks && navLinks.length && (
           <ul className="flex justify-between w-full py-1 px-4">
             {navLinks.map(({ href, label, as }, index) => (
-              <li key={`${index}-${slugify(label)}`} className="flex py-1 px-2">
+              <li key={`${index}-${href}`} className="flex py-1 px-2">
                 <Link href={href} scroll={false} as={as}>
                   <a
                     className={`outline-none no-underline text-sm text-primary focus:border-primary  contain-layout-paint nav-link ${

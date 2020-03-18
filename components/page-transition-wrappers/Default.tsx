@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { motion } from 'framer-motion';
-import { customEaseOut } from '../utils/utils';
+import { customEaseOut } from '../../scripts/utils';
 
 // Inspired from
 // https://reacttricks.com/animating-next-page-transitions-with-framer-motion/
