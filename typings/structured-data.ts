@@ -1,3 +1,9 @@
+export type StructuredData = {
+  ['@context']: string;
+  ['@type']: string;
+  [key: string]: string | object | StructuredData;
+};
+
 // export type ContentfulAuthorStructuredDataTemplate = {
 //   ['@context']: string;
 //   ['@type']: string;
