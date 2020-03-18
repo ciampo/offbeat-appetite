@@ -8,17 +8,21 @@ import DefaultPageTransitionWrapper from '../../components/page-transition-wrapp
 
 import routesConfig from '../../routes-config';
 import { compileSingleRoute, compileDynamicItem } from '../../scripts/compile-routes';
-import { CompiledRoute, SanityBlogPostFull } from '../../typings';
+import { generateWebpageStructuredData } from '../../scripts/structured-data';
+
+import { CompiledRoute, SanityBlogPostFull, StructuredData } from '../../typings';
 
 const CATEGORY_PAGE_ROUTE = '/[categoryId]';
 
 type PageBlogPostProps = {
   blogPostData: SanityBlogPostFull;
   path: string;
+  webpageStructuredData: StructuredData;
 };
 const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
   blogPostData,
   path,
+  webpageStructuredData,
 }) => (
   <>
     <PageMeta
@@ -26,6 +30,7 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
       title={blogPostData.seoTitle}
       description={blogPostData.seoDescription}
       previewImage={blogPostData.seoImage}
+      webPageStructuredData={webpageStructuredData}
     />
 
     <DefaultPageTransitionWrapper>
@@ -68,19 +73,43 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return { props: {} };
   }
 
-  const blogPostData = await import(`../../data/posts/${context.params.postId}.json`).then(
-    (m) => m.default
-  );
+  const blogPostData: SanityBlogPostFull = await import(
+    `../../data/posts/${context.params.postId}.json`
+  ).then((m) => m.default);
 
   const compiledBlogPostItem = compileDynamicItem({
     routeConfig: routesConfig.find(({ route }) => route === CATEGORY_PAGE_ROUTE),
     dynamicItem: blogPostData,
   });
 
+  const path = compiledBlogPostItem.routeInfo.path;
+
+  const compiledCategoryItem = compileDynamicItem({
+    routeConfig: routesConfig.find(({ route }) => route === '/[categoryId]'),
+    dynamicItem: await import(`../../data/categories/${blogPostData.category.slug}.json`).then(
+      (m) => m.default
+    ),
+  });
+
   return {
     props: {
       blogPostData,
-      path: compiledBlogPostItem.routeInfo.path,
+      path,
+      webpageStructuredData: generateWebpageStructuredData({
+        path,
+        title: blogPostData.seoTitle,
+        description: blogPostData.seoDescription,
+        breadcrumbPages: [
+          {
+            path: compiledCategoryItem.routeInfo.path,
+            title: blogPostData.category.name,
+          },
+          {
+            path,
+            title: blogPostData.title,
+          },
+        ],
+      }),
     },
   };
 };
