@@ -31,3 +31,12 @@ export type SanityPageAbout = {
   seoImage: string;
   seoTitle: string;
 };
+
+export type SanityPageThankYou = {
+  _id: string;
+  title: string;
+  content: SanityBlock[];
+  seoDescription: string;
+  seoImage: string;
+  seoTitle: string;
+};
