@@ -5,18 +5,27 @@ import PageMeta from '../components/PageMeta';
 import SimplePortableText from '../components/portable-text/SimplePortableText';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 
-import { SanityPageThankYou } from '../typings';
+import { generateWebpageStructuredData } from '../scripts/structured-data';
+
+import { SanityPageThankYou, StructuredData } from '../typings';
 
 type ThankYouProps = {
   thankYouData: SanityPageThankYou;
+  path: string;
+  webpageStructuredData: StructuredData;
 };
-const ThankYouPage: NextComponentType<{}, ThankYouProps, ThankYouProps> = ({ thankYouData }) => (
+const ThankYouPage: NextComponentType<{}, ThankYouProps, ThankYouProps> = ({
+  thankYouData,
+  path,
+  webpageStructuredData,
+}) => (
   <>
     <PageMeta
-      path="/thank-you"
+      path={path}
       title={thankYouData.seoTitle}
       description={thankYouData.seoDescription}
       previewImage={thankYouData.seoImage}
+      webPageStructuredData={webpageStructuredData}
     />
 
     <DefaultPageTransitionWrapper>
@@ -28,11 +37,19 @@ const ThankYouPage: NextComponentType<{}, ThankYouProps, ThankYouProps> = ({ tha
 );
 
 export const getStaticProps: GetStaticProps = async () => {
+  const path = '/thank-you';
   const thankYouData = await import(`../data/pageThankYou.json`).then((m) => m.default);
 
   return {
     props: {
       thankYouData,
+      path,
+      webpageStructuredData: generateWebpageStructuredData({
+        path,
+        title: thankYouData.seoTitle,
+        description: thankYouData.seoDescription,
+        breadcrumbPages: [],
+      }),
     },
   };
 };

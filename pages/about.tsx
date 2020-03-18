@@ -5,18 +5,27 @@ import PageMeta from '../components/PageMeta';
 import SimplePortableText from '../components/portable-text/SimplePortableText';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 
-import { SanityPageAbout } from '../typings';
+import { generateWebpageStructuredData } from '../scripts/structured-data';
+
+import { SanityPageAbout, StructuredData } from '../typings';
 
 type AboutProps = {
   aboutData: SanityPageAbout;
+  path: string;
+  webpageStructuredData: StructuredData;
 };
-const AboutPage: NextComponentType<{}, AboutProps, AboutProps> = ({ aboutData }) => (
+const AboutPage: NextComponentType<{}, AboutProps, AboutProps> = ({
+  aboutData,
+  path,
+  webpageStructuredData,
+}) => (
   <>
     <PageMeta
-      path="/about"
+      path={path}
       title={aboutData.seoTitle}
       description={aboutData.seoDescription}
       previewImage={aboutData.seoImage}
+      webPageStructuredData={webpageStructuredData}
     />
 
     <DefaultPageTransitionWrapper>
@@ -28,11 +37,24 @@ const AboutPage: NextComponentType<{}, AboutProps, AboutProps> = ({ aboutData })
 );
 
 export const getStaticProps: GetStaticProps = async () => {
+  const path = '/about';
   const aboutData = await import(`../data/pageAbout.json`).then((m) => m.default);
 
   return {
     props: {
       aboutData,
+      path,
+      webpageStructuredData: generateWebpageStructuredData({
+        path,
+        title: aboutData.seoTitle,
+        description: aboutData.seoDescription,
+        breadcrumbPages: [
+          {
+            path,
+            title: aboutData.title,
+          },
+        ],
+      }),
     },
   };
 };

@@ -9,7 +9,9 @@ import NewsletterSubcribe, {
 import BlogPostPreview from '../components/blog-post/BlogPostPreview';
 import AccessibleImage from '../components/media/AccessibleImage';
 
-import { SanityPageHome, SanityPageHomeCategorySection } from '../typings';
+import { generateWebpageStructuredData } from '../scripts/structured-data';
+
+import { SanityPageHome, SanityPageHomeCategorySection, StructuredData } from '../typings';
 
 // Home Category Section
 type HomeCategorySectionProps = {
@@ -31,14 +33,21 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = ({ categorySecti
 // Home Page
 type HomeProps = {
   homeData: SanityPageHome;
+  path: string;
+  webpageStructuredData: StructuredData;
 };
-const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({ homeData }) => (
+const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({
+  homeData,
+  path,
+  webpageStructuredData,
+}) => (
   <>
     <PageMeta
-      path="/"
+      path={path}
       title={homeData.seoTitle}
       description={homeData.seoDescription}
       previewImage={homeData.seoImage}
+      webPageStructuredData={webpageStructuredData}
     />
 
     <DefaultPageTransitionWrapper>
@@ -64,11 +73,19 @@ const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({ homeData }) => 
 );
 
 export const getStaticProps: GetStaticProps = async () => {
+  const path = '/';
   const homeData = await import(`../data/pageHome.json`).then((m) => m.default);
 
   return {
     props: {
       homeData,
+      path,
+      webpageStructuredData: generateWebpageStructuredData({
+        path,
+        title: homeData.seoTitle,
+        description: homeData.seoDescription,
+        breadcrumbPages: [],
+      }),
     },
   };
 };

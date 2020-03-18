@@ -5,19 +5,23 @@ import PageMeta from '../components/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import BlogPostPreview from '../components/blog-post/BlogPostPreview';
 
-import { compileSingleRoute, compileDynamicItem } from '../scripts/compile-routes';
 import routesConfig from '../routes-config';
-import { CompiledRoute, SanityCategoryFull } from '../typings';
+import { compileSingleRoute, compileDynamicItem } from '../scripts/compile-routes';
+import { generateWebpageStructuredData } from '../scripts/structured-data';
+
+import { CompiledRoute, SanityCategoryFull, StructuredData } from '../typings';
 
 const CATEGORY_PAGE_ROUTE = '/[categoryId]';
 
 type CategoryProps = {
   categoryData: SanityCategoryFull;
   path: string;
+  webpageStructuredData: StructuredData;
 };
 const CategoryPage: NextComponentType<{}, CategoryProps, CategoryProps> = ({
   categoryData,
   path,
+  webpageStructuredData,
 }) => (
   <>
     <PageMeta
@@ -25,6 +29,7 @@ const CategoryPage: NextComponentType<{}, CategoryProps, CategoryProps> = ({
       title={categoryData.seoTitle}
       description={categoryData.seoDescription}
       previewImage={categoryData.seoImage}
+      webPageStructuredData={webpageStructuredData}
     />
 
     <DefaultPageTransitionWrapper>
@@ -79,11 +84,23 @@ export const getStaticProps: GetStaticProps = async (context) => {
     routeConfig: routesConfig.find(({ route }) => route === CATEGORY_PAGE_ROUTE),
     dynamicItem: categoryData,
   });
+  const path = compiledCategoryItem.routeInfo.path;
 
   return {
     props: {
       categoryData,
-      path: compiledCategoryItem.routeInfo.path,
+      path,
+      webpageStructuredData: generateWebpageStructuredData({
+        path,
+        title: categoryData.seoTitle,
+        description: categoryData.seoDescription,
+        breadcrumbPages: [
+          {
+            path,
+            title: categoryData.title,
+          },
+        ],
+      }),
     },
   };
 };
