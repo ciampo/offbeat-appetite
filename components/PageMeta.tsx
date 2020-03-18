@@ -3,13 +3,15 @@ import Head from 'next/head';
 
 import { joinUrl } from '../scripts/utils';
 
+import { StructuredData } from '../typings';
+
 interface PageMetaProps {
   title: string;
   description: string;
   path: string;
   previewImage?: string;
-  webPageStructuredData?: object;
-  articleStructuredData?: object;
+  webPageStructuredData?: StructuredData;
+  articleStructuredData?: StructuredData;
 }
 
 const PageMeta: React.FC<PageMetaProps> = ({
@@ -17,8 +19,8 @@ const PageMeta: React.FC<PageMetaProps> = ({
   description,
   path,
   previewImage,
-  // webPageStructuredData,
-  // articleStructuredData,
+  webPageStructuredData,
+  articleStructuredData,
 }) => (
   <Head>
     <meta name="viewport" content="width=device-width,initial-scale=1" key="viewport" />
@@ -48,7 +50,7 @@ const PageMeta: React.FC<PageMetaProps> = ({
     )}
 
     {/* Structured data */}
-    {/* {webPageStructuredData && (
+    {webPageStructuredData && (
       <script
         type="application/ld+json"
         key="structured-data-webpage"
@@ -56,8 +58,8 @@ const PageMeta: React.FC<PageMetaProps> = ({
           __html: JSON.stringify(webPageStructuredData),
         }}
       />
-    )} */}
-    {/* {articleStructuredData && (
+    )}
+    {articleStructuredData && (
       <script
         type="application/ld+json"
         key="structured-data-article"
@@ -65,7 +67,7 @@ const PageMeta: React.FC<PageMetaProps> = ({
           __html: JSON.stringify(articleStructuredData),
         }}
       />
-    )} */}
+    )}
   </Head>
 );
 
