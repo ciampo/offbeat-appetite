@@ -12,6 +12,7 @@ const { pageBlogPostQuery } = require('./pages.js');
 const blogPostType = 'blogPost';
 const allBlogPostsQuery = /* groq */ `*[_type == "${blogPostType}"] {
   _id,
+  _updatedAt,
   "slug": slug.current,
   title,
   heroImage->${accessibleImageProjection},

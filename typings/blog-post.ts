@@ -22,6 +22,7 @@ export type SanityBlogPostPreview = SanityBlogPostBase & {
 };
 
 export type SanityBlogPostFull = SanityBlogPostBase & {
+  _updatedAt: string;
   heroImage: SanityAccessibleImage;
   content: SanityBlock[];
   seoTitle: string;
