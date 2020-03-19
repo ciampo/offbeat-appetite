@@ -1,18 +1,28 @@
 import { joinUrl } from './utils';
-import { StructuredData, SanityPersonFull } from '../typings';
+import { StructuredData, SanityPersonFull, SanityBlogPostFull } from '../typings';
 
 import siteMiscContentData from '../data/siteMiscContent.json';
 
-function generatePersonStructuredData({
-  name,
-  email,
-  homepage,
-  bio,
-  country,
-}: SanityPersonFull): StructuredData {
+const canonicalUrl = process.env.CANONICAL_URL || '';
+
+export const GRAPH_IDS = {
+  AUTHOR: '#author',
+  FOUNDER: '#founder',
+  ORGANISATION: '#organisation',
+  WEBSITE: '#website',
+  WEBPAGE: '#webpage',
+};
+
+type PersonData = {
+  person: SanityPersonFull;
+  role: string;
+};
+function generatePersonStructuredData({ person, role }: PersonData): StructuredData {
+  const { name, email, homepage, bio, country } = person;
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': role,
     name,
     email,
     sameAs: homepage,
@@ -27,52 +37,39 @@ function generatePersonStructuredData({
   };
 }
 
-type OrganisationData = {
-  canonicalUrl: string;
-  name: string;
-  email: string;
-  founder: SanityPersonFull;
-};
-function generateOrganisationStructuredData({
-  canonicalUrl,
-  name,
-  email,
-  founder,
-}: OrganisationData): StructuredData {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    url: canonicalUrl,
-    logo: {
-      url: joinUrl(canonicalUrl, 'android-chrome-512x512.png'),
-      ['@type']: 'ImageObject',
-      width: '512',
-      height: '512',
-    },
-    name,
-    email,
-    founder: generatePersonStructuredData(founder),
-  };
-}
+export const ORGANISATION_FOUNDER_STRUCTURED_DATA: StructuredData = generatePersonStructuredData({
+  person: siteMiscContentData.organisationAuthor,
+  role: GRAPH_IDS.FOUNDER,
+});
 
-type WebsiteData = {
-  name: string;
-  canonicalUrl: string;
-  organisation: OrganisationData;
+export const ORGANISATION_STRUCTURED_DATA: StructuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': GRAPH_IDS.ORGANISATION,
+  url: canonicalUrl,
+  logo: {
+    url: joinUrl(canonicalUrl, 'android-chrome-512x512.png'),
+    ['@type']: 'ImageObject',
+    width: '512',
+    height: '512',
+  },
+  name: siteMiscContentData.siteName,
+  email: siteMiscContentData.organisationEmail,
+  founder: {
+    '@id': GRAPH_IDS.FOUNDER,
+  },
 };
-function generateWebsiteStructuredData({
-  organisation,
-  canonicalUrl,
-  name,
-}: WebsiteData): StructuredData {
-  return {
-    '@type': 'WebSite',
-    '@context': 'https://schema.org',
-    url: canonicalUrl,
-    name,
-    publisher: generateOrganisationStructuredData(organisation),
-  };
-}
+
+export const WEBSITE_STRUCTURED_DATA: StructuredData = {
+  '@type': 'WebSite',
+  '@context': 'https://schema.org',
+  '@id': GRAPH_IDS.WEBSITE,
+  url: canonicalUrl,
+  name: siteMiscContentData.siteName,
+  publisher: {
+    '@id': GRAPH_IDS.ORGANISATION,
+  },
+};
 
 type BreadcrumbPage = {
   title: string;
@@ -84,30 +81,21 @@ type WebpageData = {
   description: string;
   breadcrumbPages: BreadcrumbPage[];
 };
-
 export function generateWebpageStructuredData({
   path,
   title,
   description,
   breadcrumbPages,
 }: WebpageData): StructuredData {
-  const canonicalUrl = process.env.CANONICAL_URL || '';
-
   const toReturnBase = {
     '@type': 'WebPage',
     '@context': 'https://schema.org',
+    '@id': GRAPH_IDS.WEBPAGE,
     url: joinUrl(canonicalUrl, path),
     name: title,
-    isPartOf: generateWebsiteStructuredData({
-      canonicalUrl,
-      name: siteMiscContentData.siteName,
-      organisation: {
-        canonicalUrl,
-        email: siteMiscContentData.organisationEmail,
-        name: siteMiscContentData.siteName,
-        founder: siteMiscContentData.organisationAuthor,
-      },
-    }),
+    isPartOf: {
+      '@id': GRAPH_IDS.WEBSITE,
+    },
     inLanguage: 'en',
     description,
   };
@@ -129,4 +117,49 @@ export function generateWebpageStructuredData({
   }
 
   return toReturnBase;
+}
+
+function generateArticleAuthorStructuredData(person: SanityPersonFull): StructuredData {
+  return generatePersonStructuredData({
+    person,
+    role: GRAPH_IDS.AUTHOR,
+  });
+}
+
+type ArticleData = {
+  blogPostData: SanityBlogPostFull;
+  path: string;
+};
+export function generateArticleStructuredData({
+  blogPostData,
+  path,
+}: ArticleData): StructuredData[] {
+  return [
+    generateArticleAuthorStructuredData(blogPostData.author),
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: blogPostData.title,
+      alternativeHeadline: blogPostData.excerpt,
+      url: joinUrl(canonicalUrl, path),
+      inLanguage: 'en',
+      // IMAGE TODO:
+      // - resize / reformat
+      // - add size info
+      image: blogPostData.seoImage,
+      datePublished: blogPostData.datePublished,
+      dateModified: blogPostData._updatedAt.split('T')[0],
+      articleSection: blogPostData.category.name,
+      keywords: blogPostData.tags.map(({ name }) => name).join(', '),
+      author: {
+        '@id': GRAPH_IDS.AUTHOR,
+      },
+      publisher: {
+        '@id': GRAPH_IDS.ORGANISATION,
+      },
+      mainEntityOfPage: {
+        '@id': GRAPH_IDS.WEBPAGE,
+      },
+    },
+  ];
 }

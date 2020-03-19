@@ -12,12 +12,12 @@ import { SanityPageAbout, StructuredData } from '../typings';
 type AboutProps = {
   aboutData: SanityPageAbout;
   path: string;
-  webpageStructuredData: StructuredData;
+  structuredData: StructuredData[];
 };
 const AboutPage: NextComponentType<{}, AboutProps, AboutProps> = ({
   aboutData,
   path,
-  webpageStructuredData,
+  structuredData,
 }) => (
   <>
     <PageMeta
@@ -25,7 +25,7 @@ const AboutPage: NextComponentType<{}, AboutProps, AboutProps> = ({
       title={aboutData.seoTitle}
       description={aboutData.seoDescription}
       previewImage={aboutData.seoImage}
-      webPageStructuredData={webpageStructuredData}
+      structuredData={structuredData}
     />
 
     <DefaultPageTransitionWrapper>
@@ -44,17 +44,19 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       aboutData,
       path,
-      webpageStructuredData: generateWebpageStructuredData({
-        path,
-        title: aboutData.seoTitle,
-        description: aboutData.seoDescription,
-        breadcrumbPages: [
-          {
-            path,
-            title: aboutData.title,
-          },
-        ],
-      }),
+      structuredData: [
+        generateWebpageStructuredData({
+          path,
+          title: aboutData.seoTitle,
+          description: aboutData.seoDescription,
+          breadcrumbPages: [
+            {
+              path,
+              title: aboutData.title,
+            },
+          ],
+        }),
+      ],
     },
   };
 };

@@ -2,6 +2,11 @@ import React from 'react';
 import Head from 'next/head';
 
 import { joinUrl } from '../scripts/utils';
+import {
+  ORGANISATION_FOUNDER_STRUCTURED_DATA,
+  ORGANISATION_STRUCTURED_DATA,
+  WEBSITE_STRUCTURED_DATA,
+} from '../scripts/structured-data';
 
 import { StructuredData } from '../typings';
 
@@ -10,8 +15,7 @@ interface PageMetaProps {
   description: string;
   path: string;
   previewImage?: string;
-  webPageStructuredData?: StructuredData;
-  articleStructuredData?: StructuredData;
+  structuredData?: StructuredData[];
 }
 
 const PageMeta: React.FC<PageMetaProps> = ({
@@ -19,8 +23,7 @@ const PageMeta: React.FC<PageMetaProps> = ({
   description,
   path,
   previewImage,
-  webPageStructuredData,
-  articleStructuredData,
+  structuredData,
 }) => (
   <Head>
     <meta name="viewport" content="width=device-width,initial-scale=1" key="viewport" />
@@ -50,21 +53,20 @@ const PageMeta: React.FC<PageMetaProps> = ({
     )}
 
     {/* Structured data */}
-    {webPageStructuredData && (
+    {structuredData && (
       <script
         type="application/ld+json"
-        key="structured-data-webpage"
+        key="structured-data"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(webPageStructuredData),
-        }}
-      />
-    )}
-    {articleStructuredData && (
-      <script
-        type="application/ld+json"
-        key="structured-data-article"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(articleStructuredData),
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@graph': [
+              ORGANISATION_FOUNDER_STRUCTURED_DATA,
+              ORGANISATION_STRUCTURED_DATA,
+              WEBSITE_STRUCTURED_DATA,
+              ...structuredData,
+            ],
+          }),
         }}
       />
     )}

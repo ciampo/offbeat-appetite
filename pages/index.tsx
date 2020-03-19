@@ -34,12 +34,12 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = ({ categorySecti
 type HomeProps = {
   homeData: SanityPageHome;
   path: string;
-  webpageStructuredData: StructuredData;
+  structuredData: StructuredData[];
 };
 const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({
   homeData,
   path,
-  webpageStructuredData,
+  structuredData,
 }) => (
   <>
     <PageMeta
@@ -47,7 +47,7 @@ const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({
       title={homeData.seoTitle}
       description={homeData.seoDescription}
       previewImage={homeData.seoImage}
-      webPageStructuredData={webpageStructuredData}
+      structuredData={structuredData}
     />
 
     <DefaultPageTransitionWrapper>
@@ -80,12 +80,14 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       homeData,
       path,
-      webpageStructuredData: generateWebpageStructuredData({
-        path,
-        title: homeData.seoTitle,
-        description: homeData.seoDescription,
-        breadcrumbPages: [],
-      }),
+      structuredData: [
+        generateWebpageStructuredData({
+          path,
+          title: homeData.seoTitle,
+          description: homeData.seoDescription,
+          breadcrumbPages: [],
+        }),
+      ],
     },
   };
 };
