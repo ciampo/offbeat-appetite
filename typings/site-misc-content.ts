@@ -1,5 +1,11 @@
 import { SanityPersonFull } from '.';
 
+export type SanitySocialLink = {
+  _key: string;
+  url: string;
+  label: string;
+};
+
 export type SanitySiteMiscContent = {
   _id: string;
   authorLabel: string;
@@ -12,7 +18,7 @@ export type SanitySiteMiscContent = {
   siteName: string;
   organisationEmail: string;
   organisationAuthor: SanityPersonFull;
-  socialLinksLabel: string;
+  socialLinks: SanitySocialLink[];
   socialShareLabel: string;
   subscribeEmailLabel: string;
   subscribeNameLabel: string;

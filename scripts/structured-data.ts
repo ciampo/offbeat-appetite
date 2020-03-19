@@ -47,6 +47,7 @@ export const ORGANISATION_STRUCTURED_DATA: StructuredData = {
   '@type': 'Organization',
   '@id': GRAPH_IDS.ORGANISATION,
   url: canonicalUrl,
+  sameAs: siteMiscContentData.socialLinks.map(({ url }) => url),
   logo: {
     url: joinUrl(canonicalUrl, 'android-chrome-512x512.png'),
     ['@type']: 'ImageObject',
