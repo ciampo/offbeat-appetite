@@ -9,6 +9,6 @@ export type SanityPersonPreview = {
 export type SanityPersonFull = SanityPersonPreview & {
   country: string;
   email: string;
-  homepage: string;
+  urls: string[];
   bio: string;
 };

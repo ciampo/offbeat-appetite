@@ -18,14 +18,14 @@ type PersonData = {
   role: string;
 };
 function generatePersonStructuredData({ person, role }: PersonData): StructuredData {
-  const { name, email, homepage, bio, country } = person;
+  const { name, email, urls, bio, country } = person;
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
     '@id': role,
     name,
     email,
-    sameAs: homepage,
+    sameAs: urls.map((url) => url),
     description: bio,
     nationality: {
       '@type': 'Country',
