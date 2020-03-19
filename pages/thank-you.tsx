@@ -5,19 +5,15 @@ import PageMeta from '../components/PageMeta';
 import SimplePortableText from '../components/portable-text/SimplePortableText';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 
-import { generateWebpageStructuredData } from '../scripts/structured-data';
-
-import { SanityPageThankYou, StructuredData } from '../typings';
+import { SanityPageThankYou } from '../typings';
 
 type ThankYouProps = {
   thankYouData: SanityPageThankYou;
   path: string;
-  webpageStructuredData: StructuredData;
 };
 const ThankYouPage: NextComponentType<{}, ThankYouProps, ThankYouProps> = ({
   thankYouData,
   path,
-  webpageStructuredData,
 }) => (
   <>
     <PageMeta
@@ -25,7 +21,6 @@ const ThankYouPage: NextComponentType<{}, ThankYouProps, ThankYouProps> = ({
       title={thankYouData.seoTitle}
       description={thankYouData.seoDescription}
       previewImage={thankYouData.seoImage}
-      webPageStructuredData={webpageStructuredData}
     />
 
     <DefaultPageTransitionWrapper>
@@ -44,12 +39,6 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       thankYouData,
       path,
-      webpageStructuredData: generateWebpageStructuredData({
-        path,
-        title: thankYouData.seoTitle,
-        description: thankYouData.seoDescription,
-        breadcrumbPages: [],
-      }),
     },
   };
 };
