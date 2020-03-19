@@ -8,7 +8,10 @@ import DefaultPageTransitionWrapper from '../../components/page-transition-wrapp
 
 import routesConfig from '../../routes-config';
 import { compileSingleRoute, compileDynamicItem } from '../../scripts/compile-routes';
-import { generateWebpageStructuredData } from '../../scripts/structured-data';
+import {
+  generateWebpageStructuredData,
+  generateArticleStructuredData,
+} from '../../scripts/structured-data';
 
 import { CompiledRoute, SanityBlogPostFull, StructuredData } from '../../typings';
 
@@ -17,12 +20,12 @@ const CATEGORY_PAGE_ROUTE = '/[categoryId]';
 type PageBlogPostProps = {
   blogPostData: SanityBlogPostFull;
   path: string;
-  webpageStructuredData: StructuredData;
+  structuredData: StructuredData[];
 };
 const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
   blogPostData,
   path,
-  webpageStructuredData,
+  structuredData,
 }) => (
   <>
     <PageMeta
@@ -30,7 +33,7 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
       title={blogPostData.seoTitle}
       description={blogPostData.seoDescription}
       previewImage={blogPostData.seoImage}
-      webPageStructuredData={webpageStructuredData}
+      structuredData={structuredData}
     />
 
     <DefaultPageTransitionWrapper>
@@ -95,21 +98,24 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       blogPostData,
       path,
-      webpageStructuredData: generateWebpageStructuredData({
-        path,
-        title: blogPostData.seoTitle,
-        description: blogPostData.seoDescription,
-        breadcrumbPages: [
-          {
-            path: compiledCategoryItem.routeInfo.path,
-            title: blogPostData.category.name,
-          },
-          {
-            path,
-            title: blogPostData.title,
-          },
-        ],
-      }),
+      structuredData: [
+        generateWebpageStructuredData({
+          path,
+          title: blogPostData.seoTitle,
+          description: blogPostData.seoDescription,
+          breadcrumbPages: [
+            {
+              path: compiledCategoryItem.routeInfo.path,
+              title: blogPostData.category.name,
+            },
+            {
+              path,
+              title: blogPostData.title,
+            },
+          ],
+        }),
+        ...generateArticleStructuredData({ blogPostData, path }),
+      ],
     },
   };
 };

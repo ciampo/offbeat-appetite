@@ -16,12 +16,12 @@ const CATEGORY_PAGE_ROUTE = '/[categoryId]';
 type CategoryProps = {
   categoryData: SanityCategoryFull;
   path: string;
-  webpageStructuredData: StructuredData;
+  structuredData: StructuredData[];
 };
 const CategoryPage: NextComponentType<{}, CategoryProps, CategoryProps> = ({
   categoryData,
   path,
-  webpageStructuredData,
+  structuredData,
 }) => (
   <>
     <PageMeta
@@ -29,7 +29,7 @@ const CategoryPage: NextComponentType<{}, CategoryProps, CategoryProps> = ({
       title={categoryData.seoTitle}
       description={categoryData.seoDescription}
       previewImage={categoryData.seoImage}
-      webPageStructuredData={webpageStructuredData}
+      structuredData={structuredData}
     />
 
     <DefaultPageTransitionWrapper>
@@ -90,17 +90,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       categoryData,
       path,
-      webpageStructuredData: generateWebpageStructuredData({
-        path,
-        title: categoryData.seoTitle,
-        description: categoryData.seoDescription,
-        breadcrumbPages: [
-          {
-            path,
-            title: categoryData.title,
-          },
-        ],
-      }),
+      structuredData: [
+        generateWebpageStructuredData({
+          path,
+          title: categoryData.seoTitle,
+          description: categoryData.seoDescription,
+          breadcrumbPages: [
+            {
+              path,
+              title: categoryData.title,
+            },
+          ],
+        }),
+      ],
     },
   };
 };
