@@ -85,7 +85,7 @@ const personFullProjection = /* groq */ `{
   image->${accessibleImageProjection},
   country,
   email,
-  homepage,
+  urls,
   bio,
 }`;
 
