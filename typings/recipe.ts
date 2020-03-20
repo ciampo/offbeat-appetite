@@ -27,6 +27,11 @@ export type SanityServings = {
   unit: string;
 };
 
+export type SanityRecipeMethodStep = {
+  title: string;
+  content: SanityBlock[];
+};
+
 export type SanityRecipe = {
   _type: string;
   title: string;
@@ -35,10 +40,7 @@ export type SanityRecipe = {
   cookingTime: number;
   servings: SanityServings;
   ingredients: SanityIngredient[];
-  method: {
-    title: string;
-    content: SanityBlock[];
-  };
+  method: SanityRecipeMethodStep[];
   cuisine: string;
   category: string;
   calories: number;

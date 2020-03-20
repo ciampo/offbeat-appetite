@@ -1,3 +1,6 @@
+import { SanityRecipe } from './recipe';
+import { SanityCaptionedImage, SanityCaptionedVideo, SanityMediaGallery } from './media';
+
 export interface SanityMarkDefs {
   _key: string;
   _type: string;
@@ -38,3 +41,11 @@ export interface SanityBlockType<T> {
   isInline?: boolean;
   children: object[];
 }
+
+export type SanityRichPortableText = (
+  | SanityBlock
+  | SanityRecipe
+  | SanityCaptionedImage
+  | SanityCaptionedVideo
+  | SanityMediaGallery
+)[];

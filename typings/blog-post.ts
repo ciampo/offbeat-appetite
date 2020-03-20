@@ -3,7 +3,7 @@ import {
   SanityPersonFull,
   SanityTag,
   SanityCategoryPreview,
-  SanityBlock,
+  SanityRichPortableText,
 } from '.';
 
 export type SanityBlogPostBase = {
@@ -24,7 +24,7 @@ export type SanityBlogPostPreview = SanityBlogPostBase & {
 export type SanityBlogPostFull = SanityBlogPostBase & {
   _updatedAt: string;
   heroImage: SanityAccessibleImage;
-  content: SanityBlock[];
+  content: SanityRichPortableText;
   seoTitle: string;
   seoDescription: string;
   seoImage: string;

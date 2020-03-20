@@ -4,10 +4,10 @@ import React from 'react';
 // @ts-ignore
 import BlockContent from '@sanity/block-content-to-react';
 
-import { SanityBlock } from '../../typings';
+import { SanityBlock, SanityRichPortableText } from '../../typings';
 
 type GenericPortableTextProps = {
-  blocks: SanityBlock[];
+  blocks: SanityBlock[] | SanityRichPortableText;
   serializers: object;
 };
 const GenericPortableText: React.FC<GenericPortableTextProps> = ({ blocks, serializers }) => (

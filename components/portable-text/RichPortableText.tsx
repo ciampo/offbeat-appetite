@@ -3,10 +3,10 @@ import React from 'react';
 import GenericPortableText from './GenericPortableText';
 import { richSerializers } from './serializers';
 
-import { SanityBlock } from '../../typings';
+import { SanityRichPortableText } from '../../typings';
 
 type RichPortableTextProps = {
-  blocks: SanityBlock[];
+  blocks: SanityRichPortableText;
 };
 const RichPortableText: React.FC<RichPortableTextProps> = ({ blocks }) => (
   <GenericPortableText serializers={richSerializers} blocks={blocks} />
