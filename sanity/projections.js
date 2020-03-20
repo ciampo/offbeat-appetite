@@ -56,7 +56,10 @@ const richPortabletextProjection = /* groq */ `{
       ...,
       "unit": unit[0],
     },
-    method[] ${simplePortabletextProjection},
+    method[] {
+      title,
+      content[] ${simplePortabletextProjection},
+    }
   },
   "markDefs": markDefs[] ${portableTextCustomMarkDefProjection},
 }`;

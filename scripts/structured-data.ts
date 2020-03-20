@@ -147,6 +147,7 @@ export function generateArticleStructuredData({
       // IMAGE TODO:
       // - resize / reformat
       // - add size info
+      // - prepare more than one with different ratios
       image: blogPostData.seoImage,
       datePublished: blogPostData.datePublished,
       dateModified: blogPostData._updatedAt.split('T')[0],
