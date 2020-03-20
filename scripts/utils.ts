@@ -1,3 +1,5 @@
+import { SanityIngredient } from '../typings';
+
 export const joinUrl = (a: string, b: string): string =>
   a.replace(/\/+$/, '') + '/' + b.replace(/^\/+/, '');
 
@@ -34,3 +36,7 @@ export const isIoSupported = process.browser
     'IntersectionObserverEntry' in window &&
     'intersectionRatio' in window.IntersectionObserverEntry.prototype
   : true;
+
+export function stringifyRecipeIngredient({ name, unit, quantity }: SanityIngredient): string {
+  return `${quantity === 0 ? '' : quantity}${unit === 'unitless' ? '' : `${unit} `}${name}`;
+}
