@@ -1,5 +1,6 @@
-import { joinUrl } from './utils';
-import { StructuredData, SanityPersonFull, SanityBlogPostFull } from '../typings';
+import { portableTextToPlainText } from '../sanity/portableText';
+import { joinUrl, stringifyRecipeIngredient } from './utils';
+import { StructuredData, SanityPersonFull, SanityBlogPostFull, SanityRecipe } from '../typings';
 
 import siteMiscContentData from '../data/siteMiscContent.json';
 
@@ -127,6 +128,61 @@ function generateArticleAuthorStructuredData(person: SanityPersonFull): Structur
   });
 }
 
+type RecipeData = {
+  blogPostData: SanityBlogPostFull;
+  recipeData: SanityRecipe;
+  path: string;
+};
+export function generateRecipeStructuredData({
+  blogPostData,
+  recipeData,
+  path,
+}: RecipeData): StructuredData {
+  return {
+    '@context': 'https://schema.org/',
+    '@type': 'Recipe',
+    name: recipeData.title,
+    description: recipeData.description,
+    author: {
+      '@id': GRAPH_IDS.AUTHOR,
+    },
+    keywords: blogPostData.tags.map(({ name }) => name).join(', '),
+    // IMAGE TODO:
+    // - resize / reformat
+    // - add size info
+    // - prepare more than one with different ratios
+    image: blogPostData.seoImage,
+    url: joinUrl(canonicalUrl, path),
+    recipeIngredient: recipeData.ingredients.map(stringifyRecipeIngredient),
+    recipeInstructions: recipeData.method.map(({ title, content }, i) => ({
+      '@type': 'HowToStep',
+      name: title,
+      text: portableTextToPlainText(content),
+      url: joinUrl(canonicalUrl, `${path}#recipe-step-${i + 1}`),
+      // "image": "https://example.com/photos/party-coffee-cake/step4.jpg"
+    })),
+    prepTime: `PT${recipeData.preparationTime}M`,
+    cookTime: `PT${recipeData.cookingTime}M`,
+    totalTime: `PT${recipeData.preparationTime + recipeData.cookingTime}M`,
+    recipeYield: `${recipeData.servings.quantity} ${recipeData.servings.unit}`,
+    recipeCategory: recipeData.category,
+    recipeCuisine: recipeData.cuisine,
+    nutrition: {
+      '@type': 'nutritionInformation',
+      calories: recipeData.calories,
+    },
+    datePublished: blogPostData.datePublished,
+    // Missing: video
+    // Missing: review[]
+    // TODO
+    // aggregateRating: {
+    //   '@type': 'AggregateRating',
+    //   reviewCount: '125',
+    //   ratingValue: '4.9',
+    // },
+  };
+}
+
 type ArticleData = {
   blogPostData: SanityBlogPostFull;
   path: string;
@@ -135,7 +191,7 @@ export function generateArticleStructuredData({
   blogPostData,
   path,
 }: ArticleData): StructuredData[] {
-  return [
+  const toReturn = [
     generateArticleAuthorStructuredData(blogPostData.author),
     {
       '@context': 'https://schema.org',
@@ -162,6 +218,20 @@ export function generateArticleStructuredData({
       mainEntityOfPage: {
         '@id': GRAPH_IDS.WEBPAGE,
       },
+      // Missing: "commentCount": "443",
     },
   ];
+
+  const recipeData = blogPostData.content.find((block) => block._type === 'recipe') as SanityRecipe;
+  if (recipeData) {
+    toReturn.push(
+      generateRecipeStructuredData({
+        blogPostData,
+        recipeData,
+        path,
+      })
+    );
+  }
+
+  return toReturn;
 }
