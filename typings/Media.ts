@@ -22,5 +22,6 @@ export type SanityCaptionedVideo = {
 };
 
 export type SanityMediaGallery = {
+  _type: string;
   items: (SanityCaptionedImage | SanityCaptionedVideo)[];
 };
