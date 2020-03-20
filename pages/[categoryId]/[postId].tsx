@@ -15,7 +15,7 @@ import {
 
 import { CompiledRoute, SanityBlogPostFull, StructuredData } from '../../typings';
 
-const CATEGORY_PAGE_ROUTE = '/[categoryId]';
+const BLOG_POST_PAGE_ROUTE = '/[categoryId]/[postId]';
 
 type PageBlogPostProps = {
   blogPostData: SanityBlogPostFull;
@@ -81,7 +81,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   ).then((m) => m.default);
 
   const compiledBlogPostItem = compileDynamicItem({
-    routeConfig: routesConfig.find(({ route }) => route === CATEGORY_PAGE_ROUTE),
+    routeConfig: routesConfig.find(({ route }) => route === BLOG_POST_PAGE_ROUTE),
     dynamicItem: blogPostData,
   });
 
