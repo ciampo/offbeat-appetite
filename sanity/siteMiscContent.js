@@ -14,8 +14,12 @@ const siteMiscContentQuery = /* groq */ `*[_type == "${siteMiscContentType}"] {
   recipeServingsLabel,
   siteName,
   organisationEmail,
+  organisationEmailLabel,
   organisationAuthor->${personFullProjection},
-  socialLinks,
+  socialLinks[] {
+    ...,
+    "platform": platform[0],
+  },
   socialShareLabel,
   subscribeEmailLabel,
   subscribeNameLabel,
