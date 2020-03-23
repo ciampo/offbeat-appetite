@@ -37,11 +37,24 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
     />
 
     <DefaultPageTransitionWrapper>
-      <h1>{blogPostData.title}</h1>
-      <p>{blogPostData.excerpt}</p>
-      <AccessibleImage image={blogPostData.heroImage} />
+      <section className="relative">
+        <div
+          className="absolute text-center text-white"
+          style={{ transform: 'translate(-50%, -50%)', top: '50%', left: '50%' }}
+        >
+          <h1 className="flex flex-col-reverse items-center">
+            <span className="text-4xl font-bold mt-4">{blogPostData.title}</span>
+            <span>{blogPostData.category.name}</span>
+          </h1>
+          <p className="text-xl mt-8">{blogPostData.excerpt}</p>
+        </div>
 
-      <RichPortableText blocks={blogPostData.content} />
+        <AccessibleImage image={blogPostData.heroImage} style={{ width: '100%' }} />
+      </section>
+
+      <section className="max-w-2xl px-4 mx-auto mt-8 lg:max-w-3xl">
+        <RichPortableText blocks={blogPostData.content} />
+      </section>
     </DefaultPageTransitionWrapper>
   </>
 );
