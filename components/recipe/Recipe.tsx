@@ -11,6 +11,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => (
   <article {...props}>
     <h2>{recipe.title}</h2>
     <p>{recipe.description}</p>
+    <p>[RECIPE CONTENT COMING SOON]</p>
   </article>
 );
 
