@@ -28,6 +28,7 @@ export type SanityServings = {
 };
 
 export type SanityRecipeMethodStep = {
+  key: string;
   title: string;
   content: SanityBlock[];
 };
