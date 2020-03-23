@@ -25,6 +25,7 @@ export type SanityBlogPostFull = SanityBlogPostBase & {
   _updatedAt: string;
   heroImage: SanityAccessibleImage;
   content: SanityRichPortableText;
+  keywords: string[];
   seoTitle: string;
   seoDescription: string;
   seoImage: string;

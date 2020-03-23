@@ -22,6 +22,7 @@ const allBlogPostsQuery = /* groq */ `*[_type == "${blogPostType}"] {
 	category->${categoryPreviewProjection},
   "tags":tags[]->${tagPreviewProjection},
   datePublished,
+  keywords,
   "seoTitle": ${pageBlogPostQuery}[0].seoTitle,
   "seoDescription": ${pageBlogPostQuery}[0].seoDescription,
   "seoImage": seoImage.asset->url,

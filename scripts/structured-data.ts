@@ -128,6 +128,10 @@ function generateArticleAuthorStructuredData(person: SanityPersonFull): Structur
   });
 }
 
+function generateBlogPostKeywords({ tags, keywords }: SanityBlogPostFull): string {
+  return [...keywords, ...tags.map(({ name }) => name)].join(', ');
+}
+
 type RecipeData = {
   blogPostData: SanityBlogPostFull;
   recipeData: SanityRecipe;
@@ -146,7 +150,7 @@ export function generateRecipeStructuredData({
     author: {
       '@id': GRAPH_IDS.AUTHOR,
     },
-    keywords: blogPostData.tags.map(({ name }) => name).join(', '),
+    keywords: generateBlogPostKeywords(blogPostData),
     // IMAGE TODO:
     // - resize / reformat
     // - add size info
@@ -177,8 +181,8 @@ export function generateRecipeStructuredData({
     // TODO
     // aggregateRating: {
     //   '@type': 'AggregateRating',
-    //   reviewCount: '125',
-    //   ratingValue: '4.9',
+    //   reviewCount: 3,
+    //   ratingValue: 4.5,
     // },
   };
 }
@@ -208,7 +212,7 @@ export function generateArticleStructuredData({
       datePublished: blogPostData.datePublished,
       dateModified: blogPostData._updatedAt.split('T')[0],
       articleSection: blogPostData.category.name,
-      keywords: blogPostData.tags.map(({ name }) => name).join(', '),
+      keywords: generateBlogPostKeywords(blogPostData),
       author: {
         '@id': GRAPH_IDS.AUTHOR,
       },
