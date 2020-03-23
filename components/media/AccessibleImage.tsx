@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SanityAccessibleImage } from '../../typings/media';
+import { SanityAccessibleImage } from '../../typings';
 
 type AccessibleImageProps = {
   image: SanityAccessibleImage;
