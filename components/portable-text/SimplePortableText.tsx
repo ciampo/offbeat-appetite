@@ -7,9 +7,16 @@ import { SanityBlock } from '../../typings';
 
 type SimplePortableTextProps = {
   blocks: SanityBlock[];
+  customSerializers?: object;
 };
-const SimplePortableText: React.FC<SimplePortableTextProps> = ({ blocks }) => (
-  <GenericPortableText serializers={simpleSerializers} blocks={blocks} />
+const SimplePortableText: React.FC<SimplePortableTextProps> = ({
+  blocks,
+  customSerializers = {},
+}) => (
+  <GenericPortableText
+    serializers={{ ...simpleSerializers, ...customSerializers }}
+    blocks={blocks}
+  />
 );
 
 export default SimplePortableText;
