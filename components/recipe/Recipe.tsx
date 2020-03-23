@@ -23,7 +23,7 @@ type RecipeProps = {
 };
 const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => (
   <article {...props}>
-    <h2>{recipe.title}</h2>
+    <h2 className="font-bold text-2xl mt-6 lg:text-3xl">{recipe.title}</h2>
     <p>{recipe.description}</p>
 
     <dl>
@@ -43,14 +43,14 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => (
       </dt>
     </dl>
 
-    <h3>{recipeIngredientsSectionTitle}</h3>
+    <h3 className="font-bold text-xl mt-4 lg:text-2xl">{recipeIngredientsSectionTitle}</h3>
     <ul>
       {recipe.ingredients.map((ingredient) => (
         <li key={ingredient._key}>{stringifyRecipeIngredient(ingredient)}</li>
       ))}
     </ul>
 
-    <h3>{recipeMethodSectionTitle}</h3>
+    <h3 className="font-bold text-xl mt-4 lg:text-2xl">{recipeMethodSectionTitle}</h3>
     {/* Title and method */}
     {/* {recipe.method.map(({ content, title }) => (
       <>
