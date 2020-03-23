@@ -34,6 +34,8 @@ ${routesConfig
     `connect-src 'self' https://www.google-analytics.com`,
     // Allow webmanifest files from same origin
     `manifest-src 'self'`,
+    // Allow prefetching files from same origin
+    `prefetch-src 'self'`,
   ].join('; ')}
   X-XSS-Protection: 1; mode=block`
   )
