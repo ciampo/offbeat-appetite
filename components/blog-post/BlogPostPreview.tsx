@@ -22,10 +22,10 @@ const BlogPostPreview: React.FC<BlogPostPreviewProps> = ({ blogPostData }) => {
 
   return (
     <Link href={compiledBlogPostRoute.routeInfo.page} as={compiledBlogPostRoute.routeInfo.path}>
-      <a>
-        <p>{blogPostData.title}</p>
-        <p>{blogPostData.excerpt}</p>
-        <AccessibleImage image={blogPostData.previewImage} lazy={true} />
+      <a className="flex flex-col">
+        <p className="text-lg font-bold order-2">{blogPostData.title}</p>
+        <p className="order-3">{blogPostData.excerpt}</p>
+        <AccessibleImage image={blogPostData.previewImage} lazy={true} className="order-1" />
       </a>
     </Link>
   );

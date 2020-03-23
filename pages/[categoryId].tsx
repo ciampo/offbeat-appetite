@@ -33,11 +33,16 @@ const CategoryPage: NextComponentType<{}, CategoryProps, CategoryProps> = ({
     />
 
     <DefaultPageTransitionWrapper>
-      <h1>{categoryData.title}</h1>
-      <p>All posts:</p>
-      <ul>
+      <h1 className="text-4xl text-center font-bold">{categoryData.title}</h1>
+      <p className="text-lg text-center">All posts:</p>
+      <ul className="flex flex-wrap justify-center mt-6">
         {categoryData.allBlogPosts.map((blogPostData) => (
-          <li key={blogPostData._id}>
+          <li
+            key={blogPostData._id}
+            style={{
+              maxWidth: '400px',
+            }}
+          >
             <BlogPostPreview blogPostData={blogPostData} />
           </li>
         ))}

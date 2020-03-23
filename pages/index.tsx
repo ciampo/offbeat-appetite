@@ -18,16 +18,21 @@ type HomeCategorySectionProps = {
   categorySectionData: SanityPageHomeCategorySection;
 };
 const HomeCategorySection: React.FC<HomeCategorySectionProps> = ({ categorySectionData }) => (
-  <>
-    <h2>{categorySectionData.title}</h2>
-    <ul>
+  <section className="py-8">
+    <h2 className="text-2xl text-center">{categorySectionData.title}</h2>
+    <ul className="flex justify-center mt-6">
       {categorySectionData.category.featuredBlogPosts.map((blogPostData) => (
-        <li key={blogPostData._id}>
+        <li
+          key={blogPostData._id}
+          style={{
+            maxWidth: '400px',
+          }}
+        >
           <BlogPostPreview blogPostData={blogPostData} />
         </li>
       ))}
     </ul>
-  </>
+  </section>
 );
 
 // Home Page
@@ -51,10 +56,17 @@ const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({
     />
 
     <DefaultPageTransitionWrapper>
-      <h1>{homeData.title}</h1>
-      <p>{homeData.subtitle}</p>
+      <section className="relative">
+        <div
+          className="absolute text-center"
+          style={{ transform: 'translate(-50%, -50%)', top: '50%', left: '50%' }}
+        >
+          <h1 className="text-4xl">{homeData.title}</h1>
+          <p className="text-xl">{homeData.subtitle}</p>
+        </div>
 
-      <AccessibleImage image={homeData.heroImage} />
+        <AccessibleImage image={homeData.heroImage} />
+      </section>
 
       <ul>
         {homeData.categorySections.map((categorySectionData, index) => (
