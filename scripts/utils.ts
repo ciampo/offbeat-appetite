@@ -38,5 +38,7 @@ export const isIoSupported = process.browser
   : true;
 
 export function stringifyRecipeIngredient({ name, unit, quantity }: SanityIngredient): string {
-  return `${quantity === 0 ? '' : quantity}${unit === 'unitless' ? '' : `${unit} `}${name}`;
+  return `${quantity === 0 ? '' : quantity}${
+    unit === 'unitless' ? (quantity === 0 ? '' : ' ') : `${unit} `
+  }${name}`;
 }
