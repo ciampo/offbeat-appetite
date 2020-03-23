@@ -32,7 +32,7 @@ const Nav: NextComponentType = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 w-full h-12 flex items-center bg-gray-200 shadow text-center contain-layout-paint">
+      <nav className="z-50 fixed top-0 left-0 w-full h-12 flex items-center bg-gray-200 shadow text-center contain-layout-paint">
         {navLinks && navLinks.length && (
           <ul className="flex justify-between w-full py-1 px-4">
             {navLinks.map(({ href, label, as }, index) => (
