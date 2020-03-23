@@ -11,7 +11,7 @@ const FIELD_NAMES = {
   INSTANCE: 'form-instance',
 };
 
-// TODO: get from Contentful
+// TODO: get from Sanity
 const FEEDBACK_MESSAGES = {
   ERROR_PREVIEW_DISABLED: 'Forms are disabled on preview sites.',
   ERROR_GENERIC: 'There was an issue with your submission.',
