@@ -1,41 +1,63 @@
-.rich-text-container {
-  @apply leading-relaxed text-lg font-thin;
+.portable-text-blocks {
+  @apply leading-relaxed text-base font-thin;
+}
+
+.portable-text-blocks h2 {
+  @apply text-2xl font-bold mt-6;
+}
+
+.portable-text-blocks h3 {
+  @apply text-xl font-bold mt-4;
+}
+
+.portable-text-blocks h4 {
+  @apply font-bold mt-2;
 }
 
 @screen lg {
-  .rich-text-container {
-    @apply text-xl;
+  .portable-text-blocks {
+    @apply text-lg;
+  }
+
+  .portable-text-blocks h2 {
+    @apply text-3xl font-bold;
+  }
+  .portable-text-blocks h3 {
+    @apply text-2xl font-bold;
   }
 }
 
-.rich-text-container p + p,
-.rich-text-container p + ul,
-.rich-text-container p + ol {
+.portable-text-blocks p + p,
+.portable-text-blocks p + ul,
+.portable-text-blocks p + ol,
+.portable-text-blocks p + h2,
+.portable-text-blocks p + h3,
+.portable-text-blocks p + h4 {
   margin-top: 0.75em;
 }
 
-.rich-text-container ul + p,
-.rich-text-container ul + ul,
-.rich-text-container ul + ol,
-.rich-text-container ol + p,
-.rich-text-container ol + ul,
-.rich-text-container ol + ol {
+.portable-text-blocks ul + p,
+.portable-text-blocks ul + ul,
+.portable-text-blocks ul + ol,
+.portable-text-blocks ol + p,
+.portable-text-blocks ol + ul,
+.portable-text-blocks ol + ol {
   margin-top: 1em;
 }
 
-.rich-text-container a {
+.portable-text-blocks a {
   @apply border-b border-dashed border-primary outline-none;
 }
 
-.rich-text-container a:focus {
+.portable-text-blocks a:focus {
   @apply border-solid;
 }
 
-.rich-text-container ul {
+.portable-text-blocks ul {
   @apply pl-8;
 }
 
-.rich-text-container li {
+.portable-text-blocks li {
   @apply pl-2 mt-2;
   list-style: disc;
 }
