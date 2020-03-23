@@ -12,7 +12,7 @@ TL;DR:
 
 - install `node` glolbally
 - install `yarn` glolbally
-- set up Contentful, Netlify and Google Analytics
+- set up Sanity, Netlify and Google Analytics
 - copy `.env.example` and rename it to `env`. Add the correct values for the env variables.
 - add the same env variables to Netlify
 - `yarn install`
@@ -25,7 +25,7 @@ Starts the application in development mode (hot-code reloading, error reporting,
 
 ### `yarn data`
 
-Pulls data from contentful (make sure you added env variables both into a `.env` and into your Netlify project)
+Pulls data from Sanity (make sure you added env variables both into a `.env` and into your Netlify project)
 
 ### `yarn static`
 
