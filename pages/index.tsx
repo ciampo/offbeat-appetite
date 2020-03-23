@@ -3,8 +3,8 @@ import { NextComponentType, GetStaticProps } from 'next';
 
 import PageMeta from '../components/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
-import NewsletterSubcribe, {
-  NewsletterSubcribeVariant,
+import NewsletterSubscribe, {
+  NewsletterSubscribeVariant,
 } from '../components/forms/NewsletterSubscribe';
 import BlogPostPreview from '../components/blog-post/BlogPostPreview';
 import AccessibleImage from '../components/media/AccessibleImage';
@@ -76,10 +76,7 @@ const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({
         ))}
       </ul>
 
-      <NewsletterSubcribe
-        variant={NewsletterSubcribeVariant.horizontal}
-        formInstance="subcribe-home"
-      />
+      <NewsletterSubscribe variant={NewsletterSubscribeVariant.horizontal} formInstance="home" />
     </DefaultPageTransitionWrapper>
   </>
 );

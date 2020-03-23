@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 
 const FORM_NAME = 'newsletter';
 const FORM_METHOD = 'POST';
-const FORM_ACTION = '/thanks';
+const FORM_ACTION = '/thank-you';
 
 const FIELD_NAMES = {
-  BOT: 'full-name',
+  BOT: 'required-full-name',
   NAME: 'name',
   EMAIL: 'email',
   INSTANCE: 'form-instance',
@@ -18,12 +18,12 @@ const FEEDBACK_MESSAGES = {
   SUCCESS_THANK_YOU: 'Thank you for subscribing! You should receive an email from us shortly.',
 };
 
-export enum NewsletterSubcribeVariant {
+export enum NewsletterSubscribeVariant {
   horizontal = 'horizontal',
   vertical = 'vertical',
 }
 
-type NewsletterSubcribeClassNames = {
+type NewsletterSubscribeClassNames = {
   form: string;
   fields: string;
   name: string;
@@ -32,18 +32,18 @@ type NewsletterSubcribeClassNames = {
 };
 
 type NewletterSubscriveVariantClassNames = {
-  [x in NewsletterSubcribeVariant]: NewsletterSubcribeClassNames;
+  [x in NewsletterSubscribeVariant]: NewsletterSubscribeClassNames;
 };
 
 const VARIANT_CLASSNAMES: NewletterSubscriveVariantClassNames = {
-  [NewsletterSubcribeVariant.horizontal]: {
+  [NewsletterSubscribeVariant.horizontal]: {
     form: 'border-purple-700',
     fields: 'flex flex-row items-center justify-center',
     name: '',
     email: 'ml-2',
     submit: 'ml-4 bg-purple-200',
   },
-  [NewsletterSubcribeVariant.vertical]: {
+  [NewsletterSubscribeVariant.vertical]: {
     form: 'border-orange-700',
     fields: 'flex flex-col items-center justify-center',
     name: '',
@@ -60,15 +60,15 @@ function encode(data: { [key: string]: string }): string {
     .join('&');
 }
 
-type NewsletterSubcribeProps = {
-  variant: NewsletterSubcribeVariant;
+type NewsletterSubscribeProps = {
+  variant: NewsletterSubscribeVariant;
   formInstance: string;
 };
 
-export default function NewsletterSubcribe({
+export default function NewsletterSubscribe({
   variant,
   formInstance,
-}: NewsletterSubcribeProps): JSX.Element {
+}: NewsletterSubscribeProps): JSX.Element {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackMessage, setfeedbackMessage] = useState({
     isError: isSubmitFormEnabled ? true : false,
