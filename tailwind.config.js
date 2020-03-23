@@ -40,54 +40,63 @@ module.exports = {
     function({ addUtilities }) {
       const newUtilities = {
         // Contain
-        '.contain-strict': {
+        '.contain-s': {
           contain: 'strict',
         },
-        '.contain-layout-paint': {
+        '.contain-l-p': {
           contain: 'layout paint',
         },
-        '.contain-paint': {
+        '.contain-p': {
           contain: 'paint',
         },
-        '.contain-layout': {
+        '.contain-l': {
           contain: 'layout',
         },
         // Transition
-        '.transition-tf-custom': {
+        '.ts-tf-custom': {
           transitionTimingFunction: 'cubic-bezier(0.175, 0.85, 0.42, 0.96)',
         },
-        '.transition-d-100': {
+        '.ts-tf-eo': {
+          transitionTimingFunction: 'ease-out',
+        },
+        '.ts-tf-ei': {
+          transitionTimingFunction: 'ease-in',
+        },
+        '.ts-d-100': {
           transitionDuration: '0.1s',
         },
-        '.transition-d-150': {
+        '.ts-d-150': {
           transitionDuration: '0.15s',
         },
-        '.transition-d-200': {
+        '.ts-d-200': {
           transitionDuration: '0.2s',
         },
-        '.transition-d-300': {
+        '.ts-d-300': {
           transitionDuration: '0.3s',
         },
-        '.transition-d-500': {
+        '.ts-d-500': {
           transitionDuration: '0.5s',
         },
-        '.transition-p-opacity': {
+        '.ts-p-o': {
           transitionProperty: 'opacity',
         },
-        '.transition-p-opacity-transform': {
+        '.ts-p-t': {
+          transitionProperty: 'transform',
+        },
+        '.ts-p-o-t': {
           transitionProperty: 'opacity, transform',
         },
-        '.transition-inherit': {
+        '.ts-inherit': {
           transition: 'inherit',
         },
         // Transform
-        '.transform-scale-up': {
+        '.tf-scale-up': {
           transform: 'scale(1.05)',
         },
-        '.transform-scale-down': {
+        '.tf-scale-down': {
           transform: 'scale(0.96)',
         },
-        '.transform-none': {
+        '.tf-none': {
           transform: 'none',
         },
       };
