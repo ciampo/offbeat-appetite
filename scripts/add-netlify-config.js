@@ -29,7 +29,7 @@ ${routesConfig
     // No external fonts allowed
     `font-src 'self' data:`,
     // Allow script coming from same origin, inline and Google / Google Analytics (incl. recaptcha)
-    `script-src 'self' 'unsafe-inline' https://www.google.com/ https://www.google-analytics.com`,
+    `script-src 'self' 'unsafe-inline' https://www.google.com/ https://www.gstatic.com/ https://www.google-analytics.com`,
     // Allow XHR to same origin and Google Analytics
     `connect-src 'self' https://www.google-analytics.com`,
     // Allow webmanifest files from same origin
