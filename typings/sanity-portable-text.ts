@@ -1,5 +1,4 @@
-import { SanityRecipe } from './recipe';
-import { SanityCaptionedImage, SanityCaptionedVideo, SanityMediaGallery } from './media';
+import { SanityRecipe, SanityCaptionedImage, SanityCaptionedVideo, SanityMediaGallery } from '.';
 
 export interface SanityMarkDefs {
   _key: string;

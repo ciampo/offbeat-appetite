@@ -2,18 +2,18 @@
 export * from './routes';
 
 // CMS data
-export * from './media';
-export * from './portable-text';
-export * from './recipe';
-export * from './person';
-export * from './category';
-export * from './tag';
-export * from './blog-post';
-export * from './pages';
-export * from './site-misc-content';
+export * from './sanity-media';
+export * from './sanity-portable-text';
+export * from './sanity-recipe';
+export * from './sanity-person';
+export * from './sanity-category';
+export * from './sanity-tag';
+export * from './sanity-blog-post';
+export * from './sanity-pages';
+export * from './sanity-site-misc-content';
 
 // Ui
 export * from './ui';
 
-// TODO: to remove
+// Structured data
 export * from './structured-data';
