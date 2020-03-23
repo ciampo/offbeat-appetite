@@ -152,6 +152,7 @@ export default function NewsletterSubcribe({
       action={FORM_ACTION}
       data-netlify="true"
       data-netlify-honeypot={FIELD_NAMES.BOT}
+      data-netlify-recaptcha="true"
       onSubmit={handleSubmit}
       // noValidate={process.browser}
     >
