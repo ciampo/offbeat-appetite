@@ -1,8 +1,8 @@
-.nav-link {
+.navLink {
   position: relative;
 }
 
-.nav-link::after {
+.navLink::after {
   background: currentColor;
   bottom: 0;
   content: '';
@@ -16,13 +16,13 @@
   z-index: 1;
 }
 
-.nav-link--selected::after,
-.nav-link--loading::after {
+.navLinkSelected::after,
+.navLinkLoading::after {
   opacity: 1;
   transition-delay: 0.1s;
 }
 
-.nav-link--loading::after {
+.navLinkLoading::after {
   animation-name: loading-link;
   animation-duration: 2s;
   animation-iteration-count: infinite;

@@ -3,8 +3,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { NextComponentType } from 'next';
 
-import { UiLink } from '../typings';
-import { beforeLogo, logo, afterLogo } from '../data/navLinks.json';
+import { UiLink } from '../../typings';
+import { beforeLogo, logo, afterLogo } from '../../data/navLinks.json';
+
+import styles from './nav.module.css';
 
 const Nav: NextComponentType = () => {
   const [loadingRoute, setLoadingRoute] = useState<string | null>(null);
@@ -39,9 +41,11 @@ const Nav: NextComponentType = () => {
               <li key={`${index}-${href}`} className="flex py-1 px-2">
                 <Link href={href} scroll={false} as={as}>
                   <a
-                    className={`outline-none no-underline text-sm text-primary focus:border-primary  contain-layout-paint nav-link ${
-                      router.asPath === (as ? as : href) ? 'nav-link--selected' : ''
-                    } ${loadingRoute === href ? 'nav-link--loading' : ''}`}
+                    className={`outline-none no-underline text-sm text-primary focus:border-primary  contain-layout-paint ${
+                      styles.navLink
+                    } ${router.asPath === (as ? as : href) ? styles.navLinkSelected : ''} ${
+                      loadingRoute === href ? styles.navLinkLoading : ''
+                    }`}
                   >
                     {label}
                   </a>

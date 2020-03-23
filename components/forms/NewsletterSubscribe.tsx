@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import styles from './newsletter-subscribe.module.css';
+
 const FORM_NAME = 'newsletter';
 const FORM_METHOD = 'POST';
 const FORM_ACTION = '/thank-you';
@@ -197,7 +199,7 @@ export default function NewsletterSubscribe({
 
         {/* Submit button */}
         <button
-          className={`ao-form__submit p-2 flex-shrink-0 ${VARIANT_CLASSNAMES[variant].submit}`}
+          className={`${styles.submitButton} p-2 flex-shrink-0 ${VARIANT_CLASSNAMES[variant].submit}`}
           type="submit"
           disabled={isSubmitting || isSubmitFormEnabled}
         >

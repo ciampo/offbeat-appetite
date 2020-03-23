@@ -1,0 +1,71 @@
+.portableText {
+  @apply leading-relaxed text-base font-thin;
+}
+
+.portableText h2 {
+  @apply text-2xl font-bold mt-6;
+}
+
+.portableText h3 {
+  @apply text-xl font-bold mt-4;
+}
+
+.portableText h4 {
+  @apply font-bold mt-2;
+}
+
+@screen lg {
+  .portableText {
+    @apply text-lg;
+  }
+
+  .portableText h2 {
+    @apply text-3xl font-bold;
+  }
+  .portableText h3 {
+    @apply text-2xl font-bold;
+  }
+}
+
+.portableText p + p,
+.portableText p + ul,
+.portableText p + ol,
+.portableText p + h2,
+.portableText p + h3,
+.portableText p + h4 {
+  margin-top: 0.75em;
+}
+
+.portableText ul + p,
+.portableText ul + ul,
+.portableText ul + ol,
+.portableText ol + p,
+.portableText ol + ul,
+.portableText ol + ol {
+  margin-top: 1em;
+}
+
+.portableText a {
+  @apply border-b border-dashed border-primary outline-none;
+}
+
+.portableText a:focus {
+  @apply border-solid;
+}
+
+.portableText ul,
+.portableText ol {
+  @apply pl-8;
+}
+
+.portableText li {
+  @apply pl-2 mt-2;
+}
+
+.portableText ul li {
+  list-style: disc;
+}
+
+.portableText ol li {
+  list-style: decimal;
+}
