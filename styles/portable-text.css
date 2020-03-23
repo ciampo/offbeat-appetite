@@ -53,11 +53,19 @@
   @apply border-solid;
 }
 
-.portable-text-blocks ul {
+.portable-text-blocks ul,
+.portable-text-blocks ol {
   @apply pl-8;
 }
 
 .portable-text-blocks li {
   @apply pl-2 mt-2;
+}
+
+.portable-text-blocks ul li {
   list-style: disc;
+}
+
+.portable-text-blocks ol li {
+  list-style: decimal;
 }
