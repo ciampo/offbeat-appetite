@@ -1,9 +1,12 @@
 import { SanityPersonFull } from '.';
 
+export type SanitySocialPlatform = 'instagram' | 'facebook' | 'pinterest';
+
 export type SanitySocialLink = {
   _key: string;
   url: string;
   label: string;
+  platform: SanitySocialPlatform;
 };
 
 export type SanitySiteMiscContent = {
@@ -17,6 +20,7 @@ export type SanitySiteMiscContent = {
   recipeServingsLabel: string;
   siteName: string;
   organisationEmail: string;
+  organisationEmailLabel: string;
   organisationAuthor: SanityPersonFull;
   socialLinks: SanitySocialLink[];
   socialShareLabel: string;
