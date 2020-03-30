@@ -73,6 +73,11 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
     >
       <img
         className="absolute top-0 left-0 w-full h-full object-cover"
+        style={{
+          objectPosition: image.hotspot
+            ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%`
+            : '50% 50%',
+        }}
         alt={image.alt}
         // Fallback src when srcset is not supported
         src={generateUrl({

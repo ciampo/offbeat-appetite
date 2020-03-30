@@ -17,6 +17,12 @@ export type SanityAccessibleImage = {
       };
     };
   };
+  hotspot?: {
+    height: number;
+    width: number;
+    x: number;
+    y: number;
+  };
 };
 
 export type SanityCaptionedImage = {
