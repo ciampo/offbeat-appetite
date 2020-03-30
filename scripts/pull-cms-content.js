@@ -234,6 +234,7 @@ async function getData() {
           );
 
           for (const categoryData of replacedCategoriesContent) {
+            categoryData.featuredBlogPosts = categoryData.featuredBlogPosts.flat();
             await saveToFile(categoryData, path.join(CATEGORIES_FOLDERNAME, categoryData.slug));
           }
 

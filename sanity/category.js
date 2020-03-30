@@ -4,13 +4,14 @@ const { pageCategoryQuery } = require('./pages.js');
 
 const categoryType = 'category';
 
-// TODO: allBlogPost needs to overlayDrafts
 const allCategoriesQuery = /* groq */ `*[_type == "${categoryType}"] {
   _id,
   name,
   "slug": slug.current,
-  "featuredBlogPosts": featured[]->${blogPostPreviewProjection} | order(datePublished desc),
-  "allBlogPosts": *[_type == "blogPost" && references(^._id)] ${blogPostPreviewProjection} | order(datePublished desc),
+  "featuredBlogPosts": featured[] {
+  	"post": *[_type == "blogPost" && (_id == ^._ref || _id == "drafts." + ^._ref)] ${blogPostPreviewProjection},
+	}.post,
+  "allBlogPosts": *[_type == "blogPost" && (category._ref == ^._id || 'drafts.' + category._ref == ^._id)] ${blogPostPreviewProjection} | order(datePublished desc),
   "title": ${pageCategoryQuery}[0].title,
   "seoDescription": ${pageCategoryQuery}[0].seoDescription,
   "seoTitle": ${pageCategoryQuery}[0].seoTitle,
