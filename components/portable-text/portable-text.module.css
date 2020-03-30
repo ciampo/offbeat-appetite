@@ -1,3 +1,7 @@
+.portableText {
+  word-break: break-word
+}
+
 .portableText p + p,
 .portableText p + ul,
 .portableText p + ol,
