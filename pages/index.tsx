@@ -57,19 +57,22 @@ const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({
     />
 
     <DefaultPageTransitionWrapper>
-      <section className="relative">
+      <section className="relative h-screen min-h-hero max-h-hero">
         <div
-          className="absolute text-center"
+          className="absolute text-center text-white z-10 text-shadow"
           style={{ transform: 'translate(-50%, -50%)', top: '50%', left: '50%' }}
         >
-          <h1 className="text-4xl">{homeData.title}</h1>
-          <p className="text-xl">{homeData.subtitle}</p>
+          <h1 className="text-4xl font-bold">{homeData.title}</h1>
+          <p className="text-xl mt-8">{homeData.subtitle}</p>
         </div>
 
         <AccessibleImage
           image={homeData.heroImage}
           responsiveConfig={fullBleedImageResponsiveConfig}
-          className="w-full"
+          className="z-0 absolute top-0 left-0 w-full h-full filter-darker"
+          style={{
+            paddingBottom: '0',
+          }}
         />
       </section>
 
