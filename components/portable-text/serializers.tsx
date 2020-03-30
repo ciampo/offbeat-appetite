@@ -7,6 +7,7 @@ import BlockContent from '@sanity/block-content-to-react';
 
 import CaptionedImage from '../media/CaptionedImage';
 import CaptionedVideo from '../media/CaptionedVideo';
+import { contentFullWidthResponsiveConfig } from '../media/sizes-presets';
 import Recipe from '../recipe/Recipe';
 
 import routesConfig from '../../routes-config';
@@ -81,7 +82,13 @@ const simpleSerializers = {
 };
 
 const CaptionedImageWrapper: React.FC<SanityBlockType<SanityCaptionedImage>> = (props) => (
-  <CaptionedImage image={props.node.image} caption={props.node.caption} _type={props.node._type} />
+  <CaptionedImage
+    image={props.node.image}
+    caption={props.node.caption}
+    lazy={true}
+    responsiveConfig={contentFullWidthResponsiveConfig}
+    _type={props.node._type}
+  />
 );
 
 const CaptionedVideoWrapper: React.FC<SanityBlockType<SanityCaptionedVideo>> = (props) => (
@@ -93,7 +100,16 @@ const MediaGalleryWrapper: React.FC<SanityBlockType<SanityMediaGallery>> = (prop
     {props.node.items.map((mediaGalleryItem) => {
       if (mediaGalleryItem._type === 'captionedImage') {
         const { image, _type, caption } = mediaGalleryItem as SanityCaptionedImage;
-        return <CaptionedImage image={image} caption={caption} _type={_type} />;
+        return (
+          <CaptionedImage
+            lazy={true}
+            // TODO: change to specific to media gallery
+            responsiveConfig={contentFullWidthResponsiveConfig}
+            image={image}
+            caption={caption}
+            _type={_type}
+          />
+        );
       } else if (mediaGalleryItem._type === 'captionedVideo') {
         const { video, _type, caption } = mediaGalleryItem as SanityCaptionedVideo;
         return <CaptionedVideo video={video} caption={caption} _type={_type} />;

@@ -8,6 +8,7 @@ import NewsletterSubscribe, {
 } from '../components/forms/NewsletterSubscribe';
 import BlogPostPreview from '../components/blog-post/BlogPostPreview';
 import AccessibleImage from '../components/media/AccessibleImage';
+import { fullBleedImageResponsiveConfig } from '../components/media/sizes-presets';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
@@ -65,7 +66,11 @@ const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({
           <p className="text-xl">{homeData.subtitle}</p>
         </div>
 
-        <AccessibleImage image={homeData.heroImage} />
+        <AccessibleImage
+          image={homeData.heroImage}
+          responsiveConfig={fullBleedImageResponsiveConfig}
+          className="w-full"
+        />
       </section>
 
       <ul>

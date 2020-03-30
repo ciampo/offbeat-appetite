@@ -79,6 +79,7 @@ export const fullBleedImageResponsiveConfig: AccessibleImageResponsiveConfig = {
     addDoubleRes: true,
   }) as number[],
   sizes: [{ width: '100vw' }],
+  forceRatio: 16 / 9,
 };
 
 // Used in blog post preview tiles
@@ -111,5 +112,4 @@ export const contentFullWidthResponsiveConfig: AccessibleImageResponsiveConfig =
       width: `calc(100vw - 2 * ${sectionPaddingH})`,
     },
   ],
-  forceRatio: 1,
 };

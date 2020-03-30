@@ -3,6 +3,7 @@ import { NextComponentType, GetStaticProps, GetStaticPaths } from 'next';
 
 import PageMeta from '../../components/PageMeta';
 import AccessibleImage from '../../components/media/AccessibleImage';
+import { fullBleedImageResponsiveConfig } from '../../components/media/sizes-presets';
 import RichPortableText from '../../components/portable-text/RichPortableText';
 import DefaultPageTransitionWrapper from '../../components/page-transition-wrappers/Default';
 
@@ -49,10 +50,14 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
           <p className="text-xl mt-8">{blogPostData.excerpt}</p>
         </div>
 
-        <AccessibleImage image={blogPostData.heroImage} style={{ width: '100%' }} />
+        <AccessibleImage
+          image={blogPostData.heroImage}
+          responsiveConfig={fullBleedImageResponsiveConfig}
+          className="w-full z-0 filter-darker"
+        />
       </section>
 
-      <section className="max-w-2xl px-4 mx-auto mt-8 lg:max-w-3xl">
+      <section className="max-w-2xl px-6 mx-auto mt-8 lg:max-w-3xl">
         <RichPortableText blocks={blogPostData.content} />
       </section>
     </DefaultPageTransitionWrapper>

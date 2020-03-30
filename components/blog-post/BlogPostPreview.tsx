@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import AccessibleImage from '../media/AccessibleImage';
+import { blogPostPreviewResponsiveConfig } from '../media/sizes-presets';
 
 import routesConfig from '../../routes-config';
 import { compileSingleRoute } from '../../scripts/compile-routes';
@@ -25,7 +26,12 @@ const BlogPostPreview: React.FC<BlogPostPreviewProps> = ({ blogPostData }) => {
       <a className="flex flex-col">
         <p className="text-lg font-bold order-2">{blogPostData.title}</p>
         <p className="order-3">{blogPostData.excerpt}</p>
-        <AccessibleImage image={blogPostData.previewImage} lazy={true} className="order-1" />
+        <AccessibleImage
+          image={blogPostData.previewImage}
+          lazy={true}
+          responsiveConfig={blogPostPreviewResponsiveConfig}
+          className="order-1 w-full"
+        />
       </a>
     </Link>
   );
