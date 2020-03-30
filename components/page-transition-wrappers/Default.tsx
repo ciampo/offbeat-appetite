@@ -9,7 +9,11 @@ import { customEaseOut } from '../../scripts/utils';
 const fadeInTransitionUp = {
   opacity: 1,
   y: 0,
-  transition: { duration: 0.6, delay: 0.2, ease: customEaseOut },
+  transition: { duration: 0.4, delay: 0.2, ease: customEaseOut },
+};
+const transparent = {
+  opacity: 0,
+  y: 0,
 };
 const fadeOutTransitionDown = {
   opacity: 0,
@@ -27,11 +31,12 @@ const DefaultPageTransitionWrapper: React.FC<CustomPageTransitionProps> = ({
 }) => (
   <motion.div
     className=""
-    initial="exit"
+    initial="transparent"
     animate="enter"
     exit="exit"
     variants={{
       enter: fadeInTransitionUp,
+      transparent,
       exit: fadeOutTransitionDown,
     }}
     onAnimationComplete={onComplete}
