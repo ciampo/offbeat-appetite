@@ -1,13 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-import resolveConfig from 'tailwindcss/resolveConfig';
-import tailwindConfig from '../../tailwind.config';
-
-// This twTheme import (instead of the whole tailwind config) enables
-// massive savings in terms of bundle size are achieved by
-// not importing tailwind's config directly.
-const { theme: twTheme } = resolveConfig(tailwindConfig);
-// console.log(twTheme);
+import { sharedTheme as twTheme } from '../../tailwind.shared';
 
 function remToPx(rem: string): number {
   return parseFloat(rem) * 16;

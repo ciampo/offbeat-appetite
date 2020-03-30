@@ -1,18 +1,23 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const { sharedTheme } = require('./tailwind.shared.js');
 
 module.exports = {
   theme: {
     extend: {
       screens: {
+        ...sharedTheme.screens,
         xsm: '480px',
       },
-      // spacing: {},
+      spacing: {
+        ...sharedTheme.spacing,
+      },
       colors: {
         primary: 'var(--color-primary)',
         secondary: 'var(--color-secondary)',
         background: 'var(--color-background)',
       },
       maxWidth: {
+        ...sharedTheme.maxWidth,
         '1/4': '25%',
         '1/2': '50%',
         '3/4': '75%',
