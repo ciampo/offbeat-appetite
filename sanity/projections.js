@@ -1,5 +1,30 @@
+// const accessibleImageProjection = /* groq */ `{
+//   "url": image.asset->url,
+//   "alt": image.alt,
+// }`;
 const accessibleImageProjection = /* groq */ `{
-  "url": image.asset->url,
+  "_type": image._type,
+  "asset": image.asset->{
+    _id,
+    url,
+    assetId,
+    extension,
+    metadata {
+      dimensions {
+        aspectRatio,
+        height,
+        width,
+      },
+      palette {
+        dominant {
+          background,
+          foreground,
+        },
+      },
+    },
+  },
+  "crop": image.crop,
+  "hotspot": image.hotspot,
   "alt": image.alt,
 }`;
 

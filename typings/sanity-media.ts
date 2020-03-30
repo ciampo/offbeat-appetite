@@ -1,6 +1,22 @@
+import { SanityAsset } from '@sanity/image-url/lib/types/types';
+
 export type SanityAccessibleImage = {
-  url: string;
   alt: string;
+  asset: SanityAsset & {
+    metadata: {
+      dimensions: {
+        aspectRatio: number;
+        height: number;
+        width: number;
+      };
+      palette: {
+        dominant: {
+          background: string;
+          foreground: string;
+        };
+      };
+    };
+  };
 };
 
 export type SanityCaptionedImage = {
