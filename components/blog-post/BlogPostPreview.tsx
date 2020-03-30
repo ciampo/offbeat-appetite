@@ -30,7 +30,7 @@ const BlogPostPreview: React.FC<BlogPostPreviewProps> = ({ blogPostData }) => {
           image={blogPostData.previewImage}
           lazy={true}
           responsiveConfig={blogPostPreviewResponsiveConfig}
-          className="order-1 w-full"
+          className="relative w-full h-0 order-1"
         />
       </a>
     </Link>
