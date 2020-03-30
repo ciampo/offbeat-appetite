@@ -17,6 +17,12 @@ module.exports = {
         '1/2': '50%',
         '3/4': '75%',
       },
+      minHeight: {
+        hero: '25rem',
+      },
+      maxHeight: {
+        hero: '50rem',
+      },
     },
     aspectRatio: {
       square: [1, 1],

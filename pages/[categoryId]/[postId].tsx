@@ -38,7 +38,7 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
     />
 
     <DefaultPageTransitionWrapper>
-      <section className="relative">
+      <section className="relative h-screen min-h-hero max-h-hero">
         <div
           className="absolute text-center text-white z-10 text-shadow"
           style={{ transform: 'translate(-50%, -50%)', top: '50%', left: '50%' }}
@@ -53,7 +53,10 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
         <AccessibleImage
           image={blogPostData.heroImage}
           responsiveConfig={fullBleedImageResponsiveConfig}
-          className="w-full z-0 filter-darker"
+          className="z-0 absolute top-0 left-0 w-full h-full filter-darker"
+          style={{
+            paddingBottom: '0',
+          }}
         />
       </section>
 
