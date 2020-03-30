@@ -33,6 +33,7 @@ type AccessibleImageProps = {
   responsiveConfig: AccessibleImageResponsiveConfig;
   lazy?: boolean;
   className?: string;
+  style?: React.CSSProperties;
   [key: string]: unknown;
 };
 
@@ -40,7 +41,7 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
   image,
   lazy,
   responsiveConfig: { exports, sizes, forceRatio },
-  className,
+  style,
   ...props
 }) => {
   if (!exports.length || !sizes.length) {
@@ -60,7 +61,6 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
   return (
     <div
       {...props}
-      className={`relative w-full h-0 ${className || ''}`}
       style={{
         // Fills the space when the image is lazily loaded
         backgroundColor: image.asset.metadata.palette.dominant.background,
@@ -68,6 +68,7 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
         paddingBottom: `${Math.round(
           100000 / (forceRatio || image.asset.metadata.dimensions.aspectRatio)
         ) / 1000}%`,
+        ...style,
       }}
     >
       <img
@@ -106,6 +107,9 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
       />
     </div>
   );
+};
+AccessibleImage.defaultProps = {
+  className: 'relative w-full h-0',
 };
 
 export default AccessibleImage;
