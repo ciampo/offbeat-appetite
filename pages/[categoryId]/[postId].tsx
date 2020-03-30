@@ -39,7 +39,7 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
     <DefaultPageTransitionWrapper>
       <section className="relative">
         <div
-          className="absolute text-center text-white"
+          className="absolute text-center text-white z-10 text-shadow"
           style={{ transform: 'translate(-50%, -50%)', top: '50%', left: '50%' }}
         >
           <h1 className="flex flex-col-reverse items-center">

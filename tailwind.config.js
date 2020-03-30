@@ -94,6 +94,12 @@ module.exports = {
         '.tf-none': {
           transform: 'none',
         },
+        '.filter-darker': {
+          filter: 'brightness(0.7)',
+        },
+        '.text-shadow': {
+          textShadow: '0 0 0.25rem rgba(0, 0, 0, 0.3)',
+        },
       };
 
       addUtilities(newUtilities, ['responsive', 'focus']);
