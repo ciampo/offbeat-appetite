@@ -128,7 +128,7 @@ function generateArticleAuthorStructuredData(person: SanityPersonFull): Structur
   });
 }
 
-function generateBlogPostKeywords({ tags, keywords }: SanityBlogPostFull): string {
+function generateBlogPostKeywords({ tags = [], keywords }: SanityBlogPostFull): string {
   return [...keywords, ...tags.map(({ name }) => name)].join(', ');
 }
 
