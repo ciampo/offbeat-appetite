@@ -29,7 +29,7 @@
     "lint:styles": "stylelint --ignore-path .gitignore '**/*.css'",
     "lint:scripts": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "validate": "run-p check-types check-format lint:scripts lint:styles test",
-    "setup": "run-s install validate",
+    "setup": "yarn install && yarn validate",
     "test": "jest"
   },
   "browserslist": [
