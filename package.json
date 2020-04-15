@@ -30,7 +30,9 @@
     "lint:scripts": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "validate": "run-p check-types check-format lint:scripts lint:styles test",
     "setup": "yarn install && yarn data && yarn validate",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch"
   },
   "browserslist": [
     "> 1%",
