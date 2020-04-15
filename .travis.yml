@@ -1,0 +1,14 @@
+sudo: false
+language: node_js
+cache:
+  yarn: true
+  directories:
+    - ~/.npm
+    - node_modules
+notifications:
+  email: false
+node_js: '12'
+install: echo "install happens as part of setup"
+script: yarn setup
+branches:
+  only: master
