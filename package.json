@@ -29,6 +29,7 @@
     "lint:styles": "stylelint --ignore-path .gitignore '**/*.css'",
     "lint:scripts": "jest --config test/jest.eslint.js",
     "validate": "run-p check-types check-format lint:styles test",
+    "postvalidate": "yarn static",
     "setup": "yarn install && yarn data && yarn validate",
     "test": "is-ci \"test:coverage\" \"test:watch\"",
     "test:coverage": "jest --coverage",
