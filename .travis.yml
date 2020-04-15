@@ -9,5 +9,6 @@ before_install:
   - export PATH="$HOME/.yarn/bin:$PATH"
 install: echo "install happens as part of setup"
 script: yarn setup
+after_script: npx codecov@3
 branches:
   only: master
