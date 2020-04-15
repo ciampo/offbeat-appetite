@@ -5201,6 +5201,14 @@ eslint-config-prettier@^6.5.0:
   dependencies:
     get-stdin "^6.0.0"
 
+eslint-import-resolver-jest@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-import-resolver-jest/-/eslint-import-resolver-jest-3.0.0.tgz#fd61da30fe58f4c1074af1f069b4267c70a91fd6"
+  integrity sha512-dCrepGDfaI5cK1QeUhUSbrkDalFkFGXyvjsfWyDxg1uPWiwsGpGmK6GFVPS4mn/IAYLipquB9AHonGQP/iaOAQ==
+  dependencies:
+    find-root "^1.1.0"
+    resolve "^1.12.0"
+
 eslint-loader@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/eslint-loader/-/eslint-loader-4.0.0.tgz#ab096ce9168fa167e4159afff66692c173fc7b79"
@@ -5879,6 +5887,11 @@ find-cache-dir@^2.1.0:
     commondir "^1.0.1"
     make-dir "^2.0.0"
     pkg-dir "^3.0.0"
+
+find-root@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/find-root/-/find-root-1.1.0.tgz#abcfc8ba76f708c42a97b3d685b7e9450bfb9ce4"
+  integrity sha512-NKfW6bec6GfKc0SGx1e07QZY9PE99u0Bft/0rzSD5k3sO/vwkVUpDUKVm5Gpp5Ue3YfShPFTX2070tDs5kB9Ng==
 
 find-up@2.1.0, find-up@^2.1.0:
   version "2.1.0"

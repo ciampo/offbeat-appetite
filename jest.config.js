@@ -1,7 +1,12 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path');
+const { defaults } = require('jest-config');
+
 module.exports = {
   // moduleFileExtensions: [...defaults.moduleFileExtensions, 'ts', 'tsx'],
   // collectCoverageFrom: ['**/*.{js,jsx,ts,tsx}', '!**/*.d.ts', '!**/node_modules/**'],
   testEnvironment: 'jsdom',
+  moduleDirectories: [...defaults.moduleDirectories, path.join(__dirname, 'test')],
   moduleNameMapper: {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
     '\\.css$': require.resolve('./test/style-mock.js'),
