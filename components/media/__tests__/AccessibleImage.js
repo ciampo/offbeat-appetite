@@ -1,5 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render } from 'offbeat-appetite-render';
+
 import AccessibleImage from '../AccessibleImage';
 import { contentFullWidthResponsiveConfig } from '../sizes-presets';
 
