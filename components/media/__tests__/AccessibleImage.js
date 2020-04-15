@@ -43,11 +43,11 @@ const testImage = {
 };
 
 test('renders', () => {
-  const { getByRole } = render(
+  const { getByRole, container } = render(
     <AccessibleImage image={testImage} responsiveConfig={contentFullWidthResponsiveConfig} />
   );
 
   expect(getByRole('img')).toHaveAttribute('alt', testImage.alt);
 
-  // expect(container).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
