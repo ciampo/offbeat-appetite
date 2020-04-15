@@ -8,7 +8,8 @@
     "url": "https://github.com/ciampo/offbeat-appetite.git"
   },
   "engines": {
-    "node": ">=12.3.1"
+    "node": ">=12.3.1",
+    "yarn": "^1.22.4"
   },
   "license": "MIT",
   "private": true,
