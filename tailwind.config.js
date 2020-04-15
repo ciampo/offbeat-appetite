@@ -43,7 +43,7 @@ module.exports = {
   },
   plugins: [
     require('tailwindcss-aspect-ratio')(),
-    function({ addUtilities }) {
+    function ({ addUtilities }) {
       const newUtilities = {
         // Contain
         '.contain-s': {

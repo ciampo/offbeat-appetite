@@ -65,9 +65,7 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
         // Fills the space when the image is lazily loaded
         backgroundColor: image.asset.metadata.palette.dominant.background,
         // Force aspect ratio (avoids layout shifting)
-        paddingBottom: `${Math.round(
-          100000 / (forceRatio || image.asset.metadata.dimensions.aspectRatio)
-        ) / 1000}%`,
+        paddingBottom: `${100000 / (forceRatio || image.asset.metadata.dimensions.aspectRatio)}%`,
         ...style,
       }}
     >
