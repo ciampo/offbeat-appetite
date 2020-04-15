@@ -2,9 +2,12 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/8a466cb6-4eef-463d-81be-18240576884d/deploy-status)](https://app.netlify.com/sites/offbeatappetite/deploys)
 
+[![Build Status](https://travis-ci.org/ciampo/offbeat-appetite.svg?branch=master)](https://travis-ci.org/ciampo/offbeat-appetite)
+
 TL;DR:
 
-- [Sanity](https://sanity.io) as Headless CMS ([repo here](https://github.com/ciampo/offbeat-appetite-sanity))
+- [Sanity](https://sanity.io) as Headless CMS
+  ([repo here](https://github.com/ciampo/offbeat-appetite-sanity))
 - [Next.js](https://nextjs.org/) as Static Site Generator
 - [Netlify](https://www.netlify.com/) as Static Site Hosting
 
@@ -25,7 +28,8 @@ Starts the application in development mode (hot-code reloading, error reporting,
 
 ### `yarn data`
 
-Pulls data from Sanity (make sure you added env variables both into a `.env` and into your Netlify project)
+Pulls data from Sanity (make sure you added env variables both into a `.env` and into your Netlify
+project)
 
 ### `yarn static`
 
@@ -43,7 +47,8 @@ Compiles the application for production deployment (SSR).
 
 ### `yarn serve:ssr`
 
-Starts and serves the application in production mode. The application should be compiled with `yarn build` first.
+Starts and serves the application in production mode. The application should be compiled with
+`yarn build` first.
 
 ### `yarn analyze`
 
@@ -59,16 +64,19 @@ Lints scripts and styles, and tries to auto-fix any errors.
 
 ## ⚖️ Staging vs Production deploys
 
-The [`staging`](https://app.netlify.com/sites/offbeatappetite-staging) and [`production`](https://app.netlify.com/sites/offbeatappetite) sites **are hosted on Netlify and are both *static sites***. Both projects are deployed via a CI/CD pipeline triggered by new commits to the master branch on this repo.
+The [`staging`](https://app.netlify.com/sites/offbeatappetite-staging) and
+[`production`](https://app.netlify.com/sites/offbeatappetite) sites **are hosted on Netlify and are
+both _static sites_**. Both projects are deployed via a CI/CD pipeline triggered by new commits to
+the master branch on this repo.
 
 There are a few differences between the staging and production sites:
 
-| Feature (via env variables) | Dev (local) |  Staging | Production |
-|:---------------------------:|:-----------:|:--------:|:----------:|
-| Google Analytics            |   staging   |  staging |    prod    |
-| Subscribe Form              |   enabled   | disabled |   enabled  |
-| Sanity Token for drafts     |     Yes     |    Yes   |     No     |
-| Canonical URL               |     prod    |  staging |    prod    |
+| Feature (via env variables) | Dev (local) | Staging  | Production |
+| :-------------------------: | :---------: | :------: | :--------: |
+|      Google Analytics       |   staging   | staging  |    prod    |
+|       Subscribe Form        |   enabled   | disabled |  enabled   |
+|   Sanity Token for drafts   |     Yes     |   Yes    |     No     |
+|        Canonical URL        |    prod     | staging  |    prod    |
 
 ## 👻 Contributors
 
