@@ -6,6 +6,7 @@ module.exports = {
     '!**/node_modules/**',
     '!**/.next/**',
     '!**/out/**',
+    '!**/__tests__/**',
   ],
   coverageThreshold: {
     global: {
