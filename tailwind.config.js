@@ -29,20 +29,16 @@ module.exports = {
         hero: '50rem',
       },
     },
-    aspectRatio: {
-      square: [1, 1],
-      '16/9': [16, 9],
-      '4/3': [4, 3],
-      '21/9': [21, 9],
-    },
+    aspectRatio: { none: 0, square: [1, 1], '16/9': [16, 9], '4/3': [4, 3], '21/9': [21, 9] },
   },
   variants: {
     zIndex: ['responsive', 'focus'],
     borderStyle: ['responsive', 'focus'],
     borderWidth: ['responsive', 'focus'],
+    aspectRatio: ['responsive'],
   },
   plugins: [
-    require('tailwindcss-aspect-ratio')(),
+    require('tailwindcss-aspect-ratio'),
     function ({ addUtilities }) {
       const newUtilities = {
         // Contain

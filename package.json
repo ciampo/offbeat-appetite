@@ -45,7 +45,7 @@
     "preact": "^10.0.4",
     "react-ga": "^2.7.0",
     "react-use": "^14.1.1",
-    "tailwindcss-aspect-ratio": "^3.0.0"
+    "tailwindcss-aspect-ratio": "3.0.0"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.1.2",
