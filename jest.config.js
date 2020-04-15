@@ -11,6 +11,21 @@ module.exports = {
     '!**/.next/**',
     '!**/out/**',
   ],
+  coverageThreshold: {
+    global: {
+      statements: 4,
+      branches: 5,
+      functions: 4,
+      lines: 4,
+    },
+    // Example for a single file
+    './components/media/AccessibleImage.tsx': {
+      statements: 68,
+      branches: 64,
+      functions: 100,
+      lines: 68,
+    },
+  },
   testEnvironment: 'jsdom',
   moduleDirectories: [...defaults.moduleDirectories, path.join(__dirname, 'test')],
   moduleNameMapper: {
