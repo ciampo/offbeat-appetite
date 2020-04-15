@@ -1,5 +1,3 @@
-// const {defaults} = require('jest-config');
-
 module.exports = {
   // moduleFileExtensions: [...defaults.moduleFileExtensions, 'ts', 'tsx'],
   // collectCoverageFrom: ['**/*.{js,jsx,ts,tsx}', '!**/*.d.ts', '!**/node_modules/**'],
