@@ -10,11 +10,23 @@ module.exports = {
       dev
         ? false
         : {
-            content: ['./pages/**/*.{js,tsx}', './components/**/*.{js,tsx}'],
-            defaultExtractor: (content) => content.match(/[\w-:/]+(?<!:)/g) || [],
+            content: ['./pages/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
+            defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
           },
     ],
-    'autoprefixer',
+    'postcss-flexbugs-fixes',
+    [
+      'postcss-preset-env',
+      {
+        autoprefixer: {
+          flexbox: 'no-2009',
+        },
+        stage: 3,
+        features: {
+          'custom-properties': false,
+        },
+      },
+    ],
     ['cssnano', dev ? false : true],
     ['postcss-reporter', { clearReportedMessages: true }],
   ],

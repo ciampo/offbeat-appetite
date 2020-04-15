@@ -77,6 +77,8 @@
     "node-fetch": "^2.6.0",
     "npm-run-all": "^4.1.5",
     "postcss-easy-import": "^3.0.0",
+    "postcss-flexbugs-fixes": "^4.2.0",
+    "postcss-preset-env": "^6.7.0",
     "postcss-reporter": "^6.0.1",
     "preact-devtools": "^0.0.1",
     "preact-render-to-string": "^5.1.1",
