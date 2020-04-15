@@ -1,9 +1,9 @@
 {
-  "*.{js|jsx|ts|tsx}": [
-    "eslint"
-  ],
-  "*.+(js|jsx|ts|tsx|json)": [
+  "*.(js|jsx|ts|tsx|json)": [
     "prettier --write"
+  ],
+  "*.(js|jsx|ts|tsx)": [
+    "jest --bail --findRelatedTests"
   ],
   "*.css": [
     "stylelint"
