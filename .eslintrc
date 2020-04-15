@@ -50,6 +50,15 @@
       "rules": {
         "react/prop-types": "off"
       }
+    },
+    {
+      // Rules specific for jest test files
+      "files": ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
+      "plugins": ["jest"],
+      "extends": ["plugin:jest/recommended", "plugin:jest/style"],
+      "env": {
+        "jest/globals": true
+      }
     }
   ]
 }
