@@ -59,55 +59,14 @@ module.exports = {
           contain: 'layout',
         },
         // Transition
-        '.ts-tf-custom': {
-          transitionTimingFunction: 'cubic-bezier(0.175, 0.85, 0.42, 0.96)',
-        },
-        '.ts-tf-eo': {
-          transitionTimingFunction: 'ease-out',
-        },
-        '.ts-tf-ei': {
-          transitionTimingFunction: 'ease-in',
-        },
-        '.ts-d-100': {
-          transitionDuration: '0.1s',
-        },
-        '.ts-d-150': {
-          transitionDuration: '0.15s',
-        },
-        '.ts-d-200': {
-          transitionDuration: '0.2s',
-        },
-        '.ts-d-300': {
-          transitionDuration: '0.3s',
-        },
-        '.ts-d-500': {
-          transitionDuration: '0.5s',
-        },
-        '.ts-p-o': {
-          transitionProperty: 'opacity',
-        },
-        '.ts-p-t': {
-          transitionProperty: 'transform',
-        },
-        '.ts-p-o-t': {
-          transitionProperty: 'opacity, transform',
-        },
         '.ts-inherit': {
           transition: 'inherit',
         },
-        // Transform
-        '.tf-scale-up': {
-          transform: 'scale(1.05)',
-        },
-        '.tf-scale-down': {
-          transform: 'scale(0.96)',
-        },
-        '.tf-none': {
-          transform: 'none',
-        },
+        // Filter
         '.filter-darker': {
           filter: 'brightness(0.7)',
         },
+        // Text shadow
         '.text-shadow': {
           textShadow: '0 0 0.25rem rgba(0, 0, 0, 0.3)',
         },
