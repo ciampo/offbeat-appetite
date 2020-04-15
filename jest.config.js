@@ -22,6 +22,6 @@ module.exports = {
       lines: 68,
     },
   },
-  projects: ['./test/jest.client.js', './test/jest.server.js'],
-  // testPathIgnorePatterns: ['/node_modules/', '/.next/'],
+  projects: ['./test/jest.eslint.js', './test/jest.client.js', './test/jest.server.js'],
+  testPathIgnorePatterns: ['/node_modules/', '/.next/'],
 };

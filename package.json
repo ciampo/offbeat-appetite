@@ -27,13 +27,18 @@
     "check-format": "yarn prettier --list-different",
     "check-types": "tsc --noEmit",
     "lint:styles": "stylelint --ignore-path .gitignore '**/*.css'",
-    "lint:scripts": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
-    "validate": "run-p check-types check-format lint:scripts lint:styles test",
+    "lint:scripts": "jest --config test/jest.eslint.js",
+    "validate": "run-p check-types check-format lint:styles test",
     "setup": "yarn install && yarn data && yarn validate",
     "test": "is-ci \"test:coverage\" \"test:watch\"",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch"
+  },
+  "jest-runner-eslint": {
+    "cliOptions": {
+      "ignorePath": ".gitignore"
+    }
   },
   "browserslist": [
     "> 1%",
@@ -77,6 +82,9 @@
     "husky": "^4.2.5",
     "is-ci-cli": "^2.0.0",
     "jest": "^25.3.0",
+    "jest-runner-eslint": "^0.7.6",
+    "jest-watch-select-projects": "^2.0.0",
+    "jest-watch-typeahead": "^0.5.0",
     "lint-staged": "^10.0.0-1",
     "module-alias": "^2.2.2",
     "netlify-cli": "^2.20.2",
