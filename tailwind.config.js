@@ -36,8 +36,18 @@ module.exports = {
     borderStyle: ['responsive', 'focus'],
     borderWidth: ['responsive', 'focus'],
     aspectRatio: ['responsive'],
+    cursor: ['responsive', 'disabled'],
+    inset: ['responsive', 'before', 'after'],
+    opacity: ['responsive', 'hover', 'focus', 'before', 'after'],
+    position: ['responsive', 'before', 'after'],
+    width: ['responsive', 'before', 'after'],
+    transitionProperty: ['responsive', 'before', 'after'],
+    transitionTimingFunction: ['responsive', 'before', 'after'],
+    transitionDuration: ['responsive', 'before', 'after'],
+    transitionDelay: ['responsive', 'before', 'after'],
   },
   plugins: [
+    require('tailwindcss-pseudo-elements'),
     require('tailwindcss-aspect-ratio'),
     function ({ addUtilities }) {
       const newUtilities = {
@@ -66,9 +76,17 @@ module.exports = {
         '.text-shadow': {
           textShadow: '0 0 0.25rem rgba(0, 0, 0, 0.3)',
         },
+        // Background
+        '.bg-inherit': {
+          background: 'inherit',
+        },
+        // Pseudo-elements
+        '.empty-content': {
+          content: "''",
+        },
       };
 
-      addUtilities(newUtilities, ['responsive', 'focus']);
+      addUtilities(newUtilities, ['responsive', 'focus', 'before', 'after']);
     },
   ],
 };
