@@ -2,6 +2,18 @@ import React from 'react';
 
 import { SanityAccessibleVideo } from '../../typings';
 
+/*
+OLD STYLES
+.video-player {
+  @apply relative shadow-lg;
+}
+
+.video-player--paused {
+  outline: 0.03rem solid var(--color-primary-lighter);
+}
+
+*/
+
 type AccessibleVideoProps = {
   video: SanityAccessibleVideo;
 };
