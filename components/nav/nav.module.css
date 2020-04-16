@@ -1,3 +1,5 @@
+/* Replace with https://github.com/benface/tailwindcss-animations */
+
 .navLink {
   position: relative;
 }
@@ -11,7 +13,7 @@
   width: 100%;
   opacity: 0;
   transform-origin: 0 0;
-  transition: opacity .3s ease-out;
+  transition: opacity 0.3s ease-out;
   position: absolute;
   z-index: 1;
 }
