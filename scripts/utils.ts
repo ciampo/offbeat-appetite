@@ -1,7 +1,7 @@
 import { SanityIngredient } from '../typings';
 
-export const joinUrl = (a: string, b: string): string =>
-  a.replace(/\/+$/, '') + '/' + b.replace(/^\/+/, '');
+export const joinUrl = (a: string, b = ''): string =>
+  a.replace(/\/+$/, '') + (b ? '/' + b.replace(/^\/+/, '') : '');
 
 export const slugify = (text: string): string =>
   text
@@ -31,14 +31,10 @@ export const arraySortNumberAsc = (array: number[]): number[] => {
   return copy;
 };
 
-export const isIoSupported = process.browser
-  ? 'IntersectionObserver' in window &&
-    'IntersectionObserverEntry' in window &&
-    'intersectionRatio' in window.IntersectionObserverEntry.prototype
-  : true;
-
 export function stringifyRecipeIngredient({ name, unit, quantity }: SanityIngredient): string {
-  return `${quantity === 0 ? '' : quantity}${
-    unit === 'unitless' ? (quantity === 0 ? '' : ' ') : `${unit} `
-  }${name}`;
+  const quantityString: string = quantity === 0 ? '' : `${quantity}`;
+  // const unitString: string = unit === 'unitless' ? (quantity === 0 ? '' : ' ') : `${unit} `;
+  const unitString: string = quantity === 0 ? '' : unit === 'unitless' ? ' ' : `${unit} `;
+
+  return `${quantityString}${unitString}${name}`;
 }

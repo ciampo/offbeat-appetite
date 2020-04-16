@@ -10,15 +10,15 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      statements: 4,
-      branches: 5,
-      functions: 4,
-      lines: 4,
+      statements: 6,
+      branches: 12,
+      lines: 6,
+      functions: 7,
     },
     // Example for a single file
     './components/media/AccessibleImage.tsx': {
       statements: 68,
-      branches: 64,
+      branches: 60,
       functions: 100,
       lines: 68,
     },
