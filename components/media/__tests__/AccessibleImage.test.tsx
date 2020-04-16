@@ -6,7 +6,7 @@ import { contentFullWidthResponsiveConfig } from '../sizes-presets';
 
 import { heroImage as homePageHeroImage } from '../../../data/pageHome.json';
 
-test('renders', () => {
+test('renders an image', () => {
   const { getByRole } = render(
     <AccessibleImage
       image={homePageHeroImage}

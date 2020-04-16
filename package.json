@@ -58,6 +58,7 @@
     "tailwindcss-aspect-ratio": "3.0.0"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.9.0",
     "@fullhuman/postcss-purgecss": "^2.1.2",
     "@next/bundle-analyzer": "^9.1.2",
     "@sanity/client": "^1.149.2",

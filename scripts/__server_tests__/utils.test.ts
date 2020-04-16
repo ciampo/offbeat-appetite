@@ -1,3 +1,5 @@
+import { SanityIngredient } from '../../typings';
+
 import {
   slugify,
   joinUrl,
@@ -45,25 +47,25 @@ test('arraySortNumberAsc', () => {
 });
 
 test('stringifyRecipeIngredient', () => {
-  const ingNoQuantityNoUnit = {
+  const ingNoQuantityNoUnit: SanityIngredient = {
     _key: 'test',
     name: 'test ingredient',
     unit: 'unitless',
     quantity: 0,
   };
-  const ingQuantityNoUnit = {
+  const ingQuantityNoUnit: SanityIngredient = {
     _key: 'test',
     name: 'test ingredient',
     unit: 'unitless',
     quantity: 10,
   };
-  const ingNoQuantityWithUnit = {
+  const ingNoQuantityWithUnit: SanityIngredient = {
     _key: 'test',
     name: 'test ingredient',
     unit: 'gr',
     quantity: 0,
   };
-  const ingQuantityWithUnit = {
+  const ingQuantityWithUnit: SanityIngredient = {
     _key: 'test',
     name: 'test ingredient',
     unit: 'gr',
