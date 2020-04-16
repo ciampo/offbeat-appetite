@@ -1,0 +1,44 @@
+.generic-portable-text {
+  @apply leading-relaxed text-base font-thin break-words;
+}
+
+@screen lg {
+  .generic-portable-text {
+    @apply text-lg;
+  }
+}
+
+.generic-portable-text p + p,
+.generic-portable-text p + ul,
+.generic-portable-text p + ol,
+.generic-portable-text p + h2,
+.generic-portable-text p + h3,
+.generic-portable-text p + h4 {
+  margin-top: 0.75em;
+}
+
+.generic-portable-text ul + p,
+.generic-portable-text ul + ul,
+.generic-portable-text ul + ol,
+.generic-portable-text ol + p,
+.generic-portable-text ol + ul,
+.generic-portable-text ol + ol {
+  margin-top: 1em;
+}
+
+.generic-portable-text ul,
+.generic-portable-text ol {
+  @apply pl-8;
+}
+
+.generic-portable-text li {
+  @apply pl-2 mt-2;
+}
+
+.generic-portable-text ul {
+  @apply list-disc;
+}
+
+.generic-portable-text ol {
+  @apply list-decimal;
+}

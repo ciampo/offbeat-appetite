@@ -1,7 +1,5 @@
 import React from 'react';
 
-import styles from './portable-text.module.css';
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import BlockContent from '@sanity/block-content-to-react';
@@ -14,7 +12,7 @@ type GenericPortableTextProps = {
 };
 const GenericPortableText: React.FC<GenericPortableTextProps> = ({ blocks, serializers }) => (
   <BlockContent
-    className={`${styles.portableText} leading-relaxed text-base font-thin lg:text-lg`}
+    className="generic-portable-text"
     renderContainerOnSingleChild={true}
     serializers={serializers}
     blocks={blocks}
