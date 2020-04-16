@@ -6,8 +6,6 @@ import { NextComponentType } from 'next';
 import { UiLink } from '../../typings';
 import { beforeLogo, logo, afterLogo } from '../../data/navLinks.json';
 
-import styles from './nav.module.css';
-
 const Nav: NextComponentType = () => {
   const [loadingRoute, setLoadingRoute] = useState<string | null>(null);
   const router = useRouter();
@@ -41,11 +39,14 @@ const Nav: NextComponentType = () => {
               <li key={`${index}-${href}`} className="flex py-1 px-2">
                 <Link href={href} scroll={false} as={as}>
                   <a
-                    className={`outline-none no-underline text-sm text-primary focus:border-primary  contain-layout-paint ${
-                      styles.navLink
-                    } ${router.asPath === (as ? as : href) ? styles.navLinkSelected : ''} ${
-                      loadingRoute === href ? styles.navLinkLoading : ''
-                    }`}
+                    className={[
+                      'relative no-underline text-sm text-primary contain-layout-paint',
+                      'after:empty-content after:opacity-0 after:absolute after:z-10 after:w-full after:h-px after:left-0 after:bottom-0 after:bg-current after:origin-top-left after:transition-opacity after:duration-300 after:ease-out',
+                      router.asPath === (as ? as : href) ? 'after:delay-100 after:opacity-100' : '',
+                      loadingRoute === href
+                        ? 'after:opacity-100 after:animation-loadinglink after:animation-2s after:animation-infinite after:animation-ease-out'
+                        : '',
+                    ].join(' ')}
                   >
                     {label}
                   </a>
