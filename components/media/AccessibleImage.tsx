@@ -25,7 +25,7 @@ function generateUrl({
     builder = builder.width(Math.round(width));
   }
 
-  return builder.url() || '';
+  return builder.url() as string;
 }
 
 type AccessibleImageProps = {
@@ -42,7 +42,7 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
   lazy,
   responsiveConfig: { exports, sizes, forceRatio },
   style,
-  className = 'relative w-full h0',
+  className = 'relative w-full h-0',
   ...props
 }) => {
   if (!exports.length || !sizes.length) {
@@ -73,6 +73,7 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
         }%`,
         ...style,
       }}
+      data-testid="image-wrapper"
     >
       <img
         className="absolute top-0 left-0 w-full h-full object-cover"
@@ -115,9 +116,6 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
       />
     </div>
   );
-};
-AccessibleImage.defaultProps = {
-  className: 'relative w-full h-0',
 };
 
 export default AccessibleImage;

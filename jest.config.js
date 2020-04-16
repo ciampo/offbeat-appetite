@@ -11,16 +11,9 @@ module.exports = {
   coverageThreshold: {
     global: {
       statements: 6,
-      branches: 12,
-      lines: 6,
-      functions: 7,
-    },
-    // Example for a single file
-    './components/media/AccessibleImage.tsx': {
-      statements: 68,
-      branches: 60,
-      functions: 100,
-      lines: 68,
+      branches: 15,
+      functions: 5,
+      lines: 5,
     },
   },
   projects: ['./test/jest.eslint.js', './test/jest.client.js', './test/jest.server.js'],
