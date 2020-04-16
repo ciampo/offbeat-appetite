@@ -1,6 +1,6 @@
 import { SanityBlock } from '.';
 
-export type SanityIngredientUnit = 'kg' | 'ml' | 'l' | 'unitless';
+export type SanityIngredientUnit = 'gr' | 'kg' | 'ml' | 'l' | 'unitless';
 
 export type SanityDiet =
   | 'DiabeticDiet'
