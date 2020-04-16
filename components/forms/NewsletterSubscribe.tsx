@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import styles from './newsletter-subscribe.module.css';
-
 const FORM_NAME = 'newsletter';
 const FORM_METHOD = 'POST';
 const FORM_ACTION = '/thank-you';
@@ -54,7 +52,7 @@ const VARIANT_CLASSNAMES: NewletterSubscriveVariantClassNames = {
   },
 };
 
-const isSubmitFormEnabled = process.env.IS_SUBMIT_FORM_ENABLED !== 'true';
+const FORCE_FORM_DISABLED = process.env.IS_SUBMIT_FORM_ENABLED !== 'true';
 
 function encode(data: { [key: string]: string }): string {
   return Object.keys(data)
@@ -73,8 +71,8 @@ export default function NewsletterSubscribe({
 }: NewsletterSubscribeProps): JSX.Element {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackMessage, setfeedbackMessage] = useState({
-    isError: isSubmitFormEnabled ? true : false,
-    message: isSubmitFormEnabled ? FEEDBACK_MESSAGES.ERROR_PREVIEW_DISABLED : '',
+    isError: FORCE_FORM_DISABLED ? true : false,
+    message: FORCE_FORM_DISABLED ? FEEDBACK_MESSAGES.ERROR_PREVIEW_DISABLED : '',
   });
   const [formData, setFormData] = useState({
     [FIELD_NAMES.BOT]: '',
@@ -89,7 +87,7 @@ export default function NewsletterSubscribe({
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
 
-    if (isSubmitFormEnabled) {
+    if (FORCE_FORM_DISABLED) {
       return;
     }
 
@@ -199,9 +197,18 @@ export default function NewsletterSubscribe({
 
         {/* Submit button */}
         <button
-          className={`${styles.submitButton} p-2 flex-shrink-0 ${VARIANT_CLASSNAMES[variant].submit}`}
+          className={[
+            // Button styles
+            'relative p-2 flex-shrink-0 cursor-pointer disabled:cursor-not-allowed',
+            // Button ::after styles
+            'after:empty-content after:bg-inherit after:absolute after:inset-0 after:transition-opacity	after:duration-200 after:ease-out',
+            // Enabled vs Disabled (didn't manage to chain disabled:after: classname)
+            isSubmitting || FORCE_FORM_DISABLED ? 'after:opacity-75' : 'after:opacity-0',
+            // Variant-specific
+            VARIANT_CLASSNAMES[variant].submit,
+          ].join(' ')}
           type="submit"
-          disabled={isSubmitting || isSubmitFormEnabled}
+          disabled={isSubmitting || FORCE_FORM_DISABLED}
         >
           Join the list!
         </button>
