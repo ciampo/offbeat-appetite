@@ -42,6 +42,7 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
   lazy,
   responsiveConfig: { exports, sizes, forceRatio },
   style,
+  className = 'relative w-full h0',
   ...props
 }) => {
   if (!exports.length || !sizes.length) {
@@ -61,6 +62,8 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
   return (
     <div
       {...props}
+      // Detauls
+      className={className}
       style={{
         // Fills the space when the image is lazily loaded
         backgroundColor: image.asset.metadata.palette.dominant.background,
