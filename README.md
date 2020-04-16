@@ -1,13 +1,9 @@
-# The Offbeat Appetite website
+# The Offbeat Appetite [![Build Status](https://travis-ci.org/ciampo/offbeat-appetite.svg?branch=master)](https://travis-ci.org/ciampo/offbeat-appetite) [![codecov](https://codecov.io/gh/ciampo/offbeat-appetite/branch/master/graph/badge.svg)](https://codecov.io/gh/ciampo/offbeat-appetite) [![Netlify Status](https://api.netlify.com/api/v1/badges/8a466cb6-4eef-463d-81be-18240576884d/deploy-status)](https://app.netlify.com/sites/offbeatappetite/deploys)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/8a466cb6-4eef-463d-81be-18240576884d/deploy-status)](https://app.netlify.com/sites/offbeatappetite/deploys)
-
-[![Build Status](https://travis-ci.org/ciampo/offbeat-appetite.svg?branch=master)](https://travis-ci.org/ciampo/offbeat-appetite)
-
-TL;DR:
+Tech stack overview:
 
 - [Sanity](https://sanity.io) as Headless CMS
-  ([repo here](https://github.com/ciampo/offbeat-appetite-sanity))
+  ([Studio repo](https://github.com/ciampo/offbeat-appetite-sanity))
 - [Next.js](https://nextjs.org/) as Static Site Generator
 - [Netlify](https://www.netlify.com/) as Static Site Hosting
 
@@ -17,7 +13,7 @@ TL;DR:
 - install `yarn` glolbally
 - set up Sanity, Netlify and Google Analytics
 - copy `.env.example` and rename it to `env`. Add the correct values for the env variables.
-- add the same env variables to Netlify
+- add the same env variables to Netlify and Travis
 - `yarn install`
 
 ## 📝 Main scripts
@@ -39,28 +35,19 @@ Builds the app in production mode and exports it as static site ready to be host
 
 Serves the static site. The application should be compiled with `yarn static` first.
 
-## 💬 Other scripts
+### `yarn test`
 
-### `yarn build`
+Runs Jest (eslint, unit, intergration). If executed by CI, it will track code coverage. Otherwise,
+it will start in watch mode.
 
-Compiles the application for production deployment (SSR).
+### `yarn validate`
 
-### `yarn serve:ssr`
-
-Starts and serves the application in production mode. The application should be compiled with
-`yarn build` first.
+Performs all types of tests (including static testing) and finally attempts to build the project.
+Useful for CI
 
 ### `yarn analyze`
 
 Builds the app and opens 2 graphs in the browser showing the app's bundle composition.
-
-### `yarn test`
-
-Lints scripts and styles.
-
-### `yarn test:fix`
-
-Lints scripts and styles, and tries to auto-fix any errors.
 
 ## ⚖️ Staging vs Production deploys
 
@@ -80,5 +67,5 @@ There are a few differences between the staging and production sites:
 
 ## 👻 Contributors
 
-- [Marco Ciampini](https://github.com/ciampo)
-- [Marie Claire Tonna](https://github.com/mctonna)
+- [Marco Ciampini](https://github.com/ciampo), developer
+- [Marie Claire Tonna](https://github.com/mctonna), site owner
