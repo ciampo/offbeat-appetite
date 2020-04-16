@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const defaultTheme = require('tailwindcss/defaultTheme');
 const { sharedTheme } = require('./tailwind.shared.js');
 
 module.exports = {
@@ -29,24 +30,58 @@ module.exports = {
         hero: '50rem',
       },
     },
+    // Aspect Ratio Plugin
     aspectRatio: { none: 0, square: [1, 1], '16/9': [16, 9], '4/3': [4, 3], '21/9': [21, 9] },
+    // Animation Plugin
+    animations: {
+      loadinglink: {
+        '0%': {
+          transform: 'translateX(0%) scaleX(0)',
+        },
+        '30%': {
+          transform: 'translateX(0%) scaleX(1)',
+        },
+        '60%': {
+          transform: 'translateX(100%) scaleX(0)',
+        },
+        '100%': {
+          transform: 'translateX(100%) scaleX(0)',
+        },
+      },
+    },
+    animationTimingFunction: {
+      default: 'ease',
+      linear: 'linear',
+      ease: 'ease',
+      'ease-in': 'ease-in',
+      'ease-out': defaultTheme.transitionTimingFunction.out,
+      'ease-in-out': 'ease-in-out',
+    },
   },
   variants: {
-    zIndex: ['responsive', 'focus'],
+    animations: ['responsive', 'before', 'after'],
+    animationDuration: ['responsive', 'before', 'after'],
+    animationTimingFunction: ['responsive', 'before', 'after'],
+    animationIterationCount: ['responsive', 'before', 'after'],
+    aspectRatio: ['responsive'],
+    backgroundColor: ['responsive', 'hover', 'focus', 'before', 'after'],
     borderStyle: ['responsive', 'focus'],
     borderWidth: ['responsive', 'focus'],
-    aspectRatio: ['responsive'],
     cursor: ['responsive', 'disabled'],
+    height: ['responsive', 'before', 'after'],
     inset: ['responsive', 'before', 'after'],
     opacity: ['responsive', 'hover', 'focus', 'before', 'after'],
     position: ['responsive', 'before', 'after'],
-    width: ['responsive', 'before', 'after'],
+    transformOrigin: ['responsive', 'before', 'after'],
     transitionProperty: ['responsive', 'before', 'after'],
     transitionTimingFunction: ['responsive', 'before', 'after'],
     transitionDuration: ['responsive', 'before', 'after'],
     transitionDelay: ['responsive', 'before', 'after'],
+    width: ['responsive', 'before', 'after'],
+    zIndex: ['responsive', 'focus', 'before', 'after'],
   },
   plugins: [
+    require('tailwindcss-animations'),
     require('tailwindcss-pseudo-elements'),
     require('tailwindcss-aspect-ratio'),
     function ({ addUtilities }) {
@@ -68,6 +103,9 @@ module.exports = {
         '.ts-inherit': {
           transition: 'inherit',
         },
+        '.delay-100': {
+          transitionDelay: '100ms',
+        },
         // Filter
         '.filter-darker': {
           filter: 'brightness(0.7)',
@@ -79,6 +117,9 @@ module.exports = {
         // Background
         '.bg-inherit': {
           background: 'inherit',
+        },
+        '.bg-current': {
+          backgroundColor: 'currentColor',
         },
         // Pseudo-elements
         '.empty-content': {

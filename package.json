@@ -104,6 +104,7 @@
     "react-dom": "^16.11.0",
     "stylelint": "^13.3.2",
     "stylelint-config-recommended": "^3.0.0",
+    "tailwindcss-animations": "^2.0.0",
     "tailwindcss-pseudo-elements": "^1.1.2",
     "typescript": "^3.7.2",
     "webpack": "^4.41.2"
