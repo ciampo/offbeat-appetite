@@ -61,10 +61,14 @@ const _redirectsContent = `
 # These rules will change if you change your site’s custom domains or HTTPS settings
 
 # PRODUCTION: Redirect default Netlify subdomain to primary domain
+# (both old netlify.com and new netlify.app)
 https://offbeatappetite.netlify.com/* https://offbeatappetite.com/:splat 301!
+https://offbeatappetite.netlify.app/* https://offbeatappetite.com/:splat 301!
 
 # STAGING: Redirect default Netlify subdomain to primary domain
+# (both old netlify.com and new netlify.app)
 https://offbeatappetite-staging.netlify.com/* https://staging.offbeatappetite.com/:splat 301!
+https://offbeatappetite-staging.netlify.app/* https://staging.offbeatappetite.com/:splat 301!
 `;
 
 fs.writeFileSync(path.join(OUT_FOLDER, '_redirects'), _redirectsContent, {
