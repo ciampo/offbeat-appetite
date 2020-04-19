@@ -34,7 +34,7 @@ export type SanityCaptionedImage = {
 export type SanityAccessibleVideo = {
   url: string;
   alt: string;
-  poster: string;
+  poster: SanityAccessibleImage;
 };
 
 export type SanityCaptionedVideo = {

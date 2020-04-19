@@ -2,27 +2,29 @@
 //   "url": image.asset->url,
 //   "alt": image.alt,
 // }`;
-const accessibleImageProjection = /* groq */ `{
-  "_type": image._type,
-  "asset": image.asset->{
-    _id,
-    url,
-    assetId,
-    extension,
-    metadata {
-      dimensions {
-        aspectRatio,
-        height,
-        width,
-      },
-      palette {
-        dominant {
-          background,
-          foreground,
-        },
+const imageAssetProjection = /* groq */ `{
+  _id,
+  url,
+  assetId,
+  extension,
+  metadata {
+    dimensions {
+      aspectRatio,
+      height,
+      width,
+    },
+    palette {
+      dominant {
+        background,
+        foreground,
       },
     },
   },
+}`;
+
+const accessibleImageProjection = /* groq */ `{
+  "_type": image._type,
+  "asset": image.asset->${imageAssetProjection},
   "crop": image.crop,
   "hotspot": image.hotspot,
   "alt": image.alt,
@@ -31,13 +33,19 @@ const accessibleImageProjection = /* groq */ `{
 const captionedImageProjection = /* groq */ `{
   _type,
   caption,
-  image->${accessibleImageProjection}
+  image->${accessibleImageProjection},
 }`;
 
 const accessibleVideoProjection = /* groq */ `{
   "url": video.asset->url,
   "alt": video.alt,
-  "poster": video.poster.asset->url,
+  "poster": {
+    "_type": video.poster._type,
+    "asset": video.poster.asset->${imageAssetProjection},
+    "crop": video.poster.crop,
+    "hotspot": video.poster.hotspot,
+    "alt": coalesce(video.poster.alt, ""),
+  }
 }`;
 
 const captionedVideoProjection = /* groq */ `{
