@@ -30,7 +30,6 @@ const DefaultPageTransitionWrapper: React.FC<CustomPageTransitionProps> = ({
   onComplete,
 }) => (
   <motion.div
-    className=""
     initial="transparent"
     animate="enter"
     exit="exit"

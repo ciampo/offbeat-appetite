@@ -22,7 +22,11 @@ const BlogPostPreview: React.FC<BlogPostPreviewProps> = ({ blogPostData }) => {
   })[0];
 
   return (
-    <Link href={compiledBlogPostRoute.routeInfo.page} as={compiledBlogPostRoute.routeInfo.path}>
+    <Link
+      href={compiledBlogPostRoute.routeInfo.page}
+      as={compiledBlogPostRoute.routeInfo.path}
+      scroll={false}
+    >
       <a className="flex flex-col">
         <p className="text-lg font-bold order-2">{blogPostData.title}</p>
         <p className="order-3">{blogPostData.excerpt}</p>
