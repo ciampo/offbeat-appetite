@@ -12,7 +12,7 @@ type AccessibleVideoProps = {
 const AccessibleVideo: React.FC<AccessibleVideoProps> = ({
   video,
   responsiveConfig,
-  className = '',
+  className = 'relative',
   ...props
 }) => {
   const [isVideoInitialised, setVideoInitialised] = useState(false);
@@ -20,14 +20,15 @@ const AccessibleVideo: React.FC<AccessibleVideoProps> = ({
 
   const onThumbnailClick = useCallback(() => {
     setVideoInitialised(true);
-    if (videoEl.current) {
-      videoEl.current.play();
-      videoEl.current.focus();
-    }
+    (videoEl.current as HTMLVideoElement).play();
+    (videoEl.current as HTMLVideoElement).focus();
   }, []);
 
   return (
-    <div className={['relative', isVideoInitialised ? '' : 'overflow-hidden', className].join(' ')}>
+    <div
+      className={[className, isVideoInitialised ? '' : 'overflow-hidden'].join(' ').trim()}
+      data-testid="video-wrapper"
+    >
       <video
         {...props}
         ref={videoEl}
@@ -61,7 +62,7 @@ const AccessibleVideo: React.FC<AccessibleVideoProps> = ({
               width="48"
               height="48"
               viewBox="0 0 48 48"
-              className="fill-current w-20 h-20"
+              className="fill-current w-20 h-20 pointer-events-none"
             >
               <path d="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4zm-4 29V15l12 9-12 9z" />
             </svg>

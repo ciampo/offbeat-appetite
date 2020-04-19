@@ -62,7 +62,6 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
   return (
     <div
       {...props}
-      // Detauls
       className={className}
       style={{
         // Fills the space when the image is lazily loaded

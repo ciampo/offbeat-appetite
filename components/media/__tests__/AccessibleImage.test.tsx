@@ -104,9 +104,6 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-// TODO: check  given classname
-// TODO: check given styles
-
 describe('AccessibleImage', () => {
   test('renders with a valid configuration', () => {
     const { getByRole, getByTestId } = render(
