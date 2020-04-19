@@ -206,7 +206,9 @@ export default function NewsletterSubscribe({
             isSubmitting || FORCE_FORM_DISABLED ? 'after:opacity-75' : 'after:opacity-0',
             // Variant-specific
             VARIANT_CLASSNAMES[variant].submit,
-          ].join(' ')}
+          ]
+            .join(' ')
+            .trim()}
           type="submit"
           disabled={isSubmitting || FORCE_FORM_DISABLED}
         >

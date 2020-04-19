@@ -46,7 +46,9 @@ const Nav: NextComponentType = () => {
                       loadingRoute === href
                         ? 'after:opacity-100 after:animation-loadinglink after:animation-2s after:animation-infinite after:animation-ease-out'
                         : '',
-                    ].join(' ')}
+                    ]
+                      .join(' ')
+                      .trim()}
                   >
                     {label}
                   </a>
