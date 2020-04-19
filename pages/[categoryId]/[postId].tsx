@@ -39,10 +39,7 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
 
     <DefaultPageTransitionWrapper>
       <section className="relative h-screen min-h-hero max-h-hero">
-        <div
-          className="absolute text-center text-white z-10 text-shadow"
-          style={{ transform: 'translate(-50%, -50%)', top: '50%', left: '50%' }}
-        >
+        <div className="absolute text-center text-white z-10 text-shadow transform-translate-center">
           <h1 className="flex flex-col-reverse items-center">
             <span className="text-4xl font-bold mt-4">{blogPostData.title}</span>
             <span>{blogPostData.category.name}</span>
@@ -53,7 +50,7 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
         <AccessibleImage
           image={blogPostData.heroImage}
           responsiveConfig={fullBleedImageResponsiveConfig}
-          className="z-0 absolute top-0 left-0 w-full h-full filter-darker"
+          className="z-0 absolute inset-0 w-full h-full filter-darker"
           style={{
             paddingBottom: '0',
           }}

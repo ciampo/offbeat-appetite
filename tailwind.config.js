@@ -125,6 +125,12 @@ module.exports = {
         '.empty-content': {
           content: "''",
         },
+        // Transform
+        '.transform-translate-center': {
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        },
       };
 
       addUtilities(newUtilities, ['responsive', 'focus', 'before', 'after']);
