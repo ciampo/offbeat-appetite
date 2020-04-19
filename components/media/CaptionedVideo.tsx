@@ -3,16 +3,19 @@ import React from 'react';
 import AccessibleVideo from './AccessibleVideo';
 
 import { SanityCaptionedVideo } from '../../typings';
+import { AccessibleImageResponsiveConfig } from './sizes-presets';
 
-type CaptionedVideoProps = SanityCaptionedVideo & {};
-const CaptionedVideo: React.FC<CaptionedVideoProps> = ({ video, caption }) =>
+type CaptionedVideoProps = SanityCaptionedVideo & {
+  responsiveConfig: AccessibleImageResponsiveConfig;
+};
+const CaptionedVideo: React.FC<CaptionedVideoProps> = ({ caption, ...props }) =>
   caption ? (
     <figure>
-      <AccessibleVideo video={video} />
+      <AccessibleVideo {...props} />
       <figcaption>{caption}</figcaption>
     </figure>
   ) : (
-    <AccessibleVideo video={video} />
+    <AccessibleVideo {...props} />
   );
 
 export default CaptionedVideo;

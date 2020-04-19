@@ -91,8 +91,14 @@ const CaptionedImageWrapper: React.FC<SanityBlockType<SanityCaptionedImage>> = (
   />
 );
 
+// TODO: responsive config
 const CaptionedVideoWrapper: React.FC<SanityBlockType<SanityCaptionedVideo>> = (props) => (
-  <CaptionedVideo video={props.node.video} caption={props.node.caption} _type={props.node._type} />
+  <CaptionedVideo
+    video={props.node.video}
+    caption={props.node.caption}
+    _type={props.node._type}
+    responsiveConfig={contentFullWidthResponsiveConfig}
+  />
 );
 
 const MediaGalleryWrapper: React.FC<SanityBlockType<SanityMediaGallery>> = (props) => (
@@ -112,7 +118,16 @@ const MediaGalleryWrapper: React.FC<SanityBlockType<SanityMediaGallery>> = (prop
         );
       } else if (mediaGalleryItem._type === 'captionedVideo') {
         const { video, _type, caption } = mediaGalleryItem as SanityCaptionedVideo;
-        return <CaptionedVideo video={video} caption={caption} _type={_type} />;
+
+        // TODO: responsive config
+        return (
+          <CaptionedVideo
+            video={video}
+            caption={caption}
+            _type={_type}
+            responsiveConfig={contentFullWidthResponsiveConfig}
+          />
+        );
       }
     })}
   </div>
