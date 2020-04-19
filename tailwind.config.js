@@ -5,6 +5,9 @@ const { sharedTheme } = require('./tailwind.shared.js');
 module.exports = {
   theme: {
     extend: {
+      fontSize: {
+        '0': '0',
+      },
       screens: {
         ...sharedTheme.screens,
         xsm: '480px',
@@ -124,6 +127,13 @@ module.exports = {
         // Pseudo-elements
         '.empty-content': {
           content: "''",
+        },
+        // Positioning
+        '.inset-fill-parent-with-overflow': {
+          top: '-100vh',
+          left: '-100vh',
+          width: '200vw',
+          height: '200vh',
         },
         // Transform
         '.transform-translate-center': {
