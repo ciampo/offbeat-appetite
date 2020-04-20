@@ -43,7 +43,6 @@ describe('AccessibleVideo', () => {
 
     expect(videoEl).toBeInTheDocument();
     expect(videoEl).toHaveAttribute('tabindex', '-1');
-    expect(videoEl).toHaveAttribute('poster', testVideo.poster.asset.url);
 
     expect(playButton).toBeInTheDocument();
     expect(playButton).toHaveTextContent(new RegExp(`play.*${testVideo.alt}`, 'i'));

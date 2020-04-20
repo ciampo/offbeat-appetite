@@ -8,11 +8,15 @@ type AccessibleVideoProps = {
   video: SanityAccessibleVideo;
   responsiveConfig: AccessibleImageResponsiveConfig;
   className?: string;
+  style?: React.CSSProperties;
+  absolutePositionedVideo?: boolean;
 };
 const AccessibleVideo: React.FC<AccessibleVideoProps> = ({
   video,
   responsiveConfig,
   className = 'relative',
+  style,
+  absolutePositionedVideo = false,
   ...props
 }) => {
   const [isVideoInitialised, setVideoInitialised] = useState(false);
@@ -28,6 +32,7 @@ const AccessibleVideo: React.FC<AccessibleVideoProps> = ({
     <div
       className={[className, isVideoInitialised ? '' : 'overflow-hidden'].join(' ').trim()}
       data-testid="video-wrapper"
+      style={style}
     >
       <video
         {...props}
@@ -37,8 +42,9 @@ const AccessibleVideo: React.FC<AccessibleVideoProps> = ({
         playsInline
         src={video.url}
         title={video.alt}
-        poster={video.poster.asset.url}
-        className="z-0"
+        className={`z-0 ${
+          absolutePositionedVideo ? 'absolute inset-0 h-full w-full object-cover' : ''
+        }`.trim()}
         tabIndex={isVideoInitialised ? 0 : -1}
       />
       {!isVideoInitialised && (
