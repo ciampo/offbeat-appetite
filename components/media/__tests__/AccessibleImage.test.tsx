@@ -4,90 +4,15 @@ import { render } from 'offbeat-appetite-render';
 
 import AccessibleImage from '../AccessibleImage';
 
-const testImage = {
-  _type: 'image',
-  alt: 'A test image',
-  asset: {
-    _id: 'image-c7f3d2a5bfbf870f958d2d3ca704e0840d25f61e-3200x1800-png',
-    assetId: 'c7f3d2a5bfbf870f958d2d3ca704e0840d25f61e',
-    extension: 'png',
-    metadata: {
-      dimensions: {
-        aspectRatio: 1.7777777777777777,
-        height: 1800,
-        width: 3200,
-      },
-      palette: {
-        dominant: {
-          background: 'rgb(20, 50, 230)',
-          foreground: '#000',
-        },
-      },
-    },
-    url:
-      'https://cdn.sanity.io/images/12345678/production/c7f3d2a5bfbf870f958d2d3ca704e0840d25f61e-3200x1800.png',
-  },
-};
-
-const testImageWithHotspot = {
-  ...testImage,
-  crop: {
-    _type: 'sanity.imageCrop',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    top: 0,
-  },
-  hotspot: {
-    _type: 'sanity.imageHotspot',
-    height: 0.3345485056274047,
-    width: 0.1666666666666658,
-    x: 0.3,
-    y: 0.75,
-  },
-};
-
-const testResponsiveConfig = {
-  exports: [320, 480, 840],
-  sizes: [
-    {
-      queryMinWidth: '600px',
-      width: '32rem',
-    },
-    {
-      width: '100vw',
-    },
-  ],
-};
-
-const testResponsiveConfigWithRatio = {
-  ...testResponsiveConfig,
-  forceRatio: 4 / 3,
-};
-
-const testResponsiveConfigInvalidSizes = {
-  ...testResponsiveConfig,
-  sizes: [
-    {
-      queryMinWidth: '600px',
-      width: '32rem',
-    },
-    {
-      queryMinWidth: '320px',
-      width: '100vw',
-    },
-  ],
-};
-
-const testResponsiveConfigEmptySizes = {
-  ...testResponsiveConfig,
-  sizes: [],
-};
-
-const testResponsiveConfigEmptyExports = {
-  ...testResponsiveConfig,
-  exports: [],
-};
+import {
+  testImage,
+  testImageWithHotspot,
+  testResponsiveConfig,
+  testResponsiveConfigWithRatio,
+  testResponsiveConfigInvalidSizes,
+  testResponsiveConfigEmptySizes,
+  testResponsiveConfigEmptyExports,
+} from '../__tests_dummy_data__/mock-data';
 
 // Spy on console.warn
 let spiedConsoleWarn: jest.SpyInstance;
