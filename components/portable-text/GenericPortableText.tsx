@@ -12,7 +12,7 @@ type GenericPortableTextProps = {
 };
 const GenericPortableText: React.FC<GenericPortableTextProps> = ({ blocks, serializers }) => (
   <BlockContent
-    className="oba-portable-text"
+    className="oba-portable-text oba-stack-large"
     renderContainerOnSingleChild={true}
     serializers={serializers}
     blocks={blocks}
