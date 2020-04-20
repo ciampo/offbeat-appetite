@@ -6,24 +6,26 @@ import { AccessibleImageResponsiveConfig } from './sizes-presets';
 import { SanityCaptionedImage } from '../../typings';
 
 type CaptionedImageProps = SanityCaptionedImage & {
-  lazy?: boolean;
   responsiveConfig: AccessibleImageResponsiveConfig;
   [key: string]: unknown;
 };
 const CaptionedImage: React.FC<CaptionedImageProps> = ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _type,
   image,
-  lazy,
   responsiveConfig,
   caption,
   ...props
 }) =>
   caption ? (
-    <figure {...props}>
-      <AccessibleImage image={image} lazy={lazy} responsiveConfig={responsiveConfig} />
-      <figcaption>{caption}</figcaption>
-    </figure>
+    <div {...props}>
+      <figure className="oba-stack-tiny">
+        <AccessibleImage image={image} lazy={true} responsiveConfig={responsiveConfig} />
+        <figcaption>{caption}</figcaption>
+      </figure>
+    </div>
   ) : (
-    <AccessibleImage image={image} lazy={lazy} responsiveConfig={responsiveConfig} />
+    <AccessibleImage image={image} lazy={true} responsiveConfig={responsiveConfig} {...props} />
   );
 
 export default CaptionedImage;
