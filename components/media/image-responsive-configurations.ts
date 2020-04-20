@@ -108,3 +108,35 @@ export const contentFullWidthResponsiveConfig: AccessibleImageResponsiveConfig =
     },
   ],
 };
+
+// Used in blog post media gallery
+export const contentMediaGalleryResponsiveConfig: AccessibleImageResponsiveConfig = {
+  exports: sortBreakpoints({
+    breakpoints: [
+      `${375 - 2 * sectionPaddingHPx}`,
+      `${parseFloat(twTheme.maxWidth['screen-xsm']) - 2 * sectionPaddingHPx}`,
+      `${(remToPx(twTheme.maxWidth['2xl']) - 3 * sectionPaddingHPx) / 2}`,
+      `${(remToPx(twTheme.maxWidth['3xl']) - 3 * sectionPaddingHPx) / 2}`,
+    ],
+    addDoubleRes: true,
+  }) as number[],
+  sizes: [
+    {
+      queryMinWidth: twTheme.maxWidth['screen-lg'],
+      width: `calc((${twTheme.maxWidth['3xl']} - 3 * ${sectionPaddingH}) / 2)`,
+    },
+    {
+      queryMinWidth: `${remToPx(twTheme.maxWidth['2xl'])}px`,
+      width: `calc((${twTheme.maxWidth['2xl']} - 3 * ${sectionPaddingH}) / 2)`,
+    },
+    {
+      queryMinWidth: twTheme.maxWidth['screen-xsm'],
+      width: `calc((100vw - 3 * ${sectionPaddingH}) / 2)`,
+    },
+    {
+      width: `calc(100vw - 2 * ${sectionPaddingH})`,
+    },
+  ],
+};
+
+console.log(contentMediaGalleryResponsiveConfig);
