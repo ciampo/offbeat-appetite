@@ -23,17 +23,6 @@ export const testImage = {
   },
 };
 
-export const testCaptionedImageNoCaption = {
-  _type: 'captionedImage',
-  // "caption": "Let's put a caption otherwise I'll go cray cray",
-  image: testImage,
-};
-
-export const testCaptionedImageWithCaption = {
-  ...testCaptionedImageNoCaption,
-  caption: 'Test image caption',
-};
-
 export const testImageWithHotspot = {
   ...testImage,
   crop: {
@@ -50,6 +39,17 @@ export const testImageWithHotspot = {
     x: 0.3,
     y: 0.75,
   },
+};
+
+export const testCaptionedImageNoCaption = {
+  _type: 'captionedImage',
+  // "caption": "Let's put a caption otherwise I'll go cray cray",
+  image: testImage,
+};
+
+export const testCaptionedImageWithCaption = {
+  ...testCaptionedImageNoCaption,
+  caption: 'Test image caption',
 };
 
 export const testVideo = {
@@ -107,13 +107,33 @@ export const testCaptionedVideoWithCaption = {
   caption: 'Test video caption',
 };
 
-export const testMediaGallery = {
+export const testMediaGalleryOdd = {
+  _key: 'fe7039f054c2',
+  _type: 'mediaGallery',
+  items: [testCaptionedImageWithCaption, testCaptionedVideoNoCaption, testCaptionedImageNoCaption],
+};
+
+export const testMediaGalleryEven = {
   _key: 'fe7039f054c2',
   _type: 'mediaGallery',
   items: [
     testCaptionedImageWithCaption,
     testCaptionedVideoNoCaption,
+    testCaptionedVideoWithCaption,
+    testCaptionedImageNoCaption,
+  ],
+};
+
+export const testMediaGalleryLastInvalid = {
+  _key: 'fe7039f054c2',
+  _type: 'mediaGallery',
+  items: [
     testCaptionedImageWithCaption,
+    testCaptionedVideoNoCaption,
+    testCaptionedVideoWithCaption,
+    {
+      _type: 'invalidItem',
+    },
   ],
 };
 
