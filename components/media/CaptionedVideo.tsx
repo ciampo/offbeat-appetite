@@ -7,6 +7,9 @@ import { SanityCaptionedVideo } from '../../typings';
 
 type CaptionedVideoProps = SanityCaptionedVideo & {
   responsiveConfig: AccessibleImageResponsiveConfig;
+  accessibleVideoProps?: {
+    [key: string]: unknown;
+  };
   [key: string]: unknown;
 };
 const CaptionedVideo: React.FC<CaptionedVideoProps> = ({
@@ -15,17 +18,27 @@ const CaptionedVideo: React.FC<CaptionedVideoProps> = ({
   video,
   caption,
   responsiveConfig,
+  accessibleVideoProps,
   ...props
-}) =>
-  caption ? (
-    <div {...props}>
+}) => (
+  <div {...props}>
+    {caption ? (
       <figure className="oba-stack-tiny">
-        <AccessibleVideo video={video} responsiveConfig={responsiveConfig} />
+        <AccessibleVideo
+          {...accessibleVideoProps}
+          video={video}
+          responsiveConfig={responsiveConfig}
+        />
         <figcaption>{caption}</figcaption>
       </figure>
-    </div>
-  ) : (
-    <AccessibleVideo video={video} responsiveConfig={responsiveConfig} />
-  );
+    ) : (
+      <AccessibleVideo
+        {...accessibleVideoProps}
+        video={video}
+        responsiveConfig={responsiveConfig}
+      />
+    )}
+  </div>
+);
 
 export default CaptionedVideo;
