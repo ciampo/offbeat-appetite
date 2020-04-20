@@ -1,14 +1,16 @@
 // Repeating a few variables (even if they are the same as the default config)
 // because it saves a huge amount of space in the front end code
 // compared to importing the whole config + config parser
+const screens = {
+  xsm: '480px',
+  sm: '640px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1280px',
+};
+
 const sharedTheme = {
-  screens: {
-    xsm: '480px',
-    sm: '640px',
-    md: '768px',
-    lg: '1024px',
-    xl: '1280px',
-  },
+  screens,
   spacing: {
     // '0': '0',
     // '1': '0.25rem',
@@ -43,9 +45,10 @@ const sharedTheme = {
     // '5xl': '64rem',
     // '6xl': '72rem',
     // full: '100%',
+    'screen-xsm': screens.xsm,
     // 'screen-sm': '640px',
     // 'screen-md': '768px',
-    'screen-lg': '1024px',
+    'screen-lg': screens.lg,
     // 'screen-xl': '1280px',
     // 'screen-xsm': '480px',
   },
