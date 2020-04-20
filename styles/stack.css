@@ -1,34 +1,30 @@
-.oba-stack-tiny {
-  --oba-stack-space: 0.4rem;
-}
-
-.oba-stack-small {
-  --oba-stack-space: 1rem;
-}
-
-.oba-stack-large {
-  --oba-stack-space: 2rem;
-}
-
-@screen lg {
-  .oba-stack-tiny {
-    --oba-stack-space: 0.8rem;
-  }
-
-  .oba-stack-small {
-    --oba-stack-space: 2rem;
-  }
-
-  .oba-stack-large {
-    --oba-stack-space: 4rem;
-  }
-}
-
 [class*='oba-stack'] > * {
   margin-bottom: 0;
   margin-top: 0;
 }
 
-[class*='oba-stack'] > * + * {
-  margin-top: var(--oba-stack-space);
+[class*='oba-stack-tiny'] > * + * {
+  @apply mt-2;
+}
+
+[class*='oba-stack-small'] > * + * {
+  @apply mt-4;
+}
+
+[class*='oba-stack-large'] > * + * {
+  @apply mt-8;
+}
+
+@screen lg {
+  [class*='oba-stack-tiny'] > * + * {
+    @apply mt-4;
+  }
+
+  [class*='oba-stack-small'] > * + * {
+    @apply mt-8;
+  }
+
+  [class*='oba-stack-large'] > * + * {
+    @apply mt-16;
+  }
 }
