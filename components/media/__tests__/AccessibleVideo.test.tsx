@@ -1,4 +1,5 @@
 import React from 'react';
+import { axe } from 'jest-axe';
 import { render, fireEvent } from 'offbeat-appetite-render';
 
 import AccessibleVideo from '../AccessibleVideo';
@@ -79,8 +80,8 @@ afterEach(() => {
 });
 
 describe('AccessibleVideo', () => {
-  test('renders with a valid configuration', () => {
-    const { getByRole, getByTitle, getByTestId } = render(
+  test('renders with a valid configuration', async () => {
+    const { getByRole, getByTitle, getByTestId, container } = render(
       <AccessibleVideo video={testVideo} responsiveConfig={testResponsiveConfig} />
     );
 
@@ -109,6 +110,9 @@ describe('AccessibleVideo', () => {
     expect(spiedVideoPause).toHaveBeenCalledTimes(1);
     expect(videoEl).toHaveAttribute('tabindex', '0');
     expect(wrapperEl).toHaveAttribute('class', 'relative');
+
+    const axeResults = await axe(container);
+    expect(axeResults).toHaveNoViolations();
   });
 
   test('correctly applies a given classname', () => {

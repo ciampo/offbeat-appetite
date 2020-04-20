@@ -1,4 +1,5 @@
 import React, { CSSProperties } from 'react';
+import { axe } from 'jest-axe';
 import { render } from 'offbeat-appetite-render';
 
 import AccessibleImage from '../AccessibleImage';
@@ -105,8 +106,8 @@ afterEach(() => {
 });
 
 describe('AccessibleImage', () => {
-  test('renders with a valid configuration', () => {
-    const { getByRole, getByTestId } = render(
+  test('renders with a valid configuration', async () => {
+    const { getByRole, getByTestId, container } = render(
       <AccessibleImage image={testImage} responsiveConfig={testResponsiveConfig} />
     );
 
@@ -133,6 +134,9 @@ describe('AccessibleImage', () => {
     );
 
     expect(imageEl.srcset.split(',')).toHaveLength(testResponsiveConfig.exports.length);
+
+    const axeResults = await axe(container);
+    expect(axeResults).toHaveNoViolations();
   });
 
   test('takes apply a forced ratio from the configuration', () => {
