@@ -138,5 +138,3 @@ export const contentMediaGalleryResponsiveConfig: AccessibleImageResponsiveConfi
     },
   ],
 };
-
-console.log(contentMediaGalleryResponsiveConfig);
