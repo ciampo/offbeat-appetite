@@ -4,6 +4,8 @@ import { render } from 'offbeat-appetite-render';
 
 import AccessibleImage from '../AccessibleImage';
 
+import * as responsiveConfigs from '../image-responsive-configurations';
+
 import {
   testImage,
   testImageWithHotspot,
@@ -179,4 +181,45 @@ describe('AccessibleImage', () => {
 
     expect(console.warn).toHaveBeenCalledTimes(1);
   });
+});
+
+describe('Responsive configurations', () => {
+  for (const [configName, configOptions] of Object.entries(responsiveConfigs)) {
+    test(configName, async () => {
+      expect(configOptions.exports).not.toHaveLength(0);
+      expect(configOptions.sizes).not.toHaveLength(0);
+
+      const sortedUniqueExports: number[] = Array.from(
+        new Set<number>(JSON.parse(JSON.stringify(configOptions.exports)))
+      );
+      sortedUniqueExports.sort((a, b) => a - b);
+      expect(configOptions.exports).toMatchObject(sortedUniqueExports);
+
+      let sizeConfigIndex = 0;
+      for (const sizeConfig of configOptions.sizes) {
+        expect(sizeConfig).toHaveProperty('width');
+
+        // Last sizes should not have `queryMinWidth`
+        if (sizeConfigIndex === configOptions.sizes.length - 1) {
+          expect(sizeConfig).not.toHaveProperty('queryMinWidth');
+        } else {
+          expect(sizeConfig).toHaveProperty('queryMinWidth');
+        }
+
+        // Nice to have: check that the sizes are sorted according to the value
+        // of queryMinWidth (hard to do since it's a CSS string)
+
+        sizeConfigIndex++;
+      }
+
+      const { container } = render(
+        <AccessibleImage image={testImage} responsiveConfig={configOptions} />
+      );
+
+      const axeResults = await axe(container);
+      expect(axeResults).toHaveNoViolations();
+
+      expect(console.warn).not.toHaveBeenCalled();
+    });
+  }
 });
