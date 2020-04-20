@@ -34,6 +34,24 @@ export const testCaptionedImageWithCaption = {
   caption: 'Test image caption',
 };
 
+export const testImageWithHotspot = {
+  ...testImage,
+  crop: {
+    _type: 'sanity.imageCrop',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 0,
+  },
+  hotspot: {
+    _type: 'sanity.imageHotspot',
+    height: 0.3345485056274047,
+    width: 0.1666666666666658,
+    x: 0.3,
+    y: 0.75,
+  },
+};
+
 export const testVideo = {
   alt: 'Test video',
   poster: {
@@ -78,24 +96,6 @@ export const testVideo = {
     'https://cdn.sanity.io/files/gpe6axmm/production/2ffd447ced3e0a04edcdd3975c4b638f16df2f7f.mp4',
 };
 
-export const testImageWithHotspot = {
-  ...testImage,
-  crop: {
-    _type: 'sanity.imageCrop',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    top: 0,
-  },
-  hotspot: {
-    _type: 'sanity.imageHotspot',
-    height: 0.3345485056274047,
-    width: 0.1666666666666658,
-    x: 0.3,
-    y: 0.75,
-  },
-};
-
 export const testCaptionedVideoNoCaption = {
   _type: 'captionedVideo',
   // "caption": "Let's put a caption otherwise I'll go cray cray",
@@ -105,6 +105,16 @@ export const testCaptionedVideoNoCaption = {
 export const testCaptionedVideoWithCaption = {
   ...testCaptionedVideoNoCaption,
   caption: 'Test video caption',
+};
+
+export const testMediaGallery = {
+  _key: 'fe7039f054c2',
+  _type: 'mediaGallery',
+  items: [
+    testCaptionedImageWithCaption,
+    testCaptionedVideoNoCaption,
+    testCaptionedImageWithCaption,
+  ],
 };
 
 export const testResponsiveConfig = {

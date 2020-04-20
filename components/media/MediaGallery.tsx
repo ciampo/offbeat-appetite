@@ -12,8 +12,9 @@ const MEDIA_GALLERY_ITEM_FORCED_RATIO = 1.25;
 import { SanityCaptionedImage, SanityCaptionedVideo, SanityMediaGallery } from '../../typings';
 
 const MediaGallery: React.FC<SanityMediaGallery> = (props) => (
-  <div className="xsm:grid xsm:grid-cols-2 xsm:gap-6">
+  <div data-testid="gallery-wrapper" className="xsm:grid xsm:grid-cols-2 xsm:gap-6">
     {props.items.map((mediaGalleryItem, itemIndex) => {
+      const itemKey = `${mediaGalleryItem._type}-${itemIndex}`;
       const itemClassList = [];
       const forcedMediaStyles: CSSProperties = {};
       let responsiveConfig;
@@ -37,6 +38,7 @@ const MediaGallery: React.FC<SanityMediaGallery> = (props) => (
       if (mediaGalleryItem._type === 'captionedImage') {
         return (
           <CaptionedImage
+            key={itemKey}
             _type={mediaGalleryItem._type}
             image={(mediaGalleryItem as SanityCaptionedImage).image}
             caption={mediaGalleryItem.caption}
@@ -52,6 +54,7 @@ const MediaGallery: React.FC<SanityMediaGallery> = (props) => (
       if (mediaGalleryItem._type === 'captionedVideo') {
         return (
           <CaptionedVideo
+            key={itemKey}
             _type={mediaGalleryItem._type}
             video={(mediaGalleryItem as SanityCaptionedVideo).video}
             caption={mediaGalleryItem.caption}
