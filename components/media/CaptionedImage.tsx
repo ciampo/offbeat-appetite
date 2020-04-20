@@ -1,7 +1,7 @@
 import React from 'react';
 
 import AccessibleImage from './AccessibleImage';
-import { AccessibleImageResponsiveConfig } from './sizes-presets';
+import { AccessibleImageResponsiveConfig } from './image-responsive-configurations';
 
 import { SanityCaptionedImage } from '../../typings';
 

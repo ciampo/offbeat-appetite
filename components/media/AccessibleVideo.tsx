@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef } from 'react';
 
 import { SanityAccessibleVideo } from '../../typings';
-import { AccessibleImageResponsiveConfig } from './sizes-presets';
+import { AccessibleImageResponsiveConfig } from './image-responsive-configurations';
 import AccessibleImage from './AccessibleImage';
 
 type AccessibleVideoProps = {

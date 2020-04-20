@@ -7,7 +7,7 @@ import BlockContent from '@sanity/block-content-to-react';
 
 import CaptionedImage from '../media/CaptionedImage';
 import CaptionedVideo from '../media/CaptionedVideo';
-import { contentFullWidthResponsiveConfig } from '../media/sizes-presets';
+import { contentFullWidthResponsiveConfig } from '../media/image-responsive-configurations';
 import Recipe from '../recipe/Recipe';
 
 import routesConfig from '../../routes-config';

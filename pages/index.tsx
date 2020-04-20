@@ -8,7 +8,7 @@ import NewsletterSubscribe, {
 } from '../components/forms/NewsletterSubscribe';
 import BlogPostPreview from '../components/blog-post/BlogPostPreview';
 import AccessibleImage from '../components/media/AccessibleImage';
-import { fullBleedImageResponsiveConfig } from '../components/media/sizes-presets';
+import { fullBleedImageResponsiveConfig } from '../components/media/image-responsive-configurations';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 

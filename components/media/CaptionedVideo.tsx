@@ -1,7 +1,7 @@
 import React from 'react';
 
 import AccessibleVideo from './AccessibleVideo';
-import { AccessibleImageResponsiveConfig } from './sizes-presets';
+import { AccessibleImageResponsiveConfig } from './image-responsive-configurations';
 
 import { SanityCaptionedVideo } from '../../typings';
 

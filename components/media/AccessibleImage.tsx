@@ -1,7 +1,7 @@
 import React from 'react';
 import { urlFor } from '../../sanity/get-image-url';
 
-import { AccessibleImageResponsiveConfig } from './sizes-presets';
+import { AccessibleImageResponsiveConfig } from './image-responsive-configurations';
 import { SanityAccessibleImage } from '../../typings';
 
 function generateUrl({

@@ -25,15 +25,15 @@ export type AccessibleImageResponsiveConfig = {
 };
 
 function sortBreakpoints({
+  // unit,
+  // sorting = 'asc',
   breakpoints,
-  sorting = 'asc',
-  unit,
   addDoubleRes,
 }: {
   breakpoints: string[];
-  sorting?: 'asc' | 'desc';
-  unit?: string;
   addDoubleRes?: boolean;
+  // unit?: string;
+  // sorting?: 'asc' | 'desc';
 }): (string | number)[] {
   let numbers = breakpoints.map((s: string) => parseInt(s, 10));
 
@@ -45,10 +45,14 @@ function sortBreakpoints({
 
   return (
     numbers
-      // sort asc/desc
-      .sort((x, y) => (sorting === 'asc' ? (x > y ? 1 : -1) : x < y ? 1 : -1))
-      // potentially add the unit
-      .map((n) => (unit ? `${n}${unit}` : n))
+      // If in need of sorting ASC or DES
+      // .sort((x, y) => (sorting === 'asc' ? (x > y ? 1 : -1) : x < y ? 1 : -1))
+      // If in need of adding a UNIT
+      // .map((n) => (unit ? `${n}${unit}` : n))
+      // =======================================
+      // Simplified version
+      // Sort ASC
+      .sort((x, y) => (x > y ? 1 : -1))
   );
 }
 

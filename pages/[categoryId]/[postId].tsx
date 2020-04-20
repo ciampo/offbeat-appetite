@@ -3,7 +3,7 @@ import { NextComponentType, GetStaticProps, GetStaticPaths } from 'next';
 
 import PageMeta from '../../components/PageMeta';
 import AccessibleImage from '../../components/media/AccessibleImage';
-import { fullBleedImageResponsiveConfig } from '../../components/media/sizes-presets';
+import { fullBleedImageResponsiveConfig } from '../../components/media/image-responsive-configurations';
 import RichPortableText from '../../components/portable-text/RichPortableText';
 import DefaultPageTransitionWrapper from '../../components/page-transition-wrappers/Default';
 
