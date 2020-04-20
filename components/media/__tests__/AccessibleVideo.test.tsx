@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { axe } from 'jest-axe';
 import { render, fireEvent } from 'offbeat-appetite-render';
 
@@ -72,6 +72,39 @@ describe('AccessibleVideo', () => {
     expect(getByTestId('video-wrapper')).toHaveAttribute(
       'class',
       `${testClassname} overflow-hidden`
+    );
+  });
+
+  test('correctly applies given styles', () => {
+    const testStyles: CSSProperties = {
+      height: '0px',
+      paddingBottom: '150%',
+    };
+    const { getByTestId } = render(
+      <AccessibleVideo
+        video={testVideo}
+        responsiveConfig={testResponsiveConfig}
+        style={testStyles}
+      />
+    );
+
+    const wrapperEl = getByTestId('video-wrapper');
+
+    expect(wrapperEl.style.height).toBe(testStyles.height);
+    expect(wrapperEl.style.paddingBottom).toBe(testStyles.paddingBottom);
+  });
+
+  test('correctly applies the right classnames with the absolutePositionedVideo prop', () => {
+    const { getByTitle } = render(
+      <AccessibleVideo
+        video={testVideo}
+        responsiveConfig={testResponsiveConfig}
+        absolutePositionedVideo={true}
+      />
+    );
+
+    expect(getByTitle(testVideo.alt).className).toMatch(
+      'absolute inset-0 h-full w-full object-cover'
     );
   });
 });
