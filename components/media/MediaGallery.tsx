@@ -7,36 +7,40 @@ import {
   contentMediaGalleryResponsiveConfig,
 } from './image-responsive-configurations';
 
-const MEDIA_GALLERY_ITEM_FORCED_RATIO = 1.25;
-
 import { SanityCaptionedImage, SanityCaptionedVideo, SanityMediaGallery } from '../../typings';
 
-const MediaGallery: React.FC<SanityMediaGallery> = (props) => (
-  <div data-testid="gallery-wrapper" className="xsm:grid xsm:grid-cols-2 xsm:gap-6">
-    {props.items.map((mediaGalleryItem, itemIndex) => {
-      const itemKey = `${mediaGalleryItem._type}-${itemIndex}`;
-      const itemClassList = [];
-      const forcedMediaStyles: CSSProperties = {};
-      let responsiveConfig;
+const MEDIA_GALLERY_ITEM_FORCED_RATIO = 1.25;
 
-      if (itemIndex === props.items.length - 1 && props.items.length % 2 !== 0) {
-        // If there is an odd number of items,
-        // the last items stays on its own on the last row
-        itemClassList.push('xsm:col-span-2');
-        responsiveConfig = contentFullWidthResponsiveConfig;
-      } else {
-        // All other items, are laid out 2 by 2 for each row
-        forcedMediaStyles.paddingBottom = `${MEDIA_GALLERY_ITEM_FORCED_RATIO * 100}%`;
-        responsiveConfig = contentMediaGalleryResponsiveConfig;
-      }
+const MediaGallery: React.FC<SanityMediaGallery> = (props) => {
+  const validItems = props.items.filter(({ _type }) => {
+    return _type === 'captionedImage' || _type === 'captionedVideo';
+  });
+  const hasOddItems = validItems.length % 2 !== 0;
+  return (
+    <div data-testid="gallery-wrapper" className="xsm:grid xsm:grid-cols-2 xsm:gap-6">
+      {validItems.map((mediaGalleryItem, itemIndex) => {
+        const itemKey = `${mediaGalleryItem._type}-${itemIndex}`;
+        const itemClassList = [];
+        let forcedMediaStyles: CSSProperties | undefined;
+        let responsiveConfig;
 
-      // First 2 items have not margin top
-      if (itemIndex > 0) {
-        itemClassList.push('mt-8 xsm:mt-0');
-      }
+        if (hasOddItems && itemIndex === validItems.length - 1) {
+          // If there is an odd number of items,
+          // the last items stays on its own on the last row
+          itemClassList.push('xsm:col-span-2');
+          responsiveConfig = contentFullWidthResponsiveConfig;
+        } else {
+          // All other items, are laid out 2 by 2 for each row
+          forcedMediaStyles = { paddingBottom: `${MEDIA_GALLERY_ITEM_FORCED_RATIO * 100}%` };
+          responsiveConfig = contentMediaGalleryResponsiveConfig;
+        }
 
-      if (mediaGalleryItem._type === 'captionedImage') {
-        return (
+        // All but first item have a margin top (mobile only)
+        if (itemIndex > 0) {
+          itemClassList.push('mt-8 xsm:mt-0');
+        }
+
+        return mediaGalleryItem._type === 'captionedImage' ? (
           <CaptionedImage
             key={itemKey}
             _type={mediaGalleryItem._type}
@@ -44,15 +48,15 @@ const MediaGallery: React.FC<SanityMediaGallery> = (props) => (
             caption={mediaGalleryItem.caption}
             responsiveConfig={responsiveConfig}
             className={itemClassList.join(' ').trim()}
-            accessibleImageProps={{
-              style: forcedMediaStyles,
-            }}
+            accessibleImageProps={
+              forcedMediaStyles
+                ? {
+                    style: forcedMediaStyles,
+                  }
+                : undefined
+            }
           />
-        );
-      }
-
-      if (mediaGalleryItem._type === 'captionedVideo') {
-        return (
+        ) : (
           <CaptionedVideo
             key={itemKey}
             _type={mediaGalleryItem._type}
@@ -60,20 +64,22 @@ const MediaGallery: React.FC<SanityMediaGallery> = (props) => (
             caption={mediaGalleryItem.caption}
             responsiveConfig={responsiveConfig}
             className={itemClassList.join(' ').trim()}
-            accessibleVideoProps={{
-              style: {
-                ...forcedMediaStyles,
-                height: 0,
-              },
-              absolutePositionedVideo: true,
-            }}
+            accessibleVideoProps={
+              forcedMediaStyles
+                ? {
+                    style: {
+                      ...forcedMediaStyles,
+                      height: 0,
+                    },
+                    absolutePositionedVideo: true,
+                  }
+                : undefined
+            }
           />
         );
-      }
-
-      return null;
-    })}
-  </div>
-);
+      })}
+    </div>
+  );
+};
 
 export default MediaGallery;
