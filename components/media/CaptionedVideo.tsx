@@ -1,21 +1,31 @@
 import React from 'react';
 
 import AccessibleVideo from './AccessibleVideo';
+import { AccessibleImageResponsiveConfig } from './sizes-presets';
 
 import { SanityCaptionedVideo } from '../../typings';
-import { AccessibleImageResponsiveConfig } from './sizes-presets';
 
 type CaptionedVideoProps = SanityCaptionedVideo & {
   responsiveConfig: AccessibleImageResponsiveConfig;
+  [key: string]: unknown;
 };
-const CaptionedVideo: React.FC<CaptionedVideoProps> = ({ caption, ...props }) =>
+const CaptionedVideo: React.FC<CaptionedVideoProps> = ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _type,
+  video,
+  caption,
+  responsiveConfig,
+  ...props
+}) =>
   caption ? (
-    <figure>
-      <AccessibleVideo {...props} />
-      <figcaption>{caption}</figcaption>
-    </figure>
+    <div {...props}>
+      <figure className="oba-stack-tiny">
+        <AccessibleVideo video={video} responsiveConfig={responsiveConfig} />
+        <figcaption>{caption}</figcaption>
+      </figure>
+    </div>
   ) : (
-    <AccessibleVideo {...props} />
+    <AccessibleVideo video={video} responsiveConfig={responsiveConfig} />
   );
 
 export default CaptionedVideo;
