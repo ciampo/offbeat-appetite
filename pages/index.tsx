@@ -58,7 +58,7 @@ const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({
 
     <DefaultPageTransitionWrapper>
       <section className="relative h-screen min-h-hero max-h-hero">
-        <div className="absolute text-center text-white z-10 text-shadow transform-translate-center">
+        <div className="absolute text-center text-white z-10 text-shadow oba-transform-translate-center">
           <h1 className="text-4xl font-bold">{homeData.title}</h1>
           <p className="text-xl mt-8">{homeData.subtitle}</p>
         </div>

@@ -39,7 +39,7 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
 
     <DefaultPageTransitionWrapper>
       <section className="relative h-screen min-h-hero max-h-hero">
-        <div className="absolute text-center text-white z-10 text-shadow transform-translate-center">
+        <div className="absolute text-center text-white z-10 text-shadow oba-transform-translate-center">
           <h1 className="flex flex-col-reverse items-center">
             <span className="text-4xl font-bold mt-4">{blogPostData.title}</span>
             <span>{blogPostData.category.name}</span>

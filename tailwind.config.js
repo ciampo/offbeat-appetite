@@ -8,10 +8,6 @@ module.exports = {
       fontSize: {
         '0': '0',
       },
-      screens: {
-        ...sharedTheme.screens,
-        xsm: '480px',
-      },
       spacing: {
         ...sharedTheme.spacing,
       },
@@ -33,6 +29,7 @@ module.exports = {
         hero: '50rem',
       },
     },
+    screens: sharedTheme.screens,
     // Aspect Ratio Plugin
     aspectRatio: { none: 0, square: [1, 1], '16/9': [16, 9], '4/3': [4, 3], '21/9': [21, 9] },
     // Animation Plugin
@@ -129,14 +126,16 @@ module.exports = {
           content: "''",
         },
         // Positioning
-        '.inset-fill-parent-with-overflow': {
-          top: '-100vh',
-          left: '-100vh',
-          width: '200vw',
-          height: '200vh',
+        '.oba-overflow-full-bleed-x': {
+          left: '50%',
+          right: '50%',
+          marginLeft: '-50vw',
+          marginRight: '-50vw',
+          position: 'relative',
+          width: '100vw',
         },
         // Transform
-        '.transform-translate-center': {
+        '.oba-transform-translate-center': {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
