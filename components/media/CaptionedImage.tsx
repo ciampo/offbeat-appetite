@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import AccessibleImage from './AccessibleImage';
 import { AccessibleImageResponsiveConfig } from './image-responsive-configurations';
@@ -43,4 +43,5 @@ const CaptionedImage: React.FC<CaptionedImageProps> = ({
   </div>
 );
 
-export default CaptionedImage;
+const MemoizedCaptionedImage = memo(CaptionedImage);
+export default MemoizedCaptionedImage;
