@@ -57,7 +57,7 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
         />
       </section>
 
-      <section className="max-w-2xl px-6 mx-auto mt-8 lg:max-w-3xl">
+      <section className="oba-content-width mt-8">
         <RichPortableText blocks={blogPostData.content} />
       </section>
     </DefaultPageTransitionWrapper>

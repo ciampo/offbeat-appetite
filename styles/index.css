@@ -1,3 +1,4 @@
 @import './_base.css';
+@import './max-width.css';
 @import './stack.css';
 @import './portable-text.css';

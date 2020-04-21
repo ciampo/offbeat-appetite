@@ -89,6 +89,8 @@ export const contentFullWidthResponsiveConfig: AccessibleImageResponsiveConfig =
   exports: sortBreakpoints({
     breakpoints: [
       `${375 - 2 * sectionPaddingHPx}`,
+      `${remToPx(twTheme.maxWidth.lg) - 2 * sectionPaddingHPx}`,
+      `${remToPx(twTheme.maxWidth.xl) - 2 * sectionPaddingHPx}`,
       `${remToPx(twTheme.maxWidth['2xl']) - 2 * sectionPaddingHPx}`,
       `${remToPx(twTheme.maxWidth['3xl']) - 2 * sectionPaddingHPx}`,
     ],
@@ -96,12 +98,20 @@ export const contentFullWidthResponsiveConfig: AccessibleImageResponsiveConfig =
   }) as number[],
   sizes: [
     {
-      queryMinWidth: twTheme.maxWidth['screen-lg'],
+      queryMinWidth: twTheme.maxWidth['screen-xl'],
       width: `calc(${twTheme.maxWidth['3xl']} - 2 * ${sectionPaddingH})`,
     },
     {
-      queryMinWidth: `${remToPx(twTheme.maxWidth['2xl'])}px`,
+      queryMinWidth: twTheme.maxWidth['screen-md'],
       width: `calc(${twTheme.maxWidth['2xl']} - 2 * ${sectionPaddingH})`,
+    },
+    {
+      queryMinWidth: twTheme.maxWidth['screen-sm'],
+      width: `calc(${twTheme.maxWidth.xl} - 2 * ${sectionPaddingH})`,
+    },
+    {
+      queryMinWidth: `${remToPx(twTheme.maxWidth['lg'])}px`,
+      width: `calc(${twTheme.maxWidth.lg} - 2 * ${sectionPaddingH})`,
     },
     {
       width: `calc(100vw - 2 * ${sectionPaddingH})`,
@@ -122,12 +132,20 @@ export const contentMediaGalleryResponsiveConfig: AccessibleImageResponsiveConfi
   }) as number[],
   sizes: [
     {
-      queryMinWidth: twTheme.maxWidth['screen-lg'],
+      queryMinWidth: twTheme.maxWidth['screen-xl'],
       width: `calc((${twTheme.maxWidth['3xl']} - 3 * ${sectionPaddingH}) / 2)`,
     },
     {
-      queryMinWidth: `${remToPx(twTheme.maxWidth['2xl'])}px`,
+      queryMinWidth: twTheme.maxWidth['screen-md'],
       width: `calc((${twTheme.maxWidth['2xl']} - 3 * ${sectionPaddingH}) / 2)`,
+    },
+    {
+      queryMinWidth: twTheme.maxWidth['screen-sm'],
+      width: `calc((${twTheme.maxWidth.xl} - 3 * ${sectionPaddingH}) / 2)`,
+    },
+    {
+      queryMinWidth: `${remToPx(twTheme.maxWidth['lg'])}px`,
+      width: `calc((${twTheme.maxWidth.lg} - 3 * ${sectionPaddingH}) / 2)`,
     },
     {
       queryMinWidth: twTheme.maxWidth['screen-xsm'],
