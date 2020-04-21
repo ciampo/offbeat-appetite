@@ -2,7 +2,7 @@
   @apply leading-relaxed text-base font-thin break-words;
 }
 
-@screen lg {
+@screen xl {
   .oba-portable-text {
     @apply text-lg;
   }
