@@ -137,4 +137,5 @@ export const contentMediaGalleryResponsiveConfig: AccessibleImageResponsiveConfi
       width: `calc(100vw - 2 * ${sectionPaddingH})`,
     },
   ],
+  forceRatio: 4 / 5,
 };

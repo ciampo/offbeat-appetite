@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { axe } from 'jest-axe';
 import { render, fireEvent } from 'offbeat-appetite-render';
 
@@ -34,11 +34,13 @@ describe('AccessibleVideo', () => {
     const imageEl = getByRole('img');
     const playButton = getByRole('button');
     const wrapperEl = getByTestId('video-wrapper');
+    const imageWrapperEl = getByTestId('image-wrapper');
 
     expect(wrapperEl).toBeInTheDocument();
-    expect(wrapperEl).toHaveAttribute('class', 'relative overflow-hidden');
+    expect(wrapperEl).toHaveAttribute('class', 'relative');
 
     expect(imageEl).toBeInTheDocument();
+    expect(imageWrapperEl.className).not.toMatch('invisible');
     expect(imageEl).toHaveAttribute('loading', 'lazy');
 
     expect(videoEl).toBeInTheDocument();
@@ -51,9 +53,14 @@ describe('AccessibleVideo', () => {
     fireEvent.click(playButton);
 
     expect(playButton).not.toBeInTheDocument();
+
+    expect(imageEl).toBeInTheDocument();
+    expect(imageWrapperEl.className).toMatch('invisible');
+
+    expect(videoEl).toBeInTheDocument();
+
     expect(spiedVideoPause).toHaveBeenCalledTimes(1);
     expect(videoEl).toHaveAttribute('tabindex', '0');
-    expect(wrapperEl).toHaveAttribute('class', 'relative');
 
     const axeResults = await axe(container);
     expect(axeResults).toHaveNoViolations();
@@ -69,42 +76,6 @@ describe('AccessibleVideo', () => {
       />
     );
 
-    expect(getByTestId('video-wrapper')).toHaveAttribute(
-      'class',
-      `${testClassname} overflow-hidden`
-    );
-  });
-
-  test('correctly applies given styles', () => {
-    const testStyles: CSSProperties = {
-      height: '0px',
-      paddingBottom: '150%',
-    };
-    const { getByTestId } = render(
-      <AccessibleVideo
-        video={testVideo}
-        responsiveConfig={testResponsiveConfig}
-        style={testStyles}
-      />
-    );
-
-    const wrapperEl = getByTestId('video-wrapper');
-
-    expect(wrapperEl.style.height).toBe(testStyles.height);
-    expect(wrapperEl.style.paddingBottom).toBe(testStyles.paddingBottom);
-  });
-
-  test('correctly applies the right classnames with the absolutePositionedVideo prop', () => {
-    const { getByTitle } = render(
-      <AccessibleVideo
-        video={testVideo}
-        responsiveConfig={testResponsiveConfig}
-        absolutePositionedVideo={true}
-      />
-    );
-
-    expect(getByTitle(testVideo.alt).className).toMatch(
-      'absolute inset-0 h-full w-full object-cover'
-    );
+    expect(getByTestId('video-wrapper')).toHaveAttribute('class', testClassname);
   });
 });

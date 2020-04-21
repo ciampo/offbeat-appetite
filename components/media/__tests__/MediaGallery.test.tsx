@@ -16,7 +16,7 @@ import { SanityCaptionedImage, SanityCaptionedVideo } from '../../../typings';
 
 describe('MediaGallery', () => {
   test('renders with a valid configuration with an odd amount of items', async () => {
-    const { getByTestId, getAllByTestId, getByTitle, container } = render(
+    const { getByTestId, getAllByTestId, container } = render(
       <MediaGallery _type={testMediaGalleryOdd._type} items={testMediaGalleryOdd.items} />
     );
 
@@ -40,33 +40,30 @@ describe('MediaGallery', () => {
     expect(lastCaptionedImageWrapperEl.className).toMatch('mt-8 xsm:mt-0');
 
     const imageWrapperEls = getAllByTestId('image-wrapper');
-    const firstImageWrapperEl = imageWrapperEls[0];
-    const videoWrapperEl = getByTestId('video-wrapper');
-    const videoEl = getByTitle((testMediaGalleryOdd.items[1] as SanityCaptionedVideo).video.alt);
-    const lastImageWrapperEl = imageWrapperEls.slice(-1)[0];
 
-    // Forced ratio applied to all but the last item
-    // (in case of video, forcedRatio + 0 height + absolute)
-    expect(firstImageWrapperEl.style.paddingBottom).toBe('125%');
-    expect(videoWrapperEl.style.paddingBottom).toBe('125%');
-    expect(videoWrapperEl.style.height).toBe('0px');
-    expect(videoEl.className).toMatch('absolute inset-0 h-full w-full object-cover');
-    expect(lastImageWrapperEl.style.paddingBottom).toBe(
-      `${parseFloat(
-        (
-          100 /
-          (testMediaGalleryOdd.items.slice(-1)[0] as SanityCaptionedImage).image.asset.metadata
-            .dimensions.aspectRatio
-        ).toFixed(3)
-      )}%`
-    );
+    // Forced ratio applied to all but last item
+    for (let i = 0; i++; i < imageWrapperEls.length) {
+      if (i === imageWrapperEls.length - 1) {
+        expect(imageWrapperEls[i].style.paddingBottom).toBe(
+          `${parseFloat(
+            (
+              100 /
+              (testMediaGalleryOdd.items.slice(-1)[0] as SanityCaptionedImage).image.asset.metadata
+                .dimensions.aspectRatio
+            ).toFixed(3)
+          )}%`
+        );
+      } else {
+        expect(imageWrapperEls[i].style.paddingBottom).toBe('125%');
+      }
+    }
 
     const axeResults = await axe(container);
     expect(axeResults).toHaveNoViolations();
   });
 
   test('renders with a valid configuration with an even amount of items', async () => {
-    const { getByTestId, getAllByTestId, getAllByTitle, container } = render(
+    const { getByTestId, getAllByTestId, container } = render(
       <MediaGallery _type={testMediaGalleryEven._type} items={testMediaGalleryEven.items} />
     );
 
@@ -89,30 +86,12 @@ describe('MediaGallery', () => {
     expect(secondCaptionedImageWrapperEl.className).toMatch('mt-8 xsm:mt-0');
     expect(lastCaptionedImageWrapperEl.className).toMatch('mt-8 xsm:mt-0');
 
-    const imageWrapperEls = getAllByTestId('image-wrapper', { exact: true });
-    const videoWrapperEls = getAllByTestId('video-wrapper', { exact: true });
-    const videoEls = getAllByTitle(
-      (testMediaGalleryOdd.items[1] as SanityCaptionedVideo).video.alt
-    );
-
-    const firstImageWrapperEl = imageWrapperEls[0];
-    const lastImageWrapperEl = imageWrapperEls.slice(-1)[0];
-    const firstVideoWrapperEl = videoWrapperEls[0];
-    const lastVideoWrapperEl = videoWrapperEls.slice(-1)[0];
-    const firstVideoEl = videoEls[0];
-    const lastVideoEl = videoEls.slice(-1)[0];
+    const imageWrapperEls = getAllByTestId('image-wrapper');
 
     // Forced ratio applied to all items
-    // (in case of video, forcedRatio + 0 height + absolute)
-    expect(firstImageWrapperEl.style.paddingBottom).toBe('125%');
-    expect(firstVideoWrapperEl.style.paddingBottom).toBe('125%');
-    expect(firstVideoWrapperEl.style.height).toBe('0px');
-    expect(firstVideoEl.className).toMatch('absolute inset-0 h-full w-full object-cover');
-
-    expect(lastImageWrapperEl.style.paddingBottom).toBe('125%');
-    expect(lastVideoWrapperEl.style.paddingBottom).toBe('125%');
-    expect(lastVideoWrapperEl.style.height).toBe('0px');
-    expect(lastVideoEl.className).toMatch('absolute inset-0 h-full w-full object-cover');
+    for (let i = 0; i++; i < imageWrapperEls.length) {
+      expect(imageWrapperEls[i].style.paddingBottom).toBe('125%');
+    }
 
     const axeResults = await axe(container);
     expect(axeResults).toHaveNoViolations();
