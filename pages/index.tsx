@@ -1,7 +1,7 @@
 import React from 'react';
 import { NextComponentType, GetStaticProps } from 'next';
 
-import PageMeta from '../components/PageMeta';
+import PageMeta from '../components/meta/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import NewsletterSubscribe, {
   NewsletterSubscribeVariant,

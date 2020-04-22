@@ -1,7 +1,7 @@
 import React from 'react';
 import { NextComponentType, GetStaticProps, GetStaticPaths } from 'next';
 
-import PageMeta from '../../components/PageMeta';
+import PageMeta from '../../components/meta/PageMeta';
 import AccessibleImage from '../../components/media/AccessibleImage';
 import { fullBleedImageResponsiveConfig } from '../../components/media/image-responsive-configurations';
 import RichPortableText from '../../components/portable-text/RichPortableText';

@@ -5,6 +5,7 @@ import React from 'react';
 import App from 'next/app';
 import { AnimatePresence } from 'framer-motion';
 
+import { SharingImageProvider } from '../components/meta/sharing-image-context';
 import MainLayout from '../components/layouts/Main';
 import Analytics from '../components/Analytics';
 
@@ -31,7 +32,7 @@ export default class MyApp extends App {
     const { Component, pageProps, router } = this.props;
 
     return (
-      <>
+      <SharingImageProvider>
         <Analytics />
 
         <MainLayout>
@@ -39,7 +40,7 @@ export default class MyApp extends App {
             <Component {...pageProps} key={router.asPath} />
           </AnimatePresence>
         </MainLayout>
-      </>
+      </SharingImageProvider>
     );
   }
 }
