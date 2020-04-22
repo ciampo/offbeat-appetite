@@ -83,7 +83,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
                 unit: recipeTimeUnitLabel,
               },
             ].map(({ title, quantity, unit }, index, array) => (
-              <>
+              <React.Fragment key={`instruction-box-${index}`}>
                 <dt
                   className={[
                     'pt-4 px-2 2xsm:pt-6 xsm:pt-8 xsm:px-4 md:pt-6 font-medium uppercase text-center',
@@ -101,6 +101,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
                   {title}
                 </dt>
                 <dd
+                  key={`dl-${index}`}
                   className={[
                     'flex items-end justify-center md:flex-col md:items-center',
                     'pt-1 px-2 pb-4 2xsm:pt-2 2xsm:pb-6 xsm:pt-3 xsm:px-4 xsm:pb-8 md:pt-4 md:pb-6',
@@ -122,7 +123,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
                   <span className="text-3xl leading-none">{quantity}</span>
                   <span className="text-sm text-center lowercase ml-2 md:ml-0">{unit}</span>
                 </dd>
-              </>
+              </React.Fragment>
             ))}
           </dl>
         </section>
@@ -147,13 +148,12 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
         <section className="mt-6 md:mt-8">
           <RecipeSectionTitle text={recipeMethodSectionTitle} />
           <ol>
-            {recipe.method.map(({ content }) => (
-              <>
-                <SimplePortableText
-                  customSerializers={{ container: RecipeMethodStep }}
-                  blocks={content}
-                />
-              </>
+            {recipe.method.map(({ content }, index) => (
+              <SimplePortableText
+                key={`method-step-${index}`}
+                customSerializers={{ container: RecipeMethodStep }}
+                blocks={content}
+              />
             ))}
           </ol>
         </section>
