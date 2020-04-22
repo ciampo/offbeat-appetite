@@ -14,6 +14,7 @@ const pageHomeQuery = /* groq */ `*[_type == "${pageHomeType}"] {
   categorySections[] {
   	title,
 	  category->{
+      _id,
   		"slug": slug.current,
   		name,
   		"featuredBlogPosts": featured[]->${blogPostPreviewProjection},

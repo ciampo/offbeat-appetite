@@ -3,7 +3,7 @@ import { SanityRecipe, SanityCaptionedImage, SanityCaptionedVideo, SanityMediaGa
 export interface SanityMarkDefs {
   _key: string;
   _type: string;
-  [key: string]: string;
+  [key: string]: unknown;
 }
 
 export interface SanityMarkNode {
