@@ -2,9 +2,9 @@ import React from 'react';
 import { axe } from 'jest-axe';
 import { render } from 'offbeat-appetite-render';
 
-import AboutPage from '../about';
-import aboutData from '../../data/pageAbout.json';
-import { generateWebpageStructuredData } from '../../scripts/structured-data';
+import AboutPage from '../pages/about';
+import aboutData from '../data/pageAbout.json';
+import { generateWebpageStructuredData } from '../scripts/structured-data';
 
 describe('About Page', () => {
   test('it renders', async () => {

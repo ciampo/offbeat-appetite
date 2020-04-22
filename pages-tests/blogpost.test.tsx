@@ -2,16 +2,16 @@ import React from 'react';
 import { axe } from 'jest-axe';
 import { render } from 'offbeat-appetite-render';
 
-import BlogPostPage from '../[categoryId]/[postId]';
-import testRecipeData from '../../data/posts/test-recipe.json';
+import BlogPostPage from '../pages/[categoryId]/[postId]';
+import testRecipeData from '../data/posts/test-recipe.json';
 import {
   generateWebpageStructuredData,
   generateArticleStructuredData,
-} from '../../scripts/structured-data';
+} from '../scripts/structured-data';
 
-import routesConfig from '../../routes-config';
-import { compileDynamicItem } from '../../scripts/compile-routes';
-import { SanityBlogPostFull } from '../../typings';
+import routesConfig from '../routes-config';
+import { compileDynamicItem } from '../scripts/compile-routes';
+import { SanityBlogPostFull } from '../typings';
 
 const blogPostData = testRecipeData as SanityBlogPostFull;
 
@@ -30,7 +30,7 @@ describe('Post Page', () => {
 
     const compiledCategoryItem = compileDynamicItem({
       routeConfig: routesConfig.find(({ route }) => route === '/[categoryId]'),
-      dynamicItem: await import(`../../data/categories/${blogPostData.category.slug}.json`).then(
+      dynamicItem: await import(`../data/categories/${blogPostData.category.slug}.json`).then(
         (m) => m.default
       ),
     });

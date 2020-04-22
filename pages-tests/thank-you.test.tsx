@@ -2,8 +2,8 @@ import React from 'react';
 import { axe } from 'jest-axe';
 import { render } from 'offbeat-appetite-render';
 
-import ThankYouPage from '../thank-you';
-import thankYouData from '../../data/pageThankYou.json';
+import ThankYouPage from '../pages/thank-you';
+import thankYouData from '../data/pageThankYou.json';
 
 describe('Thank You Page', () => {
   test('it renders', async () => {

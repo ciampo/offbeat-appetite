@@ -2,12 +2,12 @@ import React from 'react';
 import { axe } from 'jest-axe';
 import { render } from 'offbeat-appetite-render';
 
-import CategoryPage from '../[categoryId]';
-import categoryData from '../../data/categories/recipes.json';
-import { generateWebpageStructuredData } from '../../scripts/structured-data';
+import CategoryPage from '../pages/[categoryId]';
+import categoryData from '../data/categories/recipes.json';
+import { generateWebpageStructuredData } from '../scripts/structured-data';
 
-import routesConfig from '../../routes-config';
-import { compileDynamicItem } from '../../scripts/compile-routes';
+import routesConfig from '../routes-config';
+import { compileDynamicItem } from '../scripts/compile-routes';
 
 describe('Category Page', () => {
   test('it renders', async () => {
