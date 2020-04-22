@@ -2,6 +2,7 @@
 // because it saves a huge amount of space in the front end code
 // compared to importing the whole config + config parser
 const screens = {
+  '3xsm': '360px',
   '2xsm': '400px',
   xsm: '480px',
   sm: '640px',
