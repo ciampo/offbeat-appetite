@@ -50,7 +50,11 @@ const targetBlankProps = {
   rel: 'noopener noreferrer',
 };
 const ExternalLink: React.FC<SanityMarkNode> = ({ children, mark }) => (
-  <a href={mark.href} {...(mark.blank ? targetBlankProps : undefined)} className={classNames.a}>
+  <a
+    href={mark.href as string}
+    {...(mark.blank ? targetBlankProps : undefined)}
+    className={classNames.a}
+  >
     {children}
   </a>
 );
