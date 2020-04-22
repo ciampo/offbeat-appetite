@@ -15,6 +15,12 @@ module.exports = {
         primary: 'var(--color-primary)',
         secondary: 'var(--color-secondary)',
         background: 'var(--color-background)',
+        facebook: '#3b5998',
+        mail: '#444',
+        pinterest: '#bd081c',
+        pocket: '#ef3f56',
+        twitter: '#55acee',
+        whatsapp: '#25d366',
       },
       maxWidth: {
         ...sharedTheme.maxWidth,
