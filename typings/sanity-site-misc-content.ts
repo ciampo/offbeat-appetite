@@ -13,6 +13,8 @@ export type SanitySiteMiscContent = {
   _id: string;
   authorLabel: string;
   recipeCookTimeLabel: string;
+  recipeDescriptionSectionTitle: string;
+  recipeInformationSectionTitle: string;
   recipeIngredientsSectionTitle: string;
   recipeMethodSectionTitle: string;
   recipePrepTimeLabel: string;

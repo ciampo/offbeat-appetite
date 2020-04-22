@@ -7,6 +7,8 @@ const siteMiscContentQuery = /* groq */ `*[_type == "${siteMiscContentType}"] {
   _id,
   authorLabel,
   recipeCookTimeLabel,
+  recipeDescriptionSectionTitle,
+  recipeInformationSectionTitle,
   recipeIngredientsSectionTitle,
   recipeMethodSectionTitle,
   recipePrepTimeLabel,
