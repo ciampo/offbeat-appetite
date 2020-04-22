@@ -177,7 +177,9 @@ export default function NewsletterSubscribe({
           required
           name={FIELD_NAMES.NAME}
           onChange={handleChange}
+          // TODO: move to sanity
           placeholder="Name"
+          aria-label="Name"
           onInvalid={onInputInvalid}
           onInput={onInputInput}
         />
@@ -190,7 +192,9 @@ export default function NewsletterSubscribe({
           required
           name={FIELD_NAMES.EMAIL}
           onChange={handleChange}
+          // TODO: move to sanity
           placeholder="Email"
+          aria-label="Email"
           onInvalid={onInputInvalid}
           onInput={onInputInput}
         />
