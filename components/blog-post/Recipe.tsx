@@ -34,6 +34,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
 
   return (
     <article
+      data-testid="recipe-wrapper"
       id="recipe"
       className="oba-overflow-full-bleed-x py-16 md:py-20 xl:py-24 bg-gray-200"
       {...props}
@@ -43,7 +44,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
         <h2 className="font-bold text-2xl text-center xl:text-3xl">{recipe.title}</h2>
 
         {/* Rating */}
-        <p className="text-center  mt-2 md:mt-4">TODO: non-interactive star rating</p>
+        <p className="text-center mt-2 md:mt-4">TODO: non-interactive star rating</p>
 
         {/* Sharing */}
         <aside className="mt-6 md:mt-8 flex flex-col items-center justify-center">
@@ -91,7 +92,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
                       ? // Side by side on 2xsm screen
                         `w-full 2xsm:w-1/2 2xsm:order-${index + 2} md:w-1/3 md:order-${index + 1}`
                       : // Full bleed on 2xsm screen
-                        `w-full 2xsm:order-${index + 1} md:w-1/3 md:w-1/3 md:order-${index + 1}`,
+                        `w-full 2xsm:order-${index + 1} md:w-1/3 md:order-${index + 1}`,
                   ]
                     .filter(Boolean)
                     .join(' ')}
@@ -99,7 +100,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
                   {title}
                 </dt>
                 <dd
-                  key={`dl-${index}`}
+                  data-testid={`recipe-info-detail-${index}`}
                   className={[
                     'flex items-end justify-center md:flex-col md:items-center',
                     'pt-1 px-2 pb-4 2xsm:pt-2 2xsm:pb-6 xsm:pt-3 xsm:px-4 xsm:pb-8 md:pt-4 md:pb-6',
@@ -135,7 +136,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
         {/* Ingredients  */}
         <section className="mt-6 md:mt-8">
           <RecipeSectionTitle text={recipeIngredientsSectionTitle} />
-          <ul>
+          <ul data-testid="recipe-ingredients-list">
             {recipe.ingredients.map((ingredient) => (
               <li key={ingredient._key}>{stringifyRecipeIngredient(ingredient)}</li>
             ))}
@@ -145,10 +146,10 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
         {/* Method  */}
         <section className="mt-6 md:mt-8">
           <RecipeSectionTitle text={recipeMethodSectionTitle} />
-          <ol>
-            {recipe.method.map(({ content }, index) => (
+          <ol data-testid="recipe-method-list">
+            {recipe.method.map(({ content, _key }) => (
               <SimplePortableText
-                key={`method-step-${index}`}
+                key={_key}
                 customSerializers={{ container: RecipeMethodStep }}
                 blocks={content}
               />
