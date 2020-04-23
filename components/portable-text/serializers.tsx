@@ -9,7 +9,7 @@ import CaptionedImage from '../media/CaptionedImage';
 import CaptionedVideo from '../media/CaptionedVideo';
 import MediaGallery from '../media/MediaGallery';
 import { contentFullWidthResponsiveConfig } from '../media/image-responsive-configurations';
-import Recipe from '../recipe/Recipe';
+import Recipe from '../blog-post/Recipe';
 
 import routesConfig from '../../routes-config';
 import { compileDynamicItem } from '../../scripts/compile-routes';
@@ -24,6 +24,7 @@ import {
   SanityBlock,
 } from '../../typings';
 
+// TODO: apply more classnames here, remove from css files?
 const classNames = {
   h2: 'font-bold text-2xl mt-6 lg:text-3xl',
   h3: 'font-bold text-xl mt-4 lg:text-2xl',
