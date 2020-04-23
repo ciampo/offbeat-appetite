@@ -27,9 +27,7 @@ const RecipeSectionTitle: React.FC<{ text: string }> = ({ text }) => (
 );
 
 type RecipeProps = {
-  recipe: SanityRecipe & {
-    _key: string;
-  };
+  recipe: SanityRecipe;
 };
 const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
   const { asPath } = useRouter();

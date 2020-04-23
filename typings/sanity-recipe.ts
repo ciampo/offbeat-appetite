@@ -28,12 +28,13 @@ export type SanityServings = {
 };
 
 export type SanityRecipeMethodStep = {
-  key: string;
+  _key: string;
   title: string;
   content: SanityBlock[];
 };
 
 export type SanityRecipe = {
+  _key: string;
   _type: string;
   title: string;
   description: string;

@@ -90,6 +90,7 @@ const richPortabletextProjection = /* groq */ `{
       "unit": unit[0],
     },
     method[] {
+      _key,
       title,
       content[] ${simplePortabletextProjection},
     }
