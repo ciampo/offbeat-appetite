@@ -13,7 +13,7 @@ import {
   PocketSharingButton,
   WhatsappSharingButton,
   NativeSharingButton,
-  // AllSharingButtons,
+  AllSharingButtons,
 } from '../sharing-links';
 
 const testSharingData: SharingLinkWithMessageProps = {
@@ -186,5 +186,50 @@ describe('Native Web Sharing Button', () => {
     expect(span).not.toBeInTheDocument();
     expect(button).not.toBeInTheDocument();
     expect(svg).not.toBeInTheDocument();
+  });
+});
+
+describe('All Sharing Links', () => {
+  let shareMock: jest.SpyInstance;
+
+  beforeAll(() => {
+    // Create a spy on console (console.log in this case) and provide some mocked implementation
+    // In mocking global objects it's usually better than simple `jest.fn()`
+    // because you can `unmock` it in clean way doing `mockRestore`
+    shareMock = jest.fn().mockResolvedValue({});
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    jest.spyOn(window, 'navigator', 'get').mockImplementation(() => ({
+      share: shareMock,
+    }));
+  });
+  afterAll(() => {
+    // Restore mock after all tests are done, so it won't affect other test suites
+    jest.restoreAllMocks();
+  });
+  beforeEach(() => {
+    // Clear mock (all calls etc) after each test.
+    // It's needed when you're using console somewhere in the tests so you have clean mock each time
+    jest.clearAllMocks();
+  });
+
+  test(`renders all Sharing Links, but doesn't render the Web Native Sharing Button when SSR'ing`, async () => {
+    const { getAllByText } = render(<AllSharingButtons {...testSharingData} />);
+
+    const spans = getAllByText(new RegExp(socialShareLabel.replace(':platformName', '')));
+
+    expect(spans).toHaveLength(standardSharingLinks.length);
+  });
+
+  test(`renders all Sharing Links including the Web Native Sharing Button when in the browser`, async () => {
+    Object.defineProperty(process, 'browser', {
+      value: true,
+    });
+
+    const { getAllByText } = render(<AllSharingButtons {...testSharingData} />);
+
+    const spans = getAllByText(new RegExp(socialShareLabel.replace(':platformName', '')));
+
+    expect(spans).toHaveLength(standardSharingLinks.length + 1);
   });
 });

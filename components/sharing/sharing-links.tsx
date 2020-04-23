@@ -159,16 +159,14 @@ export const NativeSharingButton: React.FC<SharingLinkWithMessageProps> = ({
   className,
 }) => {
   const onNativeShareButtonClick = useCallback(async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: message,
-          text: message,
-          url: link,
-        });
-      } catch (err) {
-        console.error('Error using Native Web Sharing\n\n', err);
-      }
+    try {
+      await (navigator.share as NavigatorShare)({
+        title: message,
+        text: message,
+        url: link,
+      });
+    } catch (err) {
+      console.error('Error using Native Web Sharing\n\n', err);
     }
   }, [link, message]);
 
