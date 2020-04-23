@@ -23,7 +23,7 @@ type BasicSharingLinkProps = {
   onClick?: (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement, MouseEvent>) => void;
 };
 
-type SharingLinkWithMessageProps = {
+export type SharingLinkWithMessageProps = {
   link: string;
   message: string;
   className?: string;
@@ -137,7 +137,7 @@ export const MailSharingButton: React.FC<SharingLinkWithMessageProps> = ({
   className,
 }) => (
   <BasicSharingLink
-    label={socialShareLabel.replace(':platformName', 'Whatsapp')}
+    label={socialShareLabel.replace(':platformName', 'Email')}
     href={`mailto:?subject=${encodeURIComponent(message)}&body=${encodeURIComponent(link)}`}
     iconComponent={MailIcon}
     className={['hover:bg-mail focus:bg-mail', className].filter(Boolean).join(' ')}
@@ -146,7 +146,7 @@ export const MailSharingButton: React.FC<SharingLinkWithMessageProps> = ({
 
 export const PocketSharingButton: React.FC<SharingLinkWithMessageProps> = ({ link, className }) => (
   <BasicSharingLink
-    label={socialShareLabel.replace(':platformName', 'Whatsapp')}
+    label={socialShareLabel.replace(':platformName', 'Pocket')}
     href={`https://getpocket.com/edit?url=${encodeURIComponent(link)}`}
     iconComponent={PocketIcon}
     className={['hover:bg-pocket focus:bg-pocket', className].filter(Boolean).join(' ')}
@@ -167,14 +167,14 @@ export const NativeSharingButton: React.FC<SharingLinkWithMessageProps> = ({
           url: link,
         });
       } catch (err) {
-        console.log('Error using Native Web Sharing\n\n', err);
+        console.error('Error using Native Web Sharing\n\n', err);
       }
     }
   }, [link, message]);
 
   return navigator.share ? (
     <BasicSharingLink
-      label={socialShareLabel.replace(':platformName', 'Whatsapp')}
+      label={socialShareLabel.replace(':platformName', 'all platforms')}
       iconComponent={GenericShareIcon}
       className={['hover:bg-mail focus:bg-mail', className].filter(Boolean).join(' ')}
       useButton={true}
