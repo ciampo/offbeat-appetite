@@ -34,7 +34,9 @@
     "test": "is-ci \"test:coverage\" \"test:watch\"",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
-    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch"
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "jest-runner-eslint": {
     "cliOptions": {
@@ -58,10 +60,15 @@
     "tailwindcss-aspect-ratio": "3.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.9.6",
     "@babel/preset-typescript": "^7.9.0",
     "@fullhuman/postcss-purgecss": "^2.1.2",
     "@next/bundle-analyzer": "^9.1.2",
     "@sanity/client": "^1.149.2",
+    "@storybook/addon-actions": "^5.3.18",
+    "@storybook/addon-links": "^5.3.18",
+    "@storybook/addons": "^5.3.18",
+    "@storybook/react": "^5.3.18",
     "@testing-library/jest-dom": "^5.5.0",
     "@testing-library/react": "^10.0.2",
     "@types/jest-axe": "^3.2.2",
@@ -72,6 +79,7 @@
     "@typescript-eslint/parser": "^2.6.1",
     "@zeit/next-css": "^1.0.1",
     "autoprefixer": "^9.7.1",
+    "babel-loader": "^8.1.0",
     "chalk": "^4.0.0",
     "cssnano": "^4.1.10",
     "dotenv": "^8.2.0",
