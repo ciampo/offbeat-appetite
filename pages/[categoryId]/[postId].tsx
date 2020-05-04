@@ -6,6 +6,7 @@ import AccessibleImage from '../../components/media/AccessibleImage';
 import { fullBleedImageResponsiveConfig } from '../../components/media/image-responsive-configurations';
 import RichPortableText from '../../components/portable-text/RichPortableText';
 import DefaultPageTransitionWrapper from '../../components/page-transition-wrappers/Default';
+import { ArticleContentContainer } from '../../components/layouts/Containers';
 
 import routesConfig from '../../routes-config';
 import { compileSingleRoute, compileDynamicItem } from '../../scripts/compile-routes';
@@ -57,9 +58,12 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
         />
       </section>
 
-      <section className="oba-content-width mt-8">
+      <ArticleContentContainer
+        component={(props): JSX.Element => <section {...props}></section>}
+        className="mt-8"
+      >
         <RichPortableText blocks={blogPostData.content} />
-      </section>
+      </ArticleContentContainer>
     </DefaultPageTransitionWrapper>
   </>
 );

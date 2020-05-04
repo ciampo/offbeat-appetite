@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 
 import SimplePortableText from '../portable-text/SimplePortableText';
+import { ArticleContentContainer } from '../layouts/Containers';
 import { stringifyRecipeIngredient, joinUrl } from '../../scripts/utils';
 
 import {
@@ -39,7 +40,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
       className="oba-overflow-full-bleed-x py-16 md:py-20 xl:py-24 bg-gray-200"
       {...props}
     >
-      <div className="oba-content-width">
+      <ArticleContentContainer>
         {/* Title */}
         <h2 className="font-bold text-2xl text-center xl:text-3xl">{recipe.title}</h2>
 
@@ -158,7 +159,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
         </section>
 
         {/* TODO: Rating */}
-      </div>
+      </ArticleContentContainer>
     </article>
   );
 };
