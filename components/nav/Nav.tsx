@@ -40,7 +40,7 @@ const Nav: NextComponentType = () => {
                 <Link href={href} scroll={false} as={as}>
                   <a
                     className={[
-                      'relative no-underline text-sm text-primary contain-layout-paint',
+                      'relative no-underline text-sm text-gray-darker contain-layout-paint',
                       'after:empty-content after:opacity-0 after:absolute after:z-10 after:w-full after:h-px after:left-0 after:bottom-0 after:bg-current after:origin-top-left after:transition-opacity after:duration-300 after:ease-out',
                       router.asPath === (as ? as : href) ? 'after:delay-100 after:opacity-100' : '',
                       loadingRoute === href

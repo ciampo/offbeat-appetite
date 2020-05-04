@@ -23,7 +23,7 @@ const CustomError: NextComponentType<{}, {}, ErrorPageProps> = ({ statusCode }) 
       <PageMeta title={`${statusCode}: ${title}`} description="An error occurred" path="/404" />
 
       <DefaultPageTransitionWrapper>
-        <header className="pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-48 container mx-auto text-center text-primary">
+        <header className="pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-48 container mx-auto text-center text-gray-darker">
           <h1 className="text-2xl mb-4">{statusCode}</h1>
           <p className="text-base">{title}</p>
         </header>

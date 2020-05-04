@@ -29,7 +29,7 @@ const classNames = {
   h2: 'font-bold text-2xl mt-6 lg:text-3xl',
   h3: 'font-bold text-xl mt-4 lg:text-2xl',
   h4: 'font-bold mt-2',
-  a: 'border-b border-dashed border-primary outline-none focus:border-solid',
+  a: 'border-b border-dashed border-gray-darker outline-none focus:border-solid',
 };
 
 const InternalLink: React.FC<SanityMarkNode> = ({ children, mark }) => {

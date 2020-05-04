@@ -51,7 +51,7 @@ const AccessibleVideo: React.FC<AccessibleVideoProps> = ({
             'z-20 absolute inset-0 w-full h-full',
             'flex items-center justify-center',
             'text-0 text-white cursor-pointer',
-            'focus:outline-none focus:text-secondary',
+            'focus:outline-none focus:text-gray-lighter',
           ].join(' ')}
           onClick={onThumbnailClick}
         >

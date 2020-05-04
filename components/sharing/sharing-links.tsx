@@ -39,7 +39,7 @@ const BasicSharingLink: React.FC<BasicSharingLinkProps> = ({
 }) => {
   const sharingLinkClassName = [
     'w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center',
-    'text-primary rounded-sm',
+    'text-gray-darker rounded-sm',
     'hover:text-white focus:text-white',
     className,
   ].join(' ');

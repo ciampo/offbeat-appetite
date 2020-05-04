@@ -53,6 +53,38 @@ const sharedTheme = {
     'screen-lg': screens.lg,
     'screen-xl': screens.xl,
   },
+  colors: {
+    olive: {
+      darker: '#546050',
+      dark: '#6D7E67',
+      medium: '#C5CBB4',
+      light: '#F3F5F0',
+      lighter: '#FDFDFC',
+    },
+    pink: {
+      darker: '#B15D5D',
+      dark: '#CC8787',
+      medium: '#EFD2CD',
+      light: '#FBF5F3',
+      lighter: '#FEFBFA',
+    },
+    gray: {
+      darker: '#171717',
+      dark: '#4E4E4E',
+      medium: '#ccc',
+      light: '#f4f4f4',
+      lighter: '#f8f8f8',
+      white: '#fff',
+    },
+    share: {
+      mail: '#444',
+      facebook: '#3b5998',
+      twitter: '#55acee',
+      whatsapp: '#25d366',
+      pocket: '#ef3f56',
+      pinterest: '#bd081c',
+    },
+  },
 };
 
 module.exports = {
