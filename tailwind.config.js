@@ -119,6 +119,9 @@ module.exports = {
     width: ['responsive', 'before', 'after'],
     zIndex: ['responsive', 'focus', 'before', 'after'],
   },
+  corePlugins: {
+    container: false,
+  },
   plugins: [
     require('tailwindcss-animations'),
     require('tailwindcss-pseudo-elements'),

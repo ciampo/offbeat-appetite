@@ -4,9 +4,10 @@
 const screens = {
   '3xsm': '360px',
   '2xsm': '400px',
+  // Potentially change to 512?
   xsm: '480px',
   sm: '640px',
-  md: '768px',
+  md: '840px',
   lg: '1024px',
   xl: '1280px',
 };
@@ -40,12 +41,12 @@ const sharedTheme = {
     // sm: '24rem',
     // md: '28rem',
     lg: '32rem',
-    xl: '36rem',
+    xl: '38rem',
     '2xl': '42rem',
     '3xl': '48rem',
     // '4xl': '56rem',
     // '5xl': '64rem',
-    // '6xl': '72rem',
+    '6xl': '80rem',
     // full: '100%',
     'screen-xsm': screens.xsm,
     'screen-sm': screens.sm,
