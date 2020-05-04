@@ -8,6 +8,14 @@ module.exports = {
       fontSize: {
         '0': '0',
       },
+      lineHeight: {
+        none: 1,
+        tight: 1.25,
+        snug: 1.375,
+        normal: 1.5,
+        relaxed: 1.625,
+        loose: 2,
+      },
       spacing: {
         ...sharedTheme.spacing,
       },
@@ -34,6 +42,31 @@ module.exports = {
       maxHeight: {
         hero: '50rem',
       },
+    },
+    fontFamily: {
+      display: ['Yeseva One', 'cursive'],
+      body: ['Raleway', 'sans-serif'],
+    },
+    fontSize: {
+      xs: '.75rem',
+      sm: '.875rem',
+      base: '1rem',
+      lg: '1.125rem',
+      xl: '1.25rem',
+      '2xl': '1.5rem',
+      '3xl': '2rem',
+      '4xl': '2.75rem',
+      '5xl': '3.75rem',
+      '6xl': '4.75rem',
+    },
+    letterSpacing: {
+      tightest: '-.03em',
+      tighter: '-.02em',
+      tight: '-.01em',
+      normal: '0',
+      wide: '.02em',
+      wider: '.05em',
+      widest: '.1em',
     },
     screens: sharedTheme.screens,
     // Aspect Ratio Plugin

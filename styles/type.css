@@ -1,0 +1,257 @@
+/*******************************************************************************
+* Display
+*******************************************************************************/
+._type-display-base {
+  @apply font-display leading-tight tracking-tightest;
+}
+
+/* Display 1 */
+._type-display-1-m {
+  @apply _type-display-base text-3xl;
+}
+
+._type-display-1-t {
+  @apply _type-display-base text-4xl;
+}
+
+._type-display-1-d {
+  @apply _type-display-base text-5xl;
+}
+
+.type-display-1 {
+  @apply _type-display-base text-3xl;
+}
+
+@screen sm {
+  .type-display-1 {
+    @apply text-4xl;
+  }
+}
+
+@screen xl {
+  .type-display-1 {
+    @apply text-5xl;
+  }
+}
+
+/* Display 2 */
+._type-display-2-m {
+  @apply _type-display-base text-3xl;
+}
+
+._type-display-2-d {
+  @apply _type-display-base text-4xl;
+}
+
+.type-display-2 {
+  @apply _type-display-base text-3xl;
+}
+
+@screen xl {
+  .type-display-2 {
+    @apply text-4xl;
+  }
+}
+
+/*******************************************************************************
+* Body
+*******************************************************************************/
+._type-heading-base {
+  @apply font-body leading-tight tracking-tighter;
+}
+._type-heading-base-semibold {
+  @apply _type-heading-base font-semibold;
+}
+._type-heading-base-medium {
+  @apply _type-heading-base font-medium;
+}
+._type-tag-base {
+  @apply font-body leading-none tracking-wider font-bold uppercase;
+}
+._type-eyebrow-base {
+  @apply font-body leading-none tracking-widest font-semibold uppercase;
+}
+._type-body-base {
+  @apply font-body leading-normal tracking-normal font-normal;
+}
+
+/* Heading 1 */
+._type-heading-1-m {
+  @apply _type-heading-base-semibold text-3xl;
+}
+
+._type-heading-1-d {
+  @apply _type-heading-base-semibold text-4xl;
+}
+
+.type-heading-1 {
+  @apply _type-heading-base-semibold text-3xl;
+}
+
+@screen xl {
+  .type-heading-1 {
+    @apply text-4xl;
+  }
+}
+
+/* Heading 2 */
+._type-heading-2-m {
+  @apply _type-heading-base-semibold text-2xl;
+}
+
+._type-heading-2-d {
+  @apply _type-heading-base-semibold text-3xl;
+}
+
+.type-heading-2 {
+  @apply _type-heading-base-semibold text-2xl;
+}
+
+@screen xl {
+  .type-heading-2 {
+    @apply text-3xl;
+  }
+}
+
+/* Heading 3 */
+._type-heading-3-m {
+  @apply _type-heading-base-semibold text-lg;
+}
+
+._type-heading-3-d {
+  @apply _type-heading-base-semibold text-xl;
+}
+
+.type-heading-3 {
+  @apply _type-heading-base-semibold text-lg;
+}
+
+@screen xl {
+  .type-heading-3 {
+    @apply text-xl;
+  }
+}
+
+/* Heading 4 */
+._type-heading-4-m {
+  @apply _type-heading-base-medium text-lg;
+}
+
+._type-heading-4-d {
+  @apply _type-heading-base-medium text-xl;
+}
+
+.type-heading-4 {
+  @apply _type-heading-base-medium text-lg;
+}
+
+@screen xl {
+  .type-heading-4 {
+    @apply text-xl;
+  }
+}
+
+/* Eyebrow */
+._type-eyebrow-m {
+  @apply _type-eyebrow-base text-sm;
+}
+
+._type-eyebrow-t {
+  @apply _type-eyebrow-base text-base;
+}
+
+._type-eyebrow-d {
+  @apply _type-eyebrow-base text-lg;
+}
+
+.type-eyebrow {
+  @apply _type-eyebrow-base text-sm;
+}
+
+@screen sm {
+  .type-eyebrow {
+    @apply text-base;
+  }
+}
+
+@screen xl {
+  .type-eyebrow {
+    @apply text-lg;
+  }
+}
+
+/* Tag */
+._type-tag-m {
+  @apply _type-tag-base text-xs;
+}
+
+._type-tag-d {
+  @apply _type-tag-base text-sm;
+}
+
+.type-tag {
+  @apply _type-tag-base text-xs;
+}
+
+@screen xl {
+  .type-tag {
+    @apply text-sm;
+  }
+}
+
+/* Body Large */
+._type-body-large-m {
+  @apply _type-body-base text-lg;
+}
+
+._type-body-large-d {
+  @apply _type-body-base text-xl;
+}
+
+.type-body-large {
+  @apply _type-body-base text-lg;
+}
+
+@screen xl {
+  .type-body-large {
+    @apply text-xl;
+  }
+}
+
+/* Body */
+._type-body-m {
+  @apply _type-body-base text-base;
+}
+
+._type-body-d {
+  @apply _type-body-base text-lg;
+}
+
+.type-body {
+  @apply _type-body-base text-base;
+}
+
+@screen xl {
+  .type-body {
+    @apply text-lg;
+  }
+}
+
+/* Footnote */
+._type-footnote-m {
+  @apply _type-body-base text-xs;
+}
+
+._type-footnote-d {
+  @apply _type-body-base text-sm;
+}
+
+.type-footnote {
+  @apply _type-body-base text-xs;
+}
+
+@screen xl {
+  .type-footnote {
+    @apply text-sm;
+  }
+}

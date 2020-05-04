@@ -1,0 +1,22 @@
+body {
+  @apply text-gray-darker bg-gray-white m-0;
+
+  /* Same as ".type-body" class */
+  @apply _type-body-base text-base;
+}
+
+@screen xl {
+  body {
+    /* Same as ".type-body" class */
+    @apply text-lg;
+  }
+}
+
+a,
+button,
+input,
+label,
+video,
+canvas {
+  -webkit-tap-highlight-color: transparent;
+}

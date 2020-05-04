@@ -1,4 +1,12 @@
-@import './_base.css';
+/* Tailwind base */
+@import './_tailwind-before.css';
+
+/* Custom tailwind components */
+@import './base.css';
+@import './type.css';
 @import './max-width.css';
 @import './stack.css';
 @import './portable-text.css';
+
+/* Tailwind utils */
+@import './_tailwind-after.css';
