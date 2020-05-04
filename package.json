@@ -68,6 +68,7 @@
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-links": "^5.3.18",
     "@storybook/addons": "^5.3.18",
+    "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^5.3.18",
     "@testing-library/jest-dom": "^5.5.0",
     "@testing-library/react": "^10.0.2",
@@ -90,6 +91,7 @@
     "eslint-plugin-jest": "^23.8.2",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^3.0.0",
+    "fork-ts-checker-webpack-plugin": "^4.1.3",
     "husky": "^4.2.5",
     "is-ci-cli": "^2.0.0",
     "jest": "^25.3.0",
@@ -116,6 +118,7 @@
     "stylelint-config-recommended": "^3.0.0",
     "tailwindcss-animations": "^2.0.0",
     "tailwindcss-pseudo-elements": "^1.1.2",
+    "ts-loader": "^7.0.2",
     "typescript": "^3.7.2",
     "webpack": "^4.41.2"
   }
