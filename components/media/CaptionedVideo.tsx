@@ -23,7 +23,7 @@ const CaptionedVideo: React.FC<CaptionedVideoProps> = ({
 }) => (
   <div {...props}>
     {caption ? (
-      <figure className="oba-stack-tiny">
+      <figure className="space-y-2 xl:space-y-4">
         <AccessibleVideo
           {...accessibleVideoProps}
           video={video}

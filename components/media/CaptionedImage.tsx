@@ -23,7 +23,7 @@ const CaptionedImage: React.FC<CaptionedImageProps> = ({
 }) => (
   <div {...props} data-testid="captioned-image-wrapper">
     {caption ? (
-      <figure className="oba-stack-tiny">
+      <figure className="space-y-2 xl:space-y-4">
         <AccessibleImage
           {...accessibleImageProps}
           image={image}

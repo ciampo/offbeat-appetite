@@ -20,7 +20,7 @@ describe('CaptionedVideo', () => {
     const figureEl = getByRole('figure');
 
     expect(figureEl).toBeInTheDocument();
-    expect(figureEl).toHaveClass('oba-stack-tiny');
+    expect(figureEl).toHaveClass('space-y-2 xl:space-y-4');
 
     expect(captionEl).toBeInTheDocument();
 
