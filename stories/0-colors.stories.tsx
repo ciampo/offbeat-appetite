@@ -9,21 +9,21 @@ export default {
 };
 
 type ColorWatchProps = { tailwindColor: string };
-const ColorSwatch: React.FC<ColorWatchProps> = ({ tailwindColor }) => (
+const Color: React.FC<ColorWatchProps> = ({ tailwindColor }) => (
   <li className="space-y-2">
     <div className={`w-40 h-16 bg-${tailwindColor}`}></div>
     <h3 className="type-tag text-gray-dark">{tailwindColor}</h3>
   </li>
 );
 
-export const Swatch: React.FC = () => (
+export const Palette: React.FC = () => (
   <ul className="space-y-8">
     {Object.entries(sharedTheme.colors).map(([colorFamily, colors]) => (
       <li className="space-y-4" key={colorFamily}>
         <h2 className="type-heading-2">{colorFamily}</h2>
         <ul className="flex">
           {Object.keys(colors).map((colorVariation) => (
-            <ColorSwatch key={colorVariation} tailwindColor={`${colorFamily}-${colorVariation}`} />
+            <Color key={colorVariation} tailwindColor={`${colorFamily}-${colorVariation}`} />
           ))}
         </ul>
       </li>
