@@ -2,7 +2,7 @@ import React from 'react';
 import { axe } from 'jest-axe';
 import { render, fireEvent } from 'offbeat-appetite-render';
 
-import { ButtonOlive, ButtonPink } from '../Button';
+import { ButtonOlive, ButtonPink, ButtonNeutral } from '../Button';
 
 const sampleContent = 'Test button';
 const sampleClassName = 'test-classname test-classname-two';
@@ -10,6 +10,7 @@ const sampleClassName = 'test-classname test-classname-two';
 const config = [
   { name: 'ButtonOlive', Component: ButtonOlive },
   { name: 'ButtonPink', Component: ButtonPink },
+  { name: 'ButtonNeutral', Component: ButtonNeutral },
 ];
 
 config.forEach(({ Component, name }) => {

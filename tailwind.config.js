@@ -193,9 +193,13 @@ module.exports = {
           outline: `${sharedTheme.colors.pink.dark} solid 0.125rem`,
           outlineOffset: '0.25rem',
         },
+        '.button-outline-neutral': {
+          outline: `${sharedTheme.colors.gray.dark} solid 0.125rem`,
+          outlineOffset: '0.25rem',
+        },
       };
 
-      addUtilities(newUtilities, ['responsive', 'focus', 'before', 'after']);
+      addUtilities(newUtilities, ['responsive', 'focus', 'hover', 'before', 'after']);
     },
   ],
 };

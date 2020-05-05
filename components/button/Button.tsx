@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 type ButtonBaseProps = {
   disabled?: boolean;
@@ -11,14 +11,29 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({ className, ...props }) => (
   <button
     {...props}
     className={[
-      'relative z-0 flex items-center h-10 px-4 xl:h-12 xl:px-6 rounded type-heading-4',
+      'flex items-center h-10 px-4 xl:h-12 xl:px-6 rounded type-heading-4',
       'disabled:cursor-not-allowed disabled:bg-gray-medium disabled:text-gray-dark disabled:opacity-50 disabled:shadow-none',
       className,
     ].join(' ')}
   />
 );
 
-export const ButtonOlive: React.FC<ButtonBaseProps> = ({ className, ...props }) => (
+export const ButtonNeutral: React.FC<ButtonBaseProps> = memo(({ className, ...props }) => (
+  <ButtonBase
+    {...props}
+    className={[
+      'bg-inherit text-gray-dark border border-gray-dark',
+      'hover:shadow-md hover:bg-gray-light hover:text-gray-darker',
+      'focus:shadow-md focus:bg-gray-light focus:text-gray-darker focus:button-outline-neutral',
+      className,
+    ]
+      .filter(Boolean)
+      .join(' ')}
+  />
+));
+ButtonNeutral.displayName = 'memo(ButtonNeutral)';
+
+export const ButtonOlive: React.FC<ButtonBaseProps> = memo(({ className, ...props }) => (
   <ButtonBase
     {...props}
     className={[
@@ -30,9 +45,10 @@ export const ButtonOlive: React.FC<ButtonBaseProps> = ({ className, ...props }) 
       .filter(Boolean)
       .join(' ')}
   />
-);
+));
+ButtonOlive.displayName = 'memo(ButtonOlive)';
 
-export const ButtonPink: React.FC<ButtonBaseProps> = ({ className, ...props }) => (
+export const ButtonPink: React.FC<ButtonBaseProps> = memo(({ className, ...props }) => (
   <ButtonBase
     {...props}
     className={[
@@ -44,4 +60,5 @@ export const ButtonPink: React.FC<ButtonBaseProps> = ({ className, ...props }) =
       .filter(Boolean)
       .join(' ')}
   />
-);
+));
+ButtonPink.displayName = 'memo(ButtonPink)';

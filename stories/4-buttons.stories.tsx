@@ -2,7 +2,7 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 
-import { ButtonOlive, ButtonPink } from '../components/button/Button';
+import { ButtonOlive, ButtonPink, ButtonNeutral } from '../components/button/Button';
 
 import '../styles/index.css';
 
@@ -13,6 +13,7 @@ export default {
 
 const buttonOliveGroupId = 'Olive Button';
 const buttonPinkGroupId = 'Pink Button';
+const buttonNeutralGroupId = 'Neutral Button';
 
 export const Palette: React.FC = () => (
   <div className="p-8 space-y-4">
@@ -28,5 +29,11 @@ export const Palette: React.FC = () => (
     >
       {text('Text', 'Button pink', buttonPinkGroupId)}
     </ButtonPink>
+    <ButtonNeutral
+      disabled={boolean('Disabled', false, buttonNeutralGroupId)}
+      onClick={action('button-neutral-click')}
+    >
+      {text('Text', 'Button neutral', buttonNeutralGroupId)}
+    </ButtonNeutral>
   </div>
 );
