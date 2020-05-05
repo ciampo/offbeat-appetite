@@ -1,28 +1,19 @@
 import { sharedTheme as twTheme } from '../../tailwind.shared';
 
+// =============================================================================
+// UTILITIES
+// =============================================================================
+function unitless(numberWithUnit: string): number {
+  return parseFloat(numberWithUnit);
+}
+
 function remToPx(rem: string): number {
-  return parseFloat(rem) * 16;
+  return unitless(rem) * 16;
 }
 
 function pxToRem(px: string): number {
-  return parseFloat(px) / 16;
+  return unitless(px) / 16;
 }
-
-const sectionPaddingH = twTheme.spacing['6'];
-const sectionPaddingHPx = remToPx(sectionPaddingH);
-// const maxWidthXs = twTheme.maxWidth.xs;
-// const maxWidthXsPx = remToPx(maxWidthXs);
-
-export type AccessibleImageSizeConfig = {
-  queryMinWidth?: string;
-  width: string;
-};
-
-export type AccessibleImageResponsiveConfig = {
-  exports: number[];
-  sizes: AccessibleImageSizeConfig[];
-  forceRatio?: number;
-};
 
 function sortBreakpoints({
   // unit,
@@ -57,8 +48,61 @@ function sortBreakpoints({
 }
 
 // =============================================================================
+// LAYOUT VARS
+// =============================================================================
+
+const pagePadding = {
+  initial: {
+    px: remToPx(twTheme.spacing['6']),
+    rem: unitless(twTheme.spacing['6']),
+  },
+  xsm: {
+    px: remToPx(twTheme.spacing['8']),
+    rem: unitless(twTheme.spacing['8']),
+  },
+  sm: {
+    px: remToPx(twTheme.spacing['12']),
+    rem: unitless(twTheme.spacing['12']),
+  },
+  md: {
+    px: remToPx(twTheme.spacing['16']),
+    rem: unitless(twTheme.spacing['16']),
+  },
+  xl: {
+    px: remToPx(twTheme.spacing['20']),
+    rem: unitless(twTheme.spacing['20']),
+  },
+};
+
+const articleContainerMaxWidth = {
+  xsm: {
+    px: remToPx(twTheme.maxWidth.lg),
+    rem: unitless(twTheme.maxWidth.lg),
+  },
+  md: {
+    px: remToPx(twTheme.maxWidth.xl),
+    rem: unitless(twTheme.maxWidth.xl),
+  },
+  xl: {
+    px: remToPx(twTheme.maxWidth['3xl']),
+    rem: unitless(twTheme.maxWidth['3xl']),
+  },
+};
+
+// =============================================================================
 // PRESETS
 // =============================================================================
+
+export type AccessibleImageSizeConfig = {
+  queryMinWidth?: string;
+  width: string;
+};
+
+export type AccessibleImageResponsiveConfig = {
+  exports: number[];
+  sizes: AccessibleImageSizeConfig[];
+  forceRatio?: number;
+};
 
 // Used in full bleed images (e.g. page hero)
 export const fullBleedImageResponsiveConfig: AccessibleImageResponsiveConfig = {
@@ -88,71 +132,72 @@ export const blogPostPreviewResponsiveConfig: AccessibleImageResponsiveConfig = 
 export const contentFullWidthResponsiveConfig: AccessibleImageResponsiveConfig = {
   exports: sortBreakpoints({
     breakpoints: [
-      `${375 - 2 * sectionPaddingHPx}`,
-      `${remToPx(twTheme.maxWidth.lg) - 2 * sectionPaddingHPx}`,
-      `${remToPx(twTheme.maxWidth.xl) - 2 * sectionPaddingHPx}`,
-      `${remToPx(twTheme.maxWidth['2xl']) - 2 * sectionPaddingHPx}`,
-      `${remToPx(twTheme.maxWidth['3xl']) - 2 * sectionPaddingHPx}`,
+      `${375 - 2 * pagePadding.initial.px}`,
+      `${articleContainerMaxWidth.xsm.px}`,
+      `${articleContainerMaxWidth.md.px}`,
+      `${articleContainerMaxWidth.xl.px}`,
     ],
     addDoubleRes: true,
   }) as number[],
   sizes: [
     {
       queryMinWidth: twTheme.maxWidth['screen-xl'],
-      width: `calc(${twTheme.maxWidth['3xl']} - 2 * ${sectionPaddingH})`,
+      width: `${articleContainerMaxWidth.xl.rem}rem`,
     },
     {
       queryMinWidth: twTheme.maxWidth['screen-md'],
-      width: `calc(${twTheme.maxWidth['2xl']} - 2 * ${sectionPaddingH})`,
+      width: `${articleContainerMaxWidth.md.rem}rem`,
     },
     {
-      queryMinWidth: twTheme.maxWidth['screen-sm'],
-      width: `calc(${twTheme.maxWidth.xl} - 2 * ${sectionPaddingH})`,
+      queryMinWidth: `${articleContainerMaxWidth.xsm.px + 2 * pagePadding.xsm.px}px`,
+      width: `${articleContainerMaxWidth.xsm.rem}rem`,
     },
     {
-      queryMinWidth: `${remToPx(twTheme.maxWidth['lg'])}px`,
-      width: `calc(${twTheme.maxWidth.lg} - 2 * ${sectionPaddingH})`,
+      queryMinWidth: twTheme.maxWidth['screen-xsm'],
+      width: `calc(100vw - ${2 * pagePadding.xsm.rem}rem)`,
     },
     {
-      width: `calc(100vw - 2 * ${sectionPaddingH})`,
+      width: `calc(100vw - ${2 * pagePadding.initial.rem}rem)`,
     },
   ],
 };
 
 // Used in blog post media gallery
+
+const mediaGripGap = {
+  initial: pagePadding.initial,
+};
+
 export const contentMediaGalleryResponsiveConfig: AccessibleImageResponsiveConfig = {
   exports: sortBreakpoints({
     breakpoints: [
-      `${375 - 2 * sectionPaddingHPx}`,
-      `${parseFloat(twTheme.maxWidth['screen-xsm']) - 2 * sectionPaddingHPx}`,
-      `${(remToPx(twTheme.maxWidth['2xl']) - 3 * sectionPaddingHPx) / 2}`,
-      `${(remToPx(twTheme.maxWidth['3xl']) - 3 * sectionPaddingHPx) / 2}`,
+      `${375 - 2 * pagePadding.initial.px}`,
+      `${parseFloat(twTheme.maxWidth['screen-xsm']) - 2 * pagePadding.initial.px}`,
+      `${(articleContainerMaxWidth.xsm.px - mediaGripGap.initial.px) / 2}`,
+      `${(articleContainerMaxWidth.md.px - mediaGripGap.initial.px) / 2}`,
+      `${(articleContainerMaxWidth.xl.px - mediaGripGap.initial.px) / 2}`,
     ],
     addDoubleRes: true,
   }) as number[],
   sizes: [
     {
       queryMinWidth: twTheme.maxWidth['screen-xl'],
-      width: `calc((${twTheme.maxWidth['3xl']} - 3 * ${sectionPaddingH}) / 2)`,
+      width: `${(articleContainerMaxWidth.xl.rem - mediaGripGap.initial.rem) / 2}rem`,
     },
     {
       queryMinWidth: twTheme.maxWidth['screen-md'],
-      width: `calc((${twTheme.maxWidth['2xl']} - 3 * ${sectionPaddingH}) / 2)`,
+      width: `${(articleContainerMaxWidth.md.rem - mediaGripGap.initial.rem) / 2}rem`,
     },
     {
-      queryMinWidth: twTheme.maxWidth['screen-sm'],
-      width: `calc((${twTheme.maxWidth.xl} - 3 * ${sectionPaddingH}) / 2)`,
-    },
-    {
-      queryMinWidth: `${remToPx(twTheme.maxWidth['lg'])}px`,
-      width: `calc((${twTheme.maxWidth.lg} - 3 * ${sectionPaddingH}) / 2)`,
+      queryMinWidth: `${articleContainerMaxWidth.xsm.px + 2 * pagePadding.xsm.px}px`,
+      width: `${(articleContainerMaxWidth.xsm.rem - mediaGripGap.initial.rem) / 2}rem`,
     },
     {
       queryMinWidth: twTheme.maxWidth['screen-xsm'],
-      width: `calc((100vw - 3 * ${sectionPaddingH}) / 2)`,
+      width: `calc((100vw - ${2 * pagePadding.xsm.rem + mediaGripGap.initial.rem}rem) / 2)`,
     },
     {
-      width: `calc(100vw - 2 * ${sectionPaddingH})`,
+      width: `calc(100vw - 2 * ${pagePadding.initial.rem}rem)`,
     },
   ],
   forceRatio: 4 / 5,
