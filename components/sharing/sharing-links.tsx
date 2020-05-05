@@ -10,13 +10,13 @@ import {
   MailIcon,
   GenericShareIcon,
   PocketIcon,
-  SocialIconProps,
-} from './icons';
+  IconProps,
+} from '../icons';
 import { socialShareLabel } from '../../data/siteMiscContent.json';
 
 type BasicSharingLinkProps = {
   label: string;
-  iconComponent: React.FC<SocialIconProps>;
+  iconComponent: React.FC<IconProps>;
   className: string;
   href?: string;
   useButton?: boolean;
