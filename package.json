@@ -66,6 +66,7 @@
     "@next/bundle-analyzer": "^9.1.2",
     "@sanity/client": "^1.149.2",
     "@storybook/addon-actions": "^5.3.18",
+    "@storybook/addon-knobs": "^5.3.18",
     "@storybook/addon-links": "^5.3.18",
     "@storybook/addons": "^5.3.18",
     "@storybook/preset-typescript": "^3.0.0",
