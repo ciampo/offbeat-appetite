@@ -1,5 +1,5 @@
 .oba-portable-text {
-  @apply leading-relaxed text-base font-thin break-words;
+  @apply break-words;
 }
 
 @screen xl {
