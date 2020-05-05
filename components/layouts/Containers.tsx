@@ -1,14 +1,5 @@
 import React from 'react';
 
-// export const PageContentContainer: React.FC<ContainerProps> = ({
-//   component: Component = DefaultContainerElement,
-//   ...props
-// }) => <Component {...props} className=""></Component>;
-
-// TODO:
-// - allow additional classnames
-// - allow different element than div
-
 type DefaultContainerElementProps = {
   className: string;
 };
@@ -32,6 +23,7 @@ export const PageContentContainer: React.FC<ContainerProps> = ({
     className={['w-full max-w-6xl mx-auto px-6 xsm:px-8 sm:px-12 md:px-16 xl:px-20', className]
       .filter(Boolean)
       .join(' ')}
+    data-testid="layout-page-container"
   />
 );
 
@@ -41,6 +33,10 @@ export const ArticleContentContainer: React.FC<ContainerProps> = ({
   ...props
 }) => (
   <PageContentContainer component={component} className={className}>
-    <div {...props} className="w-full mx-auto max-w-lg md:max-w-xl xl:max-w-3xl" />
+    <div
+      {...props}
+      className="w-full mx-auto max-w-lg md:max-w-xl xl:max-w-3xl"
+      data-testid="layout-article-container"
+    />
   </PageContentContainer>
 );
