@@ -103,14 +103,16 @@ module.exports = {
     animationTimingFunction: ['responsive', 'before', 'after'],
     animationIterationCount: ['responsive', 'before', 'after'],
     aspectRatio: ['responsive'],
-    backgroundColor: ['responsive', 'hover', 'focus', 'before', 'after'],
+    backgroundColor: ['responsive', 'hover', 'focus', 'before', 'after', 'disabled'],
     borderStyle: ['responsive', 'focus'],
     borderWidth: ['responsive', 'focus'],
+    boxShadow: ['responsive', 'hover', 'focus', 'disabled'],
     cursor: ['responsive', 'disabled'],
     height: ['responsive', 'before', 'after'],
     inset: ['responsive', 'before', 'after'],
-    opacity: ['responsive', 'hover', 'focus', 'before', 'after'],
+    opacity: ['responsive', 'hover', 'focus', 'before', 'after', 'disabled'],
     position: ['responsive', 'before', 'after'],
+    textColor: ['responsive', 'hover', 'focus', 'disabled'],
     transformOrigin: ['responsive', 'before', 'after'],
     transitionProperty: ['responsive', 'before', 'after'],
     transitionTimingFunction: ['responsive', 'before', 'after'],
@@ -181,6 +183,15 @@ module.exports = {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
+        },
+        // Outline
+        '.button-outline-olive': {
+          outline: `${sharedTheme.colors.olive.dark} solid 0.125rem`,
+          outlineOffset: '0.25rem',
+        },
+        '.button-outline-pink': {
+          outline: `${sharedTheme.colors.pink.dark} solid 0.125rem`,
+          outlineOffset: '0.25rem',
         },
       };
 
