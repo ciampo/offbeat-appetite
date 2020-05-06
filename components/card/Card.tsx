@@ -23,7 +23,11 @@ const Card: React.FC<ContainerProps> = memo(
   }) => (
     <Component
       {...props}
-      className={['bg-inherit rounded-md', `shadow-neu-${shadowVariant}`, className]
+      className={[
+        'bg-inherit rounded-md',
+        shadowVariant === 'light' ? 'shadow-neu-light' : 'shadow-neu-lighter',
+        className,
+      ]
         .filter(Boolean)
         .join(' ')}
       data-testid="card-container"
