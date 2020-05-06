@@ -7,6 +7,7 @@ type InputProps = {
   onInput: (event: React.FormEvent<HTMLInputElement>) => void;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
+  id?: string;
   'aria-label'?: string;
   required?: boolean;
 };
@@ -19,7 +20,6 @@ type InputBaseProps = InputProps & {
 const InputBase: React.FC<InputBaseProps> = ({ className, ...props }) => (
   <input
     {...props}
-    type="text"
     className={[
       'flex items-center h-10 px-4 xl:h-12 xl:px-6',
       'type-body placeholder-gray-medium',
