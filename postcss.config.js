@@ -5,14 +5,6 @@ module.exports = {
     stylelint: {},
     'postcss-easy-import': {},
     tailwindcss: {},
-    ...(dev
-      ? {}
-      : {
-          '@fullhuman/postcss-purgecss': {
-            content: ['./pages/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
-            defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
-          },
-        }),
     'postcss-flexbugs-fixes': {},
     'postcss-preset-env': {
       autoprefixer: {

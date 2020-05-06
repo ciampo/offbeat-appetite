@@ -62,7 +62,6 @@
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-typescript": "^7.9.0",
-    "@fullhuman/postcss-purgecss": "^2.1.2",
     "@next/bundle-analyzer": "^9.1.2",
     "@sanity/client": "^1.149.2",
     "@storybook/addon-actions": "^5.3.18",
