@@ -1,10 +1,10 @@
 /* Base styles */
 @import './_tailwind-base.css';
+@import './type.css';
 @import './base.css';
 
 /* Components */
 @import './_tailwind-components.css';
-@import './type.css';
 @import './portable-text.css';
 
 /* Utilities */
