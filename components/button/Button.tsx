@@ -63,6 +63,21 @@ export const ButtonOliveInverted: React.FC<ButtonBaseProps> = memo(({ className,
 ));
 ButtonOliveInverted.displayName = 'memo(ButtonOliveInverted)';
 
+export const ButtonTransparent: React.FC<ButtonBaseProps> = memo(({ className, ...props }) => (
+  <ButtonBase
+    {...props}
+    className={[
+      'bg-inherit text-gray-white underline-under',
+      'hover:underline',
+      'focus:underline',
+      className,
+    ]
+      .filter(Boolean)
+      .join(' ')}
+  />
+));
+ButtonTransparent.displayName = 'memo(ButtonTransparent)';
+
 export const ButtonPink: React.FC<ButtonBaseProps> = memo(({ className, ...props }) => (
   <ButtonBase
     {...props}

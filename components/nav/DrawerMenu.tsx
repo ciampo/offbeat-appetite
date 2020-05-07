@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 
 import { PageContentContainer } from '../layouts/Containers';
-import { ButtonOlive, ButtonOliveInverted } from '../button/Button';
+import { ButtonOliveInverted, ButtonTransparent } from '../button/Button';
 import { OALogoShort } from '../icons';
 
 import { UiLink } from '../../typings';
@@ -14,13 +14,9 @@ type MenuButtonProps = {
 };
 export const MenuButton: React.FC<MenuButtonProps> = memo(({ onClick }) => (
   <li className="md:hidden -mx-4">
-    <ButtonOlive
-      className="hover:shadow-none focus:shadow-none"
-      onClick={onClick}
-      aria-label="Open the navigation menu"
-    >
+    <ButtonTransparent onClick={onClick} aria-label="Open the navigation menu">
       Menu
-    </ButtonOlive>
+    </ButtonTransparent>
   </li>
 ));
 MenuButton.displayName = 'memo(MenuButton)';
