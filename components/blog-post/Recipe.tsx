@@ -37,7 +37,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
     <article
       data-testid="recipe-wrapper"
       id="recipe"
-      className="oba-overflow-full-bleed-x py-16 md:py-20 xl:py-24 bg-gray-200"
+      className="overflow-full-bleed-x py-16 md:py-20 xl:py-24 bg-gray-200"
       {...props}
     >
       <ArticleContentContainer>

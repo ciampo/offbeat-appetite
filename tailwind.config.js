@@ -186,7 +186,7 @@ module.exports = {
           content: "''",
         },
         // Positioning
-        '.oba-overflow-full-bleed-x': {
+        '.overflow-full-bleed-x': {
           left: '50%',
           right: '50%',
           marginLeft: '-50vw',
@@ -195,7 +195,7 @@ module.exports = {
           width: '100vw',
         },
         // Transform
-        '.oba-transform-translate-center': {
+        '.transform-translate-center': {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
