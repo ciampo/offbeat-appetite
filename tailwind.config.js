@@ -159,13 +159,6 @@ module.exports = {
         '.contain-l': {
           contain: 'layout',
         },
-        // Transition
-        '.ts-inherit': {
-          transition: 'inherit',
-        },
-        '.delay-100': {
-          transitionDelay: '100ms',
-        },
         // Filter
         '.filter-darker': {
           filter: 'brightness(0.7)',
@@ -199,19 +192,6 @@ module.exports = {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-        },
-        // Outline
-        '.button-outline-olive': {
-          outline: `${sharedTheme.colors.olive.dark} solid 0.125rem`,
-          outlineOffset: '0.25rem',
-        },
-        '.button-outline-pink': {
-          outline: `${sharedTheme.colors.pink.dark} solid 0.125rem`,
-          outlineOffset: '0.25rem',
-        },
-        '.button-outline-neutral': {
-          outline: `${sharedTheme.colors.gray.dark} solid 0.125rem`,
-          outlineOffset: '0.25rem',
         },
       };
 

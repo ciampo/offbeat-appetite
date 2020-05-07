@@ -12,7 +12,7 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({ className, ...props }) => (
     {...props}
     className={[
       'flex items-center h-10 px-4 xl:h-12 xl:px-6 rounded type-heading-4',
-      'disabled:cursor-not-allowed disabled:bg-gray-medium disabled:text-gray-dark disabled:opacity-50 disabled:shadow-none',
+      'disabled:cursor-not-allowed disabled:bg-gray-medium disabled:text-gray-dark disabled:opacity-50 disabled:shadow-none focus:outline-none',
       className,
     ].join(' ')}
   />
@@ -24,7 +24,7 @@ export const ButtonNeutral: React.FC<ButtonBaseProps> = memo(({ className, ...pr
     className={[
       'bg-inherit text-gray-dark border border-gray-dark',
       'hover:shadow-md hover:bg-gray-light hover:text-gray-darker',
-      'focus:shadow-md focus:bg-gray-light focus:text-gray-darker focus:button-outline-neutral',
+      'focus:shadow-md focus:bg-gray-light focus:text-gray-darker',
       className,
     ]
       .filter(Boolean)
@@ -39,7 +39,7 @@ export const ButtonOlive: React.FC<ButtonBaseProps> = memo(({ className, ...prop
     className={[
       'bg-olive-darker text-gray-white',
       'hover:shadow-md hover:bg-olive-dark',
-      'focus:shadow-md focus:bg-olive-dark focus:button-outline-olive',
+      'focus:shadow-md focus:bg-olive-dark',
       className,
     ]
       .filter(Boolean)
@@ -48,13 +48,28 @@ export const ButtonOlive: React.FC<ButtonBaseProps> = memo(({ className, ...prop
 ));
 ButtonOlive.displayName = 'memo(ButtonOlive)';
 
+export const ButtonOliveInverted: React.FC<ButtonBaseProps> = memo(({ className, ...props }) => (
+  <ButtonBase
+    {...props}
+    className={[
+      'bg-gray-white text-olive-darker',
+      'hover:shadow-md hover:bg-olive-light',
+      'focus:shadow-md focus:bg-olive-light',
+      className,
+    ]
+      .filter(Boolean)
+      .join(' ')}
+  />
+));
+ButtonOliveInverted.displayName = 'memo(ButtonOliveInverted)';
+
 export const ButtonPink: React.FC<ButtonBaseProps> = memo(({ className, ...props }) => (
   <ButtonBase
     {...props}
     className={[
       'bg-pink-darker text-gray-white',
       'hover:shadow-md hover:bg-pink-dark',
-      'focus:shadow-md focus:bg-pink-dark focus:button-outline-pink',
+      'focus:shadow-md focus:bg-pink-dark',
       className,
     ]
       .filter(Boolean)
