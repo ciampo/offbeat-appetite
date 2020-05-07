@@ -146,7 +146,13 @@ export default function NewsletterSubscribe({
 
   return (
     <form
-      className={`relative m-4 px-4 py-16 bg-white border ${VARIANT_CLASSNAMES[variant].form}`}
+      id="subscribe-form"
+      className={[
+        'relative m-4 px-4 py-16 bg-white border overflow-hidden',
+        VARIANT_CLASSNAMES[variant].form,
+      ]
+        .filter(Boolean)
+        .join(' ')}
       name={FORM_NAME}
       method={FORM_METHOD}
       action={FORM_ACTION}
