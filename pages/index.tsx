@@ -67,12 +67,15 @@ const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({
           className={[
             'flex flex-col items-center justify-center',
             'mt-16 md:mt-20 xl:mt-24',
-            'py-4 sm:py-8 md:py-12 xl:py-16',
+            'py-4 xsm:py-8 md:py-12 lg:py-16 xl:py-20',
             'space-y-2 md:space-3 xl:space-y-4',
           ].join(' ')}
         >
           <h1>
-            <OALogoFull aria-label={homeData.title} className="w-56 md:w-64" />
+            <OALogoFull
+              aria-label={homeData.title}
+              className="w-56 xsm:w-64 md:w-72 lg:w-80 xl:w-88"
+            />
           </h1>
           <p className="type-eyebrow">{homeData.subtitle}</p>
         </header>
