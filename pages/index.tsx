@@ -6,9 +6,8 @@ import DefaultPageTransitionWrapper from '../components/page-transition-wrappers
 import NewsletterSubscribe, {
   NewsletterSubscribeVariant,
 } from '../components/forms/NewsletterSubscribe';
+import { OALogoFull } from '../components/icons';
 import BlogPostPreview from '../components/blog-post/BlogPostPreview';
-import AccessibleImage from '../components/media/AccessibleImage';
-import { fullBleedImageResponsiveConfig } from '../components/media/image-responsive-configurations';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
@@ -57,29 +56,28 @@ const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({
     />
 
     <DefaultPageTransitionWrapper>
-      <section className="relative h-screen min-h-hero max-h-hero">
-        <div className="absolute text-center text-white z-10 text-shadow oba-transform-translate-center">
-          <h1 className="text-4xl font-bold">{homeData.title}</h1>
-          <p className="text-xl mt-8">{homeData.subtitle}</p>
-        </div>
-
-        <AccessibleImage
-          image={homeData.heroImage}
-          responsiveConfig={fullBleedImageResponsiveConfig}
-          className="z-0 absolute inset-0 w-full h-full filter-darker"
-          style={{
-            paddingBottom: '0',
-          }}
-        />
+      <header
+        className={[
+          'flex flex-col items-center justify-center',
+          'mt-16 md:mt-20 xl:mt-24',
+          'py-4 sm:py-8 md:py-12 xl:py-16',
+          'space-y-2 md:space-3 xl:space-y-4',
+        ].join(' ')}
+      >
+        <h1>
+          <OALogoFull aria-label={homeData.title} className="w-56 md:w-64" />
+        </h1>
+        <p className="type-eyebrow">{homeData.subtitle}</p>
+      </header>
+      <section>
+        <ul>
+          {homeData.categorySections.map((categorySectionData, index) => (
+            <li key={`${index}-${categorySectionData.category._id}`}>
+              <HomeCategorySection categorySectionData={categorySectionData} />
+            </li>
+          ))}
+        </ul>
       </section>
-
-      <ul>
-        {homeData.categorySections.map((categorySectionData, index) => (
-          <li key={`${index}-${categorySectionData.category._id}`}>
-            <HomeCategorySection categorySectionData={categorySectionData} />
-          </li>
-        ))}
-      </ul>
 
       <NewsletterSubscribe variant={NewsletterSubscribeVariant.horizontal} formInstance="home" />
     </DefaultPageTransitionWrapper>
