@@ -110,7 +110,7 @@ async function generateNavLinks() {
     logo: [
       {
         href: homeRoute.route,
-        label: homePage.title,
+        label: 'Home',
       },
     ],
     afterLogo: [
