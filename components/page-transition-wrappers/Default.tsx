@@ -17,7 +17,7 @@ const transparent = {
 };
 const fadeOutTransitionDown = {
   opacity: 0,
-  y: 60,
+  y: 30,
   transition: { duration: 0.6, delay: 0.1, ease: customEaseOut },
 };
 
