@@ -115,7 +115,7 @@ export const fullBleedImageResponsiveConfig: AccessibleImageResponsiveConfig = {
       twTheme.screens.lg,
       twTheme.screens.xl,
     ],
-    addDoubleRes: true,
+    addDoubleRes: false,
   }) as number[],
   sizes: [{ width: '100vw' }],
   forceRatio: 16 / 9,
