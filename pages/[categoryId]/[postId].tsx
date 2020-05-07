@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextComponentType, GetStaticProps, GetStaticPaths } from 'next';
 
 import PageMeta from '../../components/meta/PageMeta';
@@ -7,6 +7,7 @@ import { fullBleedImageResponsiveConfig } from '../../components/media/image-res
 import RichPortableText from '../../components/portable-text/RichPortableText';
 import DefaultPageTransitionWrapper from '../../components/page-transition-wrappers/Default';
 import { ArticleContentContainer } from '../../components/layouts/Containers';
+import { useNavVariantDispatch } from '../../components/nav/nav-variant-context';
 
 import routesConfig from '../../routes-config';
 import { compileSingleRoute, compileDynamicItem } from '../../scripts/compile-routes';
@@ -28,45 +29,52 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
   blogPostData,
   path,
   structuredData,
-}) => (
-  <>
-    <PageMeta
-      path={path}
-      title={blogPostData.seoTitle}
-      description={blogPostData.seoDescription}
-      previewImage={blogPostData.seoImage}
-      structuredData={structuredData}
-    />
+}) => {
+  const setVariant = useNavVariantDispatch();
+  useEffect(() => {
+    setVariant('transparent');
+  }, [setVariant]);
 
-    <DefaultPageTransitionWrapper>
-      <section className="relative h-screen min-h-hero max-h-hero">
-        <div className="absolute text-center text-white z-10 text-shadow transform-translate-center">
-          <h1 className="flex flex-col-reverse items-center">
-            <span className="text-4xl font-bold mt-4">{blogPostData.title}</span>
-            <span>{blogPostData.category.name}</span>
-          </h1>
-          <p className="text-xl mt-8">{blogPostData.excerpt}</p>
-        </div>
+  return (
+    <>
+      <PageMeta
+        path={path}
+        title={blogPostData.seoTitle}
+        description={blogPostData.seoDescription}
+        previewImage={blogPostData.seoImage}
+        structuredData={structuredData}
+      />
 
-        <AccessibleImage
-          image={blogPostData.heroImage}
-          responsiveConfig={fullBleedImageResponsiveConfig}
-          className="z-0 absolute inset-0 w-full h-full filter-darker"
-          style={{
-            paddingBottom: '0',
-          }}
-        />
-      </section>
+      <DefaultPageTransitionWrapper>
+        <section className="relative h-screen min-h-hero max-h-hero">
+          <div className="absolute text-center text-white z-10 text-shadow transform-translate-center">
+            <h1 className="flex flex-col-reverse items-center">
+              <span className="text-4xl font-bold mt-4">{blogPostData.title}</span>
+              <span>{blogPostData.category.name}</span>
+            </h1>
+            <p className="text-xl mt-8">{blogPostData.excerpt}</p>
+          </div>
 
-      <ArticleContentContainer
-        component={(props): JSX.Element => <section {...props}></section>}
-        className="mt-8"
-      >
-        <RichPortableText blocks={blogPostData.content} />
-      </ArticleContentContainer>
-    </DefaultPageTransitionWrapper>
-  </>
-);
+          <AccessibleImage
+            image={blogPostData.heroImage}
+            responsiveConfig={fullBleedImageResponsiveConfig}
+            className="z-0 absolute inset-0 w-full h-full filter-darker"
+            style={{
+              paddingBottom: '0',
+            }}
+          />
+        </section>
+
+        <ArticleContentContainer
+          component={(props): JSX.Element => <section {...props}></section>}
+          className="mt-8"
+        >
+          <RichPortableText blocks={blogPostData.content} />
+        </ArticleContentContainer>
+      </DefaultPageTransitionWrapper>
+    </>
+  );
+};
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const blogPostRoute = routesConfig.find(({ route }) => route === '/[categoryId]/[postId]');

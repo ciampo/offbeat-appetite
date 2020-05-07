@@ -202,6 +202,10 @@ module.exports = {
         '.nav-logo-outline': {
           outline: `${sharedTheme.colors.olive.dark} solid 0.5rem`,
         },
+        // Text decorations
+        '.underline-under': {
+          textUnderlinePosition: 'under',
+        },
       };
 
       addUtilities(newUtilities, ['responsive', 'focus', 'hover', 'before', 'after']);

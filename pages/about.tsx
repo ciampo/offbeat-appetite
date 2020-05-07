@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextComponentType, GetStaticProps } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
 import SimplePortableText from '../components/portable-text/SimplePortableText';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
+import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
@@ -18,23 +19,30 @@ const AboutPage: NextComponentType<{}, AboutProps, AboutProps> = ({
   aboutData,
   path,
   structuredData,
-}) => (
-  <>
-    <PageMeta
-      path={path}
-      title={aboutData.seoTitle}
-      description={aboutData.seoDescription}
-      previewImage={aboutData.seoImage}
-      structuredData={structuredData}
-    />
+}) => {
+  const setVariant = useNavVariantDispatch();
+  useEffect(() => {
+    setVariant('solid');
+  }, [setVariant]);
 
-    <DefaultPageTransitionWrapper>
-      <h1>{aboutData.title}</h1>
+  return (
+    <>
+      <PageMeta
+        path={path}
+        title={aboutData.seoTitle}
+        description={aboutData.seoDescription}
+        previewImage={aboutData.seoImage}
+        structuredData={structuredData}
+      />
 
-      <SimplePortableText blocks={aboutData.content} />
-    </DefaultPageTransitionWrapper>
-  </>
-);
+      <DefaultPageTransitionWrapper>
+        <h1>{aboutData.title}</h1>
+
+        <SimplePortableText blocks={aboutData.content} />
+      </DefaultPageTransitionWrapper>
+    </>
+  );
+};
 
 export const getStaticProps: GetStaticProps = async () => {
   const path = '/about';

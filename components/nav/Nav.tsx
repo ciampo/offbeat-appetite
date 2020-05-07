@@ -3,6 +3,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
+import { useNavVariantState } from './nav-variant-context';
 import { PageContentContainer } from '../layouts/Containers';
 import { OALogoShort } from '../icons';
 
@@ -27,20 +28,18 @@ const MenuButton = dynamic(() => import('./DrawerMenu').then((mod) => mod.MenuBu
   ssr: false,
 });
 
-export type NavVariant = 'solid' | 'transparent';
-
 type HeaderNavLinkProps = {
-  shadow?: boolean;
+  solid: boolean;
   beforeLogo: boolean;
   last: boolean;
   selected: boolean;
   link: UiLink;
 };
 const HeaderNavLink: React.FC<HeaderNavLinkProps> = memo(
-  ({ link: { href, label, as }, beforeLogo, last, selected, shadow = false }) => (
+  ({ link: { href, label, as }, beforeLogo, last, selected, solid }) => (
     <li
       className={[
-        'hidden md:inline-block',
+        'hidden md:inline-block contain-l-p will-change-transform',
         beforeLogo
           ? last
             ? '-ml-2 xl:-ml-4 mr-auto'
@@ -51,12 +50,11 @@ const HeaderNavLink: React.FC<HeaderNavLinkProps> = memo(
       <Link href={href} scroll={false} as={as}>
         <a
           className={[
-            'block text-gray-white type-heading-4 p-2 xl:px-4 rounded outline-none',
-            shadow ? 'text-shadow' : false,
-            'transform transition-transform duration-150 ease-out',
-            'hover:-translate-y-1',
-            'focus:-translate-y-1 focus:bg-olive-dark',
-            selected ? 'bg-olive-dark' : '',
+            'block text-gray-white type-heading-4 p-2 xl:px-4 rounded outline-none underline-under',
+            solid ? false : 'text-shadow',
+            selected ? 'underline' : '',
+            'hover:underline',
+            'focus:underline',
           ]
             .filter(Boolean)
             .join(' ')}
@@ -70,32 +68,33 @@ const HeaderNavLink: React.FC<HeaderNavLinkProps> = memo(
 HeaderNavLink.displayName = 'memo(HeaderNavLink)';
 
 type HeaderLogoLinkProps = {
-  shadow?: boolean;
+  solid: boolean;
   link: UiLink;
 };
-const HeaderLogoLink: React.FC<HeaderLogoLinkProps> = ({
-  link: { href, label, as },
-  shadow = false,
-}) => (
-  <li className="absolute transform-translate-center">
-    <Link href={href} scroll={false} as={as}>
-      <a
-        className={[
-          'block text-gray-white outline-none border-l-4 border-r-4 rounded border-transparent',
-          'transform transition-transform duration-150 ease-out',
-          'hover:scale-105',
-          'focus:scale-105 focus:border-olive-dark focus:bg-olive-dark',
-        ].join(' ')}
-      >
-        <span className="sr-only">{label}</span>
-        <OALogoShort className="h-12 md:h-16 xl:h-20" shadow={shadow} />
-      </a>
-    </Link>
-  </li>
+const HeaderLogoLink: React.FC<HeaderLogoLinkProps> = memo(
+  ({ link: { href, label, as }, solid }) => (
+    <li className="absolute transform-translate-center">
+      <Link href={href} scroll={false} as={as}>
+        <a
+          className={[
+            'block text-gray-white outline-none border-l-4 border-r-4 rounded border-transparent underline-under',
+            'transform transition-all duration-150 ease-out',
+            'hover:scale-105',
+            'focus:scale-105 focus:underline',
+          ].join(' ')}
+        >
+          <span className="sr-only">{label}</span>
+          <OALogoShort className="h-12 md:h-16 xl:h-20" shadow={!solid} />
+        </a>
+      </Link>
+    </li>
+  )
 );
+HeaderLogoLink.displayName = 'memo(HeaderLogoLink)';
 
 const HeaderNav: React.FC = () => {
-  const [variant] = useState<NavVariant>('transparent');
+  const variant = useNavVariantState();
+  const [isPageScrolled, setPageScrolled] = useState(false);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const router = useRouter();
 
@@ -107,12 +106,32 @@ const HeaderNav: React.FC = () => {
     setDrawerOpen(false);
   }, []);
 
+  useEffect(() => {
+    function onScroll(): void {
+      const isPageBelowScrollThreshold = window.scrollY >= 10;
+
+      if (isPageScrolled && !isPageBelowScrollThreshold) {
+        setPageScrolled(false);
+      } else if (!isPageScrolled && isPageBelowScrollThreshold) {
+        setPageScrolled(true);
+      }
+    }
+
+    window.addEventListener('scroll', onScroll);
+
+    return (): void => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [isPageScrolled, setPageScrolled]);
+
+  const isSolid = variant === 'solid' || isPageScrolled;
+
   return (
     <>
       <div
         className={[
-          'z-50 fixed top-0 left-0 w-full contain-l transition-all duration-300 ease-out',
-          variant === 'solid' ? 'bg-olive-darker shadow-md' : 'bg-transparent',
+          'z-50 fixed top-0 left-0 w-full contain-l transition-all duration-300 delay-300 ease-out',
+          isSolid ? 'bg-olive-darker shadow-md' : 'bg-transparent',
         ].join(' ')}
       >
         <a
@@ -135,23 +154,23 @@ const HeaderNav: React.FC = () => {
 
             {(beforeLogoLinks as UiLink[]).map((link, index, array) => (
               <HeaderNavLink
-                key={`${index}-${link.href}`}
+                key={`${index}-${link.as || link.href}`}
                 link={link}
                 beforeLogo={true}
-                shadow={variant === 'transparent'}
+                solid={isSolid}
                 last={index === array.length - 1}
                 selected={router.asPath === (link.as || link.href)}
               />
             ))}
 
-            <HeaderLogoLink link={logoLinks[0] as UiLink} shadow={variant === 'transparent'} />
+            <HeaderLogoLink link={logoLinks[0] as UiLink} solid={isSolid} />
 
             {(afterLogoLinks as UiLink[]).map((link, index, array) => (
               <HeaderNavLink
                 key={`${index}-${link.href}`}
                 link={link}
                 beforeLogo={false}
-                shadow={variant === 'transparent'}
+                solid={isSolid}
                 last={index === array.length - 1}
                 selected={router.asPath === (link.as || link.href)}
               />

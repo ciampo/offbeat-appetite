@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextComponentType, GetStaticProps } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
@@ -7,6 +7,7 @@ import NewsletterSubscribe, {
   NewsletterSubscribeVariant,
 } from '../components/forms/NewsletterSubscribe';
 import { OALogoFull } from '../components/icons';
+import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 import BlogPostPreview from '../components/blog-post/BlogPostPreview';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
@@ -45,44 +46,51 @@ const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({
   homeData,
   path,
   structuredData,
-}) => (
-  <>
-    <PageMeta
-      path={path}
-      title={homeData.seoTitle}
-      description={homeData.seoDescription}
-      previewImage={homeData.seoImage}
-      structuredData={structuredData}
-    />
+}) => {
+  const setVariant = useNavVariantDispatch();
+  useEffect(() => {
+    setVariant('solid');
+  }, [setVariant]);
 
-    <DefaultPageTransitionWrapper>
-      <header
-        className={[
-          'flex flex-col items-center justify-center',
-          'mt-16 md:mt-20 xl:mt-24',
-          'py-4 sm:py-8 md:py-12 xl:py-16',
-          'space-y-2 md:space-3 xl:space-y-4',
-        ].join(' ')}
-      >
-        <h1>
-          <OALogoFull aria-label={homeData.title} className="w-56 md:w-64" />
-        </h1>
-        <p className="type-eyebrow">{homeData.subtitle}</p>
-      </header>
-      <section>
-        <ul>
-          {homeData.categorySections.map((categorySectionData, index) => (
-            <li key={`${index}-${categorySectionData.category._id}`}>
-              <HomeCategorySection categorySectionData={categorySectionData} />
-            </li>
-          ))}
-        </ul>
-      </section>
+  return (
+    <>
+      <PageMeta
+        path={path}
+        title={homeData.seoTitle}
+        description={homeData.seoDescription}
+        previewImage={homeData.seoImage}
+        structuredData={structuredData}
+      />
 
-      <NewsletterSubscribe variant={NewsletterSubscribeVariant.horizontal} formInstance="home" />
-    </DefaultPageTransitionWrapper>
-  </>
-);
+      <DefaultPageTransitionWrapper>
+        <header
+          className={[
+            'flex flex-col items-center justify-center',
+            'mt-16 md:mt-20 xl:mt-24',
+            'py-4 sm:py-8 md:py-12 xl:py-16',
+            'space-y-2 md:space-3 xl:space-y-4',
+          ].join(' ')}
+        >
+          <h1>
+            <OALogoFull aria-label={homeData.title} className="w-56 md:w-64" />
+          </h1>
+          <p className="type-eyebrow">{homeData.subtitle}</p>
+        </header>
+        <section>
+          <ul>
+            {homeData.categorySections.map((categorySectionData, index) => (
+              <li key={`${index}-${categorySectionData.category._id}`}>
+                <HomeCategorySection categorySectionData={categorySectionData} />
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <NewsletterSubscribe variant={NewsletterSubscribeVariant.horizontal} formInstance="home" />
+      </DefaultPageTransitionWrapper>
+    </>
+  );
+};
 
 export const getStaticProps: GetStaticProps = async () => {
   const path = '/';

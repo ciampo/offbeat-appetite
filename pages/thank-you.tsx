@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextComponentType, GetStaticProps } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
 import SimplePortableText from '../components/portable-text/SimplePortableText';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
+import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 
 import { SanityPageThankYou } from '../typings';
 
@@ -14,22 +15,29 @@ type ThankYouProps = {
 const ThankYouPage: NextComponentType<{}, ThankYouProps, ThankYouProps> = ({
   thankYouData,
   path,
-}) => (
-  <>
-    <PageMeta
-      path={path}
-      title={thankYouData.seoTitle}
-      description={thankYouData.seoDescription}
-      previewImage={thankYouData.seoImage}
-    />
+}) => {
+  const setVariant = useNavVariantDispatch();
+  useEffect(() => {
+    setVariant('solid');
+  }, [setVariant]);
 
-    <DefaultPageTransitionWrapper>
-      <h1>{thankYouData.title}</h1>
+  return (
+    <>
+      <PageMeta
+        path={path}
+        title={thankYouData.seoTitle}
+        description={thankYouData.seoDescription}
+        previewImage={thankYouData.seoImage}
+      />
 
-      <SimplePortableText blocks={thankYouData.content} />
-    </DefaultPageTransitionWrapper>
-  </>
-);
+      <DefaultPageTransitionWrapper>
+        <h1>{thankYouData.title}</h1>
+
+        <SimplePortableText blocks={thankYouData.content} />
+      </DefaultPageTransitionWrapper>
+    </>
+  );
+};
 
 export const getStaticProps: GetStaticProps = async () => {
   const path = '/thank-you';

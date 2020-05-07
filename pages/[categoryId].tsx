@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextComponentType, GetStaticProps, GetStaticPaths } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import BlogPostPreview from '../components/blog-post/BlogPostPreview';
+import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 
 import routesConfig from '../routes-config';
 import { compileSingleRoute, compileDynamicItem } from '../scripts/compile-routes';
@@ -22,34 +23,41 @@ const CategoryPage: NextComponentType<{}, CategoryProps, CategoryProps> = ({
   categoryData,
   path,
   structuredData,
-}) => (
-  <>
-    <PageMeta
-      path={path}
-      title={categoryData.seoTitle}
-      description={categoryData.seoDescription}
-      previewImage={categoryData.seoImage}
-      structuredData={structuredData}
-    />
+}) => {
+  const setVariant = useNavVariantDispatch();
+  useEffect(() => {
+    setVariant('solid');
+  }, [setVariant]);
 
-    <DefaultPageTransitionWrapper>
-      <h1 className="text-4xl text-center font-bold">{categoryData.title}</h1>
-      <p className="text-lg text-center">All posts:</p>
-      <ul className="flex flex-wrap justify-center mt-6">
-        {categoryData.allBlogPosts.map((blogPostData) => (
-          <li
-            key={blogPostData._id}
-            style={{
-              maxWidth: '400px',
-            }}
-          >
-            <BlogPostPreview blogPostData={blogPostData} />
-          </li>
-        ))}
-      </ul>
-    </DefaultPageTransitionWrapper>
-  </>
-);
+  return (
+    <>
+      <PageMeta
+        path={path}
+        title={categoryData.seoTitle}
+        description={categoryData.seoDescription}
+        previewImage={categoryData.seoImage}
+        structuredData={structuredData}
+      />
+
+      <DefaultPageTransitionWrapper>
+        <h1 className="text-4xl text-center font-bold">{categoryData.title}</h1>
+        <p className="text-lg text-center">All posts:</p>
+        <ul className="flex flex-wrap justify-center mt-6">
+          {categoryData.allBlogPosts.map((blogPostData) => (
+            <li
+              key={blogPostData._id}
+              style={{
+                maxWidth: '400px',
+              }}
+            >
+              <BlogPostPreview blogPostData={blogPostData} />
+            </li>
+          ))}
+        </ul>
+      </DefaultPageTransitionWrapper>
+    </>
+  );
+};
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const categoryRoute = routesConfig.find(({ route }) => route === CATEGORY_PAGE_ROUTE);

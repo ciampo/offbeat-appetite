@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextComponentType, NextPageContext } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
+import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 
 type ErrorPageProps = {
   statusCode: number;
@@ -17,6 +18,10 @@ const statusCodes: { [code: number]: string } = {
 
 const CustomError: NextComponentType<{}, {}, ErrorPageProps> = ({ statusCode }) => {
   const title = statusCodes[statusCode] || 'An unexpected error has occurred';
+  const setVariant = useNavVariantDispatch();
+  useEffect(() => {
+    setVariant('solid');
+  }, [setVariant]);
 
   return (
     <>
