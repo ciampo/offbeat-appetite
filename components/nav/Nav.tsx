@@ -130,7 +130,7 @@ const HeaderNav: React.FC = () => {
     <>
       <div
         className={[
-          'z-50 fixed top-0 left-0 w-full contain-l transition-all duration-300 delay-300 ease-out',
+          'z-50 fixed top-0 left-0 w-full contain-l transition-all duration-300 ease-out',
           isSolid ? 'bg-olive-darker shadow-md' : 'bg-transparent',
         ].join(' ')}
       >
