@@ -2,7 +2,13 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 
-import { ButtonOlive, ButtonPink, ButtonNeutral } from '../components/button/Button';
+import {
+  ButtonOlive,
+  ButtonOliveInverted,
+  ButtonPink,
+  ButtonNeutral,
+  ButtonTransparent,
+} from '../components/button/Button';
 
 import '../styles/index.css';
 
@@ -14,6 +20,7 @@ export default {
 const buttonOliveGroupId = 'Olive Button';
 const buttonPinkGroupId = 'Pink Button';
 const buttonNeutralGroupId = 'Neutral Button';
+const buttonTransparentGroupId = 'Transparent Button';
 
 export const Palette: React.FC = () => (
   <div className="p-8 space-y-4">
@@ -23,6 +30,12 @@ export const Palette: React.FC = () => (
     >
       {text('Text', 'Button olive', buttonOliveGroupId)}
     </ButtonOlive>
+    <ButtonOliveInverted
+      disabled={boolean('Disabled', false, buttonOliveGroupId)}
+      onClick={action('button-olive-inverted-click')}
+    >
+      {text('Text', 'Button olive inverted', buttonOliveGroupId)}
+    </ButtonOliveInverted>
     <ButtonPink
       disabled={boolean('Disabled', false, buttonPinkGroupId)}
       onClick={action('button-pink-click')}
@@ -35,5 +48,11 @@ export const Palette: React.FC = () => (
     >
       {text('Text', 'Button neutral', buttonNeutralGroupId)}
     </ButtonNeutral>
+    <ButtonTransparent
+      disabled={boolean('Disabled', false, buttonTransparentGroupId)}
+      onClick={action('button-transparent-click')}
+    >
+      {text('Text', 'Button transparent', buttonTransparentGroupId)}
+    </ButtonTransparent>
   </div>
 );
