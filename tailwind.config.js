@@ -89,18 +89,12 @@ module.exports = {
     aspectRatio: { none: 0, square: [1, 1], '16/9': [16, 9], '4/3': [4, 3], '21/9': [21, 9] },
     // Animation Plugin
     animations: {
-      loadinglink: {
+      'loading-bar': {
         '0%': {
-          transform: 'translateX(0%) scaleX(0)',
-        },
-        '30%': {
-          transform: 'translateX(0%) scaleX(1)',
-        },
-        '60%': {
-          transform: 'translateX(100%) scaleX(0)',
+          transform: 'scaleX(0)',
         },
         '100%': {
-          transform: 'translateX(100%) scaleX(0)',
+          transform: 'scaleX(.95)',
         },
       },
     },
@@ -125,9 +119,11 @@ module.exports = {
     boxShadow: ['responsive', 'hover', 'focus', 'disabled'],
     cursor: ['responsive', 'disabled'],
     height: ['responsive', 'before', 'after'],
-    inset: ['responsive', 'before', 'after'],
+    inset: ['responsive', 'before', 'after', 'focus'],
+    margin: ['responsive', 'focus'],
     opacity: ['responsive', 'hover', 'focus', 'before', 'after', 'disabled'],
-    position: ['responsive', 'before', 'after'],
+    padding: ['responsive', 'focus'],
+    position: ['responsive', 'before', 'after', 'focus'],
     textColor: ['responsive', 'hover', 'focus', 'disabled'],
     transformOrigin: ['responsive', 'before', 'after'],
     transitionProperty: ['responsive', 'before', 'after'],
@@ -192,6 +188,19 @@ module.exports = {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
+        },
+        '.will-change-transform': {
+          willChange: 'transform',
+        },
+        '.will-change-opacity': {
+          willChange: 'opacity',
+        },
+        '.will-change-transform-opacity': {
+          willChange: 'transform opacity',
+        },
+        // Outline
+        '.nav-logo-outline': {
+          outline: `${sharedTheme.colors.olive.dark} solid 0.5rem`,
         },
       };
 
