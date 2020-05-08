@@ -155,10 +155,6 @@ module.exports = {
         '.contain-l': {
           contain: 'layout',
         },
-        // Filter
-        '.filter-darker': {
-          filter: 'brightness(0.7)',
-        },
         // Text shadow
         '.text-shadow': {
           textShadow: '0 0 0.25rem rgba(0, 0, 0, 0.3)',

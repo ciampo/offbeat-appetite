@@ -58,7 +58,8 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
           <AccessibleImage
             image={blogPostData.heroImage}
             responsiveConfig={fullBleedImageResponsiveConfig}
-            className="z-0 absolute inset-0 w-full h-full filter-darker"
+            className="z-0 absolute inset-0 w-full h-full"
+            darker={true}
             style={{
               paddingBottom: '0',
             }}

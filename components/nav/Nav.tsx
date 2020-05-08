@@ -39,7 +39,7 @@ const HeaderNavLink: React.FC<HeaderNavLinkProps> = memo(
   ({ link: { href, label, as }, beforeLogo, last, selected, solid }) => (
     <li
       className={[
-        'hidden md:inline-block contain-l-p will-change-transform',
+        'hidden md:inline-block contain-l-p',
         beforeLogo
           ? last
             ? '-ml-2 xl:-ml-4 mr-auto'

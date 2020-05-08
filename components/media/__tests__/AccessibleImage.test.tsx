@@ -32,6 +32,8 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
+// TODO: `darker` prop
+
 describe('AccessibleImage', () => {
   test('renders with a valid configuration', async () => {
     const { getByRole, getByTestId, container } = render(
@@ -47,7 +49,7 @@ describe('AccessibleImage', () => {
 
     expect(imageEl.style.objectPosition).toBe('50% 50%');
 
-    expect(wrapperEl).toHaveAttribute('class', 'relative w-full h-0');
+    expect(wrapperEl.className).toMatch('relative w-full h-0');
 
     expect(wrapperEl.style.backgroundColor).toBe(
       testImage.asset.metadata.palette.dominant.background
@@ -124,7 +126,7 @@ describe('AccessibleImage', () => {
       />
     );
 
-    expect(getByTestId('image-wrapper')).toHaveAttribute('class', testClassname);
+    expect(getByTestId('image-wrapper').className).toMatch(testClassname);
   });
 
   test('correctly applies given styles', () => {

@@ -40,10 +40,9 @@ const AccessibleVideo: React.FC<AccessibleVideoProps> = ({
       <AccessibleImage
         image={video.poster}
         responsiveConfig={responsiveConfig}
-        className={[isVideoInitialised && 'invisible', 'z-10 filter-darker']
-          .filter(Boolean)
-          .join(' ')}
+        className={[isVideoInitialised && 'invisible', 'z-10'].filter(Boolean).join(' ')}
         lazy={true}
+        darker={true}
       />
       {!isVideoInitialised && (
         <button

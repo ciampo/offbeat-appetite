@@ -31,6 +31,7 @@ function generateUrl({
 type AccessibleImageProps = {
   image: SanityAccessibleImage;
   responsiveConfig: AccessibleImageResponsiveConfig;
+  darker?: boolean;
   lazy?: boolean;
   className?: string;
   style?: React.CSSProperties;
@@ -40,6 +41,7 @@ type AccessibleImageProps = {
 const AccessibleImage: React.FC<AccessibleImageProps> = ({
   image,
   lazy,
+  darker,
   responsiveConfig: { exports, sizes, forceRatio },
   style,
   className = 'relative w-full h-0',
@@ -62,7 +64,7 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
   return (
     <div
       {...props}
-      className={className}
+      className={['contain-l-p', className].filter(Boolean).join(' ')}
       style={{
         // Fills the space when the image is lazily loaded
         backgroundColor: image.asset.metadata.palette.dominant.background,
@@ -113,6 +115,12 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
             : image.asset.metadata.dimensions.height
         }
       />
+      {darker && (
+        <div
+          className="absolute inset-0 bg-gray-darker bg-opacity-25 pointer-events-none"
+          aria-hidden="true"
+        ></div>
+      )}
     </div>
   );
 };
