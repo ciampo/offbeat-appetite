@@ -8,17 +8,17 @@ import { customEaseOut } from '../../scripts/utils';
 // and https://github.com/kheruc/rt-next-motion
 const fadeInTransitionUp = {
   opacity: 1,
-  y: 0,
-  transition: { duration: 0.4, delay: 0.2, ease: customEaseOut },
+  // y: 0,
+  transition: { duration: 0.4, ease: customEaseOut },
 };
 const transparent = {
   opacity: 0,
-  y: 0,
+  // y: 0,
 };
 const fadeOutTransitionDown = {
   opacity: 0,
-  y: 30,
-  transition: { duration: 0.6, delay: 0.1, ease: customEaseOut },
+  // y: 10,
+  transition: { duration: 0.6, ease: customEaseOut },
 };
 
 type CustomPageTransitionProps = React.PropsWithChildren<{
