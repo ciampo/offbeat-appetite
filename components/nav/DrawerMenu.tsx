@@ -24,12 +24,11 @@ MenuButton.displayName = 'memo(MenuButton)';
 type DrawerNavLinkProps = {
   link: UiLink;
   selected: boolean;
-  open: boolean;
   onClick: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
   className?: string;
 };
 const DrawerNavLink: React.FC<DrawerNavLinkProps> = memo(
-  ({ link: { href, label, as }, selected, onClick, open, className }) => (
+  ({ link: { href, label, as }, selected, onClick, className }) => (
     <motion.li
       variants={{
         exit: {
@@ -59,7 +58,6 @@ const DrawerNavLink: React.FC<DrawerNavLinkProps> = memo(
             .filter(Boolean)
             .join(' ')}
           onClick={onClick}
-          tabIndex={open ? undefined : -1}
         >
           {label}
         </a>
@@ -69,8 +67,6 @@ const DrawerNavLink: React.FC<DrawerNavLinkProps> = memo(
 );
 DrawerNavLink.displayName = 'memo(DrawerNavLink)';
 
-// TODO:
-// - trap focus
 type DrawerNavProps = {
   links: UiLink[];
   open: boolean;
@@ -188,6 +184,7 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
         {open ? (
           <motion.nav
             className="flex flex-col items-center w-full my-auto overflow-y-auto"
+            aria-label="Drawer navigation"
             initial="exit"
             animate="enter"
             exit="exit"
@@ -207,14 +204,12 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
                   selected={router.asPath === (link.as || link.href)}
                   link={link}
                   onClick={onLinkClick}
-                  open={open}
                 />
               ))}
               <DrawerNavLink
                 selected={false}
                 link={{ href: '#subscribe-form', label: 'Subscribe' }}
                 onClick={onLinkClick}
-                open={open}
                 className="mt-2 xsm:mt-4 sm:mt-6 border border-current"
               />
             </ul>

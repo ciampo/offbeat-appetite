@@ -151,7 +151,9 @@ const HeaderNav: React.FC = () => {
         </a>
 
         <PageContentContainer
-          component={(props: { [key: string]: unknown }): JSX.Element => <nav {...props} />}
+          component={(props: { [key: string]: unknown }): JSX.Element => (
+            <nav {...props} aria-label="Header navigation" />
+          )}
           className="relative h-16 md:h-20 xl:h-24 overflow-hidden flex items-center"
         >
           <ul className="flex items-center h-full w-full">
