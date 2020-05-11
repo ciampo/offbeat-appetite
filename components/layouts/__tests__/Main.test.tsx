@@ -29,6 +29,7 @@ describe('MainLayout', () => {
 
     expect(getByTestId('drawer-menu-wrapper')).toBeInTheDocument();
     expect(getByTestId('header-nav-wrapper')).toBeInTheDocument();
+    expect(getByTestId('site-footer-wrapper')).toBeInTheDocument();
 
     expect(await axe(container)).toHaveNoViolations();
   });
