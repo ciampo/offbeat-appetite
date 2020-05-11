@@ -11,7 +11,7 @@ const MainLayout: React.FC = ({ children }) => (
       data-testid="main-layout-main-content"
       id="content"
       tabIndex={-1}
-      className="outline-none relative bg-gray-white z-10"
+      className="outline-none relative bg-gray-white z-10 min-h-screen"
     >
       {children}
     </main>
