@@ -4,6 +4,7 @@ import { render } from 'offbeat-appetite-render';
 
 import {
   FacebookIcon,
+  InstagramIcon,
   GenericShareIcon,
   MailIcon,
   PinterestIcon,
@@ -24,6 +25,7 @@ const config = [
   { name: 'PocketIcon', Component: PocketIcon, title: 'Pocket' },
   { name: 'TwitterIcon', Component: TwitterIcon, title: 'Twitter' },
   { name: 'WhatsappIcon', Component: WhatsappIcon, title: 'Whatsapp' },
+  { name: 'InstagramIcon', Component: InstagramIcon, title: 'Instagram' },
   { name: 'OALogoFull', Component: OALogoFull, title: 'The Offbeat Appetite' },
   { name: 'OALogoShort', Component: OALogoShort, title: 'The Offbeat Appetite' },
 ];

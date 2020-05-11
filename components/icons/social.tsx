@@ -17,6 +17,26 @@ export const FacebookIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ..
   </svg>
 );
 
+export const InstagramIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ...props }) => (
+  <svg
+    {...props}
+    aria-labelledby={`${idPrefix}-instagram`}
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 512 512"
+  >
+    <title id={`${idPrefix}-instagram`}>Instagram</title>
+    <path
+      d="M352 0H160A160 160 0 000 160v192a160 160 0 00160 160h192a160 160 0 00160-160V160A160 160 0 00352 0zm112 352c0 61.8-50.2 112-112 112H160c-61.8 0-112-50.2-112-112V160C48 98.2 98.2 48 160 48h192c61.8 0 112 50.2 112 112v192z"
+      fill="currentColor"
+    />
+    <path
+      d="M256 128a128 128 0 100 256 128 128 0 000-256zm0 208a80.1 80.1 0 010-160 80 80 0 010 160z"
+      fill="currentColor"
+    />
+    <circle cx="393.6" cy="118.4" r="17.1" fill="currentColor" />
+  </svg>
+);
+
 export const MailIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ...props }) => (
   <svg
     {...props}
