@@ -81,11 +81,11 @@ async function generateNavLinks() {
 
   // Home page
   const homeRoute = routesConfig.find(({ dataType }) => dataType === pageHomeType);
-  const homePage = JSON.parse(
-    await readFileAsync(path.join(DATA_FOLDER, `${homeRoute.dataType}.json`), {
-      encoding: 'utf-8',
-    })
-  );
+  // const homePage = JSON.parse(
+  //   await readFileAsync(path.join(DATA_FOLDER, `${homeRoute.dataType}.json`), {
+  //     encoding: 'utf-8',
+  //   })
+  // );
 
   // About page
   const aboutRoute = routesConfig.find(({ dataType }) => dataType === pageAboutType);
