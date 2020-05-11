@@ -3,7 +3,7 @@ import React, { memo } from 'react';
 import Link from 'next/link';
 
 import { PageContentContainer } from '../layouts/Containers';
-import { OALogoFull, FacebookIcon, PinterestIcon, MailIcon, InstagramIcon } from '../icons';
+import { OALogoFull, FacebookIcon, PinterestIcon, InstagramIcon, IconProps } from '../icons';
 
 import {
   beforeLogo as beforeLogoLinks,
@@ -40,48 +40,50 @@ FooterSiteLink.displayName = 'memo(FooterSiteLink)';
 type FooterSocialLinkLink = {
   _key: string;
   label: string;
-  platform: 'facebook' | 'instagram' | 'pinterest' | 'email';
+  platform: 'facebook' | 'instagram' | 'pinterest';
   url: string;
 };
 type FooterSocialLinkProps = {
   link: FooterSocialLinkLink;
   emptySpaceBelow?: boolean;
 };
+
+const platformIcons = {
+  facebook: FacebookIcon,
+  pinterest: PinterestIcon,
+  instagram: InstagramIcon,
+};
+
 const FooterSocialLink: React.FC<FooterSocialLinkProps> = memo(
-  ({ link: { platform, label, url } }) => (
-    <li className={['contain-l-p'].filter(Boolean).join(' ')}>
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={[
-          'block text-gray-white p-2 rounded underline-under',
-          'hover:underline hover:bg-olive-dark',
-          'focus:underline focus:bg-olive-dark',
-        ]
-          .filter(Boolean)
-          .join(' ')}
-      >
-        <span className="sr-only">{label}</span>
-        {platform === 'facebook' && (
-          <FacebookIcon idPrefix="footer-social" className="w-6 md:w-8" />
-        )}
-        {platform === 'pinterest' && (
-          <PinterestIcon idPrefix="footer-social" className="w-6 md:w-8" />
-        )}
-        {platform === 'instagram' && (
-          <InstagramIcon idPrefix="footer-social" className="w-6 md:w-8" />
-        )}
-        {platform === 'email' && <MailIcon idPrefix="footer-social" className="w-6 md:w-8" />}
-      </a>
-    </li>
-  )
+  ({ link: { platform, label, url } }) => {
+    const Icon = (platformIcons[platform] as React.FC<IconProps>) || null;
+
+    return (
+      <li className={['contain-l-p'].filter(Boolean).join(' ')}>
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={[
+            'block text-gray-white p-2 rounded underline-under',
+            'hover:underline hover:bg-olive-dark',
+            'focus:underline focus:bg-olive-dark',
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          <span className="sr-only">{label}</span>
+          <Icon idPrefix="footer-social" className="w-6 md:w-8" />
+        </a>
+      </li>
+    );
+  }
 );
 FooterSocialLink.displayName = 'memo(FooterSocialLink)';
 
 const Footer: React.FC<{}> = () => (
   <footer data-testid="site-footer-wrapper" className="md:sticky md:bottom-0 z-0 bg-olive-darker">
-    <PageContentContainer className="pb-8 pt-10 sm:pt-12 md:pt-16 xl:pt-20 xl:pb-12 flex flex-col items-center sm:flex-wrap sm:flex-row sm:justify-center">
+    <PageContentContainer className="py-8 sm:py-12 md:py-16 xl:py-20 -mb-4 flex flex-col items-center sm:flex-wrap sm:flex-row sm:justify-center">
       {/* logo */}
       <OALogoFull
         idPrefix="footer-logo-full"
