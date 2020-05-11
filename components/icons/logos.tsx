@@ -2,16 +2,16 @@ import React from 'react';
 
 import { IconProps } from './types';
 
-export const OALogoFull: React.FC<IconProps> = (props) => (
+export const OALogoFull: React.FC<IconProps> = ({ idPrefix = 'offbeatAppetite', ...props }) => (
   <svg
     {...props}
     viewBox="0 0 205 130"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     role="img"
-    aria-labelledby="offbeatAppetiteLogoFullTitle"
+    aria-labelledby={`${idPrefix}-logo-full-title`}
   >
-    <title id="offbeatAppetiteLogoFullTitle">The Offbeat Appetite</title>
+    <title id={`${idPrefix}-logo-full-title`}>The Offbeat Appetite</title>
     <g fillRule="evenodd">
       <path
         d="M204.5 129.6v-1.4h-16.4v-18.7h11.4V108h-11.4V91.3h16.4V90h-22.1v39.6h22.1zM131.3 129.6V91.3h11.2V90h-33.2v1.3h16.3v38.3h5.7z"
@@ -57,16 +57,17 @@ export const OALogoShort: React.FC<IconProps> = ({
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 128 128"
     role="img"
-    aria-labelledby={`${idPrefix}-logo-title`}
+    aria-labelledby={`${idPrefix}-logo-short-title`}
   >
-    <title id={`${idPrefix}-logo-title`}>The Offbeat Appetite</title>
+    <title id={`${idPrefix}-logo-short-title`}>The Offbeat Appetite</title>
     <filter id={`${idPrefix}-short-shadow`}>
       <feDropShadow dx="0" dy="0" stdDeviation="4" floodOpacity="0.4" />
     </filter>
     <g
+      data-testid="oa-logo-short-path"
       fill="currentColor"
       fillRule="evenodd"
-      style={{ filter: shadow ? `url(#${idPrefix}-short-shadow)` : '' }}
+      style={{ filter: shadow ? `url(#${idPrefix}-logo-short-shadow)` : '' }}
     >
       <path d="M47.8 24.1c11 1.6 17.3 6 23.6 14a38 38 0 017 30.3 39.6 39.6 0 01-14.5 27 32 32 0 01-27 7.4 32.2 32.2 0 01-23.7-14.5A40 40 0 016.5 58a37.9 37.9 0 0115-26.7c8.2-6 15.3-8.6 26.3-7zm-.4 2.9c-8.4-1.2-13 1.3-18.5 6.7A46.3 46.3 0 0018.4 60a46.6 46.6 0 002.9 28.3c3.7 6.8 7.6 10.5 16.7 11.8 8 1 13.5-1.3 19-6.7 5.4-5.5 7.7-14.4 9.5-26.5 1.6-11.8 1.9-21-1.8-28a21 21 0 00-17.3-12z" />
       <path d="M90.2 24l.1.4L122 102h-11.8l-5.6-14.3L99 73.4H79.7l.5-2.6h17.9L84.9 38.1l-4.8 12.4c-.3-1.2-.7-2.5-1.2-3.7l8.9-22.4.2-.4h2.2zM66.8 77.2l-.5 2H66z" />
