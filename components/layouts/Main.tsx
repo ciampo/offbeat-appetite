@@ -6,7 +6,12 @@ const MainLayout: React.FC = ({ children }) => (
   <>
     <Nav />
 
-    <main id="content" tabIndex={-1} className="outline-none">
+    <main
+      data-testid="main-layout-main-content"
+      id="content"
+      tabIndex={-1}
+      className="outline-none"
+    >
       {children}
     </main>
 

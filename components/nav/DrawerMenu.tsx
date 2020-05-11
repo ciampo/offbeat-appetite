@@ -156,6 +156,7 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
         .filter(Boolean)
         .join(' ')}
       aria-hidden={open ? 'false' : 'true'}
+      data-testid="drawer-menu-wrapper"
     >
       <PageContentContainer className="relative h-full flex flex-col">
         <div className="relative w-full h-16 flex items-center flex-shrink-0">

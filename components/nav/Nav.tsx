@@ -137,6 +137,7 @@ const HeaderNav: React.FC = () => {
           'z-50 fixed top-0 left-0 w-full contain-l transition-all duration-300 ease-out',
           isSolid ? 'bg-olive-darker shadow-md' : 'bg-transparent',
         ].join(' ')}
+        data-testid="header-nav-wrapper"
       >
         <a
           className={[
