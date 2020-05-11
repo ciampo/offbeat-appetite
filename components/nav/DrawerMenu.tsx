@@ -179,7 +179,7 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
               tabIndex={open ? undefined : -1}
             >
               <span className="sr-only">{links[0].label}</span>
-              <OALogoShort className="h-12 md:h-16 xl:h-20" />
+              <OALogoShort className="h-12 md:h-16 xl:h-20" idPrefix="oa-logo-short-drawer" />
             </a>
           </Link>
         </div>

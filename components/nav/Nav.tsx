@@ -84,7 +84,11 @@ const HeaderLogoLink: React.FC<HeaderLogoLinkProps> = memo(
           ].join(' ')}
         >
           <span className="sr-only">{label}</span>
-          <OALogoShort className="h-12 md:h-16 xl:h-20" shadow={!solid} />
+          <OALogoShort
+            className="h-12 md:h-16 xl:h-20"
+            idPrefix="oa-logo-short-haeder"
+            shadow={!solid}
+          />
         </a>
       </Link>
     </li>
