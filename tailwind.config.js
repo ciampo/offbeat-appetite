@@ -202,6 +202,15 @@ module.exports = {
         '.underline-under': {
           textUnderlinePosition: 'under',
         },
+        // Flexbox
+        '.flex-break-column': {
+          flexBasis: '100%',
+          width: 0,
+        },
+        '.flex-break-row': {
+          flexBasis: '100%',
+          height: 0,
+        },
       };
 
       addUtilities(newUtilities, ['responsive', 'focus', 'hover', 'before', 'after']);
