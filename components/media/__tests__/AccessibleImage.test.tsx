@@ -36,12 +36,14 @@ afterEach(() => {
 
 describe('AccessibleImage', () => {
   test('renders with a valid configuration', async () => {
-    const { getByRole, getByTestId, container } = render(
+    const { getByRole, getByTestId, container, queryByTestId } = render(
       <AccessibleImage image={testImage} responsiveConfig={testResponsiveConfig} />
     );
 
     const wrapperEl = getByTestId('image-wrapper');
     const imageEl = getByRole('img') as HTMLImageElement;
+
+    expect(queryByTestId('image-scrim')).not.toBeInTheDocument();
 
     expect(imageEl).toHaveAttribute('alt', testImage.alt);
     expect(imageEl).toHaveAttribute('width', `${testImage.asset.metadata.dimensions.width}`);
@@ -182,6 +184,18 @@ describe('AccessibleImage', () => {
     expect(queryByRole('img')).not.toBeInTheDocument();
 
     expect(console.warn).toHaveBeenCalledTimes(1);
+  });
+
+  test('adds a dark overlay via the `darker` props', () => {
+    const { queryByTestId } = render(
+      <AccessibleImage image={testImage} responsiveConfig={testResponsiveConfig} darker />
+    );
+
+    expect(queryByTestId('image-scrim')).toBeInTheDocument();
+    expect(queryByTestId('image-scrim')).toHaveAttribute('aria-hidden', 'true');
+    expect(queryByTestId('image-scrim')?.className).toMatch(
+      'absolute inset-0 bg-gray-darker bg-opacity-25 pointer-events-none'
+    );
   });
 });
 

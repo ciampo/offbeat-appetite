@@ -119,6 +119,7 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
         <div
           className="absolute inset-0 bg-gray-darker bg-opacity-25 pointer-events-none"
           aria-hidden="true"
+          data-testid="image-scrim"
         ></div>
       )}
     </div>
