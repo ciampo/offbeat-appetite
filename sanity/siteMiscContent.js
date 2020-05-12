@@ -23,9 +23,14 @@ const siteMiscContentQuery = /* groq */ `*[_type == "${siteMiscContentType}"] {
     "platform": platform[0],
   },
   socialShareLabel,
-  subscribeEmailLabel,
-  subscribeNameLabel,
-  subscribeSubmitLabel,
+  subscribeFormTitle,
+  subscribeFormNameInputLabel,
+  subscribeFormEmailInputLabel,
+  subscribeFormSubmitButtonLabel,
+  subscribeFormSubmitButtonLabelSubmitting,
+  subscribeFormMessageDisabled,
+  subscribeFormMessageSuccess,
+  subscribeFormMessageError,
 }`;
 
 module.exports = {

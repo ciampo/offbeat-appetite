@@ -26,7 +26,12 @@ export type SanitySiteMiscContent = {
   organisationAuthor: SanityPersonFull;
   socialLinks: SanitySocialLink[];
   socialShareLabel: string;
-  subscribeEmailLabel: string;
-  subscribeNameLabel: string;
-  subscribeSubmitLabel: string;
+  subscribeFormTitle: string;
+  subscribeFormNameInputLabel: string;
+  subscribeFormEmailInputLabel: string;
+  subscribeFormSubmitButtonLabel: string;
+  subscribeFormSubmitButtonLabelSubmitting: string;
+  subscribeFormMessageDisabled: string;
+  subscribeFormMessageSuccess: string;
+  subscribeFormMessageError: string;
 };

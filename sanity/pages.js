@@ -10,7 +10,6 @@ const pageHomeQuery = /* groq */ `*[_type == "${pageHomeType}"] {
   _id,
   title,
   subtitle,
-  heroImage->${accessibleImageProjection},
   categorySections[] {
   	title,
 	  category->{
