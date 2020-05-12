@@ -82,13 +82,19 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
       setIsSubmitting(true);
       setfeedbackMessage({ isError: false, message: '' });
 
+      const recaptchaEl: HTMLTextAreaElement | null = formEl['g-recaptcha-response'];
+      const dataToSubmit = {
+        [FIELD_NAMES.FORM_NAME]: FORM_NAME,
+        ...formData,
+      };
+      if (recaptchaEl) {
+        dataToSubmit['g-recaptcha-response'] = recaptchaEl.value;
+      }
+
       fetch('/', {
         method: FORM_METHOD,
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({
-          [FIELD_NAMES.FORM_NAME]: FORM_NAME,
-          ...formData,
-        }),
+        body: encode(dataToSubmit),
       })
         .then((response) => {
           if (response.status === 200) {

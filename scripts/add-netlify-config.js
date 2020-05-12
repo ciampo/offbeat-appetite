@@ -36,6 +36,8 @@ ${routesConfig
     `manifest-src 'self'`,
     // Allow prefetching files from same origin
     `prefetch-src 'self'`,
+    // Allow iframes from google and same origin
+    `frame-src 'self' https://www.google.com/`,
   ].join('; ')}
   X-XSS-Protection: 1; mode=block`
   )
