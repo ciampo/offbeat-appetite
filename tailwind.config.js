@@ -60,7 +60,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      display: ['Yeseva One', 'cursive'],
+      display: ['Yeseva One', 'sans-serif'],
       body: ['Raleway', 'sans-serif'],
     },
     fontSize: {
@@ -210,6 +210,9 @@ module.exports = {
         '.flex-break-row': {
           flexBasis: '100%',
           height: 0,
+        },
+        '.top-full': {
+          top: '100%',
         },
       };
 
