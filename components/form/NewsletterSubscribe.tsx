@@ -21,7 +21,7 @@ const FIELD_NAMES = {
 // - submit button
 // - error messages
 const FEEDBACK_MESSAGES = {
-  ERROR_PREVIEW_DISABLED: 'Forms are disabled on preview sites.',
+  ERROR_PREVIEW_DISABLED: 'This form has been disabled',
   ERROR_GENERIC: 'There was an issue with your submission. Please retry later.',
   SUCCESS_THANK_YOU:
     "Thank you for subscribing! You should receive a confirmation email shortly — please contact us at offbeatappetite@gmail.com if you don't",
@@ -33,8 +33,6 @@ const INPUT_LABELS = {
 };
 const SECTION_TITLE = 'Never miss an update';
 
-const FORCE_FORM_DISABLED = process.env.IS_SUBMIT_FORM_ENABLED !== 'true';
-
 function encode(data: { [key: string]: string }): string {
   return Object.keys(data)
     .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
@@ -45,10 +43,12 @@ type NewsletterSubscribeProps = {
   formInstance: string;
 };
 const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance }) => {
+  const forceDisabled = process.env.IS_SUBMIT_FORM_ENABLED !== 'true';
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackMessage, setfeedbackMessage] = useState({
-    isError: FORCE_FORM_DISABLED ? true : false,
-    message: FORCE_FORM_DISABLED ? FEEDBACK_MESSAGES.ERROR_PREVIEW_DISABLED : '',
+    isError: forceDisabled ? true : false,
+    message: forceDisabled ? FEEDBACK_MESSAGES.ERROR_PREVIEW_DISABLED : '',
   });
   const [formData, setFormData] = useState({
     [FIELD_NAMES.NAME]: '',
@@ -62,50 +62,50 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
 
-    if (FORCE_FORM_DISABLED) {
+    if (forceDisabled) {
       return;
     }
 
     const formEl = e.target as HTMLFormElement;
 
     function onSubmissionError(error: string | object): void {
-      const nameField = formEl.querySelector(`input[name="${FIELD_NAMES.NAME}"]`);
-      if (nameField) {
-        (nameField as HTMLInputElement).focus();
-      }
+      setIsSubmitting(false);
 
       setfeedbackMessage({
         isError: true,
-        message: `${FEEDBACK_MESSAGES.ERROR_GENERIC} [${error}]`,
+        message: `${FEEDBACK_MESSAGES.ERROR_GENERIC} [${JSON.stringify(error)}]`,
       });
-      console.error(error);
+      console.warn(JSON.stringify(error));
     }
 
     function onSubmissionSuccess(): void {
+      setIsSubmitting(false);
+
       formEl.reset();
       setfeedbackMessage({ isError: false, message: FEEDBACK_MESSAGES.SUCCESS_THANK_YOU });
     }
 
-    setIsSubmitting(true);
-    setfeedbackMessage({ isError: false, message: '' });
+    if (formEl.checkValidity()) {
+      setIsSubmitting(true);
+      setfeedbackMessage({ isError: false, message: '' });
 
-    fetch('/', {
-      method: FORM_METHOD,
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: encode({
-        [FIELD_NAMES.FORM_NAME]: FORM_NAME,
-        ...formData,
-      }),
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          onSubmissionSuccess();
-        } else {
-          onSubmissionError(response);
-        }
+      fetch('/', {
+        method: FORM_METHOD,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode({
+          [FIELD_NAMES.FORM_NAME]: FORM_NAME,
+          ...formData,
+        }),
       })
-      .catch((error) => onSubmissionError(error))
-      .finally(() => setIsSubmitting(false));
+        .then((response) => {
+          if (response.status === 200) {
+            onSubmissionSuccess();
+          } else {
+            onSubmissionError(response);
+          }
+        })
+        .catch((error) => onSubmissionError(error));
+    }
   }
 
   function onInputInvalid(e: React.FormEvent<HTMLInputElement>): void {
@@ -138,6 +138,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
           data-netlify="true"
           data-netlify-honeypot={FIELD_NAMES.BOT}
           data-netlify-recaptcha="true"
+          data-testid="newsletter-form"
           onSubmit={handleSubmit}
         >
           {/* Form name (for netlify) */}
@@ -191,7 +192,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
           <ButtonPink
             className="justify-center flex-shrink-0 flex-grow-0 mt-4 md:mt-0 md:ml-4 md:w-32 xl:w-40"
             type="submit"
-            disabled={isSubmitting || FORCE_FORM_DISABLED}
+            disabled={isSubmitting || forceDisabled}
           >
             {isSubmitting ? 'Sending...' : INPUT_LABELS.SUBMIT}
           </ButtonPink>
