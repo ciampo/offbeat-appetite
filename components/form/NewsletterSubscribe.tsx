@@ -4,6 +4,17 @@ import { TextInputPink, EmailInputPink } from '../inputs/Input';
 import { ButtonPink } from '../button/Button';
 import { ArticleContentContainer } from '../layouts/Containers';
 
+import {
+  subscribeFormTitle,
+  subscribeFormNameInputLabel,
+  subscribeFormEmailInputLabel,
+  subscribeFormSubmitButtonLabel,
+  subscribeFormSubmitButtonLabelSubmitting,
+  subscribeFormMessageDisabled,
+  subscribeFormMessageSuccess,
+  subscribeFormMessageError,
+} from '../../data/siteMiscContent.json';
+
 const FORM_NAME = 'newsletter';
 const FORM_METHOD = 'POST';
 const FORM_ACTION = '/thank-you';
@@ -14,24 +25,6 @@ const FIELD_NAMES = {
   EMAIL: 'email',
   FORM_NAME: 'form-name',
 };
-
-// TODO: move text to Sanity:
-// - section title
-// - form placeholders / labels
-// - submit button
-// - error messages
-const FEEDBACK_MESSAGES = {
-  ERROR_PREVIEW_DISABLED: 'This form has been disabled',
-  ERROR_GENERIC: 'There was an issue with your submission. Please retry later.',
-  SUCCESS_THANK_YOU:
-    "Thank you for subscribing! You should receive a confirmation email shortly — please contact us at offbeatappetite@gmail.com if you don't",
-};
-const INPUT_LABELS = {
-  NAME: 'Name',
-  EMAIL: 'Email',
-  SUBMIT: 'Submit',
-};
-const SECTION_TITLE = 'Never miss an update';
 
 function encode(data: { [key: string]: string }): string {
   return Object.keys(data)
@@ -48,7 +41,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackMessage, setfeedbackMessage] = useState({
     isError: forceDisabled ? true : false,
-    message: forceDisabled ? FEEDBACK_MESSAGES.ERROR_PREVIEW_DISABLED : '',
+    message: forceDisabled ? subscribeFormMessageDisabled : '',
   });
   const [formData, setFormData] = useState({
     [FIELD_NAMES.NAME]: '',
@@ -73,7 +66,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
 
       setfeedbackMessage({
         isError: true,
-        message: `${FEEDBACK_MESSAGES.ERROR_GENERIC} [${JSON.stringify(error)}]`,
+        message: `${subscribeFormMessageError} [${JSON.stringify(error)}]`,
       });
       console.warn(JSON.stringify(error));
     }
@@ -82,7 +75,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
       setIsSubmitting(false);
 
       formEl.reset();
-      setfeedbackMessage({ isError: false, message: FEEDBACK_MESSAGES.SUCCESS_THANK_YOU });
+      setfeedbackMessage({ isError: false, message: subscribeFormMessageSuccess });
     }
 
     if (formEl.checkValidity()) {
@@ -120,7 +113,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
   return (
     <section className="relative z-10 py-12 sm:py-20 md:py-24 xl:py-32 bg-pink-light md:shadow-lg">
       <ArticleContentContainer>
-        <h2 className="type-display-2 text-pink-darker text-center">{SECTION_TITLE}</h2>
+        <h2 className="type-display-2 text-pink-darker text-center">{subscribeFormTitle}</h2>
 
         <form
           id={`subscribe-form-${formInstance}`}
@@ -166,8 +159,8 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
               required
               name={FIELD_NAMES.NAME}
               onChange={handleChange}
-              placeholder={INPUT_LABELS.NAME}
-              aria-label={INPUT_LABELS.NAME}
+              placeholder={subscribeFormNameInputLabel}
+              aria-label={subscribeFormNameInputLabel}
               onInvalid={onInputInvalid}
               onInput={onInputInput}
             />
@@ -178,8 +171,8 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
               required
               name={FIELD_NAMES.EMAIL}
               onChange={handleChange}
-              placeholder={INPUT_LABELS.EMAIL}
-              aria-label={INPUT_LABELS.EMAIL}
+              placeholder={subscribeFormEmailInputLabel}
+              aria-label={subscribeFormEmailInputLabel}
               onInvalid={onInputInvalid}
               onInput={onInputInput}
             />
@@ -194,7 +187,9 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
             type="submit"
             disabled={isSubmitting || forceDisabled}
           >
-            {isSubmitting ? 'Sending...' : INPUT_LABELS.SUBMIT}
+            {isSubmitting
+              ? subscribeFormSubmitButtonLabelSubmitting
+              : subscribeFormSubmitButtonLabel}
           </ButtonPink>
 
           <div

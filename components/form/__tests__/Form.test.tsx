@@ -6,6 +6,36 @@ import userEvent from '@testing-library/user-event';
 
 import NewsletterSubscribe from '../NewsletterSubscribe';
 
+import {
+  subscribeFormTitle,
+  subscribeFormNameInputLabel,
+  subscribeFormEmailInputLabel,
+  subscribeFormSubmitButtonLabel,
+  subscribeFormSubmitButtonLabelSubmitting,
+  subscribeFormMessageDisabled,
+  subscribeFormMessageSuccess,
+  subscribeFormMessageError,
+} from '../../../data/siteMiscContent.json';
+
+jest.mock('../../../data/siteMiscContent.json', () => ({
+  subscribeFormTitle: 'Test title',
+  subscribeFormNameInputLabel: 'Test name label',
+  subscribeFormEmailInputLabel: 'Test email label',
+  subscribeFormSubmitButtonLabel: 'Test submit label',
+  subscribeFormSubmitButtonLabelSubmitting: 'Test submitting label',
+  subscribeFormMessageDisabled: 'Test disabled message',
+  subscribeFormMessageSuccess: 'Test success message',
+  subscribeFormMessageError: 'Test error message',
+}));
+
+const testValidName = 'Test Name';
+const testValidEmail = 'test@email.com';
+const testValidRequest = {
+  body: 'form-name=newsletter&name=Test%20Name&email=test%40email.com',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  method: 'POST',
+};
+
 // Spy on console.warn
 let spiedConsoleWarn: jest.SpyInstance;
 let mockFetch: jest.SpyInstance;
@@ -32,14 +62,6 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-const testValidName = 'Test Name';
-const testValidEmail = 'test@email.com';
-const testValidRequest = {
-  body: 'form-name=newsletter&name=Test%20Name&email=test%40email.com',
-  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-  method: 'POST',
-};
-
 describe('NewsletterSubscribe', () => {
   test('renders with valid configuration', async () => {
     mockFetch.mockReturnValueOnce(Promise.resolve({ status: 200 }));
@@ -49,12 +71,13 @@ describe('NewsletterSubscribe', () => {
       <NewsletterSubscribe formInstance="test" />
     );
 
-    expect(getByLabelText(/name/i)).toBeInTheDocument();
-    expect(getByLabelText(/name/i)).toHaveAttribute('type', 'text');
-    expect(getByLabelText(/email/i)).toBeInTheDocument();
-    expect(getByLabelText(/email/i)).toHaveAttribute('type', 'email');
-    expect(getByText(/submit/i)).toBeInTheDocument();
-    expect(getByText(/submit/i)).toHaveAttribute('type', 'submit');
+    expect(getByText(subscribeFormTitle)).toBeInTheDocument();
+    expect(getByLabelText(subscribeFormNameInputLabel)).toBeInTheDocument();
+    expect(getByLabelText(subscribeFormNameInputLabel)).toHaveAttribute('type', 'text');
+    expect(getByLabelText(subscribeFormEmailInputLabel)).toBeInTheDocument();
+    expect(getByLabelText(subscribeFormEmailInputLabel)).toHaveAttribute('type', 'email');
+    expect(getByText(subscribeFormSubmitButtonLabel)).toBeInTheDocument();
+    expect(getByText(subscribeFormSubmitButtonLabel)).toHaveAttribute('type', 'submit');
 
     expect(getByTestId('newsletter-form')).toBeInTheDocument();
     expect(getByTestId('newsletter-form')).toHaveAttribute('method', 'POST');
@@ -76,7 +99,7 @@ describe('NewsletterSubscribe', () => {
 
     // Kick in form validation
     await act(async () => {
-      await userEvent.click(getByText(/submit/i));
+      await userEvent.click(getByText(subscribeFormSubmitButtonLabel));
     });
 
     expect(mockFetch).not.toHaveBeenCalled();
@@ -84,34 +107,34 @@ describe('NewsletterSubscribe', () => {
 
     // Type valid info
     await act(async () => {
-      await userEvent.type(getByLabelText(/name/i), testValidName);
+      await userEvent.type(getByLabelText(subscribeFormNameInputLabel), testValidName);
     });
 
     await act(async () => {
-      await userEvent.type(getByLabelText(/email/i), testValidEmail);
+      await userEvent.type(getByLabelText(subscribeFormEmailInputLabel), testValidEmail);
     });
 
     act(() => {
-      userEvent.click(getByText(/submit/i));
+      userEvent.click(getByText(subscribeFormSubmitButtonLabel));
     });
 
     // Submtiting
-    expect(getByText(/sending/i)).toBeDisabled();
+    expect(getByText(subscribeFormSubmitButtonLabelSubmitting)).toBeDisabled();
 
     await act(async () => {
-      await userEvent.click(getByText(/sending/i));
+      await userEvent.click(getByText(subscribeFormSubmitButtonLabelSubmitting));
     });
 
     // Submitted successfully
-    expect(getByText(/submit/i)).toBeInTheDocument();
-    expect(getByText(/submit/i)).not.toBeDisabled();
+    expect(getByText(subscribeFormSubmitButtonLabel)).toBeInTheDocument();
+    expect(getByText(subscribeFormSubmitButtonLabel)).not.toBeDisabled();
 
     expect(mockFetch).toHaveBeenCalled();
     expect(mockFetch).toHaveBeenCalledTimes(1);
     expect(mockFetch).toHaveBeenCalledWith('/', testValidRequest);
     expect(spiedConsoleWarn).not.toHaveBeenCalled();
 
-    expect(getByRole('alert')).toHaveTextContent(/thank you for subscribing/i);
+    expect(getByRole('alert')).toHaveTextContent(subscribeFormMessageSuccess);
 
     expect(await axe(container)).toHaveNoViolations();
   });
@@ -125,40 +148,41 @@ describe('NewsletterSubscribe', () => {
 
     // Type valid info
     await act(async () => {
-      await userEvent.type(getByLabelText(/name/i), testValidName);
+      await userEvent.type(getByLabelText(subscribeFormNameInputLabel), testValidName);
     });
 
     await act(async () => {
-      await userEvent.type(getByLabelText(/email/i), testValidEmail);
+      await userEvent.type(getByLabelText(subscribeFormEmailInputLabel), testValidEmail);
     });
 
     act(() => {
-      userEvent.click(getByText(/submit/i));
+      userEvent.click(getByText(subscribeFormSubmitButtonLabel));
     });
 
     // Submtiting
-    expect(getByText(/sending/i)).toBeDisabled();
+    expect(getByText(subscribeFormSubmitButtonLabelSubmitting)).toBeDisabled();
 
     await act(async () => {
-      await userEvent.click(getByText(/sending/i));
+      await userEvent.click(getByText(subscribeFormSubmitButtonLabelSubmitting));
     });
 
     // Submitted successfully
-    expect(getByText(/submit/i)).toBeInTheDocument();
-    expect(getByText(/submit/i)).not.toBeDisabled();
+    expect(getByText(subscribeFormSubmitButtonLabel)).toBeInTheDocument();
+    expect(getByText(subscribeFormSubmitButtonLabel)).not.toBeDisabled();
 
     expect(mockFetch).toHaveBeenCalled();
     expect(mockFetch).toHaveBeenCalledTimes(1);
     expect(mockFetch).toHaveBeenCalledWith('/', testValidRequest);
     expect(spiedConsoleWarn).toHaveBeenCalled();
 
-    expect(getByRole('alert')).toHaveTextContent(/issue with your submission/i);
+    expect(getByRole('alert')).toHaveTextContent(subscribeFormMessageError);
 
     expect(await axe(container)).toHaveNoViolations();
   });
 
   test('handles a fetch rejection', async () => {
-    mockFetch.mockRejectedValueOnce({ error: 'Test error' });
+    const testError = { error: 'Test error' };
+    mockFetch.mockRejectedValueOnce(testError);
 
     const { getByLabelText, getByText, getByRole, container } = render(
       <NewsletterSubscribe formInstance="test" />
@@ -166,34 +190,36 @@ describe('NewsletterSubscribe', () => {
 
     // Type valid info
     await act(async () => {
-      await userEvent.type(getByLabelText(/name/i), testValidName);
+      await userEvent.type(getByLabelText(subscribeFormNameInputLabel), testValidName);
     });
 
     await act(async () => {
-      await userEvent.type(getByLabelText(/email/i), testValidEmail);
+      await userEvent.type(getByLabelText(subscribeFormEmailInputLabel), testValidEmail);
     });
 
     act(() => {
-      userEvent.click(getByText(/submit/i));
+      userEvent.click(getByText(subscribeFormSubmitButtonLabel));
     });
 
     // Submtiting
-    expect(getByText(/sending/i)).toBeDisabled();
+    expect(getByText(subscribeFormSubmitButtonLabelSubmitting)).toBeDisabled();
 
     await act(async () => {
-      await userEvent.click(getByText(/sending/i));
+      await userEvent.click(getByText(subscribeFormSubmitButtonLabelSubmitting));
     });
 
     // Submitted successfully
-    expect(getByText(/submit/i)).toBeInTheDocument();
-    expect(getByText(/submit/i)).not.toBeDisabled();
+    expect(getByText(subscribeFormSubmitButtonLabel)).toBeInTheDocument();
+    expect(getByText(subscribeFormSubmitButtonLabel)).not.toBeDisabled();
 
     expect(mockFetch).toHaveBeenCalled();
     expect(mockFetch).toHaveBeenCalledTimes(1);
     expect(mockFetch).toHaveBeenCalledWith('/', testValidRequest);
     expect(spiedConsoleWarn).toHaveBeenCalled();
 
-    expect(getByRole('alert')).toHaveTextContent(/issue with your submission.*test error/i);
+    expect(getByRole('alert')).toHaveTextContent(
+      `${subscribeFormMessageError} [${JSON.stringify(testError)}]`
+    );
 
     expect(await axe(container)).toHaveNoViolations();
   });
@@ -208,8 +234,8 @@ describe('NewsletterSubscribe', () => {
       <NewsletterSubscribe formInstance="test" />
     );
 
-    expect(getByText(/submit/i)).toBeDisabled();
-    expect(getByRole('alert')).toHaveTextContent(/this form has been disabled/i);
+    expect(getByText(subscribeFormSubmitButtonLabel)).toBeDisabled();
+    expect(getByRole('alert')).toHaveTextContent(subscribeFormMessageDisabled);
 
     expect(await axe(container)).toHaveNoViolations();
 
