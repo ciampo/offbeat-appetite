@@ -3,9 +3,6 @@ import { NextComponentType, GetStaticProps } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
-import NewsletterSubscribe, {
-  NewsletterSubscribeVariant,
-} from '../components/forms/NewsletterSubscribe';
 import { OALogoFull } from '../components/icons';
 import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 import BlogPostPreview from '../components/blog-post/BlogPostPreview';
@@ -88,8 +85,6 @@ const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({
             ))}
           </ul>
         </section>
-
-        <NewsletterSubscribe variant={NewsletterSubscribeVariant.horizontal} formInstance="home" />
       </DefaultPageTransitionWrapper>
     </>
   );
