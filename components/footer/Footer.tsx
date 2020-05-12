@@ -83,7 +83,7 @@ FooterSocialLink.displayName = 'memo(FooterSocialLink)';
 
 const Footer: React.FC<{}> = () => (
   <footer data-testid="site-footer-wrapper" className="md:sticky md:bottom-0 z-0 bg-olive-darker">
-    <PageContentContainer className="py-8 sm:py-12 md:py-16 xl:py-20 -mb-4 flex flex-col items-center sm:flex-wrap sm:flex-row sm:justify-center">
+    <PageContentContainer className="py-12 sm:py-16 md:py-20 xl:py-24 -mb-4 flex flex-col items-center sm:flex-wrap sm:flex-row sm:justify-center">
       {/* logo */}
       <OALogoFull
         idPrefix="footer-logo-full"
