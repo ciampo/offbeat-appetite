@@ -60,7 +60,7 @@ export const OALogoShort: React.FC<IconProps> = ({
     aria-labelledby={`${idPrefix}-logo-short-title`}
   >
     <title id={`${idPrefix}-logo-short-title`}>The Offbeat Appetite</title>
-    <filter id={`${idPrefix}-short-shadow`}>
+    <filter id={`${idPrefix}-logo-short-shadow`}>
       <feDropShadow dx="0" dy="0" stdDeviation="4" floodOpacity="0.4" />
     </filter>
     <g
