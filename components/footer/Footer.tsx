@@ -13,7 +13,7 @@ import {
 
 import { socialLinks } from '../../data/siteMiscContent.json';
 
-import { UiLink } from '../../typings';
+import { UiLink, SanitySocialLink } from '../../typings';
 
 type FooterSiteLinkProps = {
   link: UiLink;
@@ -37,14 +37,8 @@ const FooterSiteLink: React.FC<FooterSiteLinkProps> = memo(({ link: { href, labe
 ));
 FooterSiteLink.displayName = 'memo(FooterSiteLink)';
 
-type FooterSocialLinkLink = {
-  _key: string;
-  label: string;
-  platform: 'facebook' | 'instagram' | 'pinterest';
-  url: string;
-};
 type FooterSocialLinkProps = {
-  link: FooterSocialLinkLink;
+  link: SanitySocialLink;
   emptySpaceBelow?: boolean;
 };
 
@@ -108,7 +102,7 @@ const Footer: React.FC<{}> = () => (
 
       {/* social links */}
       <ul className="order-2 sm:order-3 sm:flex-1 sm:justify-center flex space-x-1 sm:space-x-2 xl:space-x-4 mt-6 sm:mt-8 md:mt-10 xl:mt-16">
-        {(socialLinks as FooterSocialLinkLink[]).map((link) => (
+        {(socialLinks as SanitySocialLink[]).map((link) => (
           <FooterSocialLink key={link._key} link={link} />
         ))}
       </ul>
