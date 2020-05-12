@@ -32,5 +32,5 @@ describe('MainLayout', () => {
     expect(getByTestId('site-footer-wrapper')).toBeInTheDocument();
 
     expect(await axe(container)).toHaveNoViolations();
-  });
+  }, 10000);
 });
