@@ -57,6 +57,8 @@ class CustomDocument extends Document<DocumentProps> {
             crossOrigin="anonymous"
           />
 
+          <link rel="preload" as="script" href="https://www.google.com/recaptcha/api.js" />
+
           <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Yeseva+One&display=swap"

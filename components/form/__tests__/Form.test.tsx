@@ -1,8 +1,23 @@
 import React from 'react';
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+// import ReCAPTCHA from 'react-google-recaptcha';
 import { axe } from 'jest-axe';
-import { render, act } from 'offbeat-appetite-render';
+import { render, act, waitFor } from 'offbeat-appetite-render';
 
 import userEvent from '@testing-library/user-event';
+
+// jest.mock('react-google-recaptcha', () => ({ onChange }) => {
+//   const Element = <div></div>;
+//   // @ts-igno
+//   Element.execute = (): void => {
+//     console.log('Execute called');
+//     onChange('test');
+//   };
+//   Element.reset = (): void => {};
+
+//   return Element;
+// });
 
 import NewsletterSubscribe from '../NewsletterSubscribe';
 
@@ -31,7 +46,8 @@ jest.mock('../../../data/siteMiscContent.json', () => ({
 const testValidName = 'Test Name';
 const testValidEmail = 'test@email.com';
 const testValidRequest = {
-  body: 'form-name=newsletter&name=Test%20Name&email=test%40email.com',
+  body:
+    'form-name=newsletter&g-recaptcha-response=test-token&name=Test%20Name&email=test%40email.com',
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   method: 'POST',
 };
@@ -48,6 +64,22 @@ beforeAll(() => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   global.fetch = mockFetch;
+
+  let onChange: (token: string) => void;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  global.grecaptcha = {
+    render: (wrapper: HTMLElement, props: { callback: (token: string) => void }): string => {
+      onChange = props.callback;
+      return 'test-widget-id';
+    },
+    execute: (): void => {
+      setTimeout(() => onChange('test-token'), 10);
+    },
+    reset: (): void => {
+      // lol
+    },
+  };
 });
 
 afterAll(() => {
@@ -56,6 +88,9 @@ afterAll(() => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   delete global.fetch;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  delete global.recaptcha;
 });
 
 afterEach(() => {
@@ -114,25 +149,22 @@ describe('NewsletterSubscribe', () => {
       await userEvent.type(getByLabelText(subscribeFormEmailInputLabel), testValidEmail);
     });
 
-    act(() => {
-      userEvent.click(getByText(subscribeFormSubmitButtonLabel));
-    });
-
-    // Submtiting
-    expect(getByText(subscribeFormSubmitButtonLabelSubmitting)).toBeDisabled();
-
+    // Click submit
     await act(async () => {
-      await userEvent.click(getByText(subscribeFormSubmitButtonLabelSubmitting));
+      await userEvent.click(getByText(subscribeFormSubmitButtonLabel));
     });
 
-    // Submitted successfully
+    // Submitting
+    await waitFor(() => expect(getByText(subscribeFormSubmitButtonLabelSubmitting)).toBeDisabled());
+
+    // Submission went through
+    await waitFor(() => expect(mockFetch).toHaveBeenCalled());
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(mockFetch).toHaveBeenCalledWith('/thank-you', testValidRequest);
+    expect(spiedConsoleWarn).not.toHaveBeenCalled();
+
     expect(getByText(subscribeFormSubmitButtonLabel)).toBeInTheDocument();
     expect(getByText(subscribeFormSubmitButtonLabel)).not.toBeDisabled();
-
-    expect(mockFetch).toHaveBeenCalled();
-    expect(mockFetch).toHaveBeenCalledTimes(1);
-    expect(mockFetch).toHaveBeenCalledWith('/', testValidRequest);
-    expect(spiedConsoleWarn).not.toHaveBeenCalled();
 
     expect(getByRole('alert')).toHaveTextContent(subscribeFormMessageSuccess);
 
@@ -155,25 +187,22 @@ describe('NewsletterSubscribe', () => {
       await userEvent.type(getByLabelText(subscribeFormEmailInputLabel), testValidEmail);
     });
 
-    act(() => {
-      userEvent.click(getByText(subscribeFormSubmitButtonLabel));
-    });
-
-    // Submtiting
-    expect(getByText(subscribeFormSubmitButtonLabelSubmitting)).toBeDisabled();
-
+    // Click submit
     await act(async () => {
-      await userEvent.click(getByText(subscribeFormSubmitButtonLabelSubmitting));
+      await userEvent.click(getByText(subscribeFormSubmitButtonLabel));
     });
 
-    // Submitted successfully
+    // Submitting
+    await waitFor(() => expect(getByText(subscribeFormSubmitButtonLabelSubmitting)).toBeDisabled());
+
+    // Submission went through
+    await waitFor(() => expect(mockFetch).toHaveBeenCalled());
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(mockFetch).toHaveBeenCalledWith('/thank-you', testValidRequest);
+    expect(spiedConsoleWarn).toHaveBeenCalled();
+
     expect(getByText(subscribeFormSubmitButtonLabel)).toBeInTheDocument();
     expect(getByText(subscribeFormSubmitButtonLabel)).not.toBeDisabled();
-
-    expect(mockFetch).toHaveBeenCalled();
-    expect(mockFetch).toHaveBeenCalledTimes(1);
-    expect(mockFetch).toHaveBeenCalledWith('/', testValidRequest);
-    expect(spiedConsoleWarn).toHaveBeenCalled();
 
     expect(getByRole('alert')).toHaveTextContent(subscribeFormMessageError);
 
@@ -197,25 +226,22 @@ describe('NewsletterSubscribe', () => {
       await userEvent.type(getByLabelText(subscribeFormEmailInputLabel), testValidEmail);
     });
 
-    act(() => {
-      userEvent.click(getByText(subscribeFormSubmitButtonLabel));
-    });
-
-    // Submtiting
-    expect(getByText(subscribeFormSubmitButtonLabelSubmitting)).toBeDisabled();
-
+    // Click submit
     await act(async () => {
-      await userEvent.click(getByText(subscribeFormSubmitButtonLabelSubmitting));
+      await userEvent.click(getByText(subscribeFormSubmitButtonLabel));
     });
 
-    // Submitted successfully
+    // Submitting
+    await waitFor(() => expect(getByText(subscribeFormSubmitButtonLabelSubmitting)).toBeDisabled());
+
+    // Submission went through
+    await waitFor(() => expect(mockFetch).toHaveBeenCalled());
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+    expect(mockFetch).toHaveBeenCalledWith('/thank-you', testValidRequest);
+    expect(spiedConsoleWarn).toHaveBeenCalled();
+
     expect(getByText(subscribeFormSubmitButtonLabel)).toBeInTheDocument();
     expect(getByText(subscribeFormSubmitButtonLabel)).not.toBeDisabled();
-
-    expect(mockFetch).toHaveBeenCalled();
-    expect(mockFetch).toHaveBeenCalledTimes(1);
-    expect(mockFetch).toHaveBeenCalledWith('/', testValidRequest);
-    expect(spiedConsoleWarn).toHaveBeenCalled();
 
     expect(getByRole('alert')).toHaveTextContent(
       `${subscribeFormMessageError} [${JSON.stringify(testError)}]`
@@ -239,8 +265,8 @@ describe('NewsletterSubscribe', () => {
 
     expect(await axe(container)).toHaveNoViolations();
 
-    act(() => {
-      (getByTestId('newsletter-form') as HTMLFormElement).submit();
+    await act(async () => {
+      await (getByTestId('newsletter-form') as HTMLFormElement).submit();
     });
 
     expect(mockFetch).not.toHaveBeenCalled();

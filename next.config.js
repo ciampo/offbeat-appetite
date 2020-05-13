@@ -49,6 +49,7 @@ const nextConfig = {
     CANONICAL_URL: process.env.CANONICAL_URL,
     IS_SUBMIT_FORM_ENABLED: process.env.IS_SUBMIT_FORM_ENABLED,
     SANITY_PROJECT_ID: process.env.SANITY_PROJECT_ID,
+    SITE_RECAPTCHA_KEY: process.env.SITE_RECAPTCHA_KEY,
   },
 };
 
