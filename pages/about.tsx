@@ -5,6 +5,7 @@ import PageMeta from '../components/meta/PageMeta';
 import SimplePortableText from '../components/portable-text/SimplePortableText';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
+import NewsletterSubscribe from '../components/form/NewsletterSubscribe';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
@@ -36,9 +37,13 @@ const AboutPage: NextComponentType<{}, AboutProps, AboutProps> = ({
       />
 
       <DefaultPageTransitionWrapper>
-        <h1>{aboutData.title}</h1>
+        <header className="mt-16 md:mt-20 xl:mt-24">
+          <h1>{aboutData.title}</h1>
+        </header>
 
         <SimplePortableText blocks={aboutData.content} />
+
+        <NewsletterSubscribe formInstance="about-pre-footer" />
       </DefaultPageTransitionWrapper>
     </>
   );

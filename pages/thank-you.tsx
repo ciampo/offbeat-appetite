@@ -31,7 +31,9 @@ const ThankYouPage: NextComponentType<{}, ThankYouProps, ThankYouProps> = ({
       />
 
       <DefaultPageTransitionWrapper>
-        <h1>{thankYouData.title}</h1>
+        <header className="mt-16 md:mt-20 xl:mt-24">
+          <h1>{thankYouData.title}</h1>
+        </header>
 
         <SimplePortableText blocks={thankYouData.content} />
       </DefaultPageTransitionWrapper>
