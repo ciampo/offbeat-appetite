@@ -185,6 +185,9 @@ module.exports = {
           left: '50%',
           transform: 'translate(-50%, -50%)',
         },
+        '.translate-z-0': {
+          transform: 'translateZ(0)',
+        },
         '.will-change-transform': {
           willChange: 'transform',
         },
