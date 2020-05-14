@@ -31,6 +31,7 @@ const PageLoadingBar: React.FC<PageLoadingBarProps> = ({ className }) => {
 
   return (
     <span
+      data-testid="page-loading-bar-wrapper"
       aria-hidden={true}
       className={[
         'h-1 bg-gray-white will-change-transform-opacity shadow contain-s',

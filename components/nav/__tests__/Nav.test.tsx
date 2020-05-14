@@ -12,7 +12,7 @@ import { useRouter as mockUseRouter } from 'next/router';
 
 import React from 'react';
 import { axe } from 'jest-axe';
-import { render, fireEvent } from 'offbeat-appetite-render';
+import { render, fireEvent, act } from 'offbeat-appetite-render';
 
 import Nav from '../Nav';
 
@@ -194,6 +194,82 @@ describe('Nav', () => {
 
     expect(getByText('Subscribe')).toBeInTheDocument();
     expect(getByText('Subscribe')).toHaveAttribute('href', '#subscribe');
+
+    expect(await axe(container)).toHaveNoViolations();
+  }, 15000);
+
+  test('loading bar react to page loading events', async () => {
+    await preloadAll();
+
+    let routeChangeStartCallback: () => void | undefined;
+    let routeChangeCompleteCallback: () => void | undefined;
+    let routeChangeErrorCallback: () => void | undefined;
+
+    (mockUseRouter as jest.Mock).mockReturnValue({
+      asPath: '/test-before-logo-2',
+      events: {
+        on: jest.fn((event: string, callback: () => void) => {
+          if (event === 'routeChangeStart') {
+            routeChangeStartCallback = callback;
+          } else if (event === 'routeChangeComplete') {
+            routeChangeCompleteCallback = callback;
+          } else if (event === 'routeChangeError') {
+            routeChangeErrorCallback = callback;
+          }
+        }),
+        off: jest.fn(),
+      },
+    });
+
+    const { getByTestId, container } = render(<Nav />);
+
+    expect(getByTestId('page-loading-bar-wrapper')).toBeInTheDocument();
+    expect(getByTestId('page-loading-bar-wrapper')).toHaveAttribute('aria-hidden', 'true');
+
+    expect(getByTestId('page-loading-bar-wrapper')).toHaveClass('scale-x-100');
+    expect(getByTestId('page-loading-bar-wrapper')).toHaveClass('opacity-0');
+
+    expect(await axe(container)).toHaveNoViolations();
+
+    // Start page load
+    act(() => {
+      routeChangeStartCallback();
+    });
+
+    expect(getByTestId('page-loading-bar-wrapper')).toHaveClass('scale-x-0');
+    expect(getByTestId('page-loading-bar-wrapper')).toHaveClass('opacity-100');
+    expect(getByTestId('page-loading-bar-wrapper')).toHaveClass('animation-loading-bar ');
+
+    expect(await axe(container)).toHaveNoViolations();
+
+    // Page load complete
+    act(() => {
+      routeChangeCompleteCallback();
+    });
+
+    expect(getByTestId('page-loading-bar-wrapper')).toHaveClass('scale-x-100');
+    expect(getByTestId('page-loading-bar-wrapper')).toHaveClass('opacity-0');
+
+    expect(await axe(container)).toHaveNoViolations();
+
+    // Start page load
+    act(() => {
+      routeChangeStartCallback();
+    });
+
+    expect(getByTestId('page-loading-bar-wrapper')).toHaveClass('scale-x-0');
+    expect(getByTestId('page-loading-bar-wrapper')).toHaveClass('opacity-100');
+    expect(getByTestId('page-loading-bar-wrapper')).toHaveClass('animation-loading-bar ');
+
+    expect(await axe(container)).toHaveNoViolations();
+
+    // Page load error
+    act(() => {
+      routeChangeErrorCallback();
+    });
+
+    expect(getByTestId('page-loading-bar-wrapper')).toHaveClass('scale-x-100');
+    expect(getByTestId('page-loading-bar-wrapper')).toHaveClass('opacity-0');
 
     expect(await axe(container)).toHaveNoViolations();
   }, 15000);
