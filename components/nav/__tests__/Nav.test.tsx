@@ -74,7 +74,6 @@ describe('Nav', () => {
       getByText,
       getAllByText,
       container,
-      // debug,
     } = render(<Nav />);
 
     const allLinks: UiLink[] = [...beforeLogoLinks, ...logoLinks, ...afterLogoLinks];
@@ -129,13 +128,10 @@ describe('Nav', () => {
     expect(getAllByRole('button')[0]).toHaveTextContent('Menu');
     expect(getAllByRole('button')[1]).toHaveTextContent('Close');
 
-    // + 2 For the menu button + subscribe
-    expect(getAllByRole('listitem')).toHaveLength(2 * allLinks.length + 2);
-    // + 3 For the skip to content link + subscribe link + repeated home link in the drawer
-    expect(getAllByRole('link')).toHaveLength(2 * allLinks.length + 3);
-
-    expect(getByText('Subscribe')).toBeInTheDocument();
-    expect(getByText('Subscribe')).toHaveAttribute('href', '#subscribe-form');
+    // + 1 For the menu button
+    expect(getAllByRole('listitem')).toHaveLength(2 * allLinks.length + 1);
+    // + 2 For the skip to content link + repeated home link in the drawer
+    expect(getAllByRole('link')).toHaveLength(2 * allLinks.length + 2);
 
     expect(await axe(container)).toHaveNoViolations();
 
@@ -146,7 +142,7 @@ describe('Nav', () => {
       code: 'Tab',
       shiftKey: true,
     });
-    expect(getByText('Subscribe')).toHaveFocus();
+    expect(getAllByText(allLinks[allLinks.length - 1].label)[1]).toHaveFocus();
     fireEvent.keyDown(getByTestId('drawer-menu-wrapper'), {
       key: 'tab',
       code: 'Tab',
@@ -168,4 +164,37 @@ describe('Nav', () => {
     // + 1 For the skip to content link
     expect(getAllByRole('link')).toHaveLength(allLinks.length + 1);
   }, 15000);
+
+  test('drawer shows subscribe link if the subscribe form is in the page', async () => {
+    await preloadAll();
+
+    (mockUseRouter as jest.Mock).mockReturnValue({
+      asPath: '/test-before-logo-2',
+      events: {
+        on: jest.fn(),
+        off: jest.fn(),
+      },
+    });
+
+    const { getAllByRole, getByText, container } = render(
+      <>
+        <Nav />
+        <div id="subscribe" />
+      </>
+    );
+
+    fireEvent.click(getByText('Menu'));
+
+    const allLinks: UiLink[] = [...beforeLogoLinks, ...logoLinks, ...afterLogoLinks];
+
+    // + 2 For the menu button + subscribe link
+    expect(getAllByRole('listitem')).toHaveLength(2 * allLinks.length + 2);
+    // + 3 For the skip to content link + subscribe link + repeated home link in the drawer
+    expect(getAllByRole('link')).toHaveLength(2 * allLinks.length + 3);
+
+    expect(getByText('Subscribe')).toBeInTheDocument();
+    expect(getByText('Subscribe')).toHaveAttribute('href', '#subscribe');
+
+    expect(await axe(container)).toHaveNoViolations();
+  }, 10000);
 });

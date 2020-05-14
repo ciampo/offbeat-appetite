@@ -148,7 +148,11 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
   }, []);
 
   return (
-    <section className="relative z-10 pt-12 pb-32 sm:pt-20 sm:pb-20 md:pt-24 md:pb-24 xl:pt-32  xl:pb-32 bg-pink-light md:shadow-lg translate-z-0 overflow-hidden">
+    <section
+      className="relative z-10 pt-12 pb-32 sm:pt-20 sm:pb-20 md:pt-24 md:pb-24 xl:pt-32  xl:pb-32 bg-pink-light md:shadow-lg translate-z-0 overflow-hidden"
+      id="subscribe"
+      data-testid="subscribe-form-section-wrapper"
+    >
       <ArticleContentContainer>
         <h2 className="type-display-2 text-pink-darker text-center">{subscribeFormTitle}</h2>
 

@@ -9,6 +9,8 @@ import { OALogoShort } from '../icons';
 
 import { UiLink } from '../../typings';
 
+const SUBSCRIBE_FORM_ID = 'subscribe';
+
 type MenuButtonProps = {
   onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
@@ -206,12 +208,14 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
                   onClick={onLinkClick}
                 />
               ))}
-              <DrawerNavLink
-                selected={false}
-                link={{ href: '#subscribe-form', label: 'Subscribe' }}
-                onClick={onLinkClick}
-                className="mt-2 xsm:mt-4 sm:mt-6 border border-current"
-              />
+              {document.querySelector(`#${SUBSCRIBE_FORM_ID}`) && (
+                <DrawerNavLink
+                  selected={false}
+                  link={{ href: `#${SUBSCRIBE_FORM_ID}`, label: 'Subscribe' }}
+                  onClick={onLinkClick}
+                  className="mt-2 xsm:mt-4 sm:mt-6 border border-current"
+                />
+              )}
             </ul>
           </motion.nav>
         ) : null}

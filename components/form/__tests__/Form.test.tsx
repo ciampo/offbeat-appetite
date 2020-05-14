@@ -1,23 +1,7 @@
 import React from 'react';
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-// import ReCAPTCHA from 'react-google-recaptcha';
 import { axe } from 'jest-axe';
 import { render, act, waitFor } from 'offbeat-appetite-render';
-
 import userEvent from '@testing-library/user-event';
-
-// jest.mock('react-google-recaptcha', () => ({ onChange }) => {
-//   const Element = <div></div>;
-//   // @ts-igno
-//   Element.execute = (): void => {
-//     console.log('Execute called');
-//     onChange('test');
-//   };
-//   Element.reset = (): void => {};
-
-//   return Element;
-// });
 
 import NewsletterSubscribe from '../NewsletterSubscribe';
 
@@ -114,6 +98,8 @@ describe('NewsletterSubscribe', () => {
     expect(getByText(subscribeFormSubmitButtonLabel)).toBeInTheDocument();
     expect(getByText(subscribeFormSubmitButtonLabel)).toHaveAttribute('type', 'submit');
 
+    expect(getByTestId('subscribe-form-section-wrapper')).toBeInTheDocument();
+    expect(getByTestId('subscribe-form-section-wrapper')).toHaveAttribute('id', 'subscribe');
     expect(getByTestId('newsletter-form')).toBeInTheDocument();
     expect(getByTestId('newsletter-form')).toHaveAttribute('method', 'POST');
     expect(getByTestId('newsletter-form')).toHaveAttribute('action', '/thank-you');
