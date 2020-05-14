@@ -196,5 +196,5 @@ describe('Nav', () => {
     expect(getByText('Subscribe')).toHaveAttribute('href', '#subscribe');
 
     expect(await axe(container)).toHaveNoViolations();
-  }, 10000);
+  }, 15000);
 });
