@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const defaultTheme = require('tailwindcss/defaultTheme');
+const plugin = require('tailwindcss/plugin');
 const { sharedTheme } = require('./tailwind.shared.js');
 
 const neuShadow = {
@@ -140,6 +141,19 @@ module.exports = {
     require('tailwindcss-animations'),
     require('tailwindcss-pseudo-elements'),
     require('tailwindcss-aspect-ratio'),
+    plugin(function ({ addUtilities, config }) {
+      const scrollPaddingTopUtilities = Object.entries(config('theme.spacing')).map(
+        ([key, value]) => {
+          return {
+            [`.scroll-pt-${key}`]: {
+              scrollPaddingTop: value,
+            },
+          };
+        }
+      );
+
+      addUtilities(scrollPaddingTopUtilities, ['responsive']);
+    }),
     function ({ addUtilities }) {
       const newUtilities = {
         // Contain
