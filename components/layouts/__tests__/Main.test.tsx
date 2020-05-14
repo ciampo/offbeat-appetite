@@ -30,6 +30,7 @@ describe('MainLayout', () => {
     expect(getByTestId('drawer-menu-wrapper')).toBeInTheDocument();
     expect(getByTestId('header-nav-wrapper')).toBeInTheDocument();
     expect(getByTestId('site-footer-wrapper')).toBeInTheDocument();
+    expect(getByTestId('subscribe-form-section-wrapper')).toBeInTheDocument();
 
     expect(await axe(container)).toHaveNoViolations();
   }, 10000);
