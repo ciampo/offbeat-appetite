@@ -56,7 +56,7 @@ The [`staging`](https://app.netlify.com/sites/offbeatappetite-staging) and
 both _static sites_**. Both projects are deployed via a CI/CD pipeline triggered by new commits to
 the master branch on this repo.
 
-There are a few differences between the staging and production sites:
+There are a few differences between the staging and production site environments:
 
 | Feature (via env variables) | Dev (local) | Staging  | Production |
 | :-------------------------: | :---------: | :------: | :--------: |
@@ -64,6 +64,9 @@ There are a few differences between the staging and production sites:
 |       Subscribe Form        |   enabled   | disabled |  enabled   |
 |   Sanity Token for drafts   |     Yes     |   Yes    |     No     |
 |        Canonical URL        |    prod     | staging  |    prod    |
+|          Recaptcha          | always pass | staging  |    prod    |
+
+Furthermore, the staging site is preventing robots from indexing its contents.
 
 ## 👻 Contributors
 
