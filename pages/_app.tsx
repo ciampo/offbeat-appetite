@@ -16,6 +16,8 @@ import { SharingImageProvider } from '../components/meta/sharing-image-context';
 import MainLayout from '../components/layouts/Main';
 import Analytics from '../components/Analytics';
 
+import { NextComponentTypeWithLayout } from '../typings';
+
 export default class MyApp extends App {
   scrollToTop(): void {
     if (process.browser) {
@@ -38,16 +40,18 @@ export default class MyApp extends App {
   render(): JSX.Element {
     const { Component, pageProps, router } = this.props;
 
+    const Layout = (Component as NextComponentTypeWithLayout).Layout || MainLayout;
+
     return (
       <SharingImageProvider>
         <NavVariantProvider>
           <Analytics />
 
-          <MainLayout>
+          <Layout>
             <AnimatePresence initial={false} exitBeforeEnter onExitComplete={this.scrollToTop}>
               <Component {...pageProps} key={router.asPath} />
             </AnimatePresence>
-          </MainLayout>
+          </Layout>
         </NavVariantProvider>
       </SharingImageProvider>
     );

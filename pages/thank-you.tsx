@@ -1,25 +1,32 @@
-import React, { useEffect } from 'react';
-import { NextComponentType, GetStaticProps } from 'next';
+import React, { useCallback } from 'react';
+import { GetStaticProps } from 'next';
 
+import SimpleLayout from '../components/layouts/Simple';
 import PageMeta from '../components/meta/PageMeta';
 import SimplePortableText from '../components/portable-text/SimplePortableText';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
-import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 
-import { SanityPageThankYou } from '../typings';
+import { SanityPageThankYou, NextComponentTypeWithLayout } from '../typings';
 
 type ThankYouProps = {
   thankYouData: SanityPageThankYou;
   path: string;
 };
-const ThankYouPage: NextComponentType<{}, ThankYouProps, ThankYouProps> = ({
-  thankYouData,
-  path,
-}) => {
-  const setVariant = useNavVariantDispatch();
-  useEffect(() => {
-    setVariant('solid');
-  }, [setVariant]);
+
+const ThankYouPage: NextComponentTypeWithLayout<ThankYouProps> = ({ thankYouData, path }) => {
+  const onBackClick = useCallback((e) => {
+    e.preventDefault();
+    if (window && window.history && window.history.back) {
+      window.history.back();
+    }
+  }, []);
+
+  const onHomeClick = useCallback((e) => {
+    e.preventDefault();
+    if (window && window.location && window.location.replace) {
+      window.location.replace('/');
+    }
+  }, []);
 
   return (
     <>
@@ -36,10 +43,21 @@ const ThankYouPage: NextComponentType<{}, ThankYouProps, ThankYouProps> = ({
         </header>
 
         <SimplePortableText blocks={thankYouData.content} />
+
+        <a href="/" onClick={onHomeClick}>
+          Home
+        </a>
+
+        {process.browser && (
+          <a href="/" onClick={onBackClick}>
+            Back
+          </a>
+        )}
       </DefaultPageTransitionWrapper>
     </>
   );
 };
+ThankYouPage.Layout = SimpleLayout;
 
 export const getStaticProps: GetStaticProps = async () => {
   const path = '/thank-you';

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { NextComponentType, GetStaticProps } from 'next';
+import { GetStaticProps } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
 import SimplePortableText from '../components/portable-text/SimplePortableText';
@@ -8,14 +8,14 @@ import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
-import { SanityPageAbout, StructuredData } from '../typings';
+import { SanityPageAbout, StructuredData, NextComponentTypeWithLayout } from '../typings';
 
 type AboutProps = {
   aboutData: SanityPageAbout;
   path: string;
   structuredData: StructuredData[];
 };
-const AboutPage: NextComponentType<{}, AboutProps, AboutProps> = ({
+const AboutPage: NextComponentTypeWithLayout<AboutProps> = ({
   aboutData,
   path,
   structuredData,

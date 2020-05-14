@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
-import { NextComponentType, NextPageContext } from 'next';
+import React, { useCallback } from 'react';
+import { NextPageContext } from 'next';
 
+import SimpleLayout from '../components/layouts/Simple';
 import PageMeta from '../components/meta/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
-import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
+
+import { NextComponentTypeWithLayout } from '../typings';
 
 type ErrorPageProps = {
   statusCode: number;
@@ -16,12 +18,15 @@ const statusCodes: { [code: number]: string } = {
   500: 'Internal Server Error',
 };
 
-const CustomError: NextComponentType<{}, {}, ErrorPageProps> = ({ statusCode }) => {
+const CustomError: NextComponentTypeWithLayout<ErrorPageProps> = ({ statusCode }) => {
   const title = statusCodes[statusCode] || 'An unexpected error has occurred';
-  const setVariant = useNavVariantDispatch();
-  useEffect(() => {
-    setVariant('solid');
-  }, [setVariant]);
+
+  const onHomeClick = useCallback((e) => {
+    e.preventDefault();
+    if (window && window.location && window.location.replace) {
+      window.location.replace('/');
+    }
+  }, []);
 
   return (
     <>
@@ -32,10 +37,14 @@ const CustomError: NextComponentType<{}, {}, ErrorPageProps> = ({ statusCode }) 
           <h1 className="text-2xl mb-4">{statusCode}</h1>
           <p className="text-base">{title}</p>
         </header>
+        <a href="/" onClick={onHomeClick}>
+          Home
+        </a>
       </DefaultPageTransitionWrapper>
     </>
   );
 };
+CustomError.Layout = SimpleLayout;
 
 CustomError.getInitialProps = ({ res, err }: NextPageContext): ErrorPageProps => {
   const statusCode = res && res.statusCode ? res.statusCode : err ? err.statusCode : 404;

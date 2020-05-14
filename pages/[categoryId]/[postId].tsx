@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { NextComponentType, GetStaticProps, GetStaticPaths } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 
 import PageMeta from '../../components/meta/PageMeta';
 import AccessibleImage from '../../components/media/AccessibleImage';
@@ -16,7 +16,12 @@ import {
   generateArticleStructuredData,
 } from '../../scripts/structured-data';
 
-import { CompiledRoute, SanityBlogPostFull, StructuredData } from '../../typings';
+import {
+  CompiledRoute,
+  SanityBlogPostFull,
+  StructuredData,
+  NextComponentTypeWithLayout,
+} from '../../typings';
 
 const BLOG_POST_PAGE_ROUTE = '/[categoryId]/[postId]';
 
@@ -25,7 +30,7 @@ type PageBlogPostProps = {
   path: string;
   structuredData: StructuredData[];
 };
-const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
+const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
   blogPostData,
   path,
   structuredData,

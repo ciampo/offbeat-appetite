@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { NextComponentType, GetStaticProps, GetStaticPaths } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
@@ -10,7 +10,12 @@ import routesConfig from '../routes-config';
 import { compileSingleRoute, compileDynamicItem } from '../scripts/compile-routes';
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
-import { CompiledRoute, SanityCategoryFull, StructuredData } from '../typings';
+import {
+  CompiledRoute,
+  SanityCategoryFull,
+  StructuredData,
+  NextComponentTypeWithLayout,
+} from '../typings';
 
 const CATEGORY_PAGE_ROUTE = '/[categoryId]';
 
@@ -19,7 +24,7 @@ type CategoryProps = {
   path: string;
   structuredData: StructuredData[];
 };
-const CategoryPage: NextComponentType<{}, CategoryProps, CategoryProps> = ({
+const CategoryPage: NextComponentTypeWithLayout<CategoryProps> = ({
   categoryData,
   path,
   structuredData,

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { NextComponentType, GetStaticProps } from 'next';
+import { GetStaticProps } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
@@ -9,7 +9,12 @@ import BlogPostPreview from '../components/blog-post/BlogPostPreview';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
-import { SanityPageHome, SanityPageHomeCategorySection, StructuredData } from '../typings';
+import {
+  SanityPageHome,
+  SanityPageHomeCategorySection,
+  StructuredData,
+  NextComponentTypeWithLayout,
+} from '../typings';
 
 // Home Category Section
 type HomeCategorySectionProps = {
@@ -39,11 +44,7 @@ type HomeProps = {
   path: string;
   structuredData: StructuredData[];
 };
-const HomePage: NextComponentType<{}, HomeProps, HomeProps> = ({
-  homeData,
-  path,
-  structuredData,
-}) => {
+const HomePage: NextComponentTypeWithLayout<HomeProps> = ({ homeData, path, structuredData }) => {
   const setVariant = useNavVariantDispatch();
   useEffect(() => {
     setVariant('solid');
