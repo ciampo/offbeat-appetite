@@ -8,7 +8,6 @@ import RichPortableText from '../../components/portable-text/RichPortableText';
 import DefaultPageTransitionWrapper from '../../components/page-transition-wrappers/Default';
 import { ArticleContentContainer } from '../../components/layouts/Containers';
 import { useNavVariantDispatch } from '../../components/nav/nav-variant-context';
-import NewsletterSubscribe from '../../components/form/NewsletterSubscribe';
 
 import routesConfig from '../../routes-config';
 import { compileSingleRoute, compileDynamicItem } from '../../scripts/compile-routes';
@@ -73,8 +72,6 @@ const BlogPost: NextComponentType<{}, PageBlogPostProps, PageBlogPostProps> = ({
         >
           <RichPortableText blocks={blogPostData.content} />
         </ArticleContentContainer>
-
-        <NewsletterSubscribe formInstance="blog-post-pre-footer" />
       </DefaultPageTransitionWrapper>
     </>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Nav from '../nav/Nav';
+import NewsletterSubscribeForm from '../form/NewsletterSubscribe';
 import Footer from '../footer/Footer';
 
 const MainLayout: React.FC = ({ children }) => (
@@ -15,6 +16,9 @@ const MainLayout: React.FC = ({ children }) => (
     >
       {children}
     </main>
+
+    <NewsletterSubscribeForm formInstance="pre-footer" />
+
     <Footer />
   </>
 );

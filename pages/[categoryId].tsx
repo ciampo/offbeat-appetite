@@ -5,7 +5,6 @@ import PageMeta from '../components/meta/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import BlogPostPreview from '../components/blog-post/BlogPostPreview';
 import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
-import NewsletterSubscribe from '../components/form/NewsletterSubscribe';
 
 import routesConfig from '../routes-config';
 import { compileSingleRoute, compileDynamicItem } from '../scripts/compile-routes';
@@ -57,8 +56,6 @@ const CategoryPage: NextComponentType<{}, CategoryProps, CategoryProps> = ({
             </li>
           ))}
         </ul>
-
-        <NewsletterSubscribe formInstance="category-pre-footer" />
       </DefaultPageTransitionWrapper>
     </>
   );
