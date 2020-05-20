@@ -1,14 +1,7 @@
-body {
-  @apply text-gray-darker bg-gray-white m-0;
-
-  /* Same as ".type-body" class */
-  @apply _type-body-base text-base;
-}
-
-@screen xl {
+@media screen and (prefers-reduced-motion: no-preference) {
+  html,
   body {
-    /* Same as ".type-body" class */
-    @apply text-lg;
+    scroll-behavior: smooth;
   }
 }
 
