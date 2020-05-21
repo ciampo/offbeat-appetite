@@ -149,7 +149,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
 
   return (
     <section
-      className="relative z-10 pt-12 pb-32 sm:pt-20 sm:pb-20 md:pt-24 md:pb-24 xl:pt-32  xl:pb-32 bg-pink-light md:shadow-lg translate-z-0 overflow-hidden"
+      className="relative z-10 pt-12 pb-32 sm:pt-20 sm:pb-20 md:pt-24 md:pb-24 xl:pt-32 xl:pb-32 bg-pink-light md:shadow-lg translate-z-0 overflow-hidden"
       id="subscribe"
       data-testid="subscribe-form-section-wrapper"
     >
@@ -191,7 +191,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
           <ReCAPTCHA
             ref={recaptchaRef}
             size="invisible"
-            sitekey={process.env.SITE_RECAPTCHA_KEY}
+            sitekey={process.env.SITE_RECAPTCHA_KEY as string}
             onChange={onRecapchaSuccessfullResponse}
           />
 
@@ -205,6 +205,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
                 maxWidth: '302px',
                 height: '422px',
               }}
+              title="recaptcha"
             ></iframe>
             <div
               className="w-full mx-auto border border-pink-dark rounded h-16 my-0 bg-pink-light flex items-center justify-center"
@@ -217,6 +218,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
                 name="g-recaptcha-response"
                 className="g-recaptcha-response w-64 h-10 border border-pink-dark rounded p-0 resize-none"
                 placeholder="reCAPTCHA code"
+                aria-label="reCaptcha response"
               ></textarea>
             </div>
           </noscript>
