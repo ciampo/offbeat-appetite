@@ -23,6 +23,7 @@ class CustomDocument extends Document<DocumentProps> {
       // scroll-pt-[n] classes follow the same height as the heder nav
       <Html lang="en" className="scroll-pt-16 md:scroll-pt-20 xl:scroll-pt-24">
         <Head>
+          <meta charSet="UTF-8" />
           <meta name="twitter:card" content="summary" />
           <meta property="og:type" content="website" />
 
