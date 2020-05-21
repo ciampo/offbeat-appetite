@@ -54,10 +54,12 @@ jest.mock('../../../data/navLinks.json', () => ({
 // - solid variant
 // - scroll
 
+beforeAll(async () => {
+  await preloadAll();
+});
+
 describe('Nav', () => {
   test('renders with valid configuration', async () => {
-    await preloadAll();
-
     (mockUseRouter as jest.Mock).mockReturnValue({
       asPath: '/test-before-logo-2',
       events: {
@@ -166,8 +168,6 @@ describe('Nav', () => {
   }, 15000);
 
   test('drawer shows subscribe link if the subscribe form is in the page', async () => {
-    await preloadAll();
-
     (mockUseRouter as jest.Mock).mockReturnValue({
       asPath: '/test-before-logo-2',
       events: {
@@ -199,8 +199,6 @@ describe('Nav', () => {
   }, 15000);
 
   test('loading bar react to page loading events', async () => {
-    await preloadAll();
-
     let routeChangeStartCallback: () => void | undefined;
     let routeChangeCompleteCallback: () => void | undefined;
     let routeChangeErrorCallback: () => void | undefined;
