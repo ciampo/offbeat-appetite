@@ -1,7 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-import ReCAPTCHA from 'react-google-recaptcha';
+
+import dynamic from 'next/dynamic';
 
 import { TextInputPink, EmailInputPink } from '../inputs/Input';
 import { ButtonPink } from '../button/Button';
@@ -22,6 +21,15 @@ const FORM_NAME = 'newsletter';
 const FORM_METHOD = 'POST';
 const FORM_ACTION = '/thank-you';
 
+type ReaptchaRef = {
+  renderExplicitly: () => Promise<void>;
+  reset: () => Promise<void>;
+  execute: () => Promise<void>;
+  getResponse: () => Promise<string>;
+};
+
+const Reaptcha = dynamic(() => import('reaptcha'), { ssr: false });
+
 const FIELD_NAMES = {
   BOT: 'bot-field',
   NAME: 'name',
@@ -31,16 +39,9 @@ const FIELD_NAMES = {
 
 function encode(data: { [key: string]: string }): string {
   return Object.keys(data)
-    .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
     .join('&');
 }
-
-type ReCAPTCHAObject = {
-  getValue: () => string;
-  getWidgetId: () => string;
-  reset: () => void;
-  execute: () => void;
-};
 
 type NewsletterSubscribeProps = {
   formInstance: string;
@@ -57,7 +58,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
     [FIELD_NAMES.NAME]: '',
     [FIELD_NAMES.EMAIL]: '',
   });
-  const recaptchaRef = useRef<ReCAPTCHAObject>(null);
+  const reaptchaRef = useRef<ReaptchaRef>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   const onInputChange = useCallback(
@@ -73,8 +74,8 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
       function onSubmissionError(error: string | object): void {
         setIsSubmitting(false);
 
-        if (recaptchaRef.current) {
-          recaptchaRef.current.reset();
+        if (reaptchaRef.current) {
+          reaptchaRef.current.reset();
         }
 
         setfeedbackMessage({
@@ -90,8 +91,8 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
         if (formRef.current) {
           formRef.current.reset();
         }
-        if (recaptchaRef.current) {
-          recaptchaRef.current.reset();
+        if (reaptchaRef.current) {
+          reaptchaRef.current.reset();
         }
 
         setfeedbackMessage({ isError: false, message: subscribeFormMessageSuccess });
@@ -131,8 +132,8 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
         return;
       }
 
-      if (e.currentTarget.checkValidity() && recaptchaRef.current) {
-        recaptchaRef.current.execute();
+      if (e.currentTarget.checkValidity() && reaptchaRef.current) {
+        reaptchaRef.current.execute();
       }
     },
     [forceDisabled]
@@ -188,11 +189,13 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
           </p>
 
           {/* Recaptcha */}
-          <ReCAPTCHA
-            ref={recaptchaRef}
-            size="invisible"
+          <Reaptcha
+            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // @ts-ignore
+            ref={reaptchaRef}
             sitekey={process.env.SITE_RECAPTCHA_KEY as string}
-            onChange={onRecapchaSuccessfullResponse}
+            onVerify={onRecapchaSuccessfullResponse}
+            size="invisible"
           />
 
           <noscript className="w-full mb-6">

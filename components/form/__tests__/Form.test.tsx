@@ -16,6 +16,29 @@ import {
   subscribeFormMessageError,
 } from '../../../data/siteMiscContent.json';
 
+const mockRecaptchaResponse = 'mock-recaptcha-response';
+
+// I know it's gross but I couldn't figure a better way out
+jest.mock('next/dynamic', () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { Component } = require('react');
+
+  class MockReaptcha extends Component {
+    renderExplicitly = (): Promise<void> => Promise.resolve();
+    reset = (): Promise<void> => Promise.resolve();
+    getResponse = (): Promise<string> => Promise.resolve(mockRecaptchaResponse);
+    execute = (): Promise<void> => {
+      return new Promise((resolve) => {
+        setTimeout(() => this.props.onVerify(mockRecaptchaResponse), 10);
+        resolve();
+      });
+    };
+    render = (): JSX.Element => <div />;
+  }
+
+  return (): unknown => MockReaptcha;
+});
+
 jest.mock('../../../data/siteMiscContent.json', () => ({
   subscribeFormTitle: 'Test title',
   subscribeFormNameInputLabel: 'Test name label',
@@ -30,8 +53,7 @@ jest.mock('../../../data/siteMiscContent.json', () => ({
 const testValidName = 'Test Name';
 const testValidEmail = 'test@email.com';
 const testValidRequest = {
-  body:
-    'form-name=newsletter&g-recaptcha-response=test-token&name=Test%20Name&email=test%40email.com',
+  body: `form-name=newsletter&g-recaptcha-response=${mockRecaptchaResponse}&name=Test%20Name&email=test%40email.com`,
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   method: 'POST',
 };
@@ -48,22 +70,6 @@ beforeAll(() => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   global.fetch = mockFetch;
-
-  let onChange: (token: string) => void;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
-  global.grecaptcha = {
-    render: (wrapper: HTMLElement, props: { callback: (token: string) => void }): string => {
-      onChange = props.callback;
-      return 'test-widget-id';
-    },
-    execute: (): void => {
-      setTimeout(() => onChange('test-token'), 10);
-    },
-    reset: (): void => {
-      // lol
-    },
-  };
 });
 
 afterAll(() => {
@@ -72,9 +78,6 @@ afterAll(() => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   delete global.fetch;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
-  delete global.recaptcha;
 });
 
 afterEach(() => {

@@ -61,7 +61,7 @@ class CustomDocument extends Document<DocumentProps> {
           <link
             rel="preload"
             as="script"
-            href="https://www.google.com/recaptcha/api.js?onload=onloadcallback&render=explicit"
+            href="https://recaptcha.net/recaptcha/api.js?render=explicit"
           />
 
           <link
