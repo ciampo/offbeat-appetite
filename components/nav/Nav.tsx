@@ -134,7 +134,7 @@ const HeaderNav: React.FC = () => {
     <>
       <div
         className={[
-          'z-50 fixed top-0 left-0 w-full contain-l transition-all duration-300 ease-out',
+          'z-50 fixed top-0 left-0 w-full contain-l will-change-transform transition-all duration-300 ease-out',
           isSolid ? 'bg-olive-darker shadow-md' : 'bg-transparent',
         ].join(' ')}
         data-testid="header-nav-wrapper"
@@ -154,7 +154,7 @@ const HeaderNav: React.FC = () => {
           component={(props: { [key: string]: unknown }): JSX.Element => (
             <nav {...props} aria-label="Header navigation" />
           )}
-          className="relative h-16 md:h-20 xl:h-24 overflow-hidden flex items-center"
+          className="relative h-16 md:h-20 xl:h-24 overflow-hidden flex items-center contain-s"
         >
           <ul className="flex items-center h-full w-full">
             <MenuButton onClick={openDrawer} />
