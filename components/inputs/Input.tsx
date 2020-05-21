@@ -22,7 +22,7 @@ const InputBase: React.FC<InputBaseProps> = ({ className, ...props }) => (
     {...props}
     className={[
       'flex items-center h-10 px-4 xl:h-12 xl:px-6',
-      'type-body placeholder-gray-medium',
+      'type-body',
       'border rounded outline-none',
       'hover:shadow-inner-currentcolor',
       'focus:shadow-inner-currentcolor',
@@ -44,7 +44,7 @@ const EmailInputBase: React.FC<InputProps> = (props) => (
 );
 
 const inputClassesOlive = [
-  'bg-olive-lighter border-olive-dark text-olive-darker',
+  'bg-olive-lighter border-olive-dark text-olive-darker placeholder-olive-dark',
   'focus:bg-olive-light focus:border-olive-darker',
 ];
 
@@ -65,7 +65,7 @@ export const EmailInputOlive: React.FC<InputProps> = memo(({ className, ...props
 EmailInputOlive.displayName = 'memo(EmailInputOlive)';
 
 const inputClassesPink = [
-  'bg-pink-lighter border-pink-dark text-pink-darker',
+  'bg-pink-lighter border-pink-dark text-pink-darker placeholder-pink-dark',
   'focus:bg-pink-light focus:border-pink-darker',
 ];
 
