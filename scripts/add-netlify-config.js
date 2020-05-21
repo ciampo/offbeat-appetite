@@ -29,7 +29,7 @@ ${routesConfig
     // No external fonts allowed
     `font-src 'self' data: https://fonts.gstatic.com`,
     // Allow script coming from same origin, inline and Google / Google Analytics (incl. recaptcha)
-    `script-src 'self' 'unsafe-inline' https://www.google.com/ https://www.gstatic.com/ https://www.google-analytics.com`,
+    `script-src 'self' 'unsafe-inline' https://www.google.com/ https://www.gstatic.com/ https://www.google-analytics.com https://recaptcha.net`,
     // Allow XHR to same origin and Google Analytics
     `connect-src 'self' https://www.google-analytics.com`,
     // Allow webmanifest files from same origin
@@ -41,12 +41,12 @@ ${routesConfig
   ].join('; ')}
   X-XSS-Protection: 1; mode=block`
   )
-  .join('\n')}
-/*js
-  Content-Type: application/javascript; charset=utf-8
-/*webmanifest
-  Content-Type: application/manifest+json; charset=utf-8
-`;
+  .join('\n')}`;
+// /*js
+//   Content-Type: application/javascript; charset=utf-8
+// /*webmanifest
+//   Content-Type: application/manifest+json; charset=utf-8
+// `;
 
 console.log('\nGenerating Netlify headers...');
 
