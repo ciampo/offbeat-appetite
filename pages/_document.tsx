@@ -47,17 +47,15 @@ class CustomDocument extends Document<DocumentProps> {
             dangerouslySetInnerHTML={{ __html: `document.documentElement.classList.add('js-app')` }}
           ></script>
 
-          <link
-            rel="preconnect dns-prefetch"
-            href="https://www.google-analytics.com"
-            crossOrigin="anonymous"
-          />
-
-          <link
-            rel="preconnect dns-prefetch"
-            href="https://fonts.gstatic.com/"
-            crossOrigin="anonymous"
-          />
+          {[
+            'https://www.google-analytics.com',
+            'https://fonts.gstatic.com/',
+            'https://www.google.com',
+            'https://www.gstatic.com',
+            'https://fonts.googleapis.com',
+          ].map((url) => (
+            <link key={url} rel="preconnect" href={url} crossOrigin="anonymous" />
+          ))}
 
           <link
             rel="preload"
