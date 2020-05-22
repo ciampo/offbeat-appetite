@@ -42,7 +42,7 @@ const sharedTheme = {
   },
   maxWidth: {
     // none: 'none',
-    // xs: '20rem',
+    xs: '20rem',
     // sm: '24rem',
     // md: '28rem',
     lg: '32rem',

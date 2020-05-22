@@ -2,7 +2,10 @@ import React, { memo } from 'react';
 import Link from 'next/link';
 
 import AccessibleImage from '../media/AccessibleImage';
-import { blogPostPreviewResponsiveConfig } from '../media/image-responsive-configurations';
+import {
+  blogPostTileVerticalResponsiveConfig,
+  blogPostTileHorizontalResponsiveConfig,
+} from '../media/image-responsive-configurations';
 
 import { SanityBlogPostPreview } from '../../typings';
 
@@ -87,7 +90,11 @@ const BlogPostTile: React.FC<BlogPostTileProps> = memo(
           <AccessibleImage
             image={postData.previewImage}
             lazy={true}
-            responsiveConfig={blogPostPreviewResponsiveConfig}
+            responsiveConfig={
+              layoutVariant === 'horizontal'
+                ? blogPostTileHorizontalResponsiveConfig
+                : blogPostTileVerticalResponsiveConfig
+            }
             className={[
               'relative w-full h-0',
               transformTransitionCommonClassName,

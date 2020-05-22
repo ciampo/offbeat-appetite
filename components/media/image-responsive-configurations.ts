@@ -15,6 +15,10 @@ function pxToRem(px: string): number {
   return unitless(px) / 16;
 }
 
+function roundSecondDecimal(n: number): number {
+  return Math.round(n * 100) / 100;
+}
+
 function sortBreakpoints({
   // unit,
   // sorting = 'asc',
@@ -122,9 +126,65 @@ export const fullBleedImageResponsiveConfig: AccessibleImageResponsiveConfig = {
 };
 
 // Used in blog post preview tiles
-export const blogPostPreviewResponsiveConfig: AccessibleImageResponsiveConfig = {
-  exports: sortBreakpoints({ breakpoints: ['320'] }) as number[],
-  sizes: [{ width: `${pxToRem('320')}rem` }],
+const verticalTilesSpacing = {
+  initial: pagePadding.initial,
+  md: pagePadding.xsm,
+  xl: pagePadding.sm,
+};
+export const blogPostTileVerticalResponsiveConfig: AccessibleImageResponsiveConfig = {
+  exports: sortBreakpoints({ breakpoints: ['272', '320', '360'], addDoubleRes: false }) as number[],
+  sizes: [
+    {
+      queryMinWidth: twTheme.maxWidth['screen-xl'],
+      width: `${roundSecondDecimal(
+        (pxToRem(twTheme.maxWidth['screen-xl']) -
+          2 * pagePadding.xl.rem -
+          2 * verticalTilesSpacing.xl.rem) /
+          3
+      )}rem`,
+    },
+    {
+      queryMinWidth: twTheme.maxWidth['screen-md'],
+      width: `calc((100vw - ${2 * pagePadding.md.rem + 2 * verticalTilesSpacing.md.rem}rem) / 3)`,
+    },
+    {
+      queryMinWidth: twTheme.maxWidth['screen-sm'],
+      width: `calc((100vw - ${2 * pagePadding.sm.rem + verticalTilesSpacing.initial.rem}rem) / 2)`,
+    },
+    {
+      queryMinWidth: `${remToPx(twTheme.maxWidth.xs) + 2 * pagePadding.initial.px}px`,
+      width: twTheme.maxWidth.xs,
+    },
+    {
+      width: `calc(100vw - ${2 * pagePadding.initial.rem}rem)`,
+    },
+  ],
+  forceRatio: 4 / 5,
+};
+const horizontalTilesAdditonalPadding = {
+  initial: pagePadding.xsm,
+  md: pagePadding.sm,
+  xl: pagePadding.md,
+};
+export const blogPostTileHorizontalResponsiveConfig: AccessibleImageResponsiveConfig = {
+  exports: sortBreakpoints({ breakpoints: ['240', '272', '340', '400', '528'] }) as number[],
+  sizes: [
+    {
+      queryMinWidth: twTheme.maxWidth['screen-md'],
+      width: `calc((100vw - ${
+        2 * pagePadding.md.rem + 2 * horizontalTilesAdditonalPadding.md.rem
+      }rem) / 2)`,
+    },
+    {
+      queryMinWidth: twTheme.maxWidth['screen-sm'],
+      width: `calc((100vw - ${
+        2 * pagePadding.sm.rem + 2 * horizontalTilesAdditonalPadding.initial.rem
+      }rem) / 2)`,
+    },
+    {
+      width: `calc(100vw - ${2 * pagePadding.initial.rem}rem)`,
+    },
+  ],
   forceRatio: 4 / 5,
 };
 
