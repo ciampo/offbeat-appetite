@@ -40,9 +40,9 @@ const BlogPostTileList: React.FC<BlogPostTileListProps> = memo(
             showOnlyFirstRow &&
               tileLayoutVariant === 'vertical' &&
               index === 2 &&
-              'sm:sr-only md:not-sr-only',
-            showOnlyFirstRow && tileLayoutVariant === 'vertical' && index > 2 && 'sm:sr-only',
-            showOnlyFirstRow && tileLayoutVariant === 'horizontal' && index > 0 && 'sm:sr-only',
+              'sm:hidden md:block',
+            showOnlyFirstRow && tileLayoutVariant === 'vertical' && index > 2 && 'sm:hidden',
+            showOnlyFirstRow && tileLayoutVariant === 'horizontal' && index > 0 && 'sm:hidden',
             'sm:flex-1 sm:flex-shrink-0',
             'bg-inherit',
           ]
