@@ -47,6 +47,7 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
             categorySectionData.category.featuredBlogPosts.length === 1 ? 'horizontal' : 'vertical'
           }
           postsData={categorySectionData.category.featuredBlogPosts}
+          showOnlyFirstRow={true}
         />
         {/* See more link */}
         <a href="#">TODO see more</a>

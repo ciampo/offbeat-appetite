@@ -7,11 +7,19 @@ type BlogPostTileListProps = {
   postsData: SanityBlogPostPreview[];
   tileLayoutVariant: BlogPostTileLayoutVariant;
   tileShadowVariant: BlogPostTileShadowVariant;
+  showOnlyFirstRow?: boolean;
   className?: string;
   tileClassName?: string;
 };
 const BlogPostTileList: React.FC<BlogPostTileListProps> = memo(
-  ({ postsData, className, tileLayoutVariant, tileShadowVariant, tileClassName }) => (
+  ({
+    postsData,
+    className,
+    tileLayoutVariant,
+    tileShadowVariant,
+    tileClassName,
+    showOnlyFirstRow,
+  }) => (
     <ul
       className={[
         'bg-inherit',
@@ -29,11 +37,12 @@ const BlogPostTileList: React.FC<BlogPostTileListProps> = memo(
         <li
           key={postData._id}
           className={[
-            // HIDE SPARE TILE WHEN 2 COLS LAYOUT
-            // tileLayoutVariant === 'vertical' &&
-            //   array.length % 2 !== 0 &&
-            //   index === array.length - 1 &&
-            //   'sm:hidden md:block',
+            showOnlyFirstRow &&
+              tileLayoutVariant === 'vertical' &&
+              index === 2 &&
+              'sm:sr-only md:not-sr-only',
+            showOnlyFirstRow && tileLayoutVariant === 'vertical' && index > 2 && 'sm:sr-only',
+            showOnlyFirstRow && tileLayoutVariant === 'horizontal' && index > 0 && 'sm:sr-only',
             'sm:flex-1 sm:flex-shrink-0',
             'bg-inherit',
           ]
