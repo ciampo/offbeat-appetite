@@ -36,6 +36,7 @@ const ROOT_FOLDER = process.cwd();
 const DATA_FOLDER = path.join(ROOT_FOLDER, 'data');
 const POSTS_FOLDER = path.join(DATA_FOLDER, POSTS_FOLDERNAME);
 const CATEGORIES_FOLDER = path.join(DATA_FOLDER, CATEGORIES_FOLDERNAME);
+const BLOGPOST_PAGE_ROUTE = '/[categoryId]/[postId]';
 
 let siteName;
 let categoriesOrder;
@@ -157,6 +158,19 @@ async function generatePathsIndexConfig() {
   saveToFile({ indexedPaths, excludedPaths }, 'pathIndexConfig');
 }
 
+function augmentBlogPostWithCompiledRoute(blogPost) {
+  const blogPostRoute = routesConfig.find(({ route }) => route === BLOGPOST_PAGE_ROUTE);
+  const compiledBlogPostRoute = compileSingleRoute({
+    routeConfig: blogPostRoute,
+    dynamicItemsData: [blogPost],
+  })[0];
+
+  return {
+    ...blogPost,
+    compiledRoute: compiledBlogPostRoute.routeInfo,
+  };
+}
+
 async function getData() {
   await cleanDataFolder();
   console.log(chalk.blue('Cleaned data folder'));
@@ -192,7 +206,15 @@ async function getData() {
       },
       {
         query: pageHomeQuery,
-        onResultsFetched: async (data) => await saveToFile(data[0], pageHomeType),
+        onResultsFetched: async (data) => {
+          for (const categorySection of data[0].categorySections) {
+            categorySection.category.featuredBlogPosts = categorySection.category.featuredBlogPosts.map(
+              augmentBlogPostWithCompiledRoute
+            );
+          }
+
+          await saveToFile(data[0], pageHomeType);
+        },
       },
       {
         query: pageAboutQuery,
@@ -234,7 +256,16 @@ async function getData() {
           );
 
           for (const categoryData of replacedCategoriesContent) {
+            // Augment the data with compiled route
+            // Make sure it's at least an empty array
             categoryData.featuredBlogPosts = [].concat(...categoryData.featuredBlogPosts);
+            categoryData.featuredBlogPosts = []
+              .concat(...categoryData.featuredBlogPosts)
+              .map(augmentBlogPostWithCompiledRoute);
+            categoryData.allBlogPosts = categoryData.allBlogPosts.map(
+              augmentBlogPostWithCompiledRoute
+            );
+
             await saveToFile(categoryData, path.join(CATEGORIES_FOLDERNAME, categoryData.slug));
           }
 

@@ -8,8 +8,6 @@ import { OALogoFull } from '../components/icons';
 import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 import BlogPostTileList from '../components/blog-post-tile/BlogPostTileList';
 
-import routesConfig from '../routes-config';
-import { compileSingleRoute } from '../scripts/compile-routes';
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
 import {
@@ -18,8 +16,6 @@ import {
   StructuredData,
   NextComponentTypeWithLayout,
 } from '../typings';
-
-const BLOGPOST_PAGE_ROUTE = '/[categoryId]/[postId]';
 
 // Home Category Section
 type HomeCategorySectionProps = {
@@ -114,23 +110,6 @@ const HomePage: NextComponentTypeWithLayout<HomeProps> = ({ homeData, path, stru
 export const getStaticProps: GetStaticProps = async () => {
   const path = '/';
   const homeData = await import(`../data/pageHome.json`).then((m) => m.default);
-
-  for (const categorySection of homeData.categorySections) {
-    categorySection.category.featuredBlogPosts = categorySection.category.featuredBlogPosts.map(
-      (blogPost) => {
-        const blogPostRoute = routesConfig.find(({ route }) => route === BLOGPOST_PAGE_ROUTE);
-        const compiledBlogPostRoute = compileSingleRoute({
-          routeConfig: blogPostRoute,
-          dynamicItemsData: [blogPost],
-        })[0];
-
-        return {
-          ...blogPost,
-          compiledRoute: compiledBlogPostRoute.routeInfo,
-        };
-      }
-    );
-  }
 
   return {
     props: {

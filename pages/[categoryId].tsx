@@ -19,7 +19,6 @@ import {
 } from '../typings';
 
 const CATEGORY_PAGE_ROUTE = '/[categoryId]';
-const BLOGPOST_PAGE_ROUTE = '/[categoryId]/[postId]';
 
 type CategoryProps = {
   categoryData: SanityCategoryFull;
@@ -105,19 +104,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     dynamicItem: categoryData,
   });
   const path = compiledCategoryItem.routeInfo.path;
-
-  categoryData.allBlogPosts = categoryData.allBlogPosts.map((blogPost) => {
-    const blogPostRoute = routesConfig.find(({ route }) => route === BLOGPOST_PAGE_ROUTE);
-    const compiledBlogPostRoute = compileSingleRoute({
-      routeConfig: blogPostRoute,
-      dynamicItemsData: [blogPost],
-    })[0];
-
-    return {
-      ...blogPost,
-      compiledRoute: compiledBlogPostRoute.routeInfo,
-    };
-  });
 
   return {
     props: {
