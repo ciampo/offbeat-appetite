@@ -1,5 +1,6 @@
 import React, { useEffect, memo } from 'react';
 import { GetStaticProps } from 'next';
+import Link from 'next/link';
 
 import PageMeta from '../components/meta/PageMeta';
 import { PageContentContainer } from '../components/layouts/Containers';
@@ -7,6 +8,7 @@ import DefaultPageTransitionWrapper from '../components/page-transition-wrappers
 import { OALogoFull } from '../components/icons';
 import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 import BlogPostTileList from '../components/blog-post-tile/BlogPostTileList';
+import { ButtonOliveNeutral } from '../components/button/Button';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
@@ -29,7 +31,7 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
         .filter(Boolean)
         .join(' ')}
     >
-      <PageContentContainer className="space-y-10 md:space-y-12 xl:space-y-16 bg-inherit">
+      <PageContentContainer className="flex flex-col items-stretch space-y-10 md:space-y-12 xl:space-y-16 bg-inherit">
         {/* Title */}
         <h2 className="type-display-2 flex justify-center">
           <span className="mr-3" aria-hidden="true">
@@ -50,7 +52,18 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
           showOnlyFirstRow={true}
         />
         {/* See more link */}
-        <a href="#">TODO see more</a>
+        <ButtonOliveNeutral
+          component={(props): JSX.Element => (
+            <Link href="/[categoryId]" as={`/${categorySectionData.category.slug}`}>
+              <a {...props} />
+            </Link>
+          )}
+          scroll={false}
+          className="self-center"
+          aria-label={`See more ${categorySectionData.category.name} posts`}
+        >
+          More {categorySectionData.title.toLowerCase()}
+        </ButtonOliveNeutral>
       </PageContentContainer>
     </section>
   )
@@ -85,13 +98,14 @@ const HomePage: NextComponentTypeWithLayout<HomeProps> = ({ homeData, path, stru
             'flex flex-col items-center justify-center',
             'mt-16 md:mt-20 xl:mt-24',
             'py-4 xsm:py-8 md:py-12 lg:py-16 xl:py-20',
-            'space-y-2 md:space-3 xl:space-y-4',
+            '-mb-2 xsm:-mb-4 md:-mb-6 lg:-mb-8 xl:-mb-10',
+            'space-y-2 sm:space-y-3 md:space-y-4 xl:space-y-5',
           ].join(' ')}
         >
           <h1>
             <OALogoFull
               aria-label={homeData.title}
-              className="w-56 xsm:w-64 sm:w-72 md:w-80 lg:w-88 xl:w-96"
+              className="w-64 xsm:w-72 md:w-80 lg:w-88 xl:w-96"
             />
           </h1>
           <p className="type-eyebrow">{homeData.subtitle}</p>
