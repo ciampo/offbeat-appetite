@@ -29,7 +29,7 @@ jest.mock('next/dynamic', () => {
     getResponse = (): Promise<string> => Promise.resolve(mockRecaptchaResponse);
     execute = (): Promise<void> => {
       return new Promise((resolve) => {
-        setTimeout(() => this.props.onVerify(mockRecaptchaResponse), 10);
+        setTimeout(() => this.props.onVerify(mockRecaptchaResponse), 100);
         resolve();
       });
     };
@@ -143,7 +143,7 @@ describe('NewsletterSubscribe', () => {
       await userEvent.click(getByText(subscribeFormSubmitButtonLabel));
     });
 
-    // Submitting
+    // Submitting (async because of recaptcha)
     await waitFor(() => expect(getByText(subscribeFormSubmitButtonLabelSubmitting)).toBeDisabled());
 
     // Submission went through

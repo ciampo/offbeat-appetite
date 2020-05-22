@@ -11,7 +11,7 @@ class MockReaptcha extends Component<MockReaptchaProps, {}> {
   getResponse = (): Promise<string> => Promise.resolve(mockRecaptchaResponse);
   execute = (): Promise<void> => {
     return new Promise((resolve) => {
-      setTimeout(() => this.props.onVerify(mockRecaptchaResponse), 10);
+      setTimeout(() => this.props.onVerify(mockRecaptchaResponse), 100);
       resolve();
     });
   };
