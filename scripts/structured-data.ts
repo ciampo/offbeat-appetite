@@ -4,7 +4,7 @@ import { StructuredData, SanityPersonFull, SanityBlogPostFull, SanityRecipe } fr
 
 import siteMiscContentData from '../data/siteMiscContent.json';
 
-const canonicalUrl = process.env.CANONICAL_URL || '';
+const canonicalUrl = process.env.NEXT_PUBLIC_CANONICAL_URL || '';
 
 export const GRAPH_IDS = {
   AUTHOR: '#author',

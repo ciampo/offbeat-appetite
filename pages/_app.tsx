@@ -9,12 +9,14 @@ import '../styles/index.css';
 
 import React from 'react';
 import App from 'next/app';
+import dynamic from 'next/dynamic';
 import { AnimatePresence } from 'framer-motion';
 
 import { NavVariantProvider } from '../components/nav/nav-variant-context';
 import { SharingImageProvider } from '../components/meta/sharing-image-context';
 import MainLayout from '../components/layouts/Main';
-import Analytics from '../components/Analytics';
+
+const Analytics = dynamic(() => import('../components/Analytics'), { ssr: false });
 
 import { NextComponentTypeWithLayout } from '../typings';
 

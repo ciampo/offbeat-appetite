@@ -242,8 +242,8 @@ describe('NewsletterSubscribe', () => {
   test('can be disabled via env variables', async () => {
     mockFetch.mockReturnValueOnce(Promise.resolve({ status: 200 }));
 
-    const oldIsSubmitFormEnalbled = process.env.IS_SUBMIT_FORM_ENABLED;
-    process.env.IS_SUBMIT_FORM_ENABLED = 'false';
+    const oldIsSubmitFormEnalbled = process.env.NEXT_PUBLIC_IS_SUBMIT_FORM_ENABLED;
+    process.env.NEXT_PUBLIC_IS_SUBMIT_FORM_ENABLED = 'false';
 
     const { getByText, getByRole, getByTestId, container } = render(
       <NewsletterSubscribe formInstance="test" />
@@ -261,6 +261,6 @@ describe('NewsletterSubscribe', () => {
     expect(mockFetch).not.toHaveBeenCalled();
     expect(spiedConsoleWarn).not.toHaveBeenCalled();
 
-    process.env.IS_SUBMIT_FORM_ENABLED = oldIsSubmitFormEnalbled;
+    process.env.NEXT_PUBLIC_IS_SUBMIT_FORM_ENABLED = oldIsSubmitFormEnalbled;
   });
 });

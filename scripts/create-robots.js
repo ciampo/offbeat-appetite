@@ -20,6 +20,6 @@ ${
     : excludedPaths.map((route) => `Disallow: ${route}`).join('\n')
 }
 
-Sitemap: ${process.env.CANONICAL_URL}/sitemap.xml`;
+Sitemap: ${process.env.NEXT_PUBLIC_CANONICAL_URL}/sitemap.xml`;
 
 fs.writeFileSync(path.join(PUBLIC_FOLDER, 'robots.txt'), robotsString, { encoding: 'utf8' });

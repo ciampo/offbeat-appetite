@@ -47,7 +47,7 @@ type NewsletterSubscribeProps = {
   formInstance: string;
 };
 const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance }) => {
-  const forceDisabled = process.env.IS_SUBMIT_FORM_ENABLED !== 'true';
+  const forceDisabled = process.env.NEXT_PUBLIC_IS_SUBMIT_FORM_ENABLED !== 'true';
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [feedbackMessage, setfeedbackMessage] = useState({
@@ -193,7 +193,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
             // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
             // @ts-ignore
             ref={reaptchaRef}
-            sitekey={process.env.SITE_RECAPTCHA_KEY as string}
+            sitekey={process.env.NEXT_PUBLIC_SITE_RECAPTCHA_KEY as string}
             onVerify={onRecapchaSuccessfullResponse}
             size="invisible"
           />
