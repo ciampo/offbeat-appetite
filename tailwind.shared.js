@@ -37,6 +37,7 @@ const sharedTheme = {
     '72': '20rem',
     '80': '24rem',
     '88': '28rem',
+    '96': '32rem',
     // px: '1px',
   },
   maxWidth: {
