@@ -3,7 +3,8 @@ import { GetStaticProps, GetStaticPaths } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
-import BlogPostPreview from '../components/blog-post/BlogPostPreview';
+import { PageContentContainer } from '../components/layouts/Containers';
+import BlogPostTileList from '../components/blog-post-tile/BlogPostTileList';
 import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 
 import routesConfig from '../routes-config';
@@ -18,6 +19,7 @@ import {
 } from '../typings';
 
 const CATEGORY_PAGE_ROUTE = '/[categoryId]';
+const BLOGPOST_PAGE_ROUTE = '/[categoryId]/[postId]';
 
 type CategoryProps = {
   categoryData: SanityCategoryFull;
@@ -45,22 +47,20 @@ const CategoryPage: NextComponentTypeWithLayout<CategoryProps> = ({
       />
 
       <DefaultPageTransitionWrapper>
-        <header className="mt-16 md:mt-20 xl:mt-24">
-          <h1>{categoryData.title}</h1>
+        <header className="mt-16 md:mt-20 xl:mt-24 py-20 md:py-24 xl:py-32">
+          <h1 className="text-center type-display-1">{categoryData.title}</h1>
         </header>
-        <p className="text-lg text-center">All posts:</p>
-        <ul className="flex flex-wrap justify-center mt-6">
-          {categoryData.allBlogPosts.map((blogPostData) => (
-            <li
-              key={blogPostData._id}
-              style={{
-                maxWidth: '400px',
-              }}
-            >
-              <BlogPostPreview blogPostData={blogPostData} />
-            </li>
-          ))}
-        </ul>
+
+        <PageContentContainer className="bg-inherit py-12 md:py-16 xl:py-24">
+          {/* Title */}
+          <h2 className="sr-only">All {categoryData.title} posts</h2>
+
+          <BlogPostTileList
+            postsData={categoryData.allBlogPosts}
+            tileShadowVariant="lighter"
+            tileLayoutVariant="horizontal"
+          />
+        </PageContentContainer>
       </DefaultPageTransitionWrapper>
     </>
   );
@@ -96,15 +96,28 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return { props: {} };
   }
 
-  const categoryData = await import(`../data/categories/${context.params.categoryId}.json`).then(
-    (m) => m.default
-  );
+  const categoryData: SanityCategoryFull = await import(
+    `../data/categories/${context.params.categoryId}.json`
+  ).then((m) => m.default);
 
   const compiledCategoryItem = compileDynamicItem({
     routeConfig: routesConfig.find(({ route }) => route === CATEGORY_PAGE_ROUTE),
     dynamicItem: categoryData,
   });
   const path = compiledCategoryItem.routeInfo.path;
+
+  categoryData.allBlogPosts = categoryData.allBlogPosts.map((blogPost) => {
+    const blogPostRoute = routesConfig.find(({ route }) => route === BLOGPOST_PAGE_ROUTE);
+    const compiledBlogPostRoute = compileSingleRoute({
+      routeConfig: blogPostRoute,
+      dynamicItemsData: [blogPost],
+    })[0];
+
+    return {
+      ...blogPost,
+      compiledRoute: compiledBlogPostRoute.routeInfo,
+    };
+  });
 
   return {
     props: {

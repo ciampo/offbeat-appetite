@@ -125,7 +125,7 @@ export const fullBleedImageResponsiveConfig: AccessibleImageResponsiveConfig = {
 export const blogPostPreviewResponsiveConfig: AccessibleImageResponsiveConfig = {
   exports: sortBreakpoints({ breakpoints: ['320'] }) as number[],
   sizes: [{ width: `${pxToRem('320')}rem` }],
-  forceRatio: 3 / 2,
+  forceRatio: 4 / 5,
 };
 
 // Used in blog post content for 100% wide images
