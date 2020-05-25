@@ -73,7 +73,7 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
 
         <ArticleContentContainer
           component={(props): JSX.Element => <section {...props}></section>}
-          className="mt-8"
+          className="pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32"
         >
           <RichPortableText blocks={blogPostData.content} />
         </ArticleContentContainer>
