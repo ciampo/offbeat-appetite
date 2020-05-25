@@ -1,4 +1,4 @@
-import { SanityCategoryPreview, SanityBlogPostPreview, SanityBlock } from '.';
+import { SanityCategoryPreview, SanityBlogPostPreview, SanityRichPortableText } from '.';
 
 export type SanityPageHomeCategorySection = {
   title: string;
@@ -21,7 +21,7 @@ export type SanityPageAbout = {
   _id: string;
   title: string;
   heroTitle: string;
-  content: SanityBlock[];
+  content: SanityRichPortableText;
   seoDescription: string;
   seoImage: string;
   seoTitle: string;
@@ -30,7 +30,7 @@ export type SanityPageAbout = {
 export type SanityPageThankYou = {
   _id: string;
   title: string;
-  content: SanityBlock[];
+  content: SanityRichPortableText;
   seoDescription: string;
   seoImage: string;
   seoTitle: string;
