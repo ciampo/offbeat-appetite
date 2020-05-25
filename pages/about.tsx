@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { GetStaticProps } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
-import SimplePortableText from '../components/portable-text/SimplePortableText';
+import RichPortableText from '../components/portable-text/RichPortableText';
+import { ArticleContentContainer } from '../components/layouts/Containers';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 
@@ -40,7 +41,12 @@ const AboutPage: NextComponentTypeWithLayout<AboutProps> = ({
           <h1 className="text-center type-display-1">{aboutData.heroTitle}</h1>
         </header>
 
-        <SimplePortableText blocks={aboutData.content} />
+        <ArticleContentContainer
+          component={(props): JSX.Element => <section {...props}></section>}
+          className="mt-8"
+        >
+          <RichPortableText blocks={aboutData.content} />
+        </ArticleContentContainer>
       </DefaultPageTransitionWrapper>
     </>
   );
