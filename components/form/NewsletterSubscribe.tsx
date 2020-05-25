@@ -1,10 +1,12 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { forwardRef, useState, useRef, useCallback, MutableRefObject } from 'react';
 
 import dynamic from 'next/dynamic';
 
 import { TextInputPink, EmailInputPink } from '../inputs/Input';
 import { ButtonPink } from '../button/Button';
 import { ArticleContentContainer } from '../layouts/Containers';
+
+import { InvisibleRecaptchaRef, InvisibleRecaptchaProps } from './InvisibleRecaptcha';
 
 import {
   subscribeFormTitle,
@@ -21,14 +23,16 @@ const FORM_NAME = 'newsletter';
 const FORM_METHOD = 'POST';
 const FORM_ACTION = '/thank-you';
 
-type ReaptchaRef = {
-  renderExplicitly: () => Promise<void>;
-  reset: () => Promise<void>;
-  execute: () => Promise<void>;
-  getResponse: () => Promise<string>;
-};
-
-const Reaptcha = dynamic(() => import('reaptcha'), { ssr: false });
+const InvisibleRecaptcha = dynamic(() => import('./InvisibleRecaptcha'), { ssr: false });
+const ForwardedInvisibleRecaptcha = forwardRef<InvisibleRecaptchaRef, InvisibleRecaptchaProps>(
+  (props, ref) => (
+    <InvisibleRecaptcha
+      forwardedRef={ref as MutableRefObject<InvisibleRecaptchaRef | null>}
+      {...props}
+    />
+  )
+);
+ForwardedInvisibleRecaptcha.displayName = 'forwardRef(InvisibleRecaptcha)';
 
 const FIELD_NAMES = {
   BOT: 'bot-field',
@@ -54,75 +58,68 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
     isError: forceDisabled ? true : false,
     message: forceDisabled ? subscribeFormMessageDisabled : '',
   });
-  const [formData, setFormData] = useState({
-    [FIELD_NAMES.NAME]: '',
-    [FIELD_NAMES.EMAIL]: '',
-  });
-  const reaptchaRef = useRef<ReaptchaRef>(null);
+  const reaptchaRef = useRef<InvisibleRecaptchaRef>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const onInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>): void => {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
-    },
-    [setFormData, formData]
-  );
+  const onInputChange = useCallback((e: React.FormEvent<HTMLInputElement>): void => {
+    (e.target as HTMLInputElement).setCustomValidity('');
+  }, []);
 
   // Send form data on recaptcha change
-  const onRecapchaSuccessfullResponse = useCallback(
-    (recaptchaValue: string): void => {
-      function onSubmissionError(error: string | object): void {
-        setIsSubmitting(false);
+  const onRecapchaSuccessfullResponse = useCallback((recaptchaValue: string): void => {
+    function onSubmissionError(error: string | object): void {
+      setIsSubmitting(false);
 
-        if (reaptchaRef.current) {
-          reaptchaRef.current.reset();
-        }
-
-        setfeedbackMessage({
-          isError: true,
-          message: `${subscribeFormMessageError} [${JSON.stringify(error)}]`,
-        });
-        console.warn(JSON.stringify(error));
+      if (reaptchaRef.current) {
+        reaptchaRef.current.reset();
       }
 
-      function onSubmissionSuccess(): void {
-        setIsSubmitting(false);
+      setfeedbackMessage({
+        isError: true,
+        message: `${subscribeFormMessageError} [${JSON.stringify(error)}]`,
+      });
+      console.warn(JSON.stringify(error));
+    }
 
-        if (formRef.current) {
-          formRef.current.reset();
-        }
-        if (reaptchaRef.current) {
-          reaptchaRef.current.reset();
-        }
-
-        setfeedbackMessage({ isError: false, message: subscribeFormMessageSuccess });
-      }
+    function onSubmissionSuccess(): void {
+      setIsSubmitting(false);
 
       if (formRef.current) {
-        setIsSubmitting(true);
-        setfeedbackMessage({ isError: false, message: '' });
-
-        fetch(FORM_ACTION, {
-          method: FORM_METHOD,
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: encode({
-            [FIELD_NAMES.FORM_NAME]: FORM_NAME,
-            'g-recaptcha-response': recaptchaValue,
-            ...formData,
-          }),
-        })
-          .then((response) => {
-            if (response.status === 200) {
-              onSubmissionSuccess();
-            } else {
-              onSubmissionError(response);
-            }
-          })
-          .catch((error) => onSubmissionError(error));
+        formRef.current.reset();
       }
-    },
-    [formData]
-  );
+      if (reaptchaRef.current) {
+        reaptchaRef.current.reset();
+      }
+
+      setfeedbackMessage({ isError: false, message: subscribeFormMessageSuccess });
+    }
+
+    if (formRef.current) {
+      setIsSubmitting(true);
+      setfeedbackMessage({ isError: false, message: '' });
+
+      const formData = new FormData(formRef.current);
+
+      fetch(FORM_ACTION, {
+        method: FORM_METHOD,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode({
+          [FIELD_NAMES.FORM_NAME]: FORM_NAME,
+          [FIELD_NAMES.NAME]: (formData.get(FIELD_NAMES.NAME) || '') as string,
+          [FIELD_NAMES.EMAIL]: (formData.get(FIELD_NAMES.EMAIL) || '') as string,
+          'g-recaptcha-response': recaptchaValue,
+        }),
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            onSubmissionSuccess();
+          } else {
+            onSubmissionError(response);
+          }
+        })
+        .catch((error) => onSubmissionError(error));
+    }
+  }, []);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>): void => {
@@ -142,10 +139,6 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
   const onInputInvalid = useCallback((e: React.FormEvent<HTMLInputElement>): void => {
     const inputEl = e.target as HTMLInputElement;
     inputEl.setCustomValidity(`Enter a valid ${inputEl.placeholder.toLowerCase()}`);
-  }, []);
-
-  const onInputInput = useCallback((e: React.FormEvent<HTMLInputElement>): void => {
-    (e.target as HTMLInputElement).setCustomValidity('');
   }, []);
 
   return (
@@ -188,14 +181,10 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
             </label>
           </p>
 
-          {/* Recaptcha */}
-          <Reaptcha
-            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-            // @ts-ignore
-            ref={reaptchaRef}
-            sitekey={process.env.NEXT_PUBLIC_SITE_RECAPTCHA_KEY as string}
+          <ForwardedInvisibleRecaptcha
+            siteKey={process.env.NEXT_PUBLIC_SITE_RECAPTCHA_KEY as string}
             onVerify={onRecapchaSuccessfullResponse}
-            size="invisible"
+            ref={reaptchaRef}
           />
 
           <noscript className="w-full mb-6">
@@ -241,9 +230,8 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
               name={FIELD_NAMES.NAME}
               placeholder={subscribeFormNameInputLabel}
               aria-label={subscribeFormNameInputLabel}
-              onChange={onInputChange}
               onInvalid={onInputInvalid}
-              onInput={onInputInput}
+              onInput={onInputChange}
             />
 
             {/* Email field */}
@@ -253,9 +241,8 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
               name={FIELD_NAMES.EMAIL}
               placeholder={subscribeFormEmailInputLabel}
               aria-label={subscribeFormEmailInputLabel}
-              onChange={onInputChange}
               onInvalid={onInputInvalid}
-              onInput={onInputInput}
+              onInput={onInputChange}
             />
           </div>
 

@@ -12,6 +12,8 @@ import Document, {
 // _document is only rendered on the server side and not on the client side
 // Event handlers like onClick can't be added to this file
 
+const RECAPTCHA_SRC = 'https://recaptcha.net/recaptcha/api.js?render=explicit';
+
 class CustomDocument extends Document<DocumentProps> {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const initialProps = await Document.getInitialProps(ctx);
@@ -57,11 +59,7 @@ class CustomDocument extends Document<DocumentProps> {
             <link key={url} rel="preconnect" href={url} crossOrigin="anonymous" />
           ))}
 
-          <link
-            rel="preload"
-            as="script"
-            href="https://recaptcha.net/recaptcha/api.js?render=explicit"
-          />
+          <link rel="preload" as="script" href={RECAPTCHA_SRC} />
 
           <link
             rel="stylesheet"
@@ -71,6 +69,7 @@ class CustomDocument extends Document<DocumentProps> {
         <body className="text-gray-darker bg-gray-lighter m-0 type-body">
           <Main />
           <NextScript />
+          <script defer={true} src={RECAPTCHA_SRC}></script>
         </body>
       </Html>
     );

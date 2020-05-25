@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
+import preloadAll from 'jest-next-dynamic';
+
 import React from 'react';
 import { axe } from 'jest-axe';
 import { render, act, waitFor } from 'offbeat-appetite-render';
@@ -18,27 +22,6 @@ import {
 
 const mockRecaptchaResponse = 'mock-recaptcha-response';
 
-// I know it's gross but I couldn't figure a better way out
-jest.mock('next/dynamic', () => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { Component } = require('react');
-
-  class MockReaptcha extends Component {
-    renderExplicitly = (): Promise<void> => Promise.resolve();
-    reset = (): Promise<void> => Promise.resolve();
-    getResponse = (): Promise<string> => Promise.resolve(mockRecaptchaResponse);
-    execute = (): Promise<void> => {
-      return new Promise((resolve) => {
-        setTimeout(() => this.props.onVerify(mockRecaptchaResponse), 100);
-        resolve();
-      });
-    };
-    render = (): JSX.Element => <div />;
-  }
-
-  return (): unknown => MockReaptcha;
-});
-
 jest.mock('../../../data/siteMiscContent.json', () => ({
   subscribeFormTitle: 'Test title',
   subscribeFormNameInputLabel: 'Test name label',
@@ -53,7 +36,7 @@ jest.mock('../../../data/siteMiscContent.json', () => ({
 const testValidName = 'Test Name';
 const testValidEmail = 'test@email.com';
 const testValidRequest = {
-  body: `form-name=newsletter&g-recaptcha-response=${mockRecaptchaResponse}&name=Test%20Name&email=test%40email.com`,
+  body: `form-name=newsletter&name=Test%20Name&email=test%40email.com&g-recaptcha-response=${mockRecaptchaResponse}`,
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   method: 'POST',
 };
@@ -62,7 +45,7 @@ const testValidRequest = {
 let spiedConsoleWarn: jest.SpyInstance;
 let mockFetch: jest.SpyInstance;
 
-beforeAll(() => {
+beforeAll(async () => {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   spiedConsoleWarn = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
@@ -70,6 +53,31 @@ beforeAll(() => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   global.fetch = mockFetch;
+
+  let onVeriy: (token: string) => void;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  global.grecaptcha = {
+    render: (wrapper: HTMLElement, config: { callback: (token: string) => void }): string => {
+      onVeriy = config.callback;
+      return 'test-widget-id';
+    },
+    execute: (): void => {
+      setTimeout(() => onVeriy(mockRecaptchaResponse), 100);
+    },
+    reset: (): void => {
+      // empty
+    },
+    ready: (): void => {
+      // empty
+    },
+  };
+
+  Object.defineProperty(process, 'browser', {
+    value: true,
+  });
+
+  await preloadAll();
 });
 
 afterAll(() => {
@@ -78,6 +86,10 @@ afterAll(() => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   delete global.fetch;
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  delete global.recaptcha;
 });
 
 afterEach(() => {
