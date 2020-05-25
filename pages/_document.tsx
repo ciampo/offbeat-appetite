@@ -9,6 +9,8 @@ import Document, {
   DocumentProps,
 } from 'next/document';
 
+import { sharedTheme } from '../tailwind.shared';
+
 // _document is only rendered on the server side and not on the client side
 // Event handlers like onClick can't be added to this file
 
@@ -49,10 +51,14 @@ class CustomDocument extends Document<DocumentProps> {
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
           <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
           <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-          <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#546050" />
+          <link
+            rel="mask-icon"
+            href="/safari-pinned-tab.svg"
+            color={sharedTheme.colors.olive.darker}
+          />
           <link rel="shortcut icon" href="/favicon.ico" />
-          <meta name="msapplication-TileColor" content="#546050" />
-          <meta name="theme-color" content="#546050"></meta>
+          <meta name="msapplication-TileColor" content={sharedTheme.colors.olive.darker} />
+          <meta name="theme-color" content={sharedTheme.colors.olive.darker}></meta>
           <meta name="twitter:card" content="summary" />
           <meta name="twitter:site" content="@marco_ciampini" />
 
