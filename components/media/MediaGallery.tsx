@@ -9,8 +9,14 @@ import {
 
 import { SanityCaptionedImage, SanityCaptionedVideo, SanityMediaGallery } from '../../typings';
 
-const MediaGallery: React.FC<SanityMediaGallery> = ({ items }) => (
-  <div data-testid="gallery-wrapper" className="xsm:grid xsm:grid-cols-2 xsm:gap-6">
+type MediaGalleryProps = SanityMediaGallery & {
+  className?: string;
+};
+const MediaGallery: React.FC<MediaGalleryProps> = ({ className, items }) => (
+  <div
+    data-testid="gallery-wrapper"
+    className={['xsm:grid xsm:grid-cols-2 xsm:gap-6', className].filter(Boolean).join(' ')}
+  >
     {items
       // Keep only items of type captionedImage or captionedVideo
       .filter(({ _type }) => _type === 'captionedImage' || _type === 'captionedVideo')
