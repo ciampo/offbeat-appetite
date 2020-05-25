@@ -46,11 +46,11 @@ const CategoryPage: NextComponentTypeWithLayout<CategoryProps> = ({
       />
 
       <DefaultPageTransitionWrapper>
-        <header className="mt-16 md:mt-20 xl:mt-24 py-20 md:py-24 xl:py-32">
+        <header className="pt-40 pb-12 md:pt-48 md:pb-16 xl:pt-64 xl:pb-24">
           <h1 className="text-center type-display-1">{categoryData.title}</h1>
         </header>
 
-        <PageContentContainer className="bg-inherit py-12 md:py-16 xl:py-24">
+        <PageContentContainer className="bg-inherit pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32">
           {/* Title */}
           <h2 className="sr-only">All {categoryData.title} posts</h2>
 
@@ -58,6 +58,7 @@ const CategoryPage: NextComponentTypeWithLayout<CategoryProps> = ({
             postsData={categoryData.allBlogPosts}
             tileShadowVariant="lighter"
             tileLayoutVariant="horizontal"
+            tileExtendedInfo={true}
           />
         </PageContentContainer>
       </DefaultPageTransitionWrapper>
