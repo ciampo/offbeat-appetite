@@ -1,44 +1,167 @@
-.oba-portable-text {
+.portable-text {
   @apply break-words;
 }
 
+/* Typography */
+.portable-text > h2 {
+  @apply ._type-heading-1-m;
+}
+
 @screen xl {
-  .oba-portable-text {
-    @apply text-lg;
+  .portable-text > h2 {
+    @apply ._type-heading-1-d;
   }
 }
 
-.oba-portable-text p + p,
-.oba-portable-text p + ul,
-.oba-portable-text p + ol,
-.oba-portable-text p + h2,
-.oba-portable-text p + h3,
-.oba-portable-text p + h4 {
-  margin-top: 0.75em;
+.portable-text > h3 {
+  @apply ._type-heading-2-m;
 }
 
-.oba-portable-text ul + p,
-.oba-portable-text ul + ul,
-.oba-portable-text ul + ol,
-.oba-portable-text ol + p,
-.oba-portable-text ol + ul,
-.oba-portable-text ol + ol {
-  margin-top: 1em;
+@screen xl {
+  .portable-text > h3 {
+    @apply ._type-heading-2-d;
+  }
 }
 
-.oba-portable-text ul,
-.oba-portable-text ol {
-  @apply pl-8;
+.portable-text > h4 {
+  @apply ._type-heading-3-m;
 }
 
-.oba-portable-text li {
-  @apply pl-2 mt-2;
+@screen xl {
+  .portable-text > h4 {
+    @apply ._type-heading-3-d;
+  }
 }
 
-.oba-portable-text ul {
+.portable-text > blockquote {
+  @apply ._type-body-large-m italic;
+}
+
+@screen xl {
+  .portable-text > blockquote {
+    @apply ._type-body-large-d italic;
+  }
+}
+
+/* Vertical Spacing */
+.portable-text > *:first-child {
+  @apply mt-0;
+}
+
+.portable-text > *:last-child {
+  @apply mb-0;
+}
+
+.portable-text > * + * {
+  @apply mt-2;
+}
+
+.portable-text > * + h2 {
+  @apply mt-10;
+}
+
+.portable-text > * + h3 {
+  @apply mt-8;
+}
+
+.portable-text > * + h4 {
+  @apply mt-4;
+}
+
+.portable-text > * + blockquote {
+  @apply mt-6;
+}
+
+.portable-text > blockquote + * {
+  @apply mt-6;
+}
+
+.portable-text p + ul,
+.portable-text p + ol {
+  @apply mt-0;
+}
+
+@screen md {
+  .portable-text > * + * {
+    @apply mt-4;
+  }
+
+  .portable-text > * + h2 {
+    @apply mt-12;
+  }
+
+  .portable-text > * + h3 {
+    @apply mt-10;
+  }
+
+  .portable-text > * + h4 {
+    @apply mt-6;
+  }
+
+  .portable-text > * + blockquote {
+    @apply mt-8;
+  }
+
+  .portable-text > blockquote + * {
+    @apply mt-8;
+  }
+}
+
+@screen xl {
+  .portable-text > * + * {
+    @apply mt-6;
+  }
+
+  .portable-text > * + h2 {
+    @apply mt-16;
+  }
+
+  .portable-text > * + h3 {
+    @apply mt-12;
+  }
+
+  .portable-text > * + h4 {
+    @apply mt-8;
+  }
+
+  .portable-text > * + blockquote {
+    @apply mt-10;
+  }
+
+  .portable-text > blockquote + * {
+    @apply mt-10;
+  }
+}
+
+/* Lists */
+.portable-text ul,
+.portable-text ol {
+  @apply pl-4;
+}
+
+@screen md {
+  .portable-text ul,
+  .portable-text ol {
+    @apply pl-6;
+  }
+}
+
+@screen xl {
+  .portable-text ul,
+  .portable-text ol {
+    @apply pl-8;
+  }
+}
+
+.portable-text ul {
   @apply list-disc;
 }
 
-.oba-portable-text ol {
+.portable-text ol {
   @apply list-decimal;
+}
+
+/* Quote */
+.portable-text blockquote {
+  @apply pl-4 py-1 border-l-4 border-gray-medium;
 }
