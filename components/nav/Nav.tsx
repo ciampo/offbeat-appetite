@@ -80,7 +80,7 @@ const HeaderLogoLink: React.FC<HeaderLogoLinkProps> = memo(
             'block text-gray-white outline-none border-l-4 border-r-4 rounded border-transparent underline-under',
             'transform transition-all duration-150 ease-out',
             'hover:scale-105',
-            'focus:scale-105 focus:underline',
+            'focus:scale-105 focus:bg-olive-dark',
           ].join(' ')}
         >
           <span className="sr-only">{label}</span>

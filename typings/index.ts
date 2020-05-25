@@ -20,3 +20,6 @@ export * from './structured-data';
 
 // Next
 export * from './next';
+
+// Recaptcha
+export * from './recaptcha';

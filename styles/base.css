@@ -13,3 +13,7 @@ video,
 canvas {
   -webkit-tap-highlight-color: transparent;
 }
+
+.grecaptcha-badge {
+  visibility: hidden;
+}

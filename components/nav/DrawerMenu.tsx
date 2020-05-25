@@ -47,6 +47,7 @@ const DrawerNavLink: React.FC<DrawerNavLinkProps> = memo(
         },
       }}
     >
+      {/* TODO refactor to button elements */}
       <Link href={href} scroll={false} as={as}>
         <a
           className={[

@@ -3,9 +3,9 @@ import React, { memo } from 'react';
 type InputProps = {
   name: string;
   placeholder: string;
-  onInvalid: (event: React.FormEvent<HTMLInputElement>) => void;
-  onInput: (event: React.FormEvent<HTMLInputElement>) => void;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onInvalid?: (event: React.FormEvent<HTMLInputElement>) => void;
+  onInput?: (event: React.FormEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   id?: string;
   'aria-label'?: string;

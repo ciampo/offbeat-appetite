@@ -45,11 +45,11 @@ const PageMeta: React.FC<PageMetaProps> = ({
       <meta key="page-og-title" property="og:title" content={title} />
       <meta key="page-og-description" property="og:description" content={description} />
       {previewImage && <meta key="page-og-image" property="og:image" content={previewImage} />}
-      {process.env.CANONICAL_URL && (
+      {process.env.NEXT_PUBLIC_CANONICAL_URL && (
         <meta
           key="page-og-url"
           property="og:url"
-          content={joinUrl(process.env.CANONICAL_URL, path)}
+          content={joinUrl(process.env.NEXT_PUBLIC_CANONICAL_URL, path)}
         />
       )}
 

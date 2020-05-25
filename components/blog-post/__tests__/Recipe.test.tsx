@@ -22,7 +22,7 @@ import { testRecipeData } from '../__tests_dummy_data__/recipe-mock-data';
 
 test('Recipe renders correctly', async () => {
   const testRouterPath = 'test-recipe-url';
-  const fullPageUrl = joinUrl(process.env.CANONICAL_URL as string, testRouterPath);
+  const fullPageUrl = joinUrl(process.env.NEXT_PUBLIC_CANONICAL_URL as string, testRouterPath);
   const { container, getByText, getAllByText, getByTestId } = render(
     <Recipe recipe={testRecipeData} />,
     {

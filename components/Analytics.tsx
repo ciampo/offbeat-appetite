@@ -12,8 +12,8 @@ const pageView = (): void => {
 const Analytics: React.FC<{}> = (): null => {
   useEffect(() => {
     // Init GA the first time.
-    if (!window.IS_GA_INIT && process.env.GA) {
-      ReactGA.initialize(process.env.GA);
+    if (!window.IS_GA_INIT && process.env.NEXT_PUBLIC_GA) {
+      ReactGA.initialize(process.env.NEXT_PUBLIC_GA);
       window.IS_GA_INIT = true;
     }
 

@@ -26,7 +26,7 @@ const sitemapString = `<?xml version="1.0" encoding="UTF-8"?>
   ${indexedPaths
     .map(
       (url) => `<url>
-  <loc>${process.env.CANONICAL_URL}${url}</loc>
+  <loc>${process.env.NEXT_PUBLIC_CANONICAL_URL}${url}</loc>
   <lastmod>${formattedDateTime}</lastmod>
   <priority>${url === '/' ? '1.0' : '0.5'}</priority>
 </url>`

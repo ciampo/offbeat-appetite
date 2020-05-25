@@ -20,6 +20,13 @@ export type SanityBlogPostBase = {
 export type SanityBlogPostPreview = SanityBlogPostBase & {
   author: SanityPersonPreview;
   previewImage: SanityAccessibleImage;
+  compiledRoute: {
+    page: string;
+    path: string;
+    query: {
+      [key: string]: string;
+    };
+  };
 };
 
 export type SanityBlogPostFull = SanityBlogPostBase & {

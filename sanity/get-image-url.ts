@@ -4,7 +4,7 @@ import { ImageUrlBuilder } from '@sanity/image-url/lib/types/builder';
 
 const builder = imageUrlBuilder({
   dataset: 'production',
-  projectId: process.env.SANITY_PROJECT_ID || '',
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string,
 });
 
 // https://github.com/sanity-io/image-url

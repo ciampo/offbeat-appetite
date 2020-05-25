@@ -53,7 +53,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
           <div className="flex flex-wrap justify-center">
             <AllSharingButtons
               link={joinUrl(
-                process.env.CANONICAL_URL as string,
+                process.env.NEXT_PUBLIC_CANONICAL_URL as string,
                 `${asPath.split(/[?#]/)[0]}#recipe`
               )}
               message={recipe.title}

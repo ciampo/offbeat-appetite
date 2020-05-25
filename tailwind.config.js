@@ -3,24 +3,14 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 const plugin = require('tailwindcss/plugin');
 const { sharedTheme } = require('./tailwind.shared.js');
 
-const neuShadow = {
-  offset: '0.325rem',
-  blur: '1rem',
-};
-
 module.exports = {
   theme: {
     extend: {
       boxShadow: {
-        'inner-currentcolor': 'inset 0 0 0.25rem currentcolor',
-        'neu-lighter': [
-          `-${neuShadow.offset} -${neuShadow.offset} ${neuShadow.blur} #fff`,
-          `${neuShadow.offset} ${neuShadow.offset} ${neuShadow.blur} rgba(221, 221, 221, 0.8)`,
-        ].join(','),
-        'neu-light': [
-          `-${neuShadow.offset} -${neuShadow.offset} ${neuShadow.blur} rgba(255, 255, 255, 0.8)`,
-          `${neuShadow.offset} ${neuShadow.offset} ${neuShadow.blur} #ddd`,
-        ].join(','),
+        'inner-currentcolor': 'inset 0 -0.125rem 0 currentcolor',
+        'inner-pink-section': `inset 0 1.25rem 1.25rem -2rem ${sharedTheme.colors.pink.dark}`,
+        'neu-lighter': '-.25rem -.25rem .5rem #fff, .125rem .125rem .7rem rgba(221, 221, 221, .7)',
+        'neu-light': '-.125rem -.125rem .7rem #fff, .125rem .125rem .7rem #ddd',
       },
       fontSize: {
         '0': '0',
@@ -125,12 +115,14 @@ module.exports = {
     opacity: ['responsive', 'hover', 'focus', 'before', 'after', 'disabled'],
     padding: ['responsive', 'focus'],
     position: ['responsive', 'before', 'after', 'focus'],
+    scale: ['responsive', 'hover', 'focus', 'group-hover', 'group-focus'],
     textColor: ['responsive', 'hover', 'focus', 'disabled'],
     transformOrigin: ['responsive', 'before', 'after'],
     transitionProperty: ['responsive', 'before', 'after'],
     transitionTimingFunction: ['responsive', 'before', 'after'],
     transitionDuration: ['responsive', 'before', 'after'],
     transitionDelay: ['responsive', 'before', 'after'],
+    translate: ['responsive', 'hover', 'focus', 'group-hover', 'group-focus'],
     width: ['responsive', 'before', 'after'],
     zIndex: ['responsive', 'focus', 'before', 'after'],
   },
