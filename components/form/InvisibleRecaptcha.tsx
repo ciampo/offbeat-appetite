@@ -12,6 +12,7 @@ export type InvisibleRecaptchaRef = {
 export type InvisibleRecaptchaProps = {
   siteKey: string;
   onVerify: (token: string) => void;
+  onError: (errorMessage: string) => void;
 };
 
 type InvisibleRecaptchaPropsWithRef = InvisibleRecaptchaProps & {
@@ -20,6 +21,7 @@ type InvisibleRecaptchaPropsWithRef = InvisibleRecaptchaProps & {
 const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
   siteKey,
   onVerify,
+  onError,
   forwardedRef,
   ...props
 }) => {
@@ -61,6 +63,7 @@ const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
         sitekey: siteKey,
         size: 'invisible',
         callback: onVerify,
+        'error-callback': onError,
       });
       forwardedRef.current = {
         execute: window.grecaptcha.execute,
@@ -68,7 +71,7 @@ const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
         getResponse: window.grecaptcha.getResponse,
       };
     }
-  }, [isReady, siteKey, forwardedRef, onVerify]);
+  }, [isReady, siteKey, forwardedRef, onVerify, onError]);
 
   return <div ref={containerRef} {...props}></div>;
 };

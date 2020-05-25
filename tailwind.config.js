@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       boxShadow: {
         'inner-currentcolor': 'inset 0 -0.125rem 0 currentcolor',
+        'inner-pink-section': `inset 0 1.25rem 1.25rem -2rem ${sharedTheme.colors.pink.dark}`,
         'neu-lighter': '-.25rem -.25rem .5rem #fff, .125rem .125rem .7rem rgba(221, 221, 221, .7)',
         'neu-light': '-.125rem -.125rem .7rem #fff, .125rem .125rem .7rem #ddd',
       },

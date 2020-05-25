@@ -65,8 +65,23 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
     (e.target as HTMLInputElement).setCustomValidity('');
   }, []);
 
-  // Send form data on recaptcha change
-  const onRecapchaSuccessfullResponse = useCallback((recaptchaValue: string): void => {
+  // Show error message from Recatpcha
+  const onRecapchaError = useCallback((errorMessage: string): void => {
+    setIsSubmitting(false);
+
+    if (reaptchaRef.current) {
+      reaptchaRef.current.reset();
+    }
+
+    setfeedbackMessage({
+      isError: true,
+      message: `${subscribeFormMessageError} [${JSON.stringify(errorMessage)}]`,
+    });
+    console.warn(JSON.stringify(errorMessage));
+  }, []);
+
+  // Send form data on recaptcha successfull verification
+  const onRecaptchaSuccess = useCallback((recaptchaValue: string): void => {
     function onSubmissionError(error: string | object): void {
       setIsSubmitting(false);
 
@@ -141,138 +156,164 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
     inputEl.setCustomValidity(`Enter a valid ${inputEl.placeholder.toLowerCase()}`);
   }, []);
 
+  const sectionCommonClassNames = 'relative z-10 bg-pink-light';
+
   return (
-    <section
-      className="relative z-10 pt-12 pb-32 sm:pt-20 sm:pb-20 md:pt-24 md:pb-24 xl:pt-32 xl:pb-32 bg-pink-light md:shadow-lg translate-z-0 overflow-hidden"
-      id="subscribe"
-      data-testid="subscribe-form-section-wrapper"
-    >
-      <ArticleContentContainer>
-        <h2 className="type-display-2 text-pink-darker text-center">{subscribeFormTitle}</h2>
+    <>
+      <section
+        className={[
+          sectionCommonClassNames,
+          'py-16 xsm:py-20 md:py-24 xl:py-32 overflow-hidden shadow-inner-pink-section',
+        ].join(' ')}
+        id="subscribe"
+        data-testid="subscribe-form-section-wrapper"
+      >
+        <ArticleContentContainer>
+          <h2 className="type-display-2 text-pink-darker text-center">{subscribeFormTitle}</h2>
 
-        <form
-          ref={formRef}
-          id={`subscribe-form-${formInstance}`}
-          className={[
-            'relative',
-            'self-stretch flex flex-col items-stretch md:flex-row md:flex-wrap',
-            'mt-6 sm:mt-8 md:mt-10 xl:mt-12 pb-3 sm:pb-4 xl:pb-8',
-            'mx-auto max-w-sm sm:max-w-none',
-          ]
-            .filter(Boolean)
-            .join(' ')}
-          name={FORM_NAME}
-          method={FORM_METHOD}
-          action={FORM_ACTION}
-          data-netlify="true"
-          data-netlify-honeypot={FIELD_NAMES.BOT}
-          data-netlify-recaptcha="true"
-          data-testid="newsletter-form"
-          onSubmit={handleSubmit}
-        >
-          {/* Form name (for netlify) */}
-          <input type="hidden" name={FIELD_NAMES.FORM_NAME} value={FORM_NAME} />
+          <form
+            ref={formRef}
+            id={`subscribe-form-${formInstance}`}
+            className={[
+              'relative',
+              'self-stretch flex flex-col items-stretch md:flex-row md:flex-wrap',
+              'mt-6 sm:mt-8 md:mt-10 xl:mt-12 pb-3 sm:pb-4 xl:pb-8',
+              'mx-auto max-w-sm sm:max-w-none',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            name={FORM_NAME}
+            method={FORM_METHOD}
+            action={FORM_ACTION}
+            data-netlify="true"
+            data-netlify-honeypot={FIELD_NAMES.BOT}
+            data-netlify-recaptcha="true"
+            data-testid="newsletter-form"
+            onSubmit={handleSubmit}
+          >
+            {/* Form name (for netlify) */}
+            <input type="hidden" name={FIELD_NAMES.FORM_NAME} value={FORM_NAME} />
 
-          {/* Honeypot field (anti-spam) */}
-          <p hidden>
-            <label>
-              Don’t fill this out if you&apos;re human:
-              <input name={FIELD_NAMES.BOT} type="text" />
-            </label>
-          </p>
+            {/* Honeypot field (anti-spam) */}
+            <p hidden>
+              <label>
+                Don’t fill this out if you&apos;re human:
+                <input name={FIELD_NAMES.BOT} type="text" />
+              </label>
+            </p>
 
-          <ForwardedInvisibleRecaptcha
-            siteKey={process.env.NEXT_PUBLIC_SITE_RECAPTCHA_KEY as string}
-            onVerify={onRecapchaSuccessfullResponse}
-            ref={reaptchaRef}
-          />
+            <ForwardedInvisibleRecaptcha
+              siteKey={process.env.NEXT_PUBLIC_SITE_RECAPTCHA_KEY as string}
+              onVerify={onRecaptchaSuccess}
+              onError={onRecapchaError}
+              ref={reaptchaRef}
+            />
 
-          <noscript className="w-full mb-6">
-            <iframe
-              src="https://www.google.com/recaptcha/api/fallback?k=6LdAvUIUAAAAAHjrjmjtNTcXyKm0WKwefLp-dQv9"
-              frameBorder="0"
-              scrolling="no"
-              className="w-full mx-auto border-none"
-              style={{
-                maxWidth: '302px',
-                height: '422px',
-              }}
-              title="recaptcha"
-            ></iframe>
+            <noscript className="w-full mb-6">
+              <iframe
+                src="https://www.google.com/recaptcha/api/fallback?k=6LdAvUIUAAAAAHjrjmjtNTcXyKm0WKwefLp-dQv9"
+                frameBorder="0"
+                scrolling="no"
+                className="w-full mx-auto border-none"
+                style={{
+                  maxWidth: '302px',
+                  height: '422px',
+                }}
+                title="recaptcha"
+              ></iframe>
+              <div
+                className="w-full mx-auto border border-pink-dark rounded h-16 my-0 bg-pink-light flex items-center justify-center"
+                style={{
+                  maxWidth: '300px',
+                }}
+              >
+                <textarea
+                  id="g-recaptcha-response"
+                  name="g-recaptcha-response"
+                  className="g-recaptcha-response w-64 h-10 border border-pink-dark rounded p-0 resize-none"
+                  placeholder="reCAPTCHA code"
+                  aria-label="reCaptcha response"
+                ></textarea>
+              </div>
+            </noscript>
+
             <div
-              className="w-full mx-auto border border-pink-dark rounded h-16 my-0 bg-pink-light flex items-center justify-center"
-              style={{
-                maxWidth: '300px',
-              }}
+              className={[
+                'flex flex-col items-stretch sm:flex-row md:flex-grow',
+                'space-y-4 sm:space-y-0 sm:space-x-4',
+              ]
+                .filter(Boolean)
+                .join(' ')}
             >
-              <textarea
-                id="g-recaptcha-response"
-                name="g-recaptcha-response"
-                className="g-recaptcha-response w-64 h-10 border border-pink-dark rounded p-0 resize-none"
-                placeholder="reCAPTCHA code"
-                aria-label="reCaptcha response"
-              ></textarea>
+              {/* Name field */}
+              <TextInputPink
+                className="sm:flex-1"
+                required
+                name={FIELD_NAMES.NAME}
+                placeholder={subscribeFormNameInputLabel}
+                aria-label={subscribeFormNameInputLabel}
+                onInvalid={onInputInvalid}
+                onInput={onInputChange}
+              />
+
+              {/* Email field */}
+              <EmailInputPink
+                className="sm:flex-1"
+                required
+                name={FIELD_NAMES.EMAIL}
+                placeholder={subscribeFormEmailInputLabel}
+                aria-label={subscribeFormEmailInputLabel}
+                onInvalid={onInputInvalid}
+                onInput={onInputChange}
+              />
             </div>
-          </noscript>
 
-          <div
-            className={[
-              'flex flex-col items-stretch sm:flex-row md:flex-grow',
-              'space-y-4 sm:space-y-0 sm:space-x-4',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-          >
-            {/* Name field */}
-            <TextInputPink
-              className="sm:flex-1"
-              required
-              name={FIELD_NAMES.NAME}
-              placeholder={subscribeFormNameInputLabel}
-              aria-label={subscribeFormNameInputLabel}
-              onInvalid={onInputInvalid}
-              onInput={onInputChange}
-            />
+            {/* Submit button */}
+            <ButtonPink
+              className="justify-center flex-shrink-0 flex-grow-0 mt-4 md:mt-0 md:ml-4 md:w-32 xl:w-40"
+              type="submit"
+              disabled={isSubmitting || forceDisabled}
+            >
+              {isSubmitting
+                ? subscribeFormSubmitButtonLabelSubmitting
+                : subscribeFormSubmitButtonLabel}
+            </ButtonPink>
 
-            {/* Email field */}
-            <EmailInputPink
-              className="sm:flex-1"
-              required
-              name={FIELD_NAMES.EMAIL}
-              placeholder={subscribeFormEmailInputLabel}
-              aria-label={subscribeFormEmailInputLabel}
-              onInvalid={onInputInvalid}
-              onInput={onInputChange}
-            />
-          </div>
-
-          {/* Submit button */}
-          <ButtonPink
-            className="justify-center flex-shrink-0 flex-grow-0 mt-4 md:mt-0 md:ml-4 md:w-32 xl:w-40"
-            type="submit"
-            disabled={isSubmitting || forceDisabled}
-          >
-            {isSubmitting
-              ? subscribeFormSubmitButtonLabelSubmitting
-              : subscribeFormSubmitButtonLabel}
-          </ButtonPink>
-
-          <div
-            role="alert"
-            aria-live="assertive"
-            className={[
-              'absolute top-full inset-0',
-              'text-center type-footnote',
-              feedbackMessage.isError ? 'text-red-700' : 'text-olive-darker',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-          >
-            {feedbackMessage.message}
-          </div>
-        </form>
-      </ArticleContentContainer>
-    </section>
+            <div
+              role="alert"
+              aria-live="assertive"
+              className={[
+                'absolute top-full inset-0',
+                'text-center type-footnote',
+                feedbackMessage.isError ? 'text-red-700' : 'text-olive-darker',
+              ]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              {feedbackMessage.message}
+            </div>
+          </form>
+        </ArticleContentContainer>
+      </section>
+      <aside
+        className={[
+          sectionCommonClassNames,
+          'type-footnote text-center text-pink-medium md:shadow-lg py-2',
+        ].join(' ')}
+      >
+        <ArticleContentContainer>
+          Protected by reCAPTCHA. Google&#39;s{' '}
+          <a target="_blank" rel="noopener noreferrer" href="https://policies.google.com/privacy">
+            Privacy&nbsp;Policy
+          </a>{' '}
+          and{' '}
+          <a target="_blank" rel="noopener noreferrer" href="https://policies.google.com/terms">
+            Terms&nbsp;of&nbsp;Service
+          </a>
+          &nbsp;apply.
+        </ArticleContentContainer>
+      </aside>
+    </>
   );
 };
 
