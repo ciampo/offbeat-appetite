@@ -51,13 +51,21 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
       />
 
       <DefaultPageTransitionWrapper>
-        <section className="relative h-screen min-h-hero max-h-hero">
-          <div className="absolute text-center text-white z-10 text-shadow transform-translate-center">
-            <h1 className="flex flex-col-reverse items-center">
-              <span className="text-4xl font-bold mt-4">{blogPostData.title}</span>
-              <span>{blogPostData.category.name}</span>
-            </h1>
-            <p className="text-xl mt-8">{blogPostData.excerpt}</p>
+        <header className="relative h-screen min-h-hero max-h-hero">
+          <div className="absolute text-center text-white z-10 text-shadow transform-translate-center flex flex-col items-center">
+            <h1 className="order-2 type-display-1 mt-4 md:mt-6 xl:mt-8">{blogPostData.title}</h1>
+            <p className="type-eyebrow order-1">
+              <span aria-hidden="true" className="pr-1">
+                —
+              </span>
+              {blogPostData.category.name}
+              <span aria-hidden="true" className="pl-1">
+                —
+              </span>
+            </p>
+            <p className="order-3 type-body-large italic mt-12 md:mt-16 xl:mt-20">
+              {blogPostData.excerpt}
+            </p>
           </div>
 
           <AccessibleImage
@@ -69,7 +77,7 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
               paddingBottom: '0',
             }}
           />
-        </section>
+        </header>
 
         <ArticleContentContainer
           component={(props): JSX.Element => <section {...props}></section>}
