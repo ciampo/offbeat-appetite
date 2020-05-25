@@ -30,7 +30,7 @@ const CaptionedImage: React.FC<CaptionedImageProps> = ({
           lazy={true}
           responsiveConfig={responsiveConfig}
         />
-        <figcaption>{caption}</figcaption>
+        <figcaption className="italic">{caption}</figcaption>
       </figure>
     ) : (
       <AccessibleImage

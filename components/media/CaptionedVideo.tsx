@@ -29,7 +29,7 @@ const CaptionedVideo: React.FC<CaptionedVideoProps> = ({
           video={video}
           responsiveConfig={responsiveConfig}
         />
-        <figcaption>{caption}</figcaption>
+        <figcaption className="italic">{caption}</figcaption>
       </figure>
     ) : (
       <AccessibleVideo
