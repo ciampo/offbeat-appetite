@@ -1,7 +1,13 @@
 import React, { useRef, useEffect, useState, MutableRefObject } from 'react';
+import { useIntersection } from 'react-use';
 
 const isRecaptchaReady = (): boolean =>
   Boolean(process.browser && window && window.grecaptcha && window.grecaptcha.ready);
+
+const isIoSupported =
+  'IntersectionObserver' in window &&
+  'IntersectionObserverEntry' in window &&
+  'intersectionRatio' in window.IntersectionObserverEntry.prototype;
 
 export type InvisibleRecaptchaRef = {
   execute: (id?: number) => void;
@@ -29,6 +35,15 @@ const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetId = useRef<number | null>(null);
   const [isReady, setReady] = useState(false);
+
+  const [allowInit, setAllowInit] = useState<boolean>(!isIoSupported);
+  const ioResults = useIntersection(containerRef, {});
+
+  useEffect(() => {
+    if (ioResults && ioResults.intersectionRatio > 0) {
+      setAllowInit(true);
+    }
+  }, [ioResults]);
 
   useEffect(() => {
     const checkIsReady = (): boolean => {
@@ -58,7 +73,7 @@ const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
   useEffect(() => {
     // When everything is ready (and only if recaptcha hasn't been initialised yet),
     // init recaptcha and set the ref
-    if (isReady && containerRef.current && window.grecaptcha && !widgetId.current) {
+    if (isReady && allowInit && containerRef.current && window.grecaptcha && !widgetId.current) {
       widgetId.current = window.grecaptcha.render(containerRef.current, {
         sitekey: siteKey,
         size: 'invisible',
@@ -71,7 +86,7 @@ const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
         getResponse: window.grecaptcha.getResponse,
       };
     }
-  }, [isReady, siteKey, forwardedRef, onVerify, onError]);
+  }, [isReady, siteKey, forwardedRef, onVerify, onError, allowInit]);
 
   return <div ref={containerRef} {...props}></div>;
 };
