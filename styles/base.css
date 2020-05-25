@@ -14,6 +14,8 @@ canvas {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* purgecss start ignore */
 .grecaptcha-badge {
   visibility: hidden;
 }
+/* purgecss end ignore */
