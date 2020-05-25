@@ -12,8 +12,6 @@ import Document, {
 // _document is only rendered on the server side and not on the client side
 // Event handlers like onClick can't be added to this file
 
-const RECAPTCHA_SRC = 'https://recaptcha.net/recaptcha/api.js?render=explicit';
-
 const PRECONNECT_ORIGINS = [
   'https://www.google-analytics.com',
   'https://www.google.com',
@@ -67,8 +65,6 @@ class CustomDocument extends Document<DocumentProps> {
             <link key={url} rel="preconnect" href={url} crossOrigin="anonymous" />
           ))}
 
-          <link rel="preload" as="script" href={RECAPTCHA_SRC} />
-
           {PRELOAD_WEBFONTS.map((url) => (
             <link
               key={url}
@@ -83,7 +79,10 @@ class CustomDocument extends Document<DocumentProps> {
         <body className="text-gray-darker bg-gray-lighter m-0 type-body">
           <Main />
           <NextScript />
-          <script defer={true} src={RECAPTCHA_SRC}></script>
+          <script
+            defer={true}
+            src="https://recaptcha.net/recaptcha/api.js?render=explicit"
+          ></script>
         </body>
       </Html>
     );
