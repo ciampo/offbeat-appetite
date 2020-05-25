@@ -47,7 +47,7 @@ const BlogPostTile: React.FC<BlogPostTileProps> = memo(
             layoutVariant === 'horizontal'
               ? 'sm:w-1/2 sm:flex sm:flex-col sm:justify-center'
               : 'flex-1',
-            reversed ? 'order-1' : 'order-2',
+            reversed ? 'order-2 sm:order-1' : 'order-2',
           ]
             .filter(Boolean)
             .join(' ')}
@@ -112,7 +112,7 @@ const BlogPostTile: React.FC<BlogPostTileProps> = memo(
         <div
           className={[
             'relative w-full overflow-hidden',
-            reversed ? 'order-2' : 'order-1',
+            reversed ? 'order-1 sm:order-2' : 'order-1',
             layoutVariant === 'horizontal' && 'sm:w-1/2',
           ]
             .filter(Boolean)
