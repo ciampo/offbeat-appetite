@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 
 import SimpleLayout from '../components/layouts/Simple';
 import PageMeta from '../components/meta/PageMeta';
-import SimplePortableText from '../components/portable-text/SimplePortableText';
+import RichPortableText from '../components/portable-text/RichPortableText';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 
 import { SanityPageThankYou, NextComponentTypeWithLayout } from '../typings';
@@ -42,7 +42,7 @@ const ThankYouPage: NextComponentTypeWithLayout<ThankYouProps> = ({ thankYouData
           <h1>{thankYouData.title}</h1>
         </header>
 
-        <SimplePortableText blocks={thankYouData.content} />
+        <RichPortableText blocks={thankYouData.content} />
 
         <a href="/" onClick={onHomeClick}>
           Home

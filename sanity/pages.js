@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const {
   blogPostPreviewProjection,
-  simplePortabletextProjection,
+  richPortabletextProjection,
   accessibleImageProjection,
 } = require('./projections.js');
 
@@ -29,7 +29,7 @@ const pageAboutQuery = /* groq */ `*[_type == "${pageAboutType}"] {
   _id,
   title,
   heroTitle,
-  content[] ${simplePortabletextProjection},
+  content[] ${richPortabletextProjection},
   seoTitle,
   seoDescription,
   "seoImage": seoImage.asset->url,
@@ -75,7 +75,7 @@ const pageThankYouType = 'pageThankYou';
 const pageThankYouQuery = /* groq */ `*[_type == "pageThankYou"] {
   _id,
   title,
-  content[] ${simplePortabletextProjection},
+  content[] ${richPortabletextProjection},
   seoTitle,
   seoDescription,
   "seoImage": seoImage.asset->url,
