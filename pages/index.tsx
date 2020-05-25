@@ -53,8 +53,12 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
         />
         {/* See more link */}
         <ButtonOliveNeutral
-          component={(props): JSX.Element => (
-            <Link href="/[categoryId]" as={`/${categorySectionData.category.slug}`}>
+          component={({ scroll, ...props }): JSX.Element => (
+            <Link
+              scroll={scroll as boolean}
+              href="/[categoryId]"
+              as={`/${categorySectionData.category.slug}`}
+            >
               <a {...props} />
             </Link>
           )}
