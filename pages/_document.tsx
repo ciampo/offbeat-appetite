@@ -14,6 +14,20 @@ import Document, {
 
 const RECAPTCHA_SRC = 'https://recaptcha.net/recaptcha/api.js?render=explicit';
 
+const PRECONNECT_ORIGINS = [
+  'https://www.google-analytics.com',
+  'https://www.google.com',
+  'https://www.gstatic.com',
+];
+
+const PRELOAD_WEBFONTS = [
+  '/fonts/raleway-v14-latin-regular.woff2',
+  '/fonts/raleway-v14-latin-500.woff2',
+  '/fonts/raleway-v14-latin-600.woff2',
+  '/fonts/raleway-v14-latin-600.woff2',
+  '/fonts/yeseva-one-v14-latin-regular.woff2',
+];
+
 class CustomDocument extends Document<DocumentProps> {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const initialProps = await Document.getInitialProps(ctx);
@@ -49,22 +63,22 @@ class CustomDocument extends Document<DocumentProps> {
             dangerouslySetInnerHTML={{ __html: `document.documentElement.classList.add('js-app')` }}
           ></script>
 
-          {[
-            'https://www.google-analytics.com',
-            'https://fonts.gstatic.com/',
-            'https://www.google.com',
-            'https://www.gstatic.com',
-            'https://fonts.googleapis.com',
-          ].map((url) => (
+          {PRECONNECT_ORIGINS.map((url) => (
             <link key={url} rel="preconnect" href={url} crossOrigin="anonymous" />
           ))}
 
           <link rel="preload" as="script" href={RECAPTCHA_SRC} />
 
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Yeseva+One&display=swap"
-          />
+          {PRELOAD_WEBFONTS.map((url) => (
+            <link
+              key={url}
+              rel="preload"
+              as="font"
+              type="font/woff2"
+              crossOrigin="anonymous"
+              href={url}
+            />
+          ))}
         </Head>
         <body className="text-gray-darker bg-gray-lighter m-0 type-body">
           <Main />

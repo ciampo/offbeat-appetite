@@ -1,3 +1,44 @@
+/* raleway-regular - latin */
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Raleway'), local('Raleway-Regular'),
+    url('/fonts/raleway-v14-latin-regular.woff2') format('woff2'),
+    url('/fonts/raleway-v14-latin-regular.woff') format('woff');
+}
+/* raleway-500 - latin */
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Raleway Medium'), local('Raleway-Medium'),
+    url('/fonts/raleway-v14-latin-500.woff2') format('woff2'),
+    url('/fonts/raleway-v14-latin-500.woff') format('woff');
+}
+/* raleway-600 - latin */
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Raleway SemiBold'), local('Raleway-SemiBold'),
+    url('/fonts/raleway-v14-latin-600.woff2') format('woff2'),
+    url('/fonts/raleway-v14-latin-600.woff') format('woff');
+}
+/* yeseva-one-regular - latin */
+@font-face {
+  font-family: 'Yeseva One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Yeseva One Regular'), local('YesevaOne-Regular'),
+    url('/fonts/yeseva-one-v14-latin-regular.woff2') format('woff2'),
+    url('/fonts/yeseva-one-v14-latin-regular.woff') format('woff');
+}
+
 /*******************************************************************************
 * Display
 *******************************************************************************/

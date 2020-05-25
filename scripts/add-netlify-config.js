@@ -25,9 +25,9 @@ ${routesConfig
     // Allow audio/video from same origin, Sanity and data scheme (e.g. base64)
     `media-src 'self' https://cdn.sanity.io data:`,
     // Allow styles from same origin and inline
-    `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
+    `style-src 'self' 'unsafe-inline'`,
     // No external fonts allowed
-    `font-src 'self' data: https://fonts.gstatic.com`,
+    `font-src 'self' data:`,
     // Allow script coming from same origin, inline and Google / Google Analytics (incl. recaptcha)
     `script-src 'self' 'unsafe-inline' https://www.google.com/ https://www.gstatic.com/ https://www.google-analytics.com https://recaptcha.net`,
     // Allow XHR to same origin and Google Analytics
@@ -41,7 +41,11 @@ ${routesConfig
   ].join('; ')}
   X-XSS-Protection: 1; mode=block`
   )
-  .join('\n')}`;
+  .join('\n')}
+/fonts/*
+  Cache-Control: public, max-age=31536000
+/site.webmanifest
+  Content-Type: application/json`;
 // /*js
 //   Content-Type: application/javascript; charset=utf-8
 // /*webmanifest
