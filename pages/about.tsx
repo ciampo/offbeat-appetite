@@ -36,8 +36,8 @@ const AboutPage: NextComponentTypeWithLayout<AboutProps> = ({
       />
 
       <DefaultPageTransitionWrapper>
-        <header className="mt-16 md:mt-20 xl:mt-24">
-          <h1>{aboutData.title}</h1>
+        <header className="pt-40 pb-12 md:pt-48 md:pb-16 xl:pt-64 xl:pb-24">
+          <h1 className="text-center type-display-1">{aboutData.heroTitle}</h1>
         </header>
 
         <SimplePortableText blocks={aboutData.content} />

@@ -28,6 +28,7 @@ const pageAboutType = 'pageAbout';
 const pageAboutQuery = /* groq */ `*[_type == "${pageAboutType}"] {
   _id,
   title,
+  heroTitle,
   content[] ${simplePortabletextProjection},
   seoTitle,
   seoDescription,
