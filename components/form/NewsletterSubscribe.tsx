@@ -120,8 +120,8 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: encode({
           [FIELD_NAMES.FORM_NAME]: FORM_NAME,
-          [FIELD_NAMES.NAME]: (formData.get(FIELD_NAMES.NAME) || '') as string,
-          [FIELD_NAMES.EMAIL]: (formData.get(FIELD_NAMES.EMAIL) || '') as string,
+          [FIELD_NAMES.NAME]: formData.get(FIELD_NAMES.NAME) as string,
+          [FIELD_NAMES.EMAIL]: formData.get(FIELD_NAMES.EMAIL) as string,
           'g-recaptcha-response': recaptchaValue,
         }),
       })
