@@ -38,3 +38,22 @@ export function stringifyRecipeIngredient({ name, unit, quantity }: SanityIngred
 
   return `${quantityString}${unitString}${name}`;
 }
+
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+export function postDateToHumanString(date: string): string {
+  const [year, month, day] = date.split('-');
+  return `${Number(day)} ${months[Number(month) - 1]}, ${year}`;
+}

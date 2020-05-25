@@ -2,10 +2,14 @@ import React, { memo } from 'react';
 import Link from 'next/link';
 
 import AccessibleImage from '../media/AccessibleImage';
+import Tag from '../tag/Tag';
+
 import {
   blogPostTileVerticalResponsiveConfig,
   blogPostTileHorizontalResponsiveConfig,
 } from '../media/image-responsive-configurations';
+
+import { postDateToHumanString } from '../../scripts/utils';
 
 import { SanityBlogPostPreview } from '../../typings';
 
@@ -23,7 +27,7 @@ export type BlogPostTileProps = {
 const transformTransitionCommonClassName = 'transition-transform duration-300 ease-out transform';
 
 const BlogPostTile: React.FC<BlogPostTileProps> = memo(
-  ({ postData, layoutVariant, shadowVariant, reversed = false, className }) => (
+  ({ postData, layoutVariant, shadowVariant, reversed = false, extended = false, className }) => (
     <Link href={postData.compiledRoute.page} as={postData.compiledRoute.path} scroll={false}>
       <a
         className={[
@@ -39,7 +43,7 @@ const BlogPostTile: React.FC<BlogPostTileProps> = memo(
         <div
           className={[
             'relative w-full p-6',
-            layoutVariant === 'horizontal' ? 'md:p-12 xl:p-16' : 'xl:p-8',
+            layoutVariant === 'horizontal' ? 'md:p-8 lg:px-16 xl:p-20' : 'xl:p-8',
             layoutVariant === 'horizontal'
               ? 'sm:w-1/2 sm:flex sm:flex-col sm:justify-center'
               : 'flex-1',
@@ -48,23 +52,50 @@ const BlogPostTile: React.FC<BlogPostTileProps> = memo(
             .filter(Boolean)
             .join(' ')}
         >
-          <p className="type-tag text-gray-dark mb-3 md:mb-4 xl:mb-5">{postData.category.name}</p>
-          <p
-            className={[
-              'type-heading-3 mb-1 pr-4 md:pr-6',
-              layoutVariant === 'horizontal' && 'sm:hidden',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-          >
-            {postData.title}
-          </p>
-          {layoutVariant === 'horizontal' && (
+          <dl className="text-gray-dark mb-3 md:mb-4 xl:mb-5 flex items-baseline">
+            <dt className="sr-only">Category</dt>
+            <dd className="type-tag">{postData.category.name}</dd>
+            {extended && (
+              <>
+                <span aria-hidden="true" className="mx-2">
+                  &middot;
+                </span>
+                <dt className="sr-only">Published on</dt>
+                <dd className="type-footnote">{postDateToHumanString(postData.datePublished)}</dd>
+              </>
+            )}
+          </dl>
+
+          {layoutVariant === 'horizontal' ? (
             <>
-              <p className="hidden sm:block type-heading-2 pr-4 md:pr-6">{postData.title}</p>
-              <p className="hidden sm:block mt-5 md:mt-6 xl:mt-8">{postData.excerpt}</p>
+              <h3 className="md:hidden type-heading-3 mb-1 max-w-ch-22">{postData.title}</h3>
+              <h3 className="hidden md:block type-heading-2 max-w-ch-22">{postData.title}</h3>
             </>
+          ) : (
+            <h3 className="type-heading-3 mb-1">{postData.title}</h3>
           )}
+
+          {layoutVariant === 'horizontal' && (
+            <p
+              className={[
+                'hidden mt-6 md:mt-8 xl:mt-10 max-w-ch-32',
+                extended ? 'md:block' : 'sm:block',
+              ].join(' ')}
+            >
+              {postData.excerpt}
+            </p>
+          )}
+
+          {extended && (
+            <ul className="mt-4 sm:mt-6 md:mt-8 xl:mt-10 -mx-1" aria-label="Tags">
+              {postData.tags.map(({ slug, name }) => (
+                <li key={slug} className="inline-block mx-1 mt-1 xl:mt-2">
+                  <Tag>{name}</Tag>
+                </li>
+              ))}
+            </ul>
+          )}
+
           {/* Hover/focus line */}
           <span
             className={[

@@ -7,6 +7,7 @@ type BlogPostTileListProps = {
   postsData: SanityBlogPostPreview[];
   tileLayoutVariant: BlogPostTileLayoutVariant;
   tileShadowVariant: BlogPostTileShadowVariant;
+  tileExtendedInfo?: boolean;
   showOnlyFirstRow?: boolean;
   className?: string;
   tileClassName?: string;
@@ -17,6 +18,7 @@ const BlogPostTileList: React.FC<BlogPostTileListProps> = memo(
     className,
     tileLayoutVariant,
     tileShadowVariant,
+    tileExtendedInfo,
     tileClassName,
     showOnlyFirstRow,
   }) => (
@@ -54,7 +56,7 @@ const BlogPostTileList: React.FC<BlogPostTileListProps> = memo(
             shadowVariant={tileShadowVariant}
             layoutVariant={tileLayoutVariant}
             reversed={tileLayoutVariant === 'horizontal' && index % 2 !== 0}
-            extended={true}
+            extended={tileExtendedInfo}
             className={['h-full max-w-xs mx-auto sm:max-w-none', tileClassName].join(' ')}
           />
         </li>
