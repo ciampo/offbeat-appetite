@@ -4,6 +4,7 @@ import { render, fireEvent } from 'offbeat-appetite-render';
 
 import {
   ButtonOlive,
+  ButtonOliveNeutral,
   ButtonOliveInverted,
   ButtonPink,
   ButtonNeutral,
@@ -15,6 +16,7 @@ const sampleClassName = 'test-classname test-classname-two';
 
 const config = [
   { name: 'ButtonOlive', Component: ButtonOlive },
+  { name: 'ButtonOliveNeutral', Component: ButtonOliveNeutral },
   { name: 'ButtonOliveInverted', Component: ButtonOliveInverted },
   { name: 'ButtonPink', Component: ButtonPink },
   { name: 'ButtonNeutral', Component: ButtonNeutral },

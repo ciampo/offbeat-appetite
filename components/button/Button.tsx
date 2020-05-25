@@ -107,7 +107,7 @@ export const ButtonPink: React.FC<ButtonBaseProps> = memo(({ className, ...props
   <ButtonBase
     {...props}
     className={[
-      'bg-pink-darker text-gray-white',
+      'bg-pink-darker text-gray-white border border-pink-darker',
       'hover:shadow-md hover:bg-pink-dark',
       'focus:shadow-md focus:bg-pink-dark',
       className,

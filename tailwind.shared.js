@@ -69,8 +69,8 @@ const sharedTheme = {
     },
     pink: {
       darker: '#B15D5D',
-      dark: '#CC8787',
-      medium: '#EFD2CD',
+      dark: '#BE6A6A',
+      medium: '#CE8A7E',
       light: '#FBF5F3',
       lighter: '#FEFBFA',
     },

@@ -4,6 +4,7 @@ import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 
 import {
   ButtonOlive,
+  ButtonOliveNeutral,
   ButtonOliveInverted,
   ButtonPink,
   ButtonNeutral,
@@ -36,6 +37,12 @@ export const Palette: React.FC = () => (
     >
       {text('Text', 'Button olive inverted', buttonOliveGroupId)}
     </ButtonOliveInverted>
+    <ButtonOliveNeutral
+      disabled={boolean('Disabled', false, buttonOliveGroupId)}
+      onClick={action('button-olive-inverted-click')}
+    >
+      {text('Text', 'Button olive neutral', buttonOliveGroupId)}
+    </ButtonOliveNeutral>
     <ButtonPink
       disabled={boolean('Disabled', false, buttonPinkGroupId)}
       onClick={action('button-pink-click')}
