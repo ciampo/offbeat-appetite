@@ -1,9 +1,15 @@
-import React, { memo } from 'react';
+import React from 'react';
 
 type DefaultButtonContainerProps = {
   disabled?: boolean;
   className?: string;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  typeClassName?: string;
+  paddingClassName?: string;
+  sizeClassName?: string;
+  additionalHover?: 'underline' | 'scaleUp';
+  shadow?: boolean;
+  disableTransitions?: boolean;
+  onClick?: (event: React.MouseEvent) => void;
   [key: string]: unknown;
 };
 const DefaultButtonContainer: React.FC<DefaultButtonContainerProps> = (props) => (
@@ -13,107 +19,99 @@ const DefaultButtonContainer: React.FC<DefaultButtonContainerProps> = (props) =>
 type ButtonBaseProps = DefaultButtonContainerProps & {
   component?: (props: { [key: string]: unknown }) => JSX.Element;
 };
+
+type ButtonBasePropsWithBorder = ButtonBaseProps & {
+  border?: boolean;
+};
+
 const ButtonBase: React.FC<ButtonBaseProps> = ({
   className,
+  typeClassName = 'type-heading-4',
+  paddingClassName = 'px-4 xl:h-12 xl:px-6',
+  sizeClassName = 'h-10',
+  additionalHover,
+  shadow = false,
+  disableTransitions = false,
   component: Component = DefaultButtonContainer,
   ...props
 }) => (
   <Component
     {...props}
     className={[
-      'flex items-center h-10 px-4 xl:h-12 xl:px-6 rounded type-heading-4',
+      'flex items-center rounded underline-under contain-l-p',
       'disabled:cursor-not-allowed disabled:bg-gray-medium disabled:text-gray-dark disabled:opacity-50 disabled:shadow-none focus:outline-none',
+      !disableTransitions && 'transition-all duration-200 ease-out',
+      additionalHover === 'underline' && 'hover:underline',
+      additionalHover === 'scaleUp' && 'hover:will-change-transform transform hover:scale-105',
+      shadow && 'hover:shadow-md focus:shadow-md',
+      paddingClassName,
+      sizeClassName,
+      typeClassName,
       className,
     ].join(' ')}
   />
 );
 
-export const ButtonNeutral: React.FC<ButtonBaseProps> = memo(({ className, ...props }) => (
+export const ButtonOlive: React.FC<ButtonBaseProps> = ({ className, ...props }) => (
   <ButtonBase
     {...props}
     className={[
-      'bg-inherit text-gray-dark border border-gray-dark',
-      'hover:shadow-md hover:bg-gray-dark hover:text-gray-light',
-      'focus:shadow-md focus:bg-gray-dark focus:text-gray-light',
+      'bg-olive-darker text-gray-white border border-olive-darker',
+      'hover:bg-olive-dark',
+      'focus:bg-olive-dark',
       className,
     ]
       .filter(Boolean)
       .join(' ')}
   />
-));
-ButtonNeutral.displayName = 'memo(ButtonNeutral)';
+);
 
-export const ButtonOlive: React.FC<ButtonBaseProps> = memo(({ className, ...props }) => (
+export const ButtonTransparent: React.FC<ButtonBaseProps> = ({ className, ...props }) => (
   <ButtonBase
     {...props}
     className={[
-      'bg-olive-darker text-gray-white',
-      'hover:shadow-md hover:bg-olive-dark',
-      'focus:shadow-md focus:bg-olive-dark',
+      'bg-gray-white bg-opacity-0 text-gray-white border border-transparent',
+      'hover:bg-opacity-15',
+      'focus:bg-opacity-15',
       className,
     ]
       .filter(Boolean)
       .join(' ')}
   />
-));
-ButtonOlive.displayName = 'memo(ButtonOlive)';
+);
 
-export const ButtonOliveNeutral: React.FC<ButtonBaseProps> = memo(({ className, ...props }) => (
+export const ButtonOliveInverted: React.FC<ButtonBasePropsWithBorder> = ({
+  border = false,
+  className,
+  ...props
+}) => (
   <ButtonBase
     {...props}
     className={[
-      'bg-inherit text-olive-darker border border-olive-darker',
-      'hover:shadow-md hover:bg-olive-dark hover:text-gray-lighter',
-      'focus:shadow-md focus:bg-olive-dark focus:text-gray-lighter',
+      // Default
+      'bg-inherit text-olive-darker',
+      border && 'border border-olive-darker',
+      // Hover
+      border ? 'hover:bg-olive-darker hover:text-gray-white' : 'hover:bg-olive-light',
+      // Focus
+      border ? 'focus:bg-olive-darker focus:text-gray-white' : 'focus:bg-olive-light',
       className,
     ]
       .filter(Boolean)
       .join(' ')}
   />
-));
-ButtonOliveNeutral.displayName = 'memo(ButtonOliveNeutral)';
+);
 
-export const ButtonOliveInverted: React.FC<ButtonBaseProps> = memo(({ className, ...props }) => (
-  <ButtonBase
-    {...props}
-    className={[
-      'bg-gray-white text-olive-darker',
-      'hover:shadow-md hover:bg-olive-light',
-      'focus:shadow-md focus:bg-olive-light',
-      className,
-    ]
-      .filter(Boolean)
-      .join(' ')}
-  />
-));
-ButtonOliveInverted.displayName = 'memo(ButtonOliveInverted)';
-
-export const ButtonTransparent: React.FC<ButtonBaseProps> = memo(({ className, ...props }) => (
-  <ButtonBase
-    {...props}
-    className={[
-      'bg-inherit text-gray-white underline-under',
-      'hover:underline',
-      'focus:underline',
-      className,
-    ]
-      .filter(Boolean)
-      .join(' ')}
-  />
-));
-ButtonTransparent.displayName = 'memo(ButtonTransparent)';
-
-export const ButtonPink: React.FC<ButtonBaseProps> = memo(({ className, ...props }) => (
+export const ButtonPink: React.FC<ButtonBaseProps> = ({ className, ...props }) => (
   <ButtonBase
     {...props}
     className={[
       'bg-pink-darker text-gray-white border border-pink-darker',
-      'hover:shadow-md hover:bg-pink-dark',
-      'focus:shadow-md focus:bg-pink-dark',
+      'hover:bg-pink-dark',
+      'focus:bg-pink-dark',
       className,
     ]
       .filter(Boolean)
       .join(' ')}
   />
-));
-ButtonPink.displayName = 'memo(ButtonPink)';
+);

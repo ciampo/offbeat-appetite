@@ -273,6 +273,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
               className="justify-center flex-shrink-0 flex-grow-0 mt-4 md:mt-0 md:ml-4 md:w-32 xl:w-40"
               type="submit"
               disabled={isSubmitting || forceDisabled}
+              shadow={true}
             >
               {isSubmitting
                 ? subscribeFormSubmitButtonLabelSubmitting

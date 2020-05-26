@@ -12,7 +12,7 @@ import { UiLink } from '../../typings';
 const SUBSCRIBE_FORM_ID = 'subscribe';
 
 type MenuButtonProps = {
-  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onClick: (event: React.MouseEvent) => void;
 };
 export const MenuButton: React.FC<MenuButtonProps> = memo(({ onClick }) => (
   <li className="md:hidden -mx-4">
@@ -26,11 +26,20 @@ MenuButton.displayName = 'memo(MenuButton)';
 type DrawerNavLinkProps = {
   link: UiLink;
   selected: boolean;
-  onClick: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  border?: boolean;
+  underlineOnHover?: boolean;
+  onClick: (event: React.MouseEvent) => void;
   className?: string;
 };
 const DrawerNavLink: React.FC<DrawerNavLinkProps> = memo(
-  ({ link: { href, label, as }, selected, onClick, className }) => (
+  ({
+    link: { href, label, as },
+    selected,
+    onClick,
+    className,
+    border = false,
+    underlineOnHover = false,
+  }) => (
     <motion.li
       variants={{
         exit: {
@@ -47,24 +56,19 @@ const DrawerNavLink: React.FC<DrawerNavLinkProps> = memo(
         },
       }}
     >
-      {/* TODO refactor to button elements */}
-      <Link href={href} scroll={false} as={as}>
-        <a
-          className={[
-            'inline-block text-olive-darker type-heading-4 p-2 xl:px-4 rounded outline-none',
-            'transform transition-transform duration-150 ease-out',
-            'hover:-translate-y-1',
-            'focus:-translate-y-1 focus:bg-olive-light',
-            selected ? 'bg-olive-light' : '',
-            className,
-          ]
-            .filter(Boolean)
-            .join(' ')}
-          onClick={onClick}
-        >
-          {label}
-        </a>
-      </Link>
+      <ButtonOliveInverted
+        component={(props): JSX.Element => (
+          <Link scroll={false} href={href} as={as}>
+            <a {...props} />
+          </Link>
+        )}
+        additionalHover={underlineOnHover ? 'underline' : undefined}
+        className={[selected ? 'underline' : '', className].filter(Boolean).join(' ')}
+        onClick={onClick}
+        border={border}
+      >
+        {label}
+      </ButtonOliveInverted>
     </motion.li>
   )
 );
@@ -74,8 +78,8 @@ type DrawerNavProps = {
   links: UiLink[];
   open: boolean;
   currentRouterPath: string;
-  onLinkClick: (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-  onCloseButtonClick: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  onLinkClick: (event?: React.MouseEvent) => void;
+  onCloseButtonClick: (event?: React.MouseEvent) => void;
 };
 export const DrawerNav: React.FC<DrawerNavProps> = ({
   links,
@@ -159,8 +163,9 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
     >
       <PageContentContainer className="relative h-full flex flex-col">
         <div className="relative w-full h-16 flex items-center flex-shrink-0">
+          {/* CLose button */}
           <ButtonOliveInverted
-            className="-mx-4 hover:shadow-none focus:shadow-none"
+            className="-mx-4"
             onClick={onCloseButtonClick}
             tabIndex={open ? undefined : -1}
             aria-label="Close the navigation menu"
@@ -168,20 +173,22 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
             Close
           </ButtonOliveInverted>
 
-          <Link href={links[0].href} scroll={false} as={links[0].as}>
-            <a
-              className={[
-                'block text-olive-darker outline-none border-l-4 border-r-4 rounded border-transparent',
-                'absolute transform-translate-center',
-                'focus:border-olive-light focus:bg-olive-light',
-              ].join(' ')}
-              onClick={onLinkClick}
-              tabIndex={open ? undefined : -1}
-            >
-              <span className="sr-only">{links[0].label}</span>
-              <OALogoShort className="h-12 md:h-16 xl:h-20" idPrefix="oa-logo-short-drawer" />
-            </a>
-          </Link>
+          {/* OA logo */}
+          <ButtonOliveInverted
+            component={(props): JSX.Element => (
+              <Link scroll={false} href={links[0].href} as={links[0].as}>
+                <a {...props} />
+              </Link>
+            )}
+            sizeClassName=""
+            paddingClassName="py-0 px-1"
+            className="absolute transform-translate-center"
+            onClick={onLinkClick}
+            tabIndex={open ? undefined : -1}
+          >
+            <span className="sr-only">{links[0].label}</span>
+            <OALogoShort className="h-12 md:h-16 xl:h-20" idPrefix="oa-logo-short-drawer" />
+          </ButtonOliveInverted>
         </div>
 
         {open ? (
@@ -207,6 +214,7 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
                   selected={router.asPath === (link.as || link.href)}
                   link={link}
                   onClick={onLinkClick}
+                  underlineOnHover={true}
                 />
               ))}
               {document.querySelector(`#${SUBSCRIBE_FORM_ID}`) && (
@@ -214,7 +222,8 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
                   selected={false}
                   link={{ href: `#${SUBSCRIBE_FORM_ID}`, label: 'Subscribe' }}
                   onClick={onLinkClick}
-                  className="mt-2 xsm:mt-4 sm:mt-6 border border-current"
+                  className="mt-2 xsm:mt-4 sm:mt-6"
+                  border={true}
                 />
               )}
             </ul>

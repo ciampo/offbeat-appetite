@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 
 import { useNavVariantState } from './nav-variant-context';
 import { PageContentContainer } from '../layouts/Containers';
+import { ButtonOlive, ButtonTransparent } from '../button/Button';
 import { OALogoShort } from '../icons';
 
 import {
@@ -35,37 +36,38 @@ type HeaderNavLinkProps = {
   selected: boolean;
   link: UiLink;
 };
-const HeaderNavLink: React.FC<HeaderNavLinkProps> = memo(
-  ({ link: { href, label, as }, beforeLogo, last, selected, solid }) => (
-    <li
-      className={[
-        'hidden md:inline-block contain-l-p',
-        beforeLogo
-          ? last
-            ? '-ml-2 xl:-ml-4 mr-auto'
-            : '-ml-2 mr-1 lg:mr-2 xl:-ml-4 xl:mr-4'
-          : '-mr-2 ml-1 lg:ml-2 xl:-mr-4 xl:ml-4',
-      ].join(' ')}
+const HeaderNavLink: React.FC<HeaderNavLinkProps> = ({
+  link: { href, label, as },
+  beforeLogo,
+  last,
+  selected,
+  solid,
+}) => (
+  <li
+    className={[
+      'hidden md:inline-block',
+      beforeLogo
+        ? last
+          ? '-ml-6 mr-auto'
+          : '-ml-6 mr-6 lg:mr-8 xl:mr-6'
+        : '-mr-6 ml-6 lg:ml-8 xl:ml-6',
+    ].join(' ')}
+  >
+    <ButtonTransparent
+      component={(props): JSX.Element => (
+        <Link scroll={false} href={href} as={as}>
+          <a {...props} />
+        </Link>
+      )}
+      additionalHover="underline"
+      paddingClassName="p-2 xl:px-4"
+      sizeClassName=""
+      className={[selected && 'underline', !solid && 'text-shadow'].filter(Boolean).join(' ')}
     >
-      <Link href={href} scroll={false} as={as}>
-        <a
-          className={[
-            'block text-gray-white type-heading-4 p-2 xl:px-4 rounded outline-none underline-under',
-            solid ? false : 'text-shadow',
-            selected ? 'underline' : '',
-            'hover:underline',
-            'focus:underline',
-          ]
-            .filter(Boolean)
-            .join(' ')}
-        >
-          {label}
-        </a>
-      </Link>
-    </li>
-  )
+      {label}
+    </ButtonTransparent>
+  </li>
 );
-HeaderNavLink.displayName = 'memo(HeaderNavLink)';
 
 type HeaderLogoLinkProps = {
   solid: boolean;
@@ -74,23 +76,23 @@ type HeaderLogoLinkProps = {
 const HeaderLogoLink: React.FC<HeaderLogoLinkProps> = memo(
   ({ link: { href, label, as }, solid }) => (
     <li className="absolute transform-translate-center">
-      <Link href={href} scroll={false} as={as}>
-        <a
-          className={[
-            'block text-gray-white outline-none border-l-4 border-r-4 rounded border-transparent underline-under',
-            'transform transition-all duration-150 ease-out',
-            'hover:scale-105',
-            'focus:scale-105 focus:bg-olive-dark',
-          ].join(' ')}
-        >
-          <span className="sr-only">{label}</span>
-          <OALogoShort
-            className="h-12 md:h-16 xl:h-20"
-            idPrefix="oa-logo-short-haeder"
-            shadow={!solid}
-          />
-        </a>
-      </Link>
+      <ButtonTransparent
+        component={(props): JSX.Element => (
+          <Link scroll={false} href={href} as={as}>
+            <a {...props} />
+          </Link>
+        )}
+        sizeClassName=""
+        paddingClassName="py-0 px-1"
+        additionalHover="scaleUp"
+      >
+        <span className="sr-only">{label}</span>
+        <OALogoShort
+          className="h-12 md:h-16 xl:h-20"
+          idPrefix="oa-logo-short-haeder"
+          shadow={!solid}
+        />
+      </ButtonTransparent>
     </li>
   )
 );
@@ -139,16 +141,21 @@ const HeaderNav: React.FC = () => {
         ].join(' ')}
         data-testid="header-nav-wrapper"
       >
-        <a
+        <ButtonOlive
+          component={(props): JSX.Element => <a {...props} href="#content" />}
+          additionalHover="underline"
+          paddingClassName=""
+          sizeClassName=""
+          disableTransitions={true}
           className={[
             'z-50 sr-only',
-            'bg-olive-dark text-gray-white type-heading-4 rounded-br outline-none',
             'focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:mt-16 md:focus:mt-20 xl:focus:mt-24 focus:px-4 focus:py-3 xl:focus:px-6 xl:focus:py-4',
-          ].join(' ')}
-          href="#content"
+          ]
+            .filter(Boolean)
+            .join(' ')}
         >
           Skip to content
-        </a>
+        </ButtonOlive>
 
         <PageContentContainer
           component={(props: { [key: string]: unknown }): JSX.Element => (

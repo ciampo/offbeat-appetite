@@ -8,7 +8,7 @@ import DefaultPageTransitionWrapper from '../components/page-transition-wrappers
 import { OALogoFull } from '../components/icons';
 import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 import BlogPostTileList from '../components/blog-post-tile/BlogPostTileList';
-import { ButtonOliveNeutral } from '../components/button/Button';
+import { ButtonOliveInverted } from '../components/button/Button';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
@@ -52,22 +52,19 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
           showOnlyFirstRow={true}
         />
         {/* See more link */}
-        <ButtonOliveNeutral
-          component={({ scroll, ...props }): JSX.Element => (
-            <Link
-              scroll={scroll as boolean}
-              href="/[categoryId]"
-              as={`/${categorySectionData.category.slug}`}
-            >
+        <ButtonOliveInverted
+          component={(props): JSX.Element => (
+            <Link scroll={false} href="/[categoryId]" as={`/${categorySectionData.category.slug}`}>
               <a {...props} />
             </Link>
           )}
-          scroll={false}
           className="self-center"
           aria-label={`See more ${categorySectionData.category.name} posts`}
+          shadow={true}
+          border={true}
         >
           More {categorySectionData.title.toLowerCase()}
-        </ButtonOliveNeutral>
+        </ButtonOliveInverted>
       </PageContentContainer>
     </section>
   )

@@ -51,6 +51,11 @@ module.exports = {
       maxHeight: {
         hero: '50rem',
       },
+      opacity: {
+        '10': '0.1',
+        '15': '0.15',
+        '20': '0.2',
+      },
     },
     fontFamily: {
       display: ['Yeseva One', 'sans-serif'],
