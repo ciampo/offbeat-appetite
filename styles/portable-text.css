@@ -1,5 +1,5 @@
 .portable-text {
-  @apply break-words;
+  @apply break-words leading-relaxed;
 }
 
 /* Typography */
