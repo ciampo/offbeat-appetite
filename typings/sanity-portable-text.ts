@@ -3,6 +3,10 @@ import { SanityRecipe, SanityCaptionedImage, SanityCaptionedVideo, SanityMediaGa
 export interface SanityMarkDefs {
   _key: string;
   _type: string;
+  routeInfo?: {
+    page: string;
+    path: string;
+  };
   [key: string]: unknown;
 }
 

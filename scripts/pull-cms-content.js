@@ -6,7 +6,7 @@ const { promisify } = require('util');
 const chalk = require('chalk');
 
 const routesConfig = require('../routes-config.js');
-const { compileSingleRoute } = require('./compile-routes.js');
+const { compileSingleRoute, compileDynamicItem } = require('./compile-routes.js');
 
 const { sanityFetch } = require('../sanity/client');
 const { allCategoriesQuery, categoryType, replaceCategoryContent } = require('../sanity/category');
@@ -37,6 +37,8 @@ const DATA_FOLDER = path.join(ROOT_FOLDER, 'data');
 const POSTS_FOLDER = path.join(DATA_FOLDER, POSTS_FOLDERNAME);
 const CATEGORIES_FOLDER = path.join(DATA_FOLDER, CATEGORIES_FOLDERNAME);
 const BLOGPOST_PAGE_ROUTE = '/[categoryId]/[postId]';
+
+const blogPostRoute = routesConfig.find(({ route }) => route === BLOGPOST_PAGE_ROUTE);
 
 let siteName;
 let categoriesOrder;
@@ -159,16 +161,37 @@ async function generatePathsIndexConfig() {
 }
 
 function augmentBlogPostWithCompiledRoute(blogPost) {
-  const blogPostRoute = routesConfig.find(({ route }) => route === BLOGPOST_PAGE_ROUTE);
-  const compiledBlogPostRoute = compileSingleRoute({
+  const compiledBlogPostRoute = compileDynamicItem({
     routeConfig: blogPostRoute,
-    dynamicItemsData: [blogPost],
-  })[0];
+    dynamicItem: blogPost,
+  });
 
   return {
     ...blogPost,
     compiledRoute: compiledBlogPostRoute.routeInfo,
   };
+}
+
+function compilePortableTextInternalLinks(subTree) {
+  if (typeof subTree !== 'object') {
+    return;
+  }
+
+  if (Array.isArray(subTree)) {
+    subTree.forEach(compilePortableTextInternalLinks);
+  } else if (Object.prototype.hasOwnProperty.call(subTree, 'markDefs')) {
+    subTree.markDefs.forEach((markDef) => {
+      if (markDef._type === 'internalLink') {
+        const compiledBlogPostRoute = compileDynamicItem({
+          routeConfig: blogPostRoute,
+          dynamicItem: markDef.reference,
+        });
+        markDef.routeInfo = compiledBlogPostRoute.routeInfo;
+      }
+    });
+  } else {
+    Object.values(subTree).forEach(compilePortableTextInternalLinks);
+  }
 }
 
 async function getData() {
@@ -218,7 +241,10 @@ async function getData() {
       },
       {
         query: pageAboutQuery,
-        onResultsFetched: async (data) => await saveToFile(data[0], pageAboutType),
+        onResultsFetched: async (data) => {
+          compilePortableTextInternalLinks(data[0].content);
+          await saveToFile(data[0], pageAboutType);
+        },
       },
       {
         query: pageCategoryQuery,
@@ -226,7 +252,10 @@ async function getData() {
       },
       {
         query: pageThankYouQuery,
-        onResultsFetched: async (data) => await saveToFile(data[0], pageThankYouType),
+        onResultsFetched: async (data) => {
+          compilePortableTextInternalLinks(data[0].content);
+          await saveToFile(data[0], pageThankYouType);
+        },
       },
       {
         query: allBlogPostsQuery,
@@ -236,6 +265,7 @@ async function getData() {
           );
 
           for (const blogPostData of replacedBlogPostsContent) {
+            compilePortableTextInternalLinks(blogPostData.content);
             await saveToFile(blogPostData, path.join(POSTS_FOLDERNAME, blogPostData.slug));
           }
 

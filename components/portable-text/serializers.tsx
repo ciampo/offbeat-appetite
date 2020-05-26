@@ -7,9 +7,6 @@ import MediaGallery from '../media/MediaGallery';
 import { contentFullWidthResponsiveConfig } from '../media/image-responsive-configurations';
 import Recipe from '../blog-post/Recipe';
 
-import routesConfig from '../../routes-config';
-import { compileDynamicItem } from '../../scripts/compile-routes';
-
 import {
   SanityMarkNode,
   SanityBlockType,
@@ -21,19 +18,14 @@ import {
 
 const linkClassName = 'border-b border-dashed border-gray-darker outline-none focus:border-solid';
 
-const InternalLink: React.FC<SanityMarkNode> = ({ children, mark }) => {
-  // TODO: consider moving this swap in the data
-  const { routeInfo } = compileDynamicItem({
-    routeConfig: routesConfig.find(({ route }) => route === '/[categoryId]/[postId]'),
-    dynamicItem: mark.reference,
-  });
-
-  return (
-    <Link href={routeInfo.page} as={routeInfo.path} scroll={false}>
+const InternalLink: React.FC<SanityMarkNode> = ({ children, mark }) =>
+  mark.routeInfo ? (
+    <Link href={mark.routeInfo.page} as={mark.routeInfo.path} scroll={false}>
       <a className={linkClassName}>{children}</a>
     </Link>
+  ) : (
+    <span>{children}</span>
   );
-};
 
 const targetBlankProps = {
   target: '_blank',
