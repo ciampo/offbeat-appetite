@@ -7,13 +7,13 @@ const DefaultContainerElement: React.FC<DefaultContainerElementProps> = (props) 
   <div {...props}></div>
 );
 
-type ContainerProps = {
+type PageContainerProps = {
   component?: (props: { [key: string]: unknown }) => JSX.Element;
   className?: string;
   [key: string]: unknown;
 };
 
-export const PageContentContainer: React.FC<ContainerProps> = ({
+export const PageContentContainer: React.FC<PageContainerProps> = ({
   component: Component = DefaultContainerElement,
   className,
   ...props
@@ -27,15 +27,22 @@ export const PageContentContainer: React.FC<ContainerProps> = ({
   />
 );
 
-export const ArticleContentContainer: React.FC<ContainerProps> = ({
+type ArticleContainerProps = PageContainerProps & {
+  internalWrapperClassName?: string;
+};
+
+export const ArticleContentContainer: React.FC<ArticleContainerProps> = ({
   component,
   className,
+  internalWrapperClassName,
   ...props
 }) => (
   <PageContentContainer component={component} className={className}>
     <div
       {...props}
-      className="w-full mx-auto max-w-lg md:max-w-xl xl:max-w-3xl"
+      className={['w-full mx-auto max-w-lg md:max-w-xl xl:max-w-3xl', internalWrapperClassName]
+        .filter(Boolean)
+        .join(' ')}
       data-testid="layout-article-container"
     />
   </PageContentContainer>
