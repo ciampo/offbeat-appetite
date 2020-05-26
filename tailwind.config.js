@@ -44,12 +44,12 @@ module.exports = {
         '3/4': '75%',
         'ch-22': '22ch',
         'ch-32': '32ch',
+        'ch-40': '40ch',
       },
       minHeight: {
-        hero: '25rem',
-      },
-      maxHeight: {
-        hero: '50rem',
+        'hero-m': '32rem',
+        'hero-t': '38rem',
+        'hero-d': '50rem',
       },
       opacity: {
         '10': '0.1',

@@ -51,9 +51,12 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
       />
 
       <DefaultPageTransitionWrapper>
-        <header className="relative h-screen min-h-hero max-h-hero">
-          <div className="absolute text-center text-white z-10 text-shadow transform-translate-center flex flex-col items-center">
-            <h1 className="order-2 type-display-1 mt-4 md:mt-6 xl:mt-8">{blogPostData.title}</h1>
+        <header className="relative contain-l-p flex items-center py-32 sm:py-40 md:py-48 xl:py-64 min-h-hero-m sm:min-h-hero-t xl:min-h-hero-d">
+          <ArticleContentContainer
+            className="relative z-10"
+            internalWrapperClassName="flex flex-col items-center text-gray-white text-shadow text-center"
+          >
+            <h1 className="order-2 type-display-1 mt-2 md:mt-4 xl:mt-6">{blogPostData.title}</h1>
             <p className="type-eyebrow order-1">
               <span aria-hidden="true" className="pr-1">
                 —
@@ -63,10 +66,10 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
                 —
               </span>
             </p>
-            <p className="order-3 type-body-large italic mt-12 md:mt-16 xl:mt-20">
+            <p className="order-3 type-body-large italic mt-12 md:mt-16 xl:mt-20 max-w-ch-40">
               {blogPostData.excerpt}
             </p>
-          </div>
+          </ArticleContentContainer>
 
           <AccessibleImage
             image={blogPostData.heroImage}

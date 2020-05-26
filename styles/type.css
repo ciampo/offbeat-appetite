@@ -110,7 +110,7 @@
   @apply font-body leading-none tracking-wider font-semibold uppercase;
 }
 ._type-eyebrow-base {
-  @apply font-body leading-none tracking-widest font-semibold uppercase;
+  @apply font-body leading-none tracking-widest font-medium uppercase;
 }
 ._type-body-base {
   @apply font-body leading-normal tracking-normal font-normal;
