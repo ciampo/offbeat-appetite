@@ -3,7 +3,7 @@ import { axe } from 'jest-axe';
 import { render, fireEvent } from 'offbeat-appetite-render';
 import userEvent from '@testing-library/user-event';
 
-import { TextInputOlive, TextInputPink, EmailInputOlive, EmailInputPink } from '../Input';
+import { TextInputPink, EmailInputPink } from '../Input';
 
 const testLabel = 'Test input label';
 const testName = 'test-name';
@@ -13,17 +13,9 @@ const testInvalidEmailValue = 'notanemail.com';
 const testPlaceholder = 'Test input placeholder';
 const testClassName = 'test-classname test-classname-two';
 
-const textInputs = [
-  { name: 'TextInputOlive', Component: TextInputOlive },
-  { name: 'TextInputPink', Component: TextInputPink },
-];
+const textInputs = [{ name: 'TextInputPink', Component: TextInputPink }];
 
-const emailInputs = [
-  { name: 'EmailInputOlive', Component: EmailInputOlive },
-  { name: 'EmailInputPink', Component: EmailInputPink },
-];
-
-// classnames
+const emailInputs = [{ name: 'EmailInputPink', Component: EmailInputPink }];
 
 const LabelWrapper: React.FC = ({ children }) => (
   <label>

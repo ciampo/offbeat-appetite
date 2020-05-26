@@ -43,27 +43,6 @@ const EmailInputBase: React.FC<InputProps> = (props) => (
   />
 );
 
-const inputClassesOlive = [
-  'bg-olive-lighter border-olive-dark text-olive-darker placeholder-olive-dark',
-  'focus:bg-olive-light focus:border-olive-darker',
-];
-
-export const TextInputOlive: React.FC<InputProps> = memo(({ className, ...props }) => (
-  <TextInputBase
-    {...props}
-    className={[...inputClassesOlive, className].filter(Boolean).join(' ')}
-  />
-));
-TextInputOlive.displayName = 'memo(TextInputOlive)';
-
-export const EmailInputOlive: React.FC<InputProps> = memo(({ className, ...props }) => (
-  <EmailInputBase
-    {...props}
-    className={[...inputClassesOlive, className].filter(Boolean).join(' ')}
-  />
-));
-EmailInputOlive.displayName = 'memo(EmailInputOlive)';
-
 const inputClassesPink = [
   'bg-pink-lighter border-pink-dark text-pink-darker placeholder-pink-dark',
   'focus:bg-pink-light focus:border-pink-darker',
