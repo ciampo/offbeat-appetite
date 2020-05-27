@@ -49,11 +49,13 @@ const simpleSerializers = {
   },
 };
 
+const mediaBlockClassName = 'my-6 md:my-8 xl:my-10';
+
 const CaptionedImageWrapper: React.FC<SanityBlockType<SanityCaptionedImage>> = (props) => (
   <CaptionedImage
     {...props.node}
     responsiveConfig={contentFullWidthResponsiveConfig}
-    className="my-8 md:my-10 xl:my-16"
+    className={mediaBlockClassName}
   />
 );
 
@@ -61,12 +63,12 @@ const CaptionedVideoWrapper: React.FC<SanityBlockType<SanityCaptionedVideo>> = (
   <CaptionedVideo
     {...props.node}
     responsiveConfig={contentFullWidthResponsiveConfig}
-    className="my-8 md:my-10 xl:my-16"
+    className={mediaBlockClassName}
   />
 );
 
 const MediaGalleryWrapper: React.FC<SanityBlockType<SanityMediaGallery>> = (props) => (
-  <MediaGallery {...props.node} className="my-8 md:my-10 xl:my-16" />
+  <MediaGallery {...props.node} className={mediaBlockClassName} />
 );
 
 const RecipeWrapper: React.FC<SanityBlockType<SanityRecipe>> = (props) => (
