@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import SimplePortableText from '../portable-text/SimplePortableText';
 import { ArticleContentContainer } from '../layouts/Containers';
-import { stringifyRecipeIngredient, joinUrl } from '../../scripts/utils';
+import { stringifyRecipeIngredient, stringifyRecipeQuantity, joinUrl } from '../../scripts/utils';
 
 import {
   recipePrepTimeLabel,
@@ -21,52 +21,67 @@ import { AllSharingButtons } from '../sharing/sharing-links';
 
 import { socialShareLabel } from '../../data/siteMiscContent.json';
 
-const RecipeMethodStep: React.FC = ({ children }) => <li>{children}</li>;
-
 const RecipeSectionTitle: React.FC<{ text: string }> = ({ text }) => (
-  <h3 className="mt-6 md:mt-8 font-bold text-xl lg:text-2xl">{text}</h3>
+  <h3 className="type-heading-2 text-center">{text}</h3>
 );
 
 type RecipeProps = {
   recipe: SanityRecipe;
+  className?: string;
 };
-const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
+const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
   const { asPath } = useRouter();
 
   return (
     <article
       data-testid="recipe-wrapper"
       id="recipe"
-      className="overflow-full-bleed-x py-16 md:py-20 xl:py-24 bg-gray-200"
-      {...props}
+      className={[
+        'bg-gray-lighter sm:rounded overflow-hidden contain-l-p shadow-neu-lighter',
+        'py-10 sm:py-12 md:py-16 xl:py-20',
+        '-mx-6 xsm:-mx-8 sm:-mx-12 md:-mx-16 xl:-mx-20',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
       <ArticleContentContainer>
-        {/* Title */}
-        <h2 className="font-bold text-2xl text-center xl:text-3xl">{recipe.title}</h2>
+        <header className="flex flex-col-reverse items-center space-y-4">
+          {/* Title */}
+          <h2 className="type-display-2 text-center">{recipe.title}</h2>
 
-        {/* Rating */}
-        <p className="text-center mt-2 md:mt-4">TODO: non-interactive star rating</p>
+          {/* Rating */}
+          {/* <p className="">TODO: rating</p> */}
+        </header>
 
         {/* Sharing */}
-        <aside className="mt-6 md:mt-8 flex flex-col items-center justify-center">
-          <p>{socialShareLabel.replace(':platformName', '').trim()}</p>
-          <div className="flex flex-wrap justify-center">
+        <aside
+          className="mt-8 md:mt-10 xl:mt-12 flex flex-col items-center space-y-1"
+          aria-label="Share recipe"
+        >
+          <p className="type-body">{socialShareLabel.replace(':platformName', '').trim()}</p>
+          <div className="flex flex-wrap justify-center space-x-1 xsm:space-x-2">
             <AllSharingButtons
               link={joinUrl(
                 process.env.NEXT_PUBLIC_CANONICAL_URL as string,
                 `${asPath.split(/[?#]/)[0]}#recipe`
               )}
               message={recipe.title}
-              className="mx-px mt-1 3xsm:mx-1 sm:mt-2"
               iconPrefix="recipe-icon-social"
             />
           </div>
         </aside>
 
+        {/* Description  */}
+        <section className="mt-8 md:mt-10 xl:mt-12">
+          <h3 className="sr-only">{recipeDescriptionSectionTitle}</h3>
+          <p className="type-body text-center">{recipe.description}</p>
+        </section>
+
         {/* Info panel (serving / prep + cooking times) */}
-        <section className="mt-8 md:mt-10">
+        <section className="mt-8 sm:mt-10 md:mt-12 xl:mt-16">
           <h3 className="sr-only">{recipeInformationSectionTitle}</h3>
-          <dl className="flex flex-wrap mx-auto border-gray-200 bg-white rounded-sm ">
+          <dl className="flex flex-wrap mx-auto">
             {[
               {
                 title: recipeServingsLabel,
@@ -87,9 +102,10 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
               <React.Fragment key={`instruction-box-${index}`}>
                 <dt
                   className={[
-                    'pt-4 px-2 2xsm:pt-6 xsm:pt-8 xsm:px-4 md:pt-6 font-medium uppercase text-center',
-                    index === array.length - 1 && '2xsm:border-l-2',
-                    index > 0 && 'border-t-2 md:border-t-0 md:border-l-2',
+                    'type-tag text-center text-gray-dark border-gray-medium',
+                    'pt-4 px-2 2xsm:pt-6 xsm:pt-6 xsm:px-4 md:pt-4',
+                    index === array.length - 1 && '2xsm:border-l',
+                    index > 0 && '2xsm:border-t md:border-t-0 md:border-l',
                     index > 0
                       ? // Side by side on 2xsm screen
                         `w-full 2xsm:w-1/2 2xsm:order-${index + 2} md:w-1/3 md:order-${index + 1}`
@@ -104,10 +120,10 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
                 <dd
                   data-testid={`recipe-info-detail-${index}`}
                   className={[
-                    'flex items-end justify-center md:flex-col md:items-center',
-                    'pt-1 px-2 pb-4 2xsm:pt-2 2xsm:pb-6 xsm:pt-3 xsm:px-4 xsm:pb-8 md:pt-4 md:pb-6',
-                    index === array.length - 1 && '2xsm:border-l-2',
-                    index > 0 && 'md:border-l-2',
+                    'flex items-end justify-center md:flex-col md:items-center border-gray-medium',
+                    'pt-2 px-2 pb-4 2xsm:pt-3 2xsm:pb-6 xsm:px-4 xsm:pb-6 md:pt-5 md:pb-3',
+                    index === array.length - 1 && '2xsm:border-l',
+                    index > 0 && 'md:border-l',
                     index > 0
                       ? // Side by side on 2xsm screen
                         `w-full 2xsm:w-1/2 2xsm:order-${
@@ -121,40 +137,53 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
                     .filter(Boolean)
                     .join(' ')}
                 >
-                  <span className="text-3xl leading-none">{quantity}</span>
-                  <span className="text-sm text-center lowercase ml-2 md:ml-0">{unit}</span>
+                  <span className="type-display-2 leading-none">{quantity}</span>
+                  <span className="type-body lowercase ml-2 md:ml-0">{unit}</span>
                 </dd>
               </React.Fragment>
             ))}
           </dl>
         </section>
 
-        {/* Description  */}
-        <section className="mt-6 md:mt-8">
-          <h3 className="sr-only">{recipeDescriptionSectionTitle}</h3>
-          <p>{recipe.description}</p>
-        </section>
-
         {/* Ingredients  */}
-        <section className="mt-6 md:mt-8">
+        <section className="mt-8 2xsm:mt-10 md:mt-12 xl:mt-16 space-y-5 sm:space-y-6 md:space-y-8 xl:space-y-10">
           <RecipeSectionTitle text={recipeIngredientsSectionTitle} />
-          <ul data-testid="recipe-ingredients-list">
+          <ul className="space-y-2 md:space-y-3 xl:space-y-4" data-testid="recipe-ingredients-list">
             {recipe.ingredients.map((ingredient) => (
-              <li key={ingredient._key}>{stringifyRecipeIngredient(ingredient)}</li>
+              <li
+                key={ingredient._key}
+                aria-label={stringifyRecipeIngredient(ingredient)}
+                className="flex items-top justify-center space-x-2 md:space-x-3 xl:space-x-4"
+              >
+                <span className="w-16 2xsm:w-20 xsm:w-24 font-medium text-right">
+                  {stringifyRecipeQuantity(ingredient) || '—'}
+                </span>
+                <span className="w-48 2xsm:w-56 xsm:w-64 text-left leading-snug">
+                  {ingredient.name}
+                </span>
+              </li>
             ))}
           </ul>
         </section>
 
         {/* Method  */}
-        <section className="mt-6 md:mt-8">
+        <section className="mt-8 2xsm:mt-10 md:mt-12 xl:mt-16 space-y-5 sm:space-y-6 md:space-y-8 xl:space-y-10">
           <RecipeSectionTitle text={recipeMethodSectionTitle} />
-          <ol data-testid="recipe-method-list">
-            {recipe.method.map(({ content, _key }) => (
-              <SimplePortableText
-                key={_key}
-                customSerializers={{ container: RecipeMethodStep }}
-                blocks={content}
-              />
+          <ol
+            className="space-y-4 sm:space-y-5 md:space-y-6 xl:space-y-8"
+            data-testid="recipe-method-list"
+          >
+            {recipe.method.map(({ title, content, _key }, index) => (
+              <li key={_key}>
+                <p className="type-heading-4 mb-2 md:mb-4 xl:mb-6">
+                  <span aria-label={`Step ${index + 1}`}>{index + 1}. </span>
+                  {title}
+                </p>
+                <SimplePortableText
+                  // customSerializers={{ container: RecipeMethodStepEmptyContainer }}
+                  blocks={content}
+                />
+              </li>
             ))}
           </ol>
         </section>

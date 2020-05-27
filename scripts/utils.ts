@@ -31,12 +31,18 @@ export const arraySortNumberAsc = (array: number[]): number[] => {
   return copy;
 };
 
-export function stringifyRecipeIngredient({ name, unit, quantity }: SanityIngredient): string {
-  const quantityString: string = quantity === 0 ? '' : `${quantity}`;
-  // const unitString: string = unit === 'unitless' ? (quantity === 0 ? '' : ' ') : `${unit} `;
-  const unitString: string = quantity === 0 ? '' : unit === 'unitless' ? ' ' : `${unit} `;
+export function stringifyRecipeQuantity({ unit, quantity }: SanityIngredient): string {
+  const numberString: string = quantity === 0 ? '' : `${quantity}`;
+  const unitString: string = quantity !== 0 && unit !== 'unitless' ? unit : '';
 
-  return `${quantityString}${unitString}${name}`;
+  return `${numberString}${unitString}`;
+}
+
+export function stringifyRecipeIngredient(ingredient: SanityIngredient): string {
+  const quantityString: string = stringifyRecipeQuantity(ingredient);
+  const spaceString: string = ingredient.quantity === 0 ? '' : ' ';
+
+  return `${quantityString}${spaceString}${ingredient.name}`;
 }
 
 const months = [

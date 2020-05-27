@@ -72,7 +72,7 @@ const MediaGalleryWrapper: React.FC<SanityBlockType<SanityMediaGallery>> = (prop
 );
 
 const RecipeWrapper: React.FC<SanityBlockType<SanityRecipe>> = (props) => (
-  <Recipe recipe={props.node} />
+  <Recipe className="my-16 md:my-20 xl:my-24" recipe={props.node} />
 );
 
 const richSerializers = {

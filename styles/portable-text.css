@@ -104,30 +104,30 @@
 }
 
 /* Lists */
-.portable-text ul,
-.portable-text ol {
+.portable-text ul:not([data-testid='recipe-ingredients-list']),
+.portable-text ol:not([data-testid='recipe-method-list']) {
   @apply pl-4;
 }
 
 @screen md {
-  .portable-text ul,
-  .portable-text ol {
+  .portable-text ul:not([data-testid='recipe-ingredients-list']),
+  .portable-text ol:not([data-testid='recipe-method-list']) {
     @apply pl-6;
   }
 }
 
 @screen xl {
-  .portable-text ul,
-  .portable-text ol {
+  .portable-text ul:not([data-testid='recipe-ingredients-list']),
+  .portable-text ol:not([data-testid='recipe-method-list']) {
     @apply pl-8;
   }
 }
 
-.portable-text ul {
+.portable-text ul:not([data-testid='recipe-ingredients-list']) {
   @apply list-disc;
 }
 
-.portable-text ol {
+.portable-text ol:not([data-testid='recipe-method-list']) {
   @apply list-decimal;
 }
 
