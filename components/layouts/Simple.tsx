@@ -7,7 +7,7 @@ const SimpleLayout: React.FC = ({ children }) => (
   <>
     <Nav />
     <main
-      data-testid="main-layout-main-content"
+      data-testid="simple-layout-main-content"
       id="content"
       tabIndex={-1}
       className="outline-none relative bg-gray-lighter z-10 md:shadow-lg"
