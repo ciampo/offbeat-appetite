@@ -129,7 +129,8 @@ const BlogPostTile: React.FC<BlogPostTileProps> = memo(
             className={[
               'relative w-full h-0',
               transformTransitionCommonClassName,
-              'group-hover:scale-105 group-focus:scale-105',
+              'group-hover:will-change-transform group-hover:scale-105',
+              'group-focus:will-change-transform group-focus:scale-105',
             ]
               .filter(Boolean)
               .join(' ')}
