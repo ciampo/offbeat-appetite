@@ -55,5 +55,5 @@ const months = [
 ];
 export function postDateToHumanString(date: string): string {
   const [year, month, day] = date.split('-');
-  return `${Number(day)} ${months[Number(month) - 1]}, ${year}`;
+  return `${Number(day)} ${months[Number(month) - 1]} ${year}`;
 }
