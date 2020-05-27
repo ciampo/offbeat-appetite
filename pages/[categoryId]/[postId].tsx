@@ -1,13 +1,20 @@
 import React, { useEffect } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
+import { useRouter } from 'next/router';
 
 import PageMeta from '../../components/meta/PageMeta';
 import AccessibleImage from '../../components/media/AccessibleImage';
 import { fullBleedImageResponsiveConfig } from '../../components/media/image-responsive-configurations';
+import Tag from '../../components/tag/Tag';
+import { AllSharingButtons } from '../../components/sharing/sharing-links';
 import RichPortableText from '../../components/portable-text/RichPortableText';
 import DefaultPageTransitionWrapper from '../../components/page-transition-wrappers/Default';
 import { ArticleContentContainer } from '../../components/layouts/Containers';
 import { useNavVariantDispatch } from '../../components/nav/nav-variant-context';
+
+import { joinUrl, postDateToHumanString } from '../../scripts/utils';
+
+import { socialShareLabel, authorLabel } from '../../data/siteMiscContent.json';
 
 import routesConfig from '../../routes-config';
 import { compileSingleRoute, compileDynamicItem } from '../../scripts/compile-routes';
@@ -39,6 +46,8 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
   useEffect(() => {
     setVariant('transparent');
   }, [setVariant]);
+
+  const { asPath } = useRouter();
 
   return (
     <>
@@ -83,10 +92,41 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
         </header>
 
         <ArticleContentContainer
-          component={(props): JSX.Element => <section {...props}></section>}
           className="pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32"
+          internalWrapperClassName="space-y-8 sm:space-y-10 md:space-y-12 xl:space-y-16"
         >
-          <RichPortableText blocks={blogPostData.content} />
+          <aside className="flex items-center justify-center space-x-1 xsm:space-x-2">
+            <p className="sr-only">{socialShareLabel.replace(':platformName', '').trim()}</p>
+            <AllSharingButtons
+              link={joinUrl(
+                process.env.NEXT_PUBLIC_CANONICAL_URL as string,
+                `${asPath.split(/[?#]/)[0]}#recipe`
+              )}
+              message={blogPostData.seoTitle}
+            />
+          </aside>
+
+          <section>
+            <RichPortableText blocks={blogPostData.content} />
+          </section>
+
+          <span aria-hidden="true" className="block h-px w-32 bg-gray-medium"></span>
+
+          <aside>
+            <h2 className="sr-only">Article details:</h2>
+            <p>
+              {authorLabel} <strong className="font-semibold">{blogPostData.author.name}</strong>,{' '}
+              {postDateToHumanString(blogPostData.datePublished)}
+            </p>
+
+            <ul className="-mx-1 mt-4 sm:mt-5 md:mt-6 xl:mt-8" aria-label="Tags">
+              {blogPostData.tags.map(({ slug, name }, index) => (
+                <li key={`${slug}-${index}`} className="inline-block mx-1 mt-1 xl:mt-2">
+                  <Tag>{name}</Tag>
+                </li>
+              ))}
+            </ul>
+          </aside>
         </ArticleContentContainer>
       </DefaultPageTransitionWrapper>
     </>
