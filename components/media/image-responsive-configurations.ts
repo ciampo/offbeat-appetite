@@ -167,7 +167,10 @@ const horizontalTilesAdditonalPadding = {
   xl: pagePadding.md,
 };
 export const blogPostTileHorizontalResponsiveConfig: AccessibleImageResponsiveConfig = {
-  exports: sortBreakpoints({ breakpoints: ['240', '272', '340', '400', '528'] }) as number[],
+  exports: sortBreakpoints({
+    breakpoints: ['240', '272', '340', '400', '528'],
+    addDoubleRes: true,
+  }) as number[],
   sizes: [
     {
       queryMinWidth: twTheme.maxWidth['screen-md'],
