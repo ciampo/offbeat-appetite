@@ -17,6 +17,7 @@ import {
 import { socialShareLabel } from '../../data/siteMiscContent.json';
 
 type BasicSharingLinkProps = {
+  iconPrefix: string;
   label: string;
   iconComponent: React.FC<IconProps>;
   className: string;
@@ -28,11 +29,12 @@ type BasicSharingLinkProps = {
 export type SharingLinkWithMessageProps = {
   link: string;
   message: string;
+  iconPrefix: string;
   className?: string;
 };
 
 const BasicSharingLink: React.FC<BasicSharingLinkProps> = memo(
-  ({ href, label, iconComponent: Icon, className, useButton = false, onClick }) => (
+  ({ iconPrefix, href, label, iconComponent: Icon, className, useButton = false, onClick }) => (
     <ButtonSharing
       sizeClassName=""
       paddingClassName="p-2"
@@ -47,7 +49,7 @@ const BasicSharingLink: React.FC<BasicSharingLinkProps> = memo(
       }
     >
       <span className="sr-only">{label}</span>
-      <Icon role="presentation" className="w-5 h-5 sm:w-6 sm:h-6" />
+      <Icon idPrefix={iconPrefix} role="presentation" className="w-5 h-5 sm:w-6 sm:h-6" />
     </ButtonSharing>
   )
 );
@@ -56,6 +58,7 @@ BasicSharingLink.displayName = 'memo(BasicSharingLink)';
 export const FacebookSharingButton: React.FC<SharingLinkWithMessageProps> = ({
   link,
   className,
+  iconPrefix,
 }) => (
   <BasicSharingLink
     label={socialShareLabel.replace(':platformName', 'Facebook')}
@@ -64,6 +67,7 @@ export const FacebookSharingButton: React.FC<SharingLinkWithMessageProps> = ({
     className={['hover:bg-share-facebook focus:bg-share-facebook', className]
       .filter(Boolean)
       .join(' ')}
+    iconPrefix={iconPrefix}
   />
 );
 
@@ -71,6 +75,7 @@ export const TwitterSharingButton: React.FC<SharingLinkWithMessageProps> = ({
   link,
   message,
   className,
+  iconPrefix,
 }) => (
   <BasicSharingLink
     label={socialShareLabel.replace(':platformName', 'Twitter')}
@@ -81,6 +86,7 @@ export const TwitterSharingButton: React.FC<SharingLinkWithMessageProps> = ({
     className={['hover:bg-share-twitter focus:bg-share-twitter', className]
       .filter(Boolean)
       .join(' ')}
+    iconPrefix={iconPrefix}
   />
 );
 
@@ -88,6 +94,7 @@ export const PinterestSharingButton: React.FC<SharingLinkWithMessageProps> = ({
   link,
   message,
   className,
+  iconPrefix,
 }) => {
   const { image } = useSharingImageState();
 
@@ -104,6 +111,7 @@ export const PinterestSharingButton: React.FC<SharingLinkWithMessageProps> = ({
       ]
         .filter(Boolean)
         .join(' ')}
+      iconPrefix={iconPrefix}
     />
   );
 };
@@ -112,6 +120,7 @@ export const WhatsappSharingButton: React.FC<SharingLinkWithMessageProps> = ({
   link,
   message,
   className,
+  iconPrefix,
 }) => (
   <BasicSharingLink
     label={socialShareLabel.replace(':platformName', 'Whatsapp')}
@@ -122,6 +131,7 @@ export const WhatsappSharingButton: React.FC<SharingLinkWithMessageProps> = ({
     className={['hover:bg-share-whatsapp focus:bg-share-whatsapp', className]
       .filter(Boolean)
       .join(' ')}
+    iconPrefix={iconPrefix}
   />
 );
 
@@ -129,21 +139,28 @@ export const MailSharingButton: React.FC<SharingLinkWithMessageProps> = ({
   link,
   message,
   className,
+  iconPrefix,
 }) => (
   <BasicSharingLink
     label={socialShareLabel.replace(':platformName', 'Email')}
     href={`mailto:?subject=${encodeURIComponent(message)}&body=${encodeURIComponent(link)}`}
     iconComponent={MailIcon}
     className={['hover:bg-share-mail focus:bg-share-mail', className].filter(Boolean).join(' ')}
+    iconPrefix={iconPrefix}
   />
 );
 
-export const PocketSharingButton: React.FC<SharingLinkWithMessageProps> = ({ link, className }) => (
+export const PocketSharingButton: React.FC<SharingLinkWithMessageProps> = ({
+  link,
+  className,
+  iconPrefix,
+}) => (
   <BasicSharingLink
     label={socialShareLabel.replace(':platformName', 'Pocket')}
     href={`https://getpocket.com/edit?url=${encodeURIComponent(link)}`}
     iconComponent={PocketIcon}
     className={['hover:bg-share-pocket focus:bg-share-pocket', className].filter(Boolean).join(' ')}
+    iconPrefix={iconPrefix}
   />
 );
 
@@ -151,6 +168,7 @@ export const NativeSharingButton: React.FC<SharingLinkWithMessageProps> = ({
   link,
   message,
   className,
+  iconPrefix,
 }) => {
   const onNativeShareButtonClick = useCallback(async () => {
     try {
@@ -171,6 +189,7 @@ export const NativeSharingButton: React.FC<SharingLinkWithMessageProps> = ({
       className={['hover:bg-share-mail focus:bg-share-mail', className].filter(Boolean).join(' ')}
       useButton={true}
       onClick={onNativeShareButtonClick}
+      iconPrefix={iconPrefix}
     />
   ) : null;
 };

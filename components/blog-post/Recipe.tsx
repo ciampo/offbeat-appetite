@@ -58,6 +58,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, ...props }) => {
               )}
               message={recipe.title}
               className="mx-px mt-1 3xsm:mx-1 sm:mt-2"
+              iconPrefix="recipe-icon-social"
             />
           </div>
         </aside>

@@ -157,9 +157,9 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
   }, []);
 
   return (
-    <>
-      <section
-        className="bg-pink-light py-16 xsm:py-20 md:py-24 xl:py-32 overflow-hidden shadow-inner-pink-section"
+    <section className="bg-pink-light">
+      <div
+        className="py-16 xsm:py-20 md:py-24 xl:py-32 shadow-inner-pink-section"
         id="subscribe"
         data-testid="subscribe-form-section-wrapper"
       >
@@ -290,8 +290,8 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
             </div>
           </form>
         </ArticleContentContainer>
-      </section>
-      <aside className="bg-pink-light type-footnote text-center text-pink-medium py-2">
+      </div>
+      <div className="type-footnote text-center text-pink-medium py-2">
         <ArticleContentContainer>
           Protected by reCAPTCHA. Google&#39;s{' '}
           <a target="_blank" rel="noopener noreferrer" href="https://policies.google.com/privacy">
@@ -303,8 +303,8 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
           </a>
           &nbsp;apply.
         </ArticleContentContainer>
-      </aside>
-    </>
+      </div>
+    </section>
   );
 };
 

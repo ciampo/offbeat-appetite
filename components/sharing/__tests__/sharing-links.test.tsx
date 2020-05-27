@@ -20,6 +20,7 @@ const testSharingData: SharingLinkWithMessageProps = {
   link: 'https://test.com',
   message: 'test message',
   className: 'test-classname',
+  iconPrefix: 'test-icon-social',
 };
 
 const standardSharingLinks = [
@@ -28,7 +29,7 @@ const standardSharingLinks = [
     Component: FacebookSharingButton,
     generateLink: ({ link }: SharingLinkWithMessageProps): string =>
       `https://facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}&display=page`,
-    activeBgClassname: 'bg-facebook',
+    activeBgClassname: 'bg-share-facebook',
   },
   {
     name: 'Twitter',
@@ -37,7 +38,7 @@ const standardSharingLinks = [
       `https://twitter.com/intent/tweet/?text=${encodeURIComponent(
         message
       )}&url=${encodeURIComponent(link)}`,
-    activeBgClassname: 'bg-twitter',
+    activeBgClassname: 'bg-share-twitter',
   },
   {
     name: 'Pinterest',
@@ -46,14 +47,14 @@ const standardSharingLinks = [
       `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(
         link
       )}&description=${encodeURIComponent(message)}`,
-    activeBgClassname: 'bg-pinterest',
+    activeBgClassname: 'bg-share-pinterest',
   },
   {
     name: 'Pocket',
     Component: PocketSharingButton,
     generateLink: ({ link }: SharingLinkWithMessageProps): string =>
       `https://getpocket.com/edit?url=${encodeURIComponent(link)}`,
-    activeBgClassname: 'bg-pocket',
+    activeBgClassname: 'bg-share-pocket',
   },
   {
     name: 'Whatsapp',
@@ -62,14 +63,14 @@ const standardSharingLinks = [
       `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}%20${encodeURIComponent(
         link
       )}`,
-    activeBgClassname: 'bg-whatsapp',
+    activeBgClassname: 'bg-share-whatsapp',
   },
   {
     name: 'Email',
     Component: MailSharingButton,
     generateLink: ({ message, link }: SharingLinkWithMessageProps): string =>
       `mailto:?subject=${encodeURIComponent(message)}&body=${encodeURIComponent(link)}`,
-    activeBgClassname: 'bg-mail',
+    activeBgClassname: 'bg-share-mail',
   },
 ];
 
@@ -132,8 +133,8 @@ describe('Native Web Sharing Button', () => {
 
     expect(span).toBeInTheDocument();
     expect(button).toBeInTheDocument();
-    expect(button.className).toMatch(`focus:bg-mail`);
-    expect(button.className).toMatch(`hover:bg-mail`);
+    expect(button.className).toMatch(`focus:bg-share-mail`);
+    expect(button.className).toMatch(`hover:bg-share-mail`);
 
     expect(svg).toHaveAttribute('xmlns', 'http://www.w3.org/2000/svg');
 

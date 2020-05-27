@@ -94,26 +94,33 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
         <ArticleContentContainer
           className="pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32"
           internalWrapperClassName="space-y-8 sm:space-y-10 md:space-y-12 xl:space-y-16"
+          component={(props): JSX.Element => <article {...props} />}
         >
-          <aside className="flex items-center justify-center space-x-1 xsm:space-x-2">
-            <p className="sr-only">{socialShareLabel.replace(':platformName', '').trim()}</p>
+          <aside
+            className="flex items-center justify-center space-x-1 xsm:space-x-2"
+            aria-labelledby="article-share-title"
+          >
+            <h2 id="article-share-title" className="sr-only">
+              {socialShareLabel.replace(':platformName', '').trim()}
+            </h2>
             <AllSharingButtons
               link={joinUrl(
                 process.env.NEXT_PUBLIC_CANONICAL_URL as string,
                 `${asPath.split(/[?#]/)[0]}#recipe`
               )}
               message={blogPostData.seoTitle}
+              iconPrefix="article-top-icon-social"
             />
           </aside>
 
-          <section>
-            <RichPortableText blocks={blogPostData.content} />
-          </section>
+          <RichPortableText blocks={blogPostData.content} />
 
           <span aria-hidden="true" className="block h-px w-32 bg-gray-medium"></span>
 
-          <aside>
-            <h2 className="sr-only">Article details:</h2>
+          <footer aria-labelledby="article-info-title">
+            <h2 id="article-info-title" className="sr-only">
+              Article details:
+            </h2>
             <p>
               {authorLabel} <strong className="font-semibold">{blogPostData.author.name}</strong>,{' '}
               {postDateToHumanString(blogPostData.datePublished)}
@@ -126,7 +133,7 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
                 </li>
               ))}
             </ul>
-          </aside>
+          </footer>
         </ArticleContentContainer>
       </DefaultPageTransitionWrapper>
     </>
