@@ -60,11 +60,7 @@
   @apply mt-8;
 }
 
-.portable-text > * + h3 {
-  @apply mt-6;
-}
-
-.portable-text > * + h4,
+.portable-text > * + h3,
 .portable-text > * + blockquote,
 .portable-text > blockquote + * {
   @apply mt-4;
@@ -84,11 +80,7 @@
     @apply mt-10;
   }
 
-  .portable-text > * + h3 {
-    @apply mt-8;
-  }
-
-  .portable-text > * + h4,
+  .portable-text > * + h3,
   .portable-text > * + blockquote,
   .portable-text > blockquote + * {
     @apply mt-6;
@@ -104,11 +96,7 @@
     @apply mt-12;
   }
 
-  .portable-text > * + h3 {
-    @apply mt-10;
-  }
-
-  .portable-text > * + h4,
+  .portable-text > * + h3,
   .portable-text > * + blockquote,
   .portable-text > blockquote + * {
     @apply mt-8;
