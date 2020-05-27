@@ -96,21 +96,18 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
           internalWrapperClassName="space-y-8 sm:space-y-10 md:space-y-12 xl:space-y-16"
           component={(props): JSX.Element => <article {...props} />}
         >
-          <aside
-            className="flex items-center justify-center space-x-1 xsm:space-x-2"
-            aria-labelledby="article-share-title"
-          >
-            <h2 id="article-share-title" className="sr-only">
-              {socialShareLabel.replace(':platformName', '').trim()}
-            </h2>
-            <AllSharingButtons
-              link={joinUrl(
-                process.env.NEXT_PUBLIC_CANONICAL_URL as string,
-                `${asPath.split(/[?#]/)[0]}#recipe`
-              )}
-              message={blogPostData.seoTitle}
-              iconPrefix="article-top-icon-social"
-            />
+          <aside className="flex flex-col items-center space-y-1" aria-label="Share">
+            <h2 className="type-body">{socialShareLabel.replace(':platformName', '').trim()}</h2>
+            <div className="flex items-center justify-center space-x-1 xsm:space-x-2">
+              <AllSharingButtons
+                link={joinUrl(
+                  process.env.NEXT_PUBLIC_CANONICAL_URL as string,
+                  `${asPath.split(/[?#]/)[0]}#recipe`
+                )}
+                message={blogPostData.seoTitle}
+                iconPrefix="article-top-icon-social"
+              />
+            </div>
           </aside>
 
           <RichPortableText blocks={blogPostData.content} />
