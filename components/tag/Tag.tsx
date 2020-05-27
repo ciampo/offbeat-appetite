@@ -7,7 +7,7 @@ type TagProps = {
 const Tag: React.FC<TagProps> = memo(({ children, className }) => (
   <span
     className={[
-      'inline-flex items-center px-1 py-1 xl:px-3 xl:py-2',
+      'inline-flex items-center px-1 py-1 xl:px-2 xl:py-1half',
       'type-tag text-gray-dark border rounded border-gray-dark',
       className,
     ]
