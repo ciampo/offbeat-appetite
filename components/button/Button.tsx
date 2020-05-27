@@ -115,3 +115,17 @@ export const ButtonPink: React.FC<ButtonBaseProps> = ({ className, ...props }) =
       .join(' ')}
   />
 );
+
+export const ButtonSharing: React.FC<ButtonBaseProps> = ({ className, ...props }) => (
+  <ButtonBase
+    {...props}
+    className={[
+      'bg-transparent text-gray-dark',
+      'hover:text-gray-white',
+      'focus:text-gray-white',
+      className,
+    ]
+      .filter(Boolean)
+      .join(' ')}
+  />
+);
