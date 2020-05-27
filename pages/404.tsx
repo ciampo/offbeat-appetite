@@ -1,7 +1,6 @@
 import React, { MouseEvent } from 'react';
 import { NextComponentTypeWithLayout } from '../typings';
 
-import SimpleLayout from '../components/layouts/Simple';
 import PageMeta from '../components/meta/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 
@@ -28,6 +27,5 @@ const Custom404: NextComponentTypeWithLayout = () => {
     </>
   );
 };
-Custom404.Layout = SimpleLayout;
 
 export default Custom404;
