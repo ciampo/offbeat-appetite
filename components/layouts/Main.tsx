@@ -12,12 +12,12 @@ const MainLayout: React.FC = ({ children }) => (
       data-testid="main-layout-main-content"
       id="content"
       tabIndex={-1}
-      className="outline-none relative bg-gray-lighter z-10"
+      className="outline-none relative bg-gray-lighter z-10 md:shadow-lg"
     >
       {children}
-    </main>
 
-    <NewsletterSubscribeForm formInstance="pre-footer" />
+      <NewsletterSubscribeForm formInstance="pre-footer" />
+    </main>
 
     <Footer />
   </>

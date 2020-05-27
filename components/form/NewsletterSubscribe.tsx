@@ -156,15 +156,10 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
     inputEl.setCustomValidity(`Enter a valid ${inputEl.placeholder.toLowerCase()}`);
   }, []);
 
-  const sectionCommonClassNames = 'relative z-10 bg-pink-light';
-
   return (
     <>
       <section
-        className={[
-          sectionCommonClassNames,
-          'py-16 xsm:py-20 md:py-24 xl:py-32 overflow-hidden shadow-inner-pink-section',
-        ].join(' ')}
+        className="bg-pink-light py-16 xsm:py-20 md:py-24 xl:py-32 overflow-hidden shadow-inner-pink-section"
         id="subscribe"
         data-testid="subscribe-form-section-wrapper"
       >
@@ -296,12 +291,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
           </form>
         </ArticleContentContainer>
       </section>
-      <aside
-        className={[
-          sectionCommonClassNames,
-          'type-footnote text-center text-pink-medium md:shadow-lg py-2',
-        ].join(' ')}
-      >
+      <aside className="bg-pink-light type-footnote text-center text-pink-medium py-2">
         <ArticleContentContainer>
           Protected by reCAPTCHA. Google&#39;s{' '}
           <a target="_blank" rel="noopener noreferrer" href="https://policies.google.com/privacy">
