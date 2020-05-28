@@ -1,12 +1,14 @@
 import React, { forwardRef, useState, useRef, useCallback, MutableRefObject } from 'react';
+import { useLocalStorage } from 'react-use';
 
 import dynamic from 'next/dynamic';
 
 import { TextInputPink, EmailInputPink } from '../inputs/Input';
 import { ButtonPink } from '../button/Button';
 import { ArticleContentContainer } from '../layouts/Containers';
-
 import { InvisibleRecaptchaRef, InvisibleRecaptchaProps } from './InvisibleRecaptcha';
+
+import { HIDE_TOAST_KEY } from '../toast/subscribe-toast-local-storage';
 
 import {
   subscribeFormTitle,
@@ -61,6 +63,8 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
   const reaptchaRef = useRef<InvisibleRecaptchaRef>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
+  const setHideToastPref = useLocalStorage(HIDE_TOAST_KEY, false)[1];
+
   const onInputChange = useCallback((e: React.FormEvent<HTMLInputElement>): void => {
     (e.target as HTMLInputElement).setCustomValidity('');
   }, []);
@@ -81,60 +85,66 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
   }, []);
 
   // Send form data on recaptcha successfull verification
-  const onRecaptchaSuccess = useCallback((recaptchaValue: string): void => {
-    function onSubmissionError(error: string | object): void {
-      setIsSubmitting(false);
+  const onRecaptchaSuccess = useCallback(
+    (recaptchaValue: string): void => {
+      function onSubmissionError(error: string | object): void {
+        setIsSubmitting(false);
 
-      if (reaptchaRef.current) {
-        reaptchaRef.current.reset();
+        if (reaptchaRef.current) {
+          reaptchaRef.current.reset();
+        }
+
+        setfeedbackMessage({
+          isError: true,
+          message: `${subscribeFormMessageError} [${JSON.stringify(error)}]`,
+        });
+        console.warn(JSON.stringify(error));
       }
 
-      setfeedbackMessage({
-        isError: true,
-        message: `${subscribeFormMessageError} [${JSON.stringify(error)}]`,
-      });
-      console.warn(JSON.stringify(error));
-    }
+      function onSubmissionSuccess(): void {
+        setIsSubmitting(false);
 
-    function onSubmissionSuccess(): void {
-      setIsSubmitting(false);
+        if (formRef.current) {
+          formRef.current.reset();
+        }
+        if (reaptchaRef.current) {
+          reaptchaRef.current.reset();
+        }
+
+        setfeedbackMessage({ isError: false, message: subscribeFormMessageSuccess });
+
+        // Avoid the subscribe toast from showing again on this browser
+        setHideToastPref(true);
+      }
 
       if (formRef.current) {
-        formRef.current.reset();
-      }
-      if (reaptchaRef.current) {
-        reaptchaRef.current.reset();
-      }
+        setIsSubmitting(true);
+        setfeedbackMessage({ isError: false, message: '' });
 
-      setfeedbackMessage({ isError: false, message: subscribeFormMessageSuccess });
-    }
+        const formData = new FormData(formRef.current);
 
-    if (formRef.current) {
-      setIsSubmitting(true);
-      setfeedbackMessage({ isError: false, message: '' });
-
-      const formData = new FormData(formRef.current);
-
-      fetch(FORM_ACTION, {
-        method: FORM_METHOD,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({
-          [FIELD_NAMES.FORM_NAME]: FORM_NAME,
-          [FIELD_NAMES.NAME]: formData.get(FIELD_NAMES.NAME) as string,
-          [FIELD_NAMES.EMAIL]: formData.get(FIELD_NAMES.EMAIL) as string,
-          'g-recaptcha-response': recaptchaValue,
-        }),
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            onSubmissionSuccess();
-          } else {
-            onSubmissionError(response);
-          }
+        fetch(FORM_ACTION, {
+          method: FORM_METHOD,
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: encode({
+            [FIELD_NAMES.FORM_NAME]: FORM_NAME,
+            [FIELD_NAMES.NAME]: formData.get(FIELD_NAMES.NAME) as string,
+            [FIELD_NAMES.EMAIL]: formData.get(FIELD_NAMES.EMAIL) as string,
+            'g-recaptcha-response': recaptchaValue,
+          }),
         })
-        .catch((error) => onSubmissionError(error));
-    }
-  }, []);
+          .then((response) => {
+            if (response.status === 200) {
+              onSubmissionSuccess();
+            } else {
+              onSubmissionError(response);
+            }
+          })
+          .catch((error) => onSubmissionError(error));
+      }
+    },
+    [setHideToastPref]
+  );
 
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>): void => {

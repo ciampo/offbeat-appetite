@@ -11,6 +11,8 @@ module.exports = {
         'inner-pink-section': `inset 0 1.25rem 1.25rem -2rem ${sharedTheme.colors.pink.dark}`,
         'neu-lighter': '-.25rem -.25rem .5rem #fff, .125rem .125rem .7rem rgba(221, 221, 221, .7)',
         'neu-light': '-.125rem -.125rem .7rem #fff, .125rem .125rem .7rem #ddd',
+        'top-right-md':
+          '4px -4px 6px -1px rgba(0, 0, 0, 0.1), 2px -2px 4px -1px rgba(0, 0, 0, 0.06)',
       },
       fontSize: {
         '0': '0',
@@ -95,6 +97,19 @@ module.exports = {
           transform: 'scaleX(.95)',
         },
       },
+      'toast-in': {
+        '0%': {
+          transform: 'translateY(5px)',
+          opacity: '0',
+        },
+        '100%': {
+          transform: 'none',
+          opacity: '1',
+        },
+      },
+    },
+    animationDuration: {
+      '.5s': '0.5s',
     },
     animationTimingFunction: {
       default: 'ease',
