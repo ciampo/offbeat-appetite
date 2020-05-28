@@ -102,7 +102,7 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
               <AllSharingButtons
                 link={joinUrl(
                   process.env.NEXT_PUBLIC_CANONICAL_URL as string,
-                  `${asPath.split(/[?#]/)[0]}#recipe`
+                  asPath.split(/[?#]/)[0]
                 )}
                 message={blogPostData.seoTitle}
                 iconPrefix="article-top-icon-social"

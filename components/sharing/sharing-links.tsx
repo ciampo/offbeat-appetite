@@ -48,7 +48,7 @@ const BasicSharingLink: React.FC<BasicSharingLinkProps> = memo(
       sizeClassName=""
       paddingClassName="p-2"
       className={className}
-      onClick={(e) => {
+      onClick={(e): void => {
         ReactGA.event({
           category: 'User',
           action: `Interacted with "${platformName}" Share button`,
