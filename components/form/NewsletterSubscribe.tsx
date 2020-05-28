@@ -1,5 +1,6 @@
 import React, { forwardRef, useState, useRef, useCallback, MutableRefObject } from 'react';
 import { useLocalStorage } from 'react-use';
+import ReactGA from 'react-ga';
 
 import dynamic from 'next/dynamic';
 
@@ -41,6 +42,11 @@ const FIELD_NAMES = {
   NAME: 'name',
   EMAIL: 'email',
   FORM_NAME: 'form-name',
+};
+
+const GA_BASE_EVENT = {
+  category: 'User',
+  action: 'Interacted with Subscribe form',
 };
 
 function encode(data: { [key: string]: string }): string {
@@ -94,11 +100,18 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
           reaptchaRef.current.reset();
         }
 
+        const errorMsg = JSON.stringify(error);
+
         setfeedbackMessage({
           isError: true,
-          message: `${subscribeFormMessageError} [${JSON.stringify(error)}]`,
+          message: `${subscribeFormMessageError} [${errorMsg}]`,
         });
-        console.warn(JSON.stringify(error));
+        console.warn(errorMsg);
+
+        ReactGA.event({
+          ...GA_BASE_EVENT,
+          label: `Error [${errorMsg}]`,
+        });
       }
 
       function onSubmissionSuccess(): void {
@@ -115,6 +128,11 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
 
         // Avoid the subscribe toast from showing again on this browser
         setHideToastPref(true);
+
+        ReactGA.event({
+          ...GA_BASE_EVENT,
+          label: 'Success',
+        });
       }
 
       if (formRef.current) {
@@ -155,6 +173,10 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
       }
 
       if (e.currentTarget.checkValidity() && reaptchaRef.current) {
+        ReactGA.event({
+          ...GA_BASE_EVENT,
+          label: 'Attempt submission',
+        });
         reaptchaRef.current.execute();
       }
     },

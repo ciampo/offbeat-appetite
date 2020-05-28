@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocalStorage } from 'react-use';
+import ReactGA from 'react-ga';
 
 import { HIDE_TOAST_KEY } from './subscribe-toast-local-storage';
 
@@ -17,13 +18,34 @@ const SubscribeToast: React.FC = () => {
   const [hideUserInteraction, setHideUserInteraction] = useState(false);
   const [hideSavedPref, sethideSavedPref] = useLocalStorage(HIDE_TOAST_KEY, false);
 
-  const onSubscribeClick = (): void => setHideUserInteraction(true);
-  const onDismissClick = (): void => sethideSavedPref(true);
+  const onSubscribeClick = (): void => {
+    ReactGA.event({
+      category: 'User',
+      action: 'Interacted with Subscribe toast',
+      label: 'Subscribe',
+    });
+    setHideUserInteraction(true);
+  };
+  const onDismissClick = (): void => {
+    ReactGA.event({
+      category: 'User',
+      action: 'Interacted with Subscribe toast',
+      label: 'Dismiss',
+    });
+    sethideSavedPref(true);
+  };
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | undefined;
     if (!hideUserInteraction && !hideSavedPref) {
-      timeoutId = setTimeout(() => setHideStillWaiting(false), SHOW_TOAST_TIMEOUT);
+      timeoutId = setTimeout(() => {
+        ReactGA.event({
+          category: 'Promotion',
+          action: 'Displayed Subscribe Toast',
+          nonInteraction: true,
+        });
+        setHideStillWaiting(false);
+      }, SHOW_TOAST_TIMEOUT);
     }
 
     return (): void => {

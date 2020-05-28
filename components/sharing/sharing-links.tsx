@@ -1,4 +1,5 @@
 import React, { memo, useCallback } from 'react';
+import ReactGA from 'react-ga';
 
 import { useSharingImageState } from '../meta/sharing-image-context';
 
@@ -18,7 +19,7 @@ import { socialShareLabel } from '../../data/siteMiscContent.json';
 
 type BasicSharingLinkProps = {
   iconPrefix: string;
-  label: string;
+  platformName: string;
   iconComponent: React.FC<IconProps>;
   className: string;
   href?: string;
@@ -34,12 +35,29 @@ export type SharingLinkWithMessageProps = {
 };
 
 const BasicSharingLink: React.FC<BasicSharingLinkProps> = memo(
-  ({ iconPrefix, href, label, iconComponent: Icon, className, useButton = false, onClick }) => (
+  ({
+    iconPrefix,
+    href,
+    platformName,
+    iconComponent: Icon,
+    className,
+    useButton = false,
+    onClick,
+  }) => (
     <ButtonSharing
       sizeClassName=""
       paddingClassName="p-2"
       className={className}
-      onClick={onClick}
+      onClick={(e) => {
+        ReactGA.event({
+          category: 'User',
+          action: `Interacted with "${platformName}" Share button`,
+          label: href,
+        });
+        if (onClick) {
+          onClick(e);
+        }
+      }}
       component={
         useButton
           ? undefined
@@ -48,7 +66,7 @@ const BasicSharingLink: React.FC<BasicSharingLinkProps> = memo(
             )
       }
     >
-      <span className="sr-only">{label}</span>
+      <span className="sr-only">{socialShareLabel.replace(':platformName', platformName)}</span>
       <Icon idPrefix={iconPrefix} role="presentation" className="w-5 h-5 sm:w-6 sm:h-6" />
     </ButtonSharing>
   )
@@ -61,7 +79,7 @@ export const FacebookSharingButton: React.FC<SharingLinkWithMessageProps> = ({
   iconPrefix,
 }) => (
   <BasicSharingLink
-    label={socialShareLabel.replace(':platformName', 'Facebook')}
+    platformName="Facebook"
     href={`https://facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}&display=page`}
     iconComponent={FacebookIcon}
     className={['hover:bg-share-facebook focus:bg-share-facebook', className]
@@ -78,7 +96,7 @@ export const TwitterSharingButton: React.FC<SharingLinkWithMessageProps> = ({
   iconPrefix,
 }) => (
   <BasicSharingLink
-    label={socialShareLabel.replace(':platformName', 'Twitter')}
+    platformName="Twitter"
     href={`https://twitter.com/intent/tweet/?text=${encodeURIComponent(
       message
     )}&url=${encodeURIComponent(link)}`}
@@ -100,7 +118,7 @@ export const PinterestSharingButton: React.FC<SharingLinkWithMessageProps> = ({
 
   return (
     <BasicSharingLink
-      label={socialShareLabel.replace(':platformName', 'Pinterest')}
+      platformName="Pinterest"
       href={`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(link)}${
         image ? `&media=${encodeURIComponent(image)}` : ''
       }&description=${encodeURIComponent(message)}`}
@@ -123,7 +141,7 @@ export const WhatsappSharingButton: React.FC<SharingLinkWithMessageProps> = ({
   iconPrefix,
 }) => (
   <BasicSharingLink
-    label={socialShareLabel.replace(':platformName', 'Whatsapp')}
+    platformName="Whatsapp"
     href={`https://api.whatsapp.com/send?text=${encodeURIComponent(message)}%20${encodeURIComponent(
       link
     )}`}
@@ -142,7 +160,7 @@ export const MailSharingButton: React.FC<SharingLinkWithMessageProps> = ({
   iconPrefix,
 }) => (
   <BasicSharingLink
-    label={socialShareLabel.replace(':platformName', 'Email')}
+    platformName="Email"
     href={`mailto:?subject=${encodeURIComponent(message)}&body=${encodeURIComponent(link)}`}
     iconComponent={MailIcon}
     className={['hover:bg-share-mail focus:bg-share-mail', className].filter(Boolean).join(' ')}
@@ -156,7 +174,7 @@ export const PocketSharingButton: React.FC<SharingLinkWithMessageProps> = ({
   iconPrefix,
 }) => (
   <BasicSharingLink
-    label={socialShareLabel.replace(':platformName', 'Pocket')}
+    platformName="Pocket"
     href={`https://getpocket.com/edit?url=${encodeURIComponent(link)}`}
     iconComponent={PocketIcon}
     className={['hover:bg-share-pocket focus:bg-share-pocket', className].filter(Boolean).join(' ')}
@@ -184,7 +202,7 @@ export const NativeSharingButton: React.FC<SharingLinkWithMessageProps> = ({
 
   return navigator.share ? (
     <BasicSharingLink
-      label={socialShareLabel.replace(':platformName', 'all platforms')}
+      platformName="all platforms"
       iconComponent={GenericShareIcon}
       className={['hover:bg-share-mail focus:bg-share-mail', className].filter(Boolean).join(' ')}
       useButton={true}
