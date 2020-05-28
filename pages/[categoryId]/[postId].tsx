@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
+import ReactGA from 'react-ga';
 
 import PageMeta from '../../components/meta/PageMeta';
 import AccessibleImage from '../../components/media/AccessibleImage';
@@ -109,6 +110,23 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
               />
             </div>
           </aside>
+
+          <p className="text-gray-dark italic">
+            If you enjoy this article, or any other content from this website, please{' '}
+            <a
+              className="border-b border-dashed border-gray-darker outline-none focus:border-solid"
+              href="#subscribe"
+              onClick={(): void =>
+                ReactGA.event({
+                  category: 'User',
+                  action: 'Interacted with "subscribe" link in the blog post intro',
+                })
+              }
+            >
+              subscribe to the newsletter
+            </a>
+            . Your support can make a big difference!
+          </p>
 
           <RichPortableText blocks={blogPostData.content} />
 
