@@ -17,7 +17,8 @@ const DefaultButtonContainer: React.FC<DefaultButtonContainerProps> = (props) =>
 );
 
 type ButtonBaseProps = DefaultButtonContainerProps & {
-  component?: (props: { [key: string]: unknown }) => JSX.Element;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  component?: React.FC<any>;
 };
 
 type ButtonBasePropsWithBorder = ButtonBaseProps & {

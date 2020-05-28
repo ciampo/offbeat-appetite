@@ -11,6 +11,15 @@ import { UiLink } from '../../typings';
 
 const SUBSCRIBE_FORM_ID = 'subscribe';
 
+const BasicLinkEl: React.FC<{ href: string; as: string }> = memo(
+  ({ href, as, ...props }): JSX.Element => (
+    <Link scroll={false} href={href} as={as}>
+      <a {...props} />
+    </Link>
+  )
+);
+BasicLinkEl.displayName = 'memo(BasicLinkEl)';
+
 type MenuButtonProps = {
   onClick: (event: React.MouseEvent) => void;
 };
@@ -57,15 +66,13 @@ const DrawerNavLink: React.FC<DrawerNavLinkProps> = memo(
       }}
     >
       <ButtonOliveInverted
-        component={(props): JSX.Element => (
-          <Link scroll={false} href={href} as={as}>
-            <a {...props} />
-          </Link>
-        )}
+        component={BasicLinkEl}
         additionalHover={underlineOnHover ? 'underline' : undefined}
         className={[selected ? 'underline' : '', className].filter(Boolean).join(' ')}
         onClick={onClick}
         border={border}
+        href={href}
+        as={as}
       >
         {label}
       </ButtonOliveInverted>
@@ -175,16 +182,14 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
 
           {/* OA logo */}
           <ButtonOliveInverted
-            component={(props): JSX.Element => (
-              <Link scroll={false} href={links[0].href} as={links[0].as}>
-                <a {...props} />
-              </Link>
-            )}
+            component={BasicLinkEl}
             sizeClassName=""
             paddingClassName="py-0 px-1"
             className="absolute transform-translate-center"
             onClick={onLinkClick}
             tabIndex={open ? undefined : -1}
+            href={links[0].href}
+            as={links[0].as}
           >
             <span className="sr-only">{links[0].label}</span>
             <OALogoShort className="h-12 md:h-16 xl:h-20" idPrefix="oa-logo-short-drawer" />

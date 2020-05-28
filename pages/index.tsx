@@ -19,6 +19,15 @@ import {
   NextComponentTypeWithLayout,
 } from '../typings';
 
+const BasicSeeMoreLinkEl: React.FC<{ as: string }> = memo(
+  ({ as, ...props }): JSX.Element => (
+    <Link scroll={false} href="/[categoryId]" as={as}>
+      <a {...props} />
+    </Link>
+  )
+);
+BasicSeeMoreLinkEl.displayName = 'memo(BasicSeeMoreLinkEl)';
+
 // Home Category Section
 type HomeCategorySectionProps = {
   categorySectionData: SanityPageHomeCategorySection;
@@ -53,15 +62,12 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
         />
         {/* See more link */}
         <ButtonOliveInverted
-          component={(props): JSX.Element => (
-            <Link scroll={false} href="/[categoryId]" as={`/${categorySectionData.category.slug}`}>
-              <a {...props} />
-            </Link>
-          )}
+          component={BasicSeeMoreLinkEl}
           className="self-center"
           aria-label={`See more ${categorySectionData.category.name} posts`}
           shadow={true}
           border={true}
+          as={`/${categorySectionData.category.slug}`}
         >
           More {categorySectionData.title.toLowerCase()}
         </ButtonOliveInverted>

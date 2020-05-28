@@ -29,6 +29,21 @@ const MenuButton = dynamic(() => import('./DrawerMenu').then((mod) => mod.MenuBu
   ssr: false,
 });
 
+const BasicAnchorEl: React.FC = memo((props) => <a {...props} href="#content" />);
+BasicAnchorEl.displayName = 'memo(BasicAnchorEl)';
+
+const BasicLinkEl: React.FC<{ href: string; as: string }> = memo(
+  ({ href, as, ...props }): JSX.Element => (
+    <Link scroll={false} href={href} as={as}>
+      <a {...props} />
+    </Link>
+  )
+);
+BasicLinkEl.displayName = 'memo(BasicLinkEl)';
+
+const BasicNavEl: React.FC = memo((props) => <nav {...props} aria-label="Header navigation" />);
+BasicNavEl.displayName = 'memo(BasicNavEl)';
+
 type HeaderNavLinkProps = {
   solid: boolean;
   beforeLogo: boolean;
@@ -54,15 +69,13 @@ const HeaderNavLink: React.FC<HeaderNavLinkProps> = ({
     ].join(' ')}
   >
     <ButtonTransparent
-      component={(props): JSX.Element => (
-        <Link scroll={false} href={href} as={as}>
-          <a {...props} />
-        </Link>
-      )}
+      component={BasicLinkEl}
       additionalHover="underline"
       paddingClassName="p-2 xl:px-4"
       sizeClassName=""
       className={[selected && 'underline', !solid && 'text-shadow'].filter(Boolean).join(' ')}
+      href={href}
+      as={as}
     >
       {label}
     </ButtonTransparent>
@@ -77,14 +90,12 @@ const HeaderLogoLink: React.FC<HeaderLogoLinkProps> = memo(
   ({ link: { href, label, as }, solid }) => (
     <li className="absolute transform-translate-center">
       <ButtonTransparent
-        component={(props): JSX.Element => (
-          <Link scroll={false} href={href} as={as}>
-            <a {...props} />
-          </Link>
-        )}
+        component={BasicLinkEl}
         sizeClassName=""
         paddingClassName="py-0 px-1"
         additionalHover="scaleUp"
+        href={href}
+        as={as}
       >
         <span className="sr-only">{label}</span>
         <OALogoShort
@@ -142,7 +153,7 @@ const HeaderNav: React.FC = () => {
         data-testid="header-nav-wrapper"
       >
         <ButtonOlive
-          component={(props): JSX.Element => <a {...props} href="#content" />}
+          component={BasicAnchorEl}
           additionalHover="underline"
           paddingClassName=""
           sizeClassName=""
@@ -158,9 +169,7 @@ const HeaderNav: React.FC = () => {
         </ButtonOlive>
 
         <PageContentContainer
-          component={(props: { [key: string]: unknown }): JSX.Element => (
-            <nav {...props} aria-label="Header navigation" />
-          )}
+          component={BasicNavEl}
           className="relative h-16 md:h-20 xl:h-24 overflow-hidden flex items-center contain-s"
         >
           <ul className="flex items-center h-full w-full">

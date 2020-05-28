@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { GetStaticProps } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
@@ -10,6 +10,9 @@ import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
 import { SanityPageAbout, StructuredData, NextComponentTypeWithLayout } from '../typings';
+
+const BasicSectionEl: React.FC = memo((props) => <section {...props} />);
+BasicSectionEl.displayName = 'memo(BasicSectionEl)';
 
 type AboutProps = {
   aboutData: SanityPageAbout;
@@ -42,7 +45,7 @@ const AboutPage: NextComponentTypeWithLayout<AboutProps> = ({
         </header>
 
         <ArticleContentContainer
-          component={(props): JSX.Element => <section {...props}></section>}
+          component={BasicSectionEl}
           className="pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32"
         >
           <RichPortableText blocks={aboutData.content} />

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
 import ReactGA from 'react-ga';
@@ -32,6 +32,9 @@ import {
 } from '../../typings';
 
 const BLOG_POST_PAGE_ROUTE = '/[categoryId]/[postId]';
+
+const BasicArticleEl: React.FC = memo((props) => <article {...props} />);
+BasicArticleEl.displayName = 'memo(BasicArticleEl)';
 
 type PageBlogPostProps = {
   blogPostData: SanityBlogPostFull;
@@ -95,7 +98,7 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
         <ArticleContentContainer
           className="pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32"
           internalWrapperClassName="space-y-8 sm:space-y-10 md:space-y-12 xl:space-y-16"
-          component={(props): JSX.Element => <article {...props} />}
+          component={BasicArticleEl}
         >
           <aside className="flex flex-col items-center space-y-1" aria-label="Share">
             <h2 className="type-body">{socialShareLabel.replace(':platformName', '').trim()}</h2>

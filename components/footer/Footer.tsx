@@ -16,21 +16,33 @@ import { socialLinks } from '../../data/siteMiscContent.json';
 
 import { UiLink, SanitySocialLink } from '../../typings';
 
+const BasicLinkEl: React.FC<{ href: string; as: string }> = memo(
+  ({ href, as, ...props }): JSX.Element => (
+    <Link scroll={false} href={href} as={as}>
+      <a {...props} />
+    </Link>
+  )
+);
+BasicLinkEl.displayName = 'memo(BasicLinkEl)';
+
+const BasicExternalAnchorEl: React.FC<{ href: string }> = memo(({ href, ...props }) => (
+  <a href={href} target="_blank" rel="noopener noreferrer" {...props} />
+));
+BasicExternalAnchorEl.displayName = 'memo(BasicExternalAnchorEl)';
+
 type FooterSiteLinkProps = {
   link: UiLink;
 };
 const FooterSiteLink: React.FC<FooterSiteLinkProps> = ({ link: { href, label, as } }) => (
   <li>
     <ButtonTransparent
-      component={(props): JSX.Element => (
-        <Link scroll={false} href={href} as={as}>
-          <a {...props} />
-        </Link>
-      )}
+      component={BasicLinkEl}
       additionalHover="underline"
       typeClassName="type-body"
       paddingClassName="py-2 px-4"
       sizeClassName=""
+      href={href}
+      as={as}
     >
       {label}
     </ButtonTransparent>
@@ -54,11 +66,10 @@ const FooterSocialLink: React.FC<FooterSocialLinkProps> = ({ link: { platform, l
   return (
     <li>
       <ButtonTransparent
-        component={(props): JSX.Element => (
-          <a href={url} target="_blank" rel="noopener noreferrer" {...props} />
-        )}
+        component={BasicExternalAnchorEl}
         paddingClassName="p-2 md:p-3"
         sizeClassName=""
+        href={url}
       >
         <span className="sr-only">{label}</span>
         <Icon idPrefix="footer-social" className="w-6 md:w-8" />

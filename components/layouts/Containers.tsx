@@ -8,7 +8,8 @@ const DefaultContainerElement: React.FC<DefaultContainerElementProps> = (props) 
 );
 
 type PageContainerProps = {
-  component?: (props: { [key: string]: unknown }) => JSX.Element;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  component?: React.FC<any>;
   className?: string;
   [key: string]: unknown;
 };

@@ -17,6 +17,11 @@ import {
 } from '../icons';
 import { socialShareLabel } from '../../data/siteMiscContent.json';
 
+const BasicExternalAnchorEl: React.FC<{ href: string }> = memo(({ href, ...props }) => (
+  <a href={href} target="_blank" rel="noopener noreferrer" {...props} />
+));
+BasicExternalAnchorEl.displayName = 'memo(BasicExternalAnchorEl)';
+
 type BasicSharingLinkProps = {
   iconPrefix: string;
   platformName: string;
@@ -58,13 +63,8 @@ const BasicSharingLink: React.FC<BasicSharingLinkProps> = memo(
           onClick(e);
         }
       }}
-      component={
-        useButton
-          ? undefined
-          : (props: { [key: string]: unknown }): JSX.Element => (
-              <a href={href} target="_blank" rel="noopener noreferrer" {...props} />
-            )
-      }
+      component={useButton ? undefined : BasicExternalAnchorEl}
+      href={href}
     >
       <span className="sr-only">{socialShareLabel.replace(':platformName', platformName)}</span>
       <Icon idPrefix={iconPrefix} role="presentation" className="w-5 h-5 sm:w-6 sm:h-6" />

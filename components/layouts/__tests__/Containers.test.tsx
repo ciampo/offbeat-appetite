@@ -4,7 +4,7 @@ import { render } from 'offbeat-appetite-render';
 
 import { ArticleContentContainer, PageContentContainer } from '../Containers';
 
-const SampleContainerComponent = (props: { [key: string]: unknown }): JSX.Element => (
+const SampleContainerComponent: React.FC = (props) => (
   <div {...props} data-testid="sample-container-component"></div>
 );
 const sampleContent = 'Test Container Layout Components';
