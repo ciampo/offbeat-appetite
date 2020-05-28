@@ -174,15 +174,12 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
             data-testid="recipe-method-list"
           >
             {recipe.method.map(({ title, content, _key }, index) => (
-              <li key={_key}>
+              <li key={_key} id={`#recipe-step-${index + 1}`}>
                 <p className="type-heading-4 mb-2 md:mb-4 xl:mb-6">
                   <span aria-label={`Step ${index + 1}`}>{index + 1}. </span>
                   {title}
                 </p>
-                <SimplePortableText
-                  // customSerializers={{ container: RecipeMethodStepEmptyContainer }}
-                  blocks={content}
-                />
+                <SimplePortableText blocks={content} />
               </li>
             ))}
           </ol>
