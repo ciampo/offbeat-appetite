@@ -28,7 +28,7 @@ const transformTransitionCommonClassName = 'transition-transform duration-300 ea
 
 const BlogPostTile: React.FC<BlogPostTileProps> = memo(
   ({ postData, layoutVariant, shadowVariant, reversed = false, extended = false, className }) => (
-    <Link href={postData.compiledRoute.page} as={postData.compiledRoute.path} scroll={false}>
+    <Link href={postData.compiledRoute.page} as={postData.compiledRoute.path}>
       <a
         className={[
           'group flex flex-col rounded overflow-hidden contain-l-p outline-none bg-inherit',

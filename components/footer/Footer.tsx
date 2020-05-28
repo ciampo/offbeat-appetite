@@ -18,7 +18,7 @@ import { UiLink, SanitySocialLink } from '../../typings';
 
 const BasicLinkEl: React.FC<{ href: string; as: string }> = memo(
   ({ href, as, ...props }): JSX.Element => (
-    <Link scroll={false} href={href} as={as}>
+    <Link href={href} as={as}>
       <a {...props} />
     </Link>
   )

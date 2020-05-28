@@ -9,7 +9,6 @@ import { fullBleedImageResponsiveConfig } from '../../components/media/image-res
 import Tag from '../../components/tag/Tag';
 import { AllSharingButtons } from '../../components/sharing/sharing-links';
 import RichPortableText from '../../components/portable-text/RichPortableText';
-import DefaultPageTransitionWrapper from '../../components/page-transition-wrappers/Default';
 import { ArticleContentContainer } from '../../components/layouts/Containers';
 import { useNavVariantDispatch } from '../../components/nav/nav-variant-context';
 
@@ -63,97 +62,95 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
         structuredData={structuredData}
       />
 
-      <DefaultPageTransitionWrapper>
-        <header className="relative contain-l-p flex items-center py-32 sm:py-40 md:py-48 xl:py-64 min-h-hero-m sm:min-h-hero-t xl:min-h-hero-d">
-          <ArticleContentContainer
-            className="relative z-10"
-            internalWrapperClassName="flex flex-col items-center text-gray-white text-shadow text-center"
-          >
-            <h1 className="order-2 type-display-1 mt-2 md:mt-4 xl:mt-6">{blogPostData.title}</h1>
-            <p className="type-eyebrow order-1">
-              <span aria-hidden="true" className="pr-1">
-                —
-              </span>
-              {blogPostData.category.name}
-              <span aria-hidden="true" className="pl-1">
-                —
-              </span>
-            </p>
-            <p className="order-3 type-body-large italic mt-12 md:mt-16 xl:mt-20 max-w-ch-40">
-              {blogPostData.excerpt}
-            </p>
-          </ArticleContentContainer>
-
-          <AccessibleImage
-            image={blogPostData.heroImage}
-            responsiveConfig={fullBleedImageResponsiveConfig}
-            className="z-0 absolute inset-0 w-full h-full"
-            darker={true}
-            style={{
-              paddingBottom: '0',
-            }}
-          />
-        </header>
-
+      <header className="relative contain-l-p flex items-center py-32 sm:py-40 md:py-48 xl:py-64 min-h-hero-m sm:min-h-hero-t xl:min-h-hero-d">
         <ArticleContentContainer
-          className="pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32"
-          internalWrapperClassName="space-y-8 sm:space-y-10 md:space-y-12 xl:space-y-16"
-          component={BasicArticleEl}
+          className="relative z-10"
+          internalWrapperClassName="flex flex-col items-center text-gray-white text-shadow text-center"
         >
-          <aside className="flex flex-col items-center space-y-1" aria-label="Share">
-            <h2 className="type-body">{socialShareLabel.replace(':platformName', '').trim()}</h2>
-            <div className="flex items-center justify-center space-x-1 xsm:space-x-2">
-              <AllSharingButtons
-                link={joinUrl(
-                  process.env.NEXT_PUBLIC_CANONICAL_URL as string,
-                  asPath.split(/[?#]/)[0]
-                )}
-                message={blogPostData.seoTitle}
-                iconPrefix="article-top-icon-social"
-              />
-            </div>
-          </aside>
+          <h1 className="order-2 type-display-1 mt-2 md:mt-4 xl:mt-6">{blogPostData.title}</h1>
+          <p className="type-eyebrow order-1">
+            <span aria-hidden="true" className="pr-1">
+              —
+            </span>
+            {blogPostData.category.name}
+            <span aria-hidden="true" className="pl-1">
+              —
+            </span>
+          </p>
+          <p className="order-3 type-body-large italic mt-12 md:mt-16 xl:mt-20 max-w-ch-40">
+            {blogPostData.excerpt}
+          </p>
+        </ArticleContentContainer>
 
-          <p className="text-gray-dark italic">
-            If you enjoy this article, or any other content from this website, please{' '}
-            <a
-              className="border-b border-dashed border-gray-darker outline-none focus:border-solid"
-              href="#subscribe"
-              onClick={(): void =>
-                ReactGA.event({
-                  category: 'User',
-                  action: 'Interacted with "subscribe" link in the blog post intro',
-                })
-              }
-            >
-              subscribe to the newsletter
-            </a>
-            . Your support can make a big difference!
+        <AccessibleImage
+          image={blogPostData.heroImage}
+          responsiveConfig={fullBleedImageResponsiveConfig}
+          className="z-0 absolute inset-0 w-full h-full"
+          darker={true}
+          style={{
+            paddingBottom: '0',
+          }}
+        />
+      </header>
+
+      <ArticleContentContainer
+        className="pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32"
+        internalWrapperClassName="space-y-8 sm:space-y-10 md:space-y-12 xl:space-y-16"
+        component={BasicArticleEl}
+      >
+        <aside className="flex flex-col items-center space-y-1" aria-label="Share">
+          <h2 className="type-body">{socialShareLabel.replace(':platformName', '').trim()}</h2>
+          <div className="flex items-center justify-center space-x-1 xsm:space-x-2">
+            <AllSharingButtons
+              link={joinUrl(
+                process.env.NEXT_PUBLIC_CANONICAL_URL as string,
+                asPath.split(/[?#]/)[0]
+              )}
+              message={blogPostData.seoTitle}
+              iconPrefix="article-top-icon-social"
+            />
+          </div>
+        </aside>
+
+        <p className="text-gray-dark italic">
+          If you enjoy this article, or any other content from this website, please{' '}
+          <a
+            className="border-b border-dashed border-gray-darker outline-none focus:border-solid"
+            href="#subscribe"
+            onClick={(): void =>
+              ReactGA.event({
+                category: 'User',
+                action: 'Interacted with "subscribe" link in the blog post intro',
+              })
+            }
+          >
+            subscribe to the newsletter
+          </a>
+          . Your support can make a big difference!
+        </p>
+
+        <RichPortableText blocks={blogPostData.content} />
+
+        <span aria-hidden="true" className="block h-px w-32 bg-gray-medium"></span>
+
+        <footer aria-labelledby="article-info-title">
+          <h2 id="article-info-title" className="sr-only">
+            Article details:
+          </h2>
+          <p>
+            {authorLabel} <strong className="font-semibold">{blogPostData.author.name}</strong>,{' '}
+            {postDateToHumanString(blogPostData.datePublished)}
           </p>
 
-          <RichPortableText blocks={blogPostData.content} />
-
-          <span aria-hidden="true" className="block h-px w-32 bg-gray-medium"></span>
-
-          <footer aria-labelledby="article-info-title">
-            <h2 id="article-info-title" className="sr-only">
-              Article details:
-            </h2>
-            <p>
-              {authorLabel} <strong className="font-semibold">{blogPostData.author.name}</strong>,{' '}
-              {postDateToHumanString(blogPostData.datePublished)}
-            </p>
-
-            <ul className="-mx-1 mt-4 sm:mt-5 md:mt-6 xl:mt-8" aria-label="Tags">
-              {blogPostData.tags.map(({ slug, name }, index) => (
-                <li key={`${slug}-${index}`} className="inline-block mx-1 mt-1 xl:mt-2">
-                  <Tag>{name}</Tag>
-                </li>
-              ))}
-            </ul>
-          </footer>
-        </ArticleContentContainer>
-      </DefaultPageTransitionWrapper>
+          <ul className="-mx-1 mt-4 sm:mt-5 md:mt-6 xl:mt-8" aria-label="Tags">
+            {blogPostData.tags.map(({ slug, name }, index) => (
+              <li key={`${slug}-${index}`} className="inline-block mx-1 mt-1 xl:mt-2">
+                <Tag>{name}</Tag>
+              </li>
+            ))}
+          </ul>
+        </footer>
+      </ArticleContentContainer>
     </>
   );
 };

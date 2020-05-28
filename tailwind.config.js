@@ -97,9 +97,19 @@ module.exports = {
           transform: 'scaleX(.95)',
         },
       },
-      'toast-in': {
+      'fade-in-up': {
         '0%': {
-          transform: 'translateY(5px)',
+          transform: 'translateY(10px)',
+          opacity: '0',
+        },
+        '100%': {
+          transform: 'none',
+          opacity: '1',
+        },
+      },
+      'fade-in-down': {
+        '0%': {
+          transform: 'translateY(-10px)',
           opacity: '0',
         },
         '100%': {
@@ -223,7 +233,7 @@ module.exports = {
           willChange: 'opacity',
         },
         '.will-change-transform-opacity': {
-          willChange: 'transform opacity',
+          willChange: 'transform, opacity',
         },
         // Outline
         '.nav-logo-outline': {

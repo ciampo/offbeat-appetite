@@ -62,7 +62,7 @@ const SubscribeToast: React.FC = () => {
         'px-6 sm:px-8 xl:px-10',
         'py-5 sm:py-6 xl:py-8',
         'space-y-4 sm:space-y-5 xl:space-y-6',
-        'animation-toast-in animation-ease-out animation-.5s animation-once',
+        'animation-fade-in-up animation-ease-out animation-.5s animation-once animation-fill-both',
       ].join(' ')}
     >
       <p className="type-body text-gray-white">

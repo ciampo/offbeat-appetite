@@ -3,7 +3,6 @@ import { GetStaticProps } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
 import RichPortableText from '../components/portable-text/RichPortableText';
-import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 
 import { SanityPageThankYou, NextComponentTypeWithLayout } from '../typings';
 
@@ -36,25 +35,23 @@ const ThankYouPage: NextComponentTypeWithLayout<ThankYouProps> = ({ thankYouData
         previewImage={thankYouData.seoImage}
       />
 
-      <DefaultPageTransitionWrapper>
-        <header className="min-h-screen flex flex-col items-center justify-center text-center space-y-4 px-6 sm:px-8 md:px-12 xl:px-16">
-          <h1 className="type-display-1">{thankYouData.title}</h1>
+      <header className="min-h-screen flex flex-col items-center justify-center text-center space-y-4 px-6 sm:px-8 md:px-12 xl:px-16">
+        <h1 className="type-display-1">{thankYouData.title}</h1>
 
-          <RichPortableText blocks={thankYouData.content} />
+        <RichPortableText blocks={thankYouData.content} />
 
-          <div className="flex space-x-4">
-            <a href="/" onClick={onHomeClick}>
-              Home
+        <div className="flex space-x-4">
+          <a href="/" onClick={onHomeClick}>
+            Home
+          </a>
+
+          {process.browser && (
+            <a href="/" onClick={onBackClick}>
+              Back
             </a>
-
-            {process.browser && (
-              <a href="/" onClick={onBackClick}>
-                Back
-              </a>
-            )}
-          </div>
-        </header>
-      </DefaultPageTransitionWrapper>
+          )}
+        </div>
+      </header>
     </>
   );
 };

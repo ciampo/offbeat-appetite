@@ -4,7 +4,6 @@ import { GetStaticProps } from 'next';
 import { NextComponentTypeWithLayout } from '../typings';
 
 import PageMeta from '../components/meta/PageMeta';
-import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 
 // Home Page
 type Custom404Props = {
@@ -27,14 +26,12 @@ const Custom404: NextComponentTypeWithLayout<Custom404Props> = ({ homeSeoImage }
         previewImage={homeSeoImage}
       />
 
-      <DefaultPageTransitionWrapper>
-        <header className="min-h-screen flex flex-col items-center justify-center text-center space-y-4">
-          <h1 className="type-display-2">Page not found</h1>
-          <a href="/" onClick={onHomeClick}>
-            Home
-          </a>
-        </header>
-      </DefaultPageTransitionWrapper>
+      <header className="min-h-screen flex flex-col items-center justify-center text-center space-y-4">
+        <h1 className="type-display-2">Page not found</h1>
+        <a href="/" onClick={onHomeClick}>
+          Home
+        </a>
+      </header>
     </>
   );
 };

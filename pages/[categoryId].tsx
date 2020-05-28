@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
-import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import { PageContentContainer } from '../components/layouts/Containers';
 import BlogPostTileList from '../components/blog-post-tile/BlogPostTileList';
 import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
@@ -45,23 +44,21 @@ const CategoryPage: NextComponentTypeWithLayout<CategoryProps> = ({
         structuredData={structuredData}
       />
 
-      <DefaultPageTransitionWrapper>
-        <header className="pt-40 pb-12 md:pt-48 md:pb-16 xl:pt-64 xl:pb-24">
-          <h1 className="text-center type-display-1">{categoryData.title}</h1>
-        </header>
+      <header className="pt-40 pb-12 md:pt-48 md:pb-16 xl:pt-64 xl:pb-24">
+        <h1 className="text-center type-display-1">{categoryData.title}</h1>
+      </header>
 
-        <PageContentContainer className="bg-inherit pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32">
-          {/* Title */}
-          <h2 className="sr-only">All {categoryData.title} posts</h2>
+      <PageContentContainer className="bg-inherit pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32">
+        {/* Title */}
+        <h2 className="sr-only">All {categoryData.title} posts</h2>
 
-          <BlogPostTileList
-            postsData={categoryData.allBlogPosts}
-            tileShadowVariant="lighter"
-            tileLayoutVariant="horizontal"
-            tileExtendedInfo={true}
-          />
-        </PageContentContainer>
-      </DefaultPageTransitionWrapper>
+        <BlogPostTileList
+          postsData={categoryData.allBlogPosts}
+          tileShadowVariant="lighter"
+          tileLayoutVariant="horizontal"
+          tileExtendedInfo={true}
+        />
+      </PageContentContainer>
     </>
   );
 };

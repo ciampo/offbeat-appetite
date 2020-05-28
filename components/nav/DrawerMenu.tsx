@@ -1,7 +1,6 @@
 import React, { memo, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { motion } from 'framer-motion';
 
 import { PageContentContainer } from '../layouts/Containers';
 import { ButtonOliveInverted, ButtonTransparent } from '../button/Button';
@@ -13,7 +12,7 @@ const SUBSCRIBE_FORM_ID = 'subscribe';
 
 const BasicLinkEl: React.FC<{ href: string; as: string }> = memo(
   ({ href, as, ...props }): JSX.Element => (
-    <Link scroll={false} href={href} as={as}>
+    <Link href={href} as={as}>
       <a {...props} />
     </Link>
   )
@@ -35,9 +34,10 @@ MenuButton.displayName = 'memo(MenuButton)';
 type DrawerNavLinkProps = {
   link: UiLink;
   selected: boolean;
-  border?: boolean;
   underlineOnHover?: boolean;
   onClick: (event: React.MouseEvent) => void;
+  index: number;
+  border?: boolean;
   className?: string;
 };
 const DrawerNavLink: React.FC<DrawerNavLinkProps> = memo(
@@ -46,29 +46,25 @@ const DrawerNavLink: React.FC<DrawerNavLinkProps> = memo(
     selected,
     onClick,
     className,
+    index,
     border = false,
     underlineOnHover = false,
   }) => (
-    <motion.li
-      variants={{
-        exit: {
-          y: -10,
-          opacity: 0,
-        },
-        enter: {
-          y: 0,
-          opacity: 1,
-          transition: {
-            duration: 0.4,
-            ease: 'easeOut',
-          },
-        },
-      }}
-    >
+    <li>
       <ButtonOliveInverted
         component={BasicLinkEl}
         additionalHover={underlineOnHover ? 'underline' : undefined}
-        className={[selected ? 'underline' : '', className].filter(Boolean).join(' ')}
+        className={[
+          selected && 'underline',
+          'will-change-transform-opacity animation-fade-in-down animation-ease-out animation-.5s animation-once animation-fill-both',
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+        style={{
+          // stagger animation
+          animationDelay: `${0.3 + 0.08 * index}s`,
+        }}
         onClick={onClick}
         border={border}
         href={href}
@@ -76,7 +72,7 @@ const DrawerNavLink: React.FC<DrawerNavLinkProps> = memo(
       >
         {label}
       </ButtonOliveInverted>
-    </motion.li>
+    </li>
   )
 );
 DrawerNavLink.displayName = 'memo(DrawerNavLink)';
@@ -197,20 +193,9 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
         </div>
 
         {open ? (
-          <motion.nav
+          <nav
             className="flex flex-col items-center w-full my-auto overflow-y-auto"
             aria-label="Drawer navigation"
-            initial="exit"
-            animate="enter"
-            exit="exit"
-            variants={{
-              enter: {
-                transition: {
-                  staggerChildren: 0.08,
-                  delayChildren: 0.3,
-                },
-              },
-            }}
           >
             <ul className="flex flex-col items-center py-2 space-y-1 xsm:space-y-2 sm:space-y-3">
               {links.map((link, index) => (
@@ -220,6 +205,7 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
                   link={link}
                   onClick={onLinkClick}
                   underlineOnHover={true}
+                  index={index}
                 />
               ))}
               {document.querySelector(`#${SUBSCRIBE_FORM_ID}`) && (
@@ -229,10 +215,11 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
                   onClick={onLinkClick}
                   className="mt-2 xsm:mt-4 sm:mt-6"
                   border={true}
+                  index={links.length}
                 />
               )}
             </ul>
-          </motion.nav>
+          </nav>
         ) : null}
       </PageContentContainer>
     </aside>

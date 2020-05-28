@@ -10,7 +10,6 @@ import '../styles/index.css';
 import React from 'react';
 import App from 'next/app';
 import dynamic from 'next/dynamic';
-import { AnimatePresence } from 'framer-motion';
 
 import { NavVariantProvider } from '../components/nav/nav-variant-context';
 import { SharingImageProvider } from '../components/meta/sharing-image-context';
@@ -22,24 +21,6 @@ const Toast = dynamic(() => import('../components/toast/Toast'), { ssr: false })
 import { NextComponentTypeWithLayout } from '../typings';
 
 export default class MyApp extends App {
-  scrollToTop(): void {
-    if (process.browser) {
-      window.scrollTo(0, 0);
-    }
-  }
-
-  componentDidMount(): void {
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
-    }
-  }
-
-  componentWillUnmount(): void {
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'auto';
-    }
-  }
-
   render(): JSX.Element {
     const { Component, pageProps, router } = this.props;
 
@@ -51,9 +32,7 @@ export default class MyApp extends App {
           <Analytics />
 
           <Layout>
-            <AnimatePresence initial={false} exitBeforeEnter onExitComplete={this.scrollToTop}>
-              <Component {...pageProps} key={router.asPath} />
-            </AnimatePresence>
+            <Component {...pageProps} key={router.asPath} />
           </Layout>
 
           <Toast />

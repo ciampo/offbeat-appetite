@@ -4,7 +4,6 @@ import { GetStaticProps } from 'next';
 import PageMeta from '../components/meta/PageMeta';
 import RichPortableText from '../components/portable-text/RichPortableText';
 import { ArticleContentContainer } from '../components/layouts/Containers';
-import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
@@ -39,18 +38,16 @@ const AboutPage: NextComponentTypeWithLayout<AboutProps> = ({
         structuredData={structuredData}
       />
 
-      <DefaultPageTransitionWrapper>
-        <header className="pt-40 pb-12 md:pt-48 md:pb-16 xl:pt-64 xl:pb-24">
-          <h1 className="text-center type-display-1">{aboutData.heroTitle}</h1>
-        </header>
+      <header className="pt-40 pb-12 md:pt-48 md:pb-16 xl:pt-64 xl:pb-24">
+        <h1 className="text-center type-display-1">{aboutData.heroTitle}</h1>
+      </header>
 
-        <ArticleContentContainer
-          component={BasicSectionEl}
-          className="pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32"
-        >
-          <RichPortableText blocks={aboutData.content} />
-        </ArticleContentContainer>
-      </DefaultPageTransitionWrapper>
+      <ArticleContentContainer
+        component={BasicSectionEl}
+        className="pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32"
+      >
+        <RichPortableText blocks={aboutData.content} />
+      </ArticleContentContainer>
     </>
   );
 };

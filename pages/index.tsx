@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 import PageMeta from '../components/meta/PageMeta';
 import { PageContentContainer } from '../components/layouts/Containers';
-import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import { OALogoFull } from '../components/icons';
 import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
 import BlogPostTileList from '../components/blog-post-tile/BlogPostTileList';
@@ -21,7 +20,7 @@ import {
 
 const BasicSeeMoreLinkEl: React.FC<{ as: string }> = memo(
   ({ as, ...props }): JSX.Element => (
-    <Link scroll={false} href="/[categoryId]" as={as}>
+    <Link href="/[categoryId]" as={as}>
       <a {...props} />
     </Link>
   )
@@ -99,32 +98,30 @@ const HomePage: NextComponentTypeWithLayout<HomeProps> = ({ homeData, path, stru
         structuredData={structuredData}
       />
 
-      <DefaultPageTransitionWrapper>
-        <header
-          className={[
-            'flex flex-col items-center justify-center',
-            'mt-16 md:mt-20 xl:mt-24',
-            'py-4 xsm:py-8 md:py-12 lg:py-16 xl:py-20',
-            '-mb-2 xsm:-mb-4 md:-mb-6 lg:-mb-8 xl:-mb-10',
-            'space-y-2 sm:space-y-3 md:space-y-4 xl:space-y-5',
-          ].join(' ')}
-        >
-          <h1>
-            <OALogoFull
-              aria-label={homeData.title}
-              className="w-64 xsm:w-72 md:w-80 lg:w-88 xl:w-96"
-            />
-          </h1>
-          <p className="type-eyebrow">{homeData.subtitle}</p>
-        </header>
-        {homeData.categorySections.map((categorySectionData, index) => (
-          <HomeCategorySection
-            key={categorySectionData.category._id}
-            categorySectionData={categorySectionData}
-            even={index % 2 === 0}
+      <header
+        className={[
+          'flex flex-col items-center justify-center',
+          'mt-16 md:mt-20 xl:mt-24',
+          'py-4 xsm:py-8 md:py-12 lg:py-16 xl:py-20',
+          '-mb-2 xsm:-mb-4 md:-mb-6 lg:-mb-8 xl:-mb-10',
+          'space-y-2 sm:space-y-3 md:space-y-4 xl:space-y-5',
+        ].join(' ')}
+      >
+        <h1>
+          <OALogoFull
+            aria-label={homeData.title}
+            className="w-64 xsm:w-72 md:w-80 lg:w-88 xl:w-96"
           />
-        ))}
-      </DefaultPageTransitionWrapper>
+        </h1>
+        <p className="type-eyebrow">{homeData.subtitle}</p>
+      </header>
+      {homeData.categorySections.map((categorySectionData, index) => (
+        <HomeCategorySection
+          key={categorySectionData.category._id}
+          categorySectionData={categorySectionData}
+          even={index % 2 === 0}
+        />
+      ))}
     </>
   );
 };
