@@ -155,7 +155,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
                 aria-label={stringifyRecipeIngredient(ingredient)}
                 className="flex items-top justify-center space-x-2 md:space-x-3 xl:space-x-4"
               >
-                <span className="w-16 2xsm:w-20 xsm:w-24 font-medium text-right">
+                <span className="w-16 2xsm:w-20 xsm:w-24 font-medium text-right leading-snug">
                   {stringifyRecipeQuantity(ingredient) || '—'}
                 </span>
                 <span className="w-48 2xsm:w-56 xsm:w-64 text-left leading-snug">
