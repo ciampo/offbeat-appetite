@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 
-import { joinUrl } from '../../scripts/utils';
+import { joinUrl, sanitySimpleImageUrl } from '../../scripts/utils';
 import {
   ORGANISATION_FOUNDER_STRUCTURED_DATA,
   ORGANISATION_STRUCTURED_DATA,
@@ -16,7 +16,7 @@ interface PageMetaProps {
   title: string;
   description: string;
   path: string;
-  previewImage?: string;
+  previewImage: string;
   structuredData?: StructuredData[];
 }
 
@@ -29,10 +29,17 @@ const PageMeta: React.FC<PageMetaProps> = ({
 }) => {
   const dispatch = useSharingImageDispatch();
 
+  // Set image to 1200 x 630 resolution (see https://www.sanity.io/docs/image-urls)
+  const resizedPreviewImage = sanitySimpleImageUrl({
+    imageBaseSrc: previewImage,
+    width: 1200,
+    height: 630,
+  });
+
   // Sets the current sharing image globally
   useEffect(() => {
-    dispatch({ type: 'changeImage', details: { url: previewImage } });
-  }, [previewImage, dispatch]);
+    dispatch({ type: 'changeImage', details: { url: resizedPreviewImage } });
+  }, [resizedPreviewImage, dispatch]);
 
   return (
     <Head>
@@ -44,7 +51,7 @@ const PageMeta: React.FC<PageMetaProps> = ({
       {/* og:tags */}
       <meta key="page-og-title" property="og:title" content={title} />
       <meta key="page-og-description" property="og:description" content={description} />
-      {previewImage && <meta key="page-og-image" property="og:image" content={previewImage} />}
+      <meta key="page-og-image" property="og:image" content={resizedPreviewImage} />
       {process.env.NEXT_PUBLIC_CANONICAL_URL && (
         <meta
           key="page-og-url"
@@ -56,9 +63,7 @@ const PageMeta: React.FC<PageMetaProps> = ({
       {/* Twitter card */}
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      {previewImage && (
-        <meta key="page-twitter-image" name="twitter:image" content={previewImage} />
-      )}
+      <meta key="page-twitter-image" name="twitter:image" content={resizedPreviewImage} />
 
       {/* Structured data */}
       {structuredData && (

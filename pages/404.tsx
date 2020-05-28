@@ -1,10 +1,16 @@
 import React, { MouseEvent } from 'react';
+import { GetStaticProps } from 'next';
+
 import { NextComponentTypeWithLayout } from '../typings';
 
 import PageMeta from '../components/meta/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 
-const Custom404: NextComponentTypeWithLayout = () => {
+// Home Page
+type Custom404Props = {
+  homeSeoImage: string;
+};
+const Custom404: NextComponentTypeWithLayout<Custom404Props> = ({ homeSeoImage }) => {
   const onHomeClick = (e: MouseEvent): void => {
     e.preventDefault();
     if (window && window.location && window.location.replace) {
@@ -14,7 +20,12 @@ const Custom404: NextComponentTypeWithLayout = () => {
 
   return (
     <>
-      <PageMeta title="404: Page not found" description="The page could not be found" path="/404" />
+      <PageMeta
+        title="404: Page not found"
+        description="The page could not be found"
+        path="/404"
+        previewImage={homeSeoImage}
+      />
 
       <DefaultPageTransitionWrapper>
         <header className="min-h-screen flex flex-col items-center justify-center text-center space-y-4">
@@ -26,6 +37,16 @@ const Custom404: NextComponentTypeWithLayout = () => {
       </DefaultPageTransitionWrapper>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const homeData = await import(`../data/pageHome.json`).then((m) => m.default);
+
+  return {
+    props: {
+      homeSeoImage: homeData.seoImage,
+    },
+  };
 };
 
 export default Custom404;

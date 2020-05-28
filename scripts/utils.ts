@@ -63,3 +63,16 @@ export function postDateToHumanString(date: string): string {
   const [year, month, day] = date.split('-');
   return `${Number(day)} ${months[Number(month) - 1]} ${year}`;
 }
+
+// https://www.sanity.io/docs/image-urls
+export function sanitySimpleImageUrl({
+  imageBaseSrc,
+  width,
+  height,
+}: {
+  imageBaseSrc: string;
+  width: number;
+  height: number;
+}): string {
+  return `${imageBaseSrc}?fm=jpg&w=${width}&h=${height}fit=crop&crop=center`;
+}
