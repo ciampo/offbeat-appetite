@@ -1,5 +1,5 @@
 import { portableTextToPlainText } from '../sanity/portableText';
-import { joinUrl, stringifyRecipeIngredient } from './utils';
+import { joinUrl, stringifyRecipeIngredient, sanitySimpleImageUrl } from './utils';
 import { StructuredData, SanityPersonFull, SanityBlogPostFull, SanityRecipe } from '../typings';
 
 import siteMiscContentData from '../data/siteMiscContent.json';
@@ -151,11 +151,14 @@ export function generateRecipeStructuredData({
       '@id': GRAPH_IDS.AUTHOR,
     },
     keywords: generateBlogPostKeywords(blogPostData),
-    // IMAGE TODO:
-    // - resize / reformat
-    // - add size info
-    // - prepare more than one with different ratios
-    image: blogPostData.seoImage,
+    image: [
+      // 1:1
+      sanitySimpleImageUrl({ imageBaseSrc: blogPostData.seoImage, width: 1280, height: 1280 }),
+      // 4:3
+      sanitySimpleImageUrl({ imageBaseSrc: blogPostData.seoImage, width: 1280, height: 960 }),
+      // 16:9
+      sanitySimpleImageUrl({ imageBaseSrc: blogPostData.seoImage, width: 1280, height: 720 }),
+    ],
     url: joinUrl(canonicalUrl, path),
     recipeIngredient: recipeData.ingredients.map(stringifyRecipeIngredient),
     recipeInstructions: recipeData.method.map(({ title, content }, i) => ({
