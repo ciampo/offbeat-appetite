@@ -57,9 +57,11 @@ describe('Post Page', () => {
         ...generateArticleStructuredData({ blogPostData, path }),
       ],
     };
-    const { container } = render(<BlogPostPage {...pageProps} />, {
+    const { getByText, container } = render(<BlogPostPage {...pageProps} />, {
       router: { asPath: '/recipes/egg-in-coffee-behind-vietnam-s-egg-coffee-recipe' },
     });
+
+    expect(getByText('subscribe to the newsletter')).toHaveAttribute('href', '#subscribe');
 
     expect(await axe(container)).toHaveNoViolations();
 
