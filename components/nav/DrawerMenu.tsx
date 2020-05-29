@@ -80,7 +80,6 @@ DrawerNavLink.displayName = 'memo(DrawerNavLink)';
 type DrawerNavProps = {
   links: UiLink[];
   open: boolean;
-  currentRouterPath: string;
   onLinkClick: (event?: React.MouseEvent) => void;
   onCloseButtonClick: (event?: React.MouseEvent) => void;
 };
