@@ -31,9 +31,10 @@ BasicSeeMoreLinkEl.displayName = 'memo(BasicSeeMoreLinkEl)';
 type HomeCategorySectionProps = {
   categorySectionData: SanityPageHomeCategorySection;
   even: boolean;
+  eagerLoadImages?: boolean;
 };
 const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
-  ({ categorySectionData, even }) => (
+  ({ categorySectionData, even, eagerLoadImages = false }) => (
     <section
       className={['py-16 md:py-20 xl:py-24', even ? 'bg-gray-lighter' : 'bg-gray-light']
         .filter(Boolean)
@@ -58,6 +59,7 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
           }
           postsData={categorySectionData.category.featuredBlogPosts}
           showOnlyFirstRow={true}
+          eagerLoadFirstRow={eagerLoadImages}
         />
         {/* See more link */}
         <ButtonOliveInverted
@@ -120,6 +122,7 @@ const HomePage: NextComponentTypeWithLayout<HomeProps> = ({ homeData, path, stru
           key={categorySectionData.category._id}
           categorySectionData={categorySectionData}
           even={index % 2 === 0}
+          eagerLoadImages={index === 0}
         />
       ))}
     </>
