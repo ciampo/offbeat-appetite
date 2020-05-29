@@ -15,9 +15,11 @@ import { sharedTheme } from '../tailwind.shared';
 // Event handlers like onClick can't be added to this file
 
 const PRECONNECT_ORIGINS = [
-  'https://www.google-analytics.com',
+  'https://cdn.sanity.io/',
   'https://www.google.com',
   'https://www.gstatic.com',
+  'https://www.google-analytics.com',
+  'https://fonts.googleapis.com/',
 ];
 
 const PRELOAD_WEBFONTS = [
@@ -68,7 +70,10 @@ class CustomDocument extends Document<DocumentProps> {
           ></script>
 
           {PRECONNECT_ORIGINS.map((url) => (
-            <link key={url} rel="preconnect" href={url} crossOrigin="anonymous" />
+            <React.Fragment key={url}>
+              <link rel="preconnect" href={url} />
+              <link rel="dns-prefetch" href={url} />
+            </React.Fragment>
           ))}
 
           {PRELOAD_WEBFONTS.map((url) => (
