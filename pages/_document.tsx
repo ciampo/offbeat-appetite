@@ -85,10 +85,6 @@ class CustomDocument extends Document<DocumentProps> {
         <body className="text-gray-darker bg-gray-lighter m-0 type-body">
           <Main />
           <NextScript />
-          <script
-            defer={true}
-            src="https://recaptcha.net/recaptcha/api.js?render=explicit"
-          ></script>
         </body>
       </Html>
     );

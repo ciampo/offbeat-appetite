@@ -9,6 +9,20 @@ const isIoSupported =
   'IntersectionObserverEntry' in window &&
   'intersectionRatio' in window.IntersectionObserverEntry.prototype;
 
+const RECAPTCHA_SCRIPT_URL = 'https://recaptcha.net/recaptcha/api.js?render=explicit';
+
+function injectRecaptchaScript(): void {
+  const script = document.createElement('script');
+
+  script.async = true;
+  script.defer = true;
+  script.src = RECAPTCHA_SCRIPT_URL;
+
+  if (document.head) {
+    document.head.appendChild(script);
+  }
+}
+
 export type InvisibleRecaptchaRef = {
   execute: (id?: number) => void;
   reset: (id?: number) => void;
@@ -35,18 +49,32 @@ const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetId = useRef<number | null>(null);
   const [isReady, setReady] = useState(false);
-
-  const [allowInit, setAllowInit] = useState<boolean>(!isIoSupported);
+  const [inView, setInView] = useState<boolean>(!isIoSupported);
   const ioResults = useIntersection(containerRef, {});
 
+  // Initially, wait until the component enters the viewport
   useEffect(() => {
     if (ioResults && ioResults.intersectionRatio > 0) {
-      setAllowInit(true);
+      setInView(true);
     }
   }, [ioResults]);
 
+  // When the component enters the viewport, check if the recaptcha script
+  // needs to be injected in the page.
   useEffect(() => {
-    const checkIsReady = (): boolean => {
+    if (
+      inView &&
+      !document.querySelector(`script[src="${RECAPTCHA_SCRIPT_URL}"]`) &&
+      !isRecaptchaReady()
+    ) {
+      injectRecaptchaScript();
+    }
+  }, [inView]);
+
+  // In the meantime, as soon as the component enters the viewport, start
+  // checking periodically for the recaptcha library to be initialised and ready
+  useEffect(() => {
+    function checkIsReady(): boolean {
       const readyCheck = isRecaptchaReady();
       if (readyCheck) {
         setReady(true);
@@ -57,10 +85,10 @@ const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
       }
 
       return readyCheck;
-    };
+    }
 
-    if (!checkIsReady()) {
-      isReadyIntervalRef.current = setInterval(checkIsReady, 50);
+    if (inView && !checkIsReady()) {
+      isReadyIntervalRef.current = setInterval(checkIsReady, 500);
     }
 
     return (): void => {
@@ -68,12 +96,12 @@ const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
         clearInterval(isReadyIntervalRef.current);
       }
     };
-  }, []);
+  }, [inView]);
 
+  // When the recaptcha library is ready, and only if a widget hasn't already been
+  // created, create a new recaptcha widget
   useEffect(() => {
-    // When everything is ready (and only if recaptcha hasn't been initialised yet),
-    // init recaptcha and set the ref
-    if (isReady && allowInit && containerRef.current && window.grecaptcha && !widgetId.current) {
+    if (isReady && containerRef.current && window.grecaptcha && !widgetId.current) {
       widgetId.current = window.grecaptcha.render(containerRef.current, {
         sitekey: siteKey,
         size: 'invisible',
@@ -86,7 +114,7 @@ const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
         getResponse: window.grecaptcha.getResponse,
       };
     }
-  }, [isReady, siteKey, forwardedRef, onVerify, onError, allowInit]);
+  }, [isReady, siteKey, forwardedRef, onVerify, onError]);
 
   return <div ref={containerRef} {...props}></div>;
 };
