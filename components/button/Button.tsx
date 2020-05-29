@@ -41,7 +41,7 @@ const ButtonBase: React.FC<ButtonBaseProps> = ({
     className={[
       'flex items-center rounded underline-under contain-l-p',
       'disabled:cursor-not-allowed disabled:bg-gray-medium disabled:text-gray-dark disabled:opacity-50 disabled:shadow-none focus:outline-none',
-      !disableTransitions && 'transition-all duration-200 ease-out',
+      !disableTransitions && 'transition-bg-color-transform duration-200 ease-out',
       additionalHover === 'underline' && 'hover:underline',
       additionalHover === 'scaleUp' && 'hover:will-change-transform transform hover:scale-105',
       shadow && 'hover:shadow-md focus:shadow-md',

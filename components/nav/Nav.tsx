@@ -145,7 +145,7 @@ const HeaderNav: React.FC = () => {
     <>
       <div
         className={[
-          'z-50 fixed top-0 left-0 w-full contain-l will-change-transform transition-nav duration-300 ease-out',
+          'z-50 fixed top-0 left-0 w-full contain-l will-change-transform transition-bg-color-transform duration-300 ease-out',
           isSolid ? 'bg-olive-darker shadow-md' : 'bg-transparent',
         ].join(' ')}
         data-testid="header-nav-wrapper"

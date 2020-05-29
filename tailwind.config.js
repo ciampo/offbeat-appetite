@@ -60,7 +60,7 @@ module.exports = {
         '35': '0.35',
       },
       transitionProperty: {
-        nav: 'background-color, transform',
+        'bg-color-transform': 'background-color, transform',
       },
     },
     fontFamily: {
