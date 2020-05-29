@@ -194,7 +194,7 @@ describe('AccessibleImage', () => {
     expect(queryByTestId('image-scrim')).toBeInTheDocument();
     expect(queryByTestId('image-scrim')).toHaveAttribute('aria-hidden', 'true');
     expect(queryByTestId('image-scrim')?.className).toMatch(
-      'absolute inset-0 bg-gray-darker bg-opacity-25 pointer-events-none'
+      'absolute inset-0 bg-black bg-opacity-35 pointer-events-none'
     );
   });
 });
