@@ -101,7 +101,7 @@ const HomePage: NextComponentTypeWithLayout<HomeProps> = ({ homeData, path, stru
       <header
         className={[
           'flex flex-col items-center justify-center',
-          'mt-16 md:mt-20 xl:mt-24',
+          'mt-20 xsm:mt-16 md:mt-20 xl:mt-24',
           'py-4 xsm:py-8 md:py-12 lg:py-16 xl:py-20',
           '-mb-2 xsm:-mb-4 md:-mb-6 lg:-mb-8 xl:-mb-10',
           'space-y-2 sm:space-y-3 md:space-y-4 xl:space-y-5',
