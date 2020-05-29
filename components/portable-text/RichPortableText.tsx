@@ -7,7 +7,7 @@ import { SanityRichPortableText } from '../../typings';
 
 type RichPortableTextProps = {
   blocks: SanityRichPortableText;
-  customSerializers?: object;
+  customSerializers?: Record<string, unknown>;
 };
 const RichPortableText: React.FC<RichPortableTextProps> = ({ blocks, customSerializers }) => (
   <GenericPortableText serializers={{ ...richSerializers, ...customSerializers }} blocks={blocks} />

@@ -39,10 +39,10 @@ export interface SanityBlockType<T> {
     _type: string;
   };
   options: {
-    imageOptions: object;
+    imageOptions: Record<string, unknown>;
   };
   isInline?: boolean;
-  children: object[];
+  children: Record<string, unknown>[];
 }
 
 export type SanityRichPortableText = (

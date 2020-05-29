@@ -198,7 +198,6 @@ describe('All Sharing Links', () => {
     // In mocking global objects it's usually better than simple `jest.fn()`
     // because you can `unmock` it in clean way doing `mockRestore`
     shareMock = jest.fn().mockResolvedValue({});
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     jest.spyOn(window, 'navigator', 'get').mockImplementation(() => ({
       share: shareMock,

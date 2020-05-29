@@ -93,7 +93,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
   // Send form data on recaptcha successfull verification
   const onRecaptchaSuccess = useCallback(
     (recaptchaValue: string): void => {
-      function onSubmissionError(error: string | object): void {
+      function onSubmissionError(error: string): void {
         setIsSubmitting(false);
 
         if (reaptchaRef.current) {
@@ -155,7 +155,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
             if (response.status === 200) {
               onSubmissionSuccess();
             } else {
-              onSubmissionError(response);
+              onSubmissionError(`${response.status} ${response.statusText} ${response.body}`);
             }
           })
           .catch((error) => onSubmissionError(error));

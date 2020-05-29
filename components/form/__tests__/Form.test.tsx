@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import preloadAll from 'jest-next-dynamic';
 
@@ -50,12 +49,10 @@ beforeAll(async () => {
   spiedConsoleWarn = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
   mockFetch = jest.fn();
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   global.fetch = mockFetch;
 
   let onVeriy: (token: string) => void;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   global.grecaptcha = {
     render: (wrapper: HTMLElement, config: { callback: (token: string) => void }): string => {
@@ -83,11 +80,9 @@ beforeAll(async () => {
 afterAll(() => {
   spiedConsoleWarn.mockRestore();
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   delete global.fetch;
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   delete global.recaptcha;
 });

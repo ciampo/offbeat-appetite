@@ -7,7 +7,7 @@ import { SanityBlock } from '../../typings';
 
 type SimplePortableTextProps = {
   blocks: SanityBlock[];
-  customSerializers?: object;
+  customSerializers?: Record<string, unknown>;
 };
 const SimplePortableText: React.FC<SimplePortableTextProps> = ({
   blocks,

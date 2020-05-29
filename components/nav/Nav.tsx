@@ -18,12 +18,10 @@ import { UiLink } from '../../typings';
 
 const PageLoadingBar = dynamic(() => import('./PageLoadingBar'), { ssr: false });
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 const DrawerNav = dynamic(() => import('./DrawerMenu').then((mod) => mod.DrawerNav), {
   ssr: false,
 });
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 const MenuButton = dynamic(() => import('./DrawerMenu').then((mod) => mod.MenuButton), {
   ssr: false,
