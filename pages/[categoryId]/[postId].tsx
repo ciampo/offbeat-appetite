@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect, useMemo } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
 import ReactGA from 'react-ga';
@@ -7,6 +7,7 @@ import PageMeta from '../../components/meta/PageMeta';
 import AccessibleImage from '../../components/media/AccessibleImage';
 import { fullBleedImageResponsiveConfig } from '../../components/media/image-responsive-configurations';
 import Tag from '../../components/tag/Tag';
+import { ButtonOliveInverted } from '../../components/button/Button';
 import { AllSharingButtons } from '../../components/sharing/sharing-links';
 import RichPortableText from '../../components/portable-text/RichPortableText';
 import { ArticleContentContainer } from '../../components/layouts/Containers';
@@ -35,6 +36,9 @@ const BLOG_POST_PAGE_ROUTE = '/[categoryId]/[postId]';
 const BasicArticleEl: React.FC = memo((props) => <article {...props} />);
 BasicArticleEl.displayName = 'memo(BasicArticleEl)';
 
+const AnchorToRecipeEl: React.FC = memo((props) => <a {...props} href="#recipe" />);
+AnchorToRecipeEl.displayName = 'memo(AnchorToRecipeEl)';
+
 type PageBlogPostProps = {
   blogPostData: SanityBlogPostFull;
   path: string;
@@ -51,6 +55,11 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
   }, [setVariant]);
 
   const { asPath } = useRouter();
+
+  const contentHasRecipe = useMemo(
+    () => blogPostData.content.some((block) => block._type === 'recipe'),
+    [blogPostData]
+  );
 
   return (
     <>
@@ -91,6 +100,19 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
             paddingBottom: '0',
           }}
         />
+
+        {/* {contentHasRecipe && (
+          <ButtonTransparent
+            component={AnchorToRecipeEl}
+            additionalHover="underline"
+            paddingClassName="p-2 xl:px-4 xl:py-3"
+            sizeClassName=""
+            className="absolute bottom-0 mb-2 transform-translate-center-x text-shadow"
+            typeClassName="type-tag"
+          >
+            Jump to recipe
+          </ButtonTransparent>
+        )} */}
       </header>
 
       <ArticleContentContainer
@@ -128,6 +150,20 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
           </a>
           . Your support can make a big difference!
         </p>
+
+        {contentHasRecipe && (
+          <p className="flex justify-center">
+            <ButtonOliveInverted
+              component={AnchorToRecipeEl}
+              typeClassName="type-body"
+              className="-my-2"
+              border={true}
+              shadow={true}
+            >
+              Jump to recipe
+            </ButtonOliveInverted>
+          </p>
+        )}
 
         <RichPortableText blocks={blogPostData.content} />
 
