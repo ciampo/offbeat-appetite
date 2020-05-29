@@ -1,3 +1,4 @@
+/* purgecss start ignore */
 @media screen and (prefers-reduced-motion: no-preference) {
   html,
   body {
@@ -14,7 +15,6 @@ canvas {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* purgecss start ignore */
 .grecaptcha-badge {
   visibility: hidden;
 }
