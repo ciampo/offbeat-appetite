@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/camelcase */
-
 const fetch = require('node-fetch');
 
 // Read env variables.

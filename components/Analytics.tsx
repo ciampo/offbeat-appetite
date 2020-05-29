@@ -9,7 +9,7 @@ const pageView = (): void => {
   }
 };
 
-const Analytics: React.FC<{}> = (): null => {
+const Analytics: React.FC = () => {
   useEffect(() => {
     // Init GA the first time.
     if (!window.IS_GA_INIT && process.env.NEXT_PUBLIC_GA) {

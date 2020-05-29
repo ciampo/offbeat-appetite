@@ -18,12 +18,10 @@ import { UiLink } from '../../typings';
 
 const PageLoadingBar = dynamic(() => import('./PageLoadingBar'), { ssr: false });
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 const DrawerNav = dynamic(() => import('./DrawerMenu').then((mod) => mod.DrawerNav), {
   ssr: false,
 });
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 const MenuButton = dynamic(() => import('./DrawerMenu').then((mod) => mod.MenuButton), {
   ssr: false,
@@ -147,7 +145,7 @@ const HeaderNav: React.FC = () => {
     <>
       <div
         className={[
-          'z-50 fixed top-0 left-0 w-full contain-l will-change-transform transition-all duration-300 ease-out',
+          'z-50 fixed top-0 left-0 w-full contain-l will-change-transform transition-nav duration-300 ease-out',
           isSolid ? 'bg-olive-darker shadow-md' : 'bg-transparent',
         ].join(' ')}
         data-testid="header-nav-wrapper"

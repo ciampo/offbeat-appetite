@@ -78,7 +78,7 @@ const FooterSocialLink: React.FC<FooterSocialLinkProps> = ({ link: { platform, l
   );
 };
 
-const Footer: React.FC<{}> = memo(() => (
+const Footer: React.FC = memo(() => (
   <footer data-testid="site-footer-wrapper" className="bg-olive-darker">
     <PageContentContainer className="py-12 sm:py-16 md:py-20 xl:py-24 -mb-4 flex flex-col items-center sm:flex-wrap sm:flex-row sm:justify-center">
       {/* logo */}

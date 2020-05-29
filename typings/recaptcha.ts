@@ -4,15 +4,15 @@ export type RecaptchaConfig = {
   size?: string;
   badge?: string;
   tabindex?: number;
-  callback?: Function;
-  'expired-callback'?: Function;
-  'error-callback'?: Function;
+  callback?: (token: string) => void;
+  'expired-callback'?: () => void;
+  'error-callback'?: (errorMessage: string) => void;
   isolated?: boolean;
   hl?: string;
 };
 
 export type GRecaptcha = {
-  ready: (callback: Function) => Promise<void>;
+  ready: (callback: () => void) => Promise<void>;
   render: (container?: HTMLElement, config?: RecaptchaConfig) => number;
   execute: (id?: number) => void;
   reset: (id?: number) => void;

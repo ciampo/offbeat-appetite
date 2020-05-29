@@ -1,6 +1,5 @@
 import React from 'react';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import BlockContent from '@sanity/block-content-to-react';
 
@@ -8,7 +7,7 @@ import { SanityBlock, SanityRichPortableText } from '../../typings';
 
 type GenericPortableTextProps = {
   blocks: SanityBlock[] | SanityRichPortableText;
-  serializers: object;
+  serializers: Record<string, unknown>;
 };
 const GenericPortableText: React.FC<GenericPortableTextProps> = ({ blocks, serializers }) => (
   <BlockContent

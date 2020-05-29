@@ -100,7 +100,6 @@ textInputs.forEach(({ Component, name }) => {
       expect(mockOnInvalid).not.toHaveBeenCalled();
 
       // TODO: tmp fix while waiting for https://github.com/testing-library/user-event/pull/250
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       await userEvent.clear(getByRole('textbox'));
 

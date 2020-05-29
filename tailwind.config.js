@@ -59,6 +59,9 @@ module.exports = {
         '20': '0.2',
         '35': '0.35',
       },
+      transitionProperty: {
+        nav: 'background-color, transform',
+      },
     },
     fontFamily: {
       display: ['Yeseva One', 'sans-serif'],
