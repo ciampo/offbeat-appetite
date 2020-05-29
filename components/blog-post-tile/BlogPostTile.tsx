@@ -22,7 +22,7 @@ export type BlogPostTileProps = {
   reversed?: boolean;
   extended?: boolean;
   className?: string;
-  eagerLoad?: boolean;
+  eagerLoadImage?: boolean;
 };
 
 const transformTransitionCommonClassName = 'transition-transform duration-300 ease-out transform';
@@ -34,7 +34,7 @@ const BlogPostTile: React.FC<BlogPostTileProps> = memo(
     shadowVariant,
     reversed = false,
     extended = false,
-    eagerLoad = false,
+    eagerLoadImage = false,
     className,
   }) => (
     <Link href={postData.compiledRoute.page} as={postData.compiledRoute.path}>
@@ -129,7 +129,7 @@ const BlogPostTile: React.FC<BlogPostTileProps> = memo(
         >
           <AccessibleImage
             image={postData.previewImage}
-            lazy={!eagerLoad}
+            lazy={!eagerLoadImage}
             responsiveConfig={
               layoutVariant === 'horizontal'
                 ? blogPostTileHorizontalResponsiveConfig

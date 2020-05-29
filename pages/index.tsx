@@ -59,7 +59,7 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
           }
           postsData={categorySectionData.category.featuredBlogPosts}
           showOnlyFirstRow={true}
-          eagerLoadFirstRow={eagerLoadImages}
+          eagerLoadFirstTileImage={eagerLoadImages}
         />
         {/* See more link */}
         <ButtonOliveInverted

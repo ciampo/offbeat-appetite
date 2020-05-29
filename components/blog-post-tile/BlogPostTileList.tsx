@@ -11,7 +11,7 @@ type BlogPostTileListProps = {
   showOnlyFirstRow?: boolean;
   className?: string;
   tileClassName?: string;
-  eagerLoadFirstRow?: boolean;
+  eagerLoadFirstTileImage?: boolean;
 };
 const BlogPostTileList: React.FC<BlogPostTileListProps> = memo(
   ({
@@ -22,7 +22,7 @@ const BlogPostTileList: React.FC<BlogPostTileListProps> = memo(
     tileExtendedInfo,
     tileClassName,
     showOnlyFirstRow,
-    eagerLoadFirstRow = false,
+    eagerLoadFirstTileImage = false,
   }) => (
     <ul
       className={[
@@ -60,11 +60,7 @@ const BlogPostTileList: React.FC<BlogPostTileListProps> = memo(
             reversed={tileLayoutVariant === 'horizontal' && index % 2 !== 0}
             extended={tileExtendedInfo}
             className={['h-full max-w-xs mx-auto sm:max-w-none', tileClassName].join(' ')}
-            eagerLoad={
-              eagerLoadFirstRow &&
-              ((tileLayoutVariant === 'vertical' && index <= 2) ||
-                (tileLayoutVariant === 'horizontal' && index === 0))
-            }
+            eagerLoadImage={eagerLoadFirstTileImage && index === 0}
           />
         </li>
       ))}
