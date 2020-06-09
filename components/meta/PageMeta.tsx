@@ -32,8 +32,8 @@ const PageMeta: React.FC<PageMetaProps> = ({
   // Set image to 1200 x 630 resolution (see https://www.sanity.io/docs/image-urls)
   const resizedPreviewImage = sanitySimpleImageUrl({
     imageBaseSrc: previewImage,
-    width: 1200,
-    height: 630,
+    width: 2400,
+    height: 1260,
   });
 
   // Sets the current sharing image globally
