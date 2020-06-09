@@ -38,7 +38,7 @@ const AboutPage: NextComponentTypeWithLayout<AboutProps> = ({
         structuredData={structuredData}
       />
 
-      <header className="pt-40 pb-12 md:pt-48 md:pb-16 xl:pt-64 xl:pb-24">
+      <header className="pt-40 md:pt-48 xl:pt-64">
         <h1 className="text-center type-display-1">{aboutData.heroTitle}</h1>
       </header>
 
