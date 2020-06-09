@@ -74,5 +74,5 @@ export function sanitySimpleImageUrl({
   width: number;
   height: number;
 }): string {
-  return `${imageBaseSrc}?fm=jpg&w=${width}&h=${height}fit=crop&crop=center`;
+  return `${imageBaseSrc}?fm=jpg&w=${width}&h=${height}&fit=crop&crop=center`;
 }
