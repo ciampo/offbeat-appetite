@@ -3,7 +3,7 @@ import { axe } from 'jest-axe';
 import { render } from 'offbeat-appetite-render';
 
 import BlogPostPage from '../pages/[categoryId]/[postId]';
-import testRecipeData from '../data/posts/test-recipe.json';
+import testRecipeData from '../data/posts/will-malta-s-spinach-and-tuna-pie-make-the-cut.json';
 import {
   generateWebpageStructuredData,
   generateArticleStructuredData,
