@@ -93,6 +93,28 @@ const articleContainerMaxWidth = {
   },
 };
 
+const mediaBlogNegativeMargin = pagePadding;
+
+const articleMediaFullWidth = {
+  initial: '100vw',
+  xsm: {
+    rem: articleContainerMaxWidth.xsm.rem + 2 * mediaBlogNegativeMargin.xsm.rem,
+    px: articleContainerMaxWidth.xsm.px + 2 * mediaBlogNegativeMargin.xsm.px,
+  },
+  sm: {
+    rem: articleContainerMaxWidth.xsm.rem + 2 * mediaBlogNegativeMargin.sm.rem,
+    px: articleContainerMaxWidth.xsm.px + 2 * mediaBlogNegativeMargin.sm.px,
+  },
+  md: {
+    rem: articleContainerMaxWidth.md.rem + 2 * mediaBlogNegativeMargin.md.rem,
+    px: articleContainerMaxWidth.md.px + 2 * mediaBlogNegativeMargin.md.px,
+  },
+  xl: {
+    rem: articleContainerMaxWidth.xl.rem + 2 * mediaBlogNegativeMargin.xl.rem,
+    px: articleContainerMaxWidth.xl.px + 2 * mediaBlogNegativeMargin.xl.px,
+  },
+};
+
 // =============================================================================
 // PRESETS
 // =============================================================================
@@ -195,72 +217,79 @@ export const blogPostTileHorizontalResponsiveConfig: AccessibleImageResponsiveCo
 export const contentFullWidthResponsiveConfig: AccessibleImageResponsiveConfig = {
   exports: sortBreakpoints({
     breakpoints: [
-      `${375 - 2 * pagePadding.initial.px}`,
-      `${articleContainerMaxWidth.xsm.px}`,
-      `${articleContainerMaxWidth.md.px}`,
-      `${articleContainerMaxWidth.xl.px}`,
+      `375`,
+      `${articleMediaFullWidth.xsm.px}`,
+      `${articleMediaFullWidth.sm.px}`,
+      `${articleMediaFullWidth.md.px}`,
+      `${articleMediaFullWidth.xl.px}`,
     ],
     addDoubleRes: true,
   }) as number[],
   sizes: [
     {
       queryMinWidth: twTheme.maxWidth['screen-xl'],
-      width: `${articleContainerMaxWidth.xl.rem}rem`,
+      width: `${articleMediaFullWidth.xl.rem}rem`,
     },
     {
       queryMinWidth: twTheme.maxWidth['screen-md'],
-      width: `${articleContainerMaxWidth.md.rem}rem`,
+      width: `${articleMediaFullWidth.md.rem}rem`,
+    },
+    {
+      queryMinWidth: twTheme.maxWidth['screen-sm'],
+      width: `${articleMediaFullWidth.sm.rem}rem`,
     },
     {
       queryMinWidth: `${articleContainerMaxWidth.xsm.px + 2 * pagePadding.xsm.px}px`,
-      width: `${articleContainerMaxWidth.xsm.rem}rem`,
+      width: `${articleMediaFullWidth.xsm.rem}rem`,
     },
     {
-      queryMinWidth: twTheme.maxWidth['screen-xsm'],
-      width: `calc(100vw - ${2 * pagePadding.xsm.rem}rem)`,
-    },
-    {
-      width: `calc(100vw - ${2 * pagePadding.initial.rem}rem)`,
+      width: articleMediaFullWidth.initial,
     },
   ],
 };
 
 // Used in blog post media gallery
-
 const mediaGripGap = {
   initial: pagePadding.initial,
 };
 
+type configSize = {
+  rem: number;
+  px: number;
+};
+const fullWidthToGalleryWidth = (w: configSize, unit: 'px' | 'rem'): number =>
+  (w[unit] - mediaGripGap.initial[unit]) / 2;
+
 export const contentMediaGalleryResponsiveConfig: AccessibleImageResponsiveConfig = {
   exports: sortBreakpoints({
     breakpoints: [
-      `${375 - 2 * pagePadding.initial.px}`,
-      `${parseFloat(twTheme.maxWidth['screen-xsm']) - 2 * pagePadding.initial.px}`,
-      `${(articleContainerMaxWidth.xsm.px - mediaGripGap.initial.px) / 2}`,
-      `${(articleContainerMaxWidth.md.px - mediaGripGap.initial.px) / 2}`,
-      `${(articleContainerMaxWidth.xl.px - mediaGripGap.initial.px) / 2}`,
+      `375`,
+      `${fullWidthToGalleryWidth(articleMediaFullWidth.xsm, 'px')}`,
+      `${fullWidthToGalleryWidth(articleMediaFullWidth.sm, 'px')}`,
+      `${fullWidthToGalleryWidth(articleMediaFullWidth.md, 'px')}`,
+      `${fullWidthToGalleryWidth(articleMediaFullWidth.xl, 'px')}`,
     ],
     addDoubleRes: true,
   }) as number[],
   sizes: [
     {
       queryMinWidth: twTheme.maxWidth['screen-xl'],
-      width: `${(articleContainerMaxWidth.xl.rem - mediaGripGap.initial.rem) / 2}rem`,
+      width: `${fullWidthToGalleryWidth(articleMediaFullWidth.xl, 'rem')}rem`,
     },
     {
       queryMinWidth: twTheme.maxWidth['screen-md'],
-      width: `${(articleContainerMaxWidth.md.rem - mediaGripGap.initial.rem) / 2}rem`,
+      width: `${fullWidthToGalleryWidth(articleMediaFullWidth.md, 'rem')}rem`,
+    },
+    {
+      queryMinWidth: twTheme.maxWidth['screen-sm'],
+      width: `${fullWidthToGalleryWidth(articleMediaFullWidth.sm, 'rem')}rem`,
     },
     {
       queryMinWidth: `${articleContainerMaxWidth.xsm.px + 2 * pagePadding.xsm.px}px`,
-      width: `${(articleContainerMaxWidth.xsm.rem - mediaGripGap.initial.rem) / 2}rem`,
+      width: `${fullWidthToGalleryWidth(articleMediaFullWidth.xsm, 'rem')}rem`,
     },
     {
-      queryMinWidth: twTheme.maxWidth['screen-xsm'],
-      width: `calc((100vw - ${2 * pagePadding.xsm.rem + mediaGripGap.initial.rem}rem) / 2)`,
-    },
-    {
-      width: `calc(100vw - 2 * ${pagePadding.initial.rem}rem)`,
+      width: '100vw',
     },
   ],
   forceRatio: 4 / 5,
