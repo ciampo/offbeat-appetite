@@ -120,20 +120,6 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
         internalWrapperClassName="space-y-8 sm:space-y-10 md:space-y-12 xl:space-y-16"
         component={BasicArticleEl}
       >
-        <aside className="flex flex-col items-center space-y-1" aria-label="Share">
-          <h2 className="type-body">{socialShareLabel.replace(':platformName', '').trim()}</h2>
-          <div className="flex items-center justify-center space-x-1 xsm:space-x-2">
-            <AllSharingButtons
-              link={joinUrl(
-                process.env.NEXT_PUBLIC_CANONICAL_URL as string,
-                asPath.split(/[?#]/)[0]
-              )}
-              message={blogPostData.seoTitle}
-              iconPrefix="article-top-icon-social"
-            />
-          </div>
-        </aside>
-
         <p className="text-gray-dark italic">
           If you enjoy this article, or any other content from this website, please{' '}
           <a
@@ -151,12 +137,26 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
           . Your support can make a big difference!
         </p>
 
+        <aside className="flex flex-col items-center space-y-1" aria-label="Share">
+          <h2 className="type-body">{socialShareLabel.replace(':platformName', '').trim()}</h2>
+          <div className="flex items-center justify-center space-x-1 xsm:space-x-2">
+            <AllSharingButtons
+              link={joinUrl(
+                process.env.NEXT_PUBLIC_CANONICAL_URL as string,
+                asPath.split(/[?#]/)[0]
+              )}
+              message={blogPostData.seoTitle}
+              iconPrefix="article-top-icon-social"
+            />
+          </div>
+        </aside>
+
         {contentHasRecipe && (
           <p className="flex justify-center">
             <ButtonOliveInverted
               component={AnchorToRecipeEl}
               typeClassName="type-body"
-              className="-my-2"
+              className="-mt-2"
               border={true}
               shadow={true}
             >
