@@ -49,7 +49,11 @@ const simpleSerializers = {
   },
 };
 
-const mediaBlockClassName = 'my-6 md:my-8 xl:my-10';
+const blockNegativeMargin = '-mx-6 xsm:-mx-8 sm:-mx-12 md:-mx-16 xl:-mx-20';
+const mediaBlockVerticalSpacing = 'my-8 md:my-10 xl:my-12';
+const recipeBlockVerticalSpacing = 'my-16 md:my-20 xl:my-24';
+const mediaBlockClassName = [mediaBlockVerticalSpacing, blockNegativeMargin].join(' ');
+const recipeBlockClassName = [recipeBlockVerticalSpacing, blockNegativeMargin].join(' ');
 
 const CaptionedImageWrapper: React.FC<SanityBlockType<SanityCaptionedImage>> = (props) => (
   <CaptionedImage
@@ -72,7 +76,7 @@ const MediaGalleryWrapper: React.FC<SanityBlockType<SanityMediaGallery>> = (prop
 );
 
 const RecipeWrapper: React.FC<SanityBlockType<SanityRecipe>> = (props) => (
-  <Recipe className="my-16 md:my-20 xl:my-24" recipe={props.node} />
+  <Recipe className={recipeBlockClassName} recipe={props.node} />
 );
 
 const richSerializers = {

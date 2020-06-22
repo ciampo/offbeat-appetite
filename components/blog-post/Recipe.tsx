@@ -39,7 +39,6 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
       className={[
         'bg-gray-lighter sm:rounded overflow-hidden contain-l-p shadow-neu-lighter',
         'py-10 sm:py-12 md:py-16 xl:py-20 outline-none',
-        '-mx-6 xsm:-mx-8 sm:-mx-12 md:-mx-16 xl:-mx-20',
         className,
       ]
         .filter(Boolean)
