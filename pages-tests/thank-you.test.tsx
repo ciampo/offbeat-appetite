@@ -17,5 +17,5 @@ describe('Thank You Page', () => {
     expect(await axe(container)).toHaveNoViolations();
 
     // TODO: use mock data and add more tests
-  });
+  }, 15000);
 });
