@@ -1,4 +1,8 @@
 function compileDynamicItem({ dynamicItem, routeConfig }) {
+  if (!dynamicItem) {
+    return;
+  }
+
   const { route, generateParams } = routeConfig;
 
   // Generate dynamic route (replace query params).

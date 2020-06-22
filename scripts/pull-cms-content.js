@@ -186,7 +186,9 @@ function compilePortableTextInternalLinks(subTree) {
           routeConfig: blogPostRoute,
           dynamicItem: markDef.reference,
         });
-        markDef.routeInfo = compiledBlogPostRoute.routeInfo;
+        if (compiledBlogPostRoute) {
+          markDef.routeInfo = compiledBlogPostRoute.routeInfo;
+        }
       }
     });
   } else {
