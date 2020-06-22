@@ -15,6 +15,10 @@ describe('Category Page', () => {
       routeConfig: routesConfig.find(({ route }) => route === '/[categoryId]'),
       dynamicItem: categoryData,
     });
+
+    if (!compiledCategoryItem) {
+      return;
+    }
     const path = compiledCategoryItem.routeInfo.path;
 
     const pageProps = {

@@ -26,6 +26,9 @@ describe('Post Page', () => {
       dynamicItem: blogPostData,
     });
 
+    if (!compiledBlogPostItem) {
+      return;
+    }
     const path = compiledBlogPostItem.routeInfo.path;
 
     const compiledCategoryItem = compileDynamicItem({
@@ -34,6 +37,10 @@ describe('Post Page', () => {
         (m) => m.default
       ),
     });
+
+    if (!compiledCategoryItem) {
+      return;
+    }
 
     const pageProps = {
       blogPostData,

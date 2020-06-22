@@ -101,6 +101,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
     routeConfig: routesConfig.find(({ route }) => route === CATEGORY_PAGE_ROUTE),
     dynamicItem: categoryData,
   });
+
+  if (!compiledCategoryItem) {
+    return { props: {} };
+  }
   const path = compiledCategoryItem.routeInfo.path;
 
   return {
