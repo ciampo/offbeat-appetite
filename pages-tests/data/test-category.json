@@ -1,0 +1,223 @@
+{
+  "_id": "test-category-id",
+  "allBlogPosts": [
+    {
+      "_id": "test-blog-post-id",
+      "author": {
+        "_id": "test-author-id",
+        "image": {
+          "_type": "image",
+          "alt": "A test image",
+          "asset": {
+            "_id": "image-4af92416a106e0924eab7003444675d74fa8283a-3264x4928-jpg",
+            "assetId": "4af92416a106e0924eab7003444675d74fa8283a",
+            "extension": "jpg",
+            "metadata": {
+              "dimensions": {
+                "aspectRatio": 0.6623376623376623,
+                "height": 4928,
+                "width": 3264
+              },
+              "palette": {
+                "dominant": {
+                  "background": "#db9c0e",
+                  "foreground": "#000"
+                }
+              }
+            },
+            "url": "https://cdn.sanity.io/images/gpe6axmm/production/4af92416a106e0924eab7003444675d74fa8283a-3264x4928.jpg"
+          },
+          "crop": {
+            "_type": "sanity.imageCrop",
+            "bottom": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "height": 0.11670516717325237,
+            "width": 0.6139817629179322,
+            "x": 0.606382978723404,
+            "y": 0.4255501519756839
+          }
+        },
+        "name": "Claire Tonna"
+      },
+      "category": {
+        "_id": "af969443-73e2-44f2-8db2-248a0a1ac3de",
+        "name": "Test category",
+        "slug": "test-category"
+      },
+      "datePublished": "2020-05-01",
+      "excerpt": "Test category exceprt",
+      "previewImage": {
+        "_type": "image",
+        "alt": "Preview image",
+        "asset": {
+          "_id": "image-975fdae20e4c0338a41905aa87ccf690a72c69aa-4757x3151-jpg",
+          "assetId": "975fdae20e4c0338a41905aa87ccf690a72c69aa",
+          "extension": "jpg",
+          "metadata": {
+            "dimensions": {
+              "aspectRatio": 1.509679466835925,
+              "height": 3151,
+              "width": 4757
+            },
+            "palette": {
+              "dominant": {
+                "background": "#d6b6a1",
+                "foreground": "#000"
+              }
+            }
+          },
+          "url": "https://cdn.sanity.io/images/gpe6axmm/production/4af92416a106e0924eab7003444675d74fa8283a-3264x4928.jpg"
+        },
+        "crop": {
+          "_type": "sanity.imageCrop",
+          "bottom": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0
+        },
+        "hotspot": {
+          "_type": "sanity.imageHotspot",
+          "height": 0.1688185165776267,
+          "width": 0.3329452852153666,
+          "x": 0.32305005820721777,
+          "y": 0.7954324040108471
+        }
+      },
+      "slug": "blog-post-slug",
+      "tags": [
+        {
+          "_id": "3ee8a39e-2d92-4849-b53b-999ec8373818",
+          "name": "Mediterranean",
+          "slug": "mediterranean"
+        }
+      ],
+      "title": "Test blog post",
+      "compiledRoute": {
+        "page": "/[categoryId]/[postId]",
+        "path": "/test-category/blog-post-slug",
+        "query": {
+          "categoryId": "test-category",
+          "postId": "blog-post-slug"
+        }
+      }
+    }
+  ],
+  "featuredBlogPosts": [
+    {
+      "_id": "test-blog-post-id",
+      "author": {
+        "_id": "test-author-id",
+        "image": {
+          "_type": "image",
+          "alt": "A test image",
+          "asset": {
+            "_id": "image-4af92416a106e0924eab7003444675d74fa8283a-3264x4928-jpg",
+            "assetId": "4af92416a106e0924eab7003444675d74fa8283a",
+            "extension": "jpg",
+            "metadata": {
+              "dimensions": {
+                "aspectRatio": 0.6623376623376623,
+                "height": 4928,
+                "width": 3264
+              },
+              "palette": {
+                "dominant": {
+                  "background": "#db9c0e",
+                  "foreground": "#000"
+                }
+              }
+            },
+            "url": "https://cdn.sanity.io/images/gpe6axmm/production/4af92416a106e0924eab7003444675d74fa8283a-3264x4928.jpg"
+          },
+          "crop": {
+            "_type": "sanity.imageCrop",
+            "bottom": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0
+          },
+          "hotspot": {
+            "_type": "sanity.imageHotspot",
+            "height": 0.11670516717325237,
+            "width": 0.6139817629179322,
+            "x": 0.606382978723404,
+            "y": 0.4255501519756839
+          }
+        },
+        "name": "Claire Tonna"
+      },
+      "category": {
+        "_id": "af969443-73e2-44f2-8db2-248a0a1ac3de",
+        "name": "Test category",
+        "slug": "test-category"
+      },
+      "datePublished": "2020-05-01",
+      "excerpt": "Test category exceprt",
+      "previewImage": {
+        "_type": "image",
+        "alt": "Preview image",
+        "asset": {
+          "_id": "image-975fdae20e4c0338a41905aa87ccf690a72c69aa-4757x3151-jpg",
+          "assetId": "975fdae20e4c0338a41905aa87ccf690a72c69aa",
+          "extension": "jpg",
+          "metadata": {
+            "dimensions": {
+              "aspectRatio": 1.509679466835925,
+              "height": 3151,
+              "width": 4757
+            },
+            "palette": {
+              "dominant": {
+                "background": "#d6b6a1",
+                "foreground": "#000"
+              }
+            }
+          },
+          "url": "https://cdn.sanity.io/images/gpe6axmm/production/4af92416a106e0924eab7003444675d74fa8283a-3264x4928.jpg"
+        },
+        "crop": {
+          "_type": "sanity.imageCrop",
+          "bottom": 0,
+          "left": 0,
+          "right": 0,
+          "top": 0
+        },
+        "hotspot": {
+          "_type": "sanity.imageHotspot",
+          "height": 0.1688185165776267,
+          "width": 0.3329452852153666,
+          "x": 0.32305005820721777,
+          "y": 0.7954324040108471
+        }
+      },
+      "slug": "blog-post-slug",
+      "tags": [
+        {
+          "_id": "3ee8a39e-2d92-4849-b53b-999ec8373818",
+          "name": "Mediterranean",
+          "slug": "mediterranean"
+        }
+      ],
+      "title": "Test blog post",
+      "compiledRoute": {
+        "page": "/[categoryId]/[postId]",
+        "path": "/test-category/blog-post-slug",
+        "query": {
+          "categoryId": "test-category",
+          "postId": "blog-post-slug"
+        }
+      }
+    }
+  ],
+  "name": "Test category",
+  "seoDescription": "All Test category posts",
+  "seoImage": "https://cdn.sanity.io/images/gpe6axmm/production/4af92416a106e0924eab7003444675d74fa8283a-3264x4928.jpg",
+  "seoTitle": "Test Category",
+  "slug": "test-category",
+  "title": "Test category"
+}

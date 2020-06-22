@@ -3,7 +3,7 @@ import { axe } from 'jest-axe';
 import { render } from 'offbeat-appetite-render';
 
 import CategoryPage from '../pages/[categoryId]';
-import categoryData from '../data/categories/recipes.json';
+import categoryData from './data/test-category.json';
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
 import routesConfig from '../routes-config';
