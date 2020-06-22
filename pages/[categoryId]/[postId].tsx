@@ -230,6 +230,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
     dynamicItem: blogPostData,
   });
 
+  if (!compiledBlogPostItem) {
+    return { props: {} };
+  }
+
   const path = compiledBlogPostItem.routeInfo.path;
 
   const compiledCategoryItem = compileDynamicItem({
@@ -238,6 +242,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
       (m) => m.default
     ),
   });
+
+  if (!compiledCategoryItem) {
+    return { props: {} };
+  }
 
   return {
     props: {
