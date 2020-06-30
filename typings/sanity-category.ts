@@ -3,6 +3,7 @@ import { SanityBlogPostPreview } from '.';
 export type SanityCategoryPreview = {
   _id: string;
   name: string;
+  nameSingular: string;
   slug: string;
 };
 

@@ -63,7 +63,7 @@ const BlogPostTile: React.FC<BlogPostTileProps> = memo(
         >
           <dl className="text-gray-dark mb-3 md:mb-4 xl:mb-5 flex items-baseline">
             <dt className="sr-only">Category</dt>
-            <dd className="type-tag">{postData.category.name}</dd>
+            <dd className="type-tag">{postData.category.nameSingular}</dd>
             {extended && (
               <>
                 <span aria-hidden="true" className="mx-2">

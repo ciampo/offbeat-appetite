@@ -47,6 +47,7 @@
       "category": {
         "_id": "af969443-73e2-44f2-8db2-248a0a1ac3de",
         "name": "Test category",
+        "nameSingular": "Test category",
         "slug": "test-category"
       },
       "datePublished": "2020-05-01",
@@ -154,6 +155,7 @@
       "category": {
         "_id": "af969443-73e2-44f2-8db2-248a0a1ac3de",
         "name": "Test category",
+        "nameSingular": "Test category",
         "slug": "test-category"
       },
       "datePublished": "2020-05-01",
@@ -215,6 +217,7 @@
     }
   ],
   "name": "Test category",
+  "nameSingular": "Test category",
   "seoDescription": "All Test category posts",
   "seoImage": "https://cdn.sanity.io/images/gpe6axmm/production/4af92416a106e0924eab7003444675d74fa8283a-3264x4928.jpg",
   "seoTitle": "Test Category",

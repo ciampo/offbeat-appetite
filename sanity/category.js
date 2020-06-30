@@ -7,6 +7,7 @@ const categoryType = 'category';
 const allCategoriesQuery = /* groq */ `*[_type == "${categoryType}"] {
   _id,
   name,
+  nameSingular,
   "slug": slug.current,
   "featuredBlogPosts": featured[] {
   	"post": *[_type == "blogPost" && (_id == ^._ref || _id == "drafts." + ^._ref)] ${blogPostPreviewProjection},

@@ -101,6 +101,7 @@ const richPortabletextProjection = /* groq */ `{
 const categoryPreviewProjection = /* groq */ `{
   _id,
   name,
+  nameSingular,
   "slug": slug.current
 }`;
 
