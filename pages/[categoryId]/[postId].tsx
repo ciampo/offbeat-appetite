@@ -1,7 +1,8 @@
-import React, { memo, useEffect, useMemo } from 'react';
+import React, { memo, useEffect, useMemo, useReducer } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
 import ReactGA from 'react-ga';
+import sanityClient from '@sanity/client';
 
 import PageMeta from '../../components/meta/PageMeta';
 import AccessibleImage from '../../components/media/AccessibleImage';
@@ -32,6 +33,53 @@ import {
 } from '../../typings';
 
 const BLOG_POST_PAGE_ROUTE = '/[categoryId]/[postId]';
+const BLOG_POST_REVIEWS_QUERY = /* groq */ `*[_type == "tag"] {
+  _id,
+  name,
+  "slug": slug.current
+}`;
+
+const client = sanityClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '',
+  dataset: 'production',
+  token: process.env.NEXT_PUBLIC_SANITY_READ_TOKEN || '',
+  // Always use the freshest data (as we're going to save it to disk)
+  useCdn: false,
+});
+
+type DataFetchState = {
+  isLoading: boolean;
+  isError: boolean;
+  data: unknown[];
+};
+type DataFetchAction = {
+  type: 'FETCH_INIT' | 'FETCH_SUCCESS' | 'FETCH_ERROR';
+  payload?: unknown[];
+};
+
+const dataFetchReducer = (state: DataFetchState, action: DataFetchAction): DataFetchState => {
+  switch (action.type) {
+    case 'FETCH_INIT':
+      return {
+        ...state,
+        isError: false,
+        isLoading: true,
+      };
+    case 'FETCH_SUCCESS':
+      return {
+        ...state,
+        isError: false,
+        isLoading: false,
+        data: action.payload || [],
+      };
+    case 'FETCH_ERROR':
+      return {
+        ...state,
+        isError: true,
+        isLoading: false,
+      };
+  }
+};
 
 const BasicArticleEl: React.FC = memo((props) => <article {...props} />);
 BasicArticleEl.displayName = 'memo(BasicArticleEl)';
@@ -49,6 +97,11 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
   path,
   structuredData,
 }) => {
+  const [dataFetchState, dataFetchDispatch] = useReducer(dataFetchReducer, {
+    isLoading: false,
+    isError: false,
+    data: [],
+  });
   const setVariant = useNavVariantDispatch();
   useEffect(() => {
     setVariant('transparent');
@@ -60,6 +113,23 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
     () => blogPostData.content.some((block) => block._type === 'recipe'),
     [blogPostData]
   );
+
+  useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      dataFetchDispatch({ type: 'FETCH_INIT' });
+
+      try {
+        const reviews = await client.fetch(BLOG_POST_REVIEWS_QUERY);
+        dataFetchDispatch({ type: 'FETCH_SUCCESS', payload: reviews });
+      } catch (error) {
+        dataFetchDispatch({ type: 'FETCH_ERROR' });
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(dataFetchState);
 
   return (
     <>
