@@ -39,7 +39,7 @@ function encode(data: { [key: string]: string }): string {
     .join('&');
 }
 
-const ReviewForm: React.FC<{ documentId: string }> = ({ documentId }) => {
+const ReviewForm: React.FC<{ documentId: string | null }> = ({ documentId }) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = useCallback((e?: React.FormEvent<HTMLFormElement>): void => {
@@ -136,13 +136,19 @@ const ReviewForm: React.FC<{ documentId: string }> = ({ documentId }) => {
         </label>
       </p>
 
-      <input type="hidden" name={FIELD_NAMES.DOCUMENT_ID} value={documentId} />
+      <input type="hidden" name={FIELD_NAMES.DOCUMENT_ID} value={documentId || ''} />
 
       {/* Stars */}
       {[1, 2, 3, 4, 5].map((i) => (
         <label key={`rating-${i}`}>
           {i}
-          <input onChange={handleRadioChange} name={FIELD_NAMES.RATING} type="radio" value={i} />
+          <input
+            onChange={handleRadioChange}
+            name={FIELD_NAMES.RATING}
+            type="radio"
+            value={i}
+            disabled={!documentId}
+          />
         </label>
       ))}
     </form>
@@ -185,12 +191,8 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
             <br />
             Current number of reviews: {reviewsState.data.reviewCount}
             <br />
-            {reviewsState.data.documentId && (
-              <>
-                <ReviewForm documentId={reviewsState.data.documentId} />
-                <noscript>Please enable JavaScript to submit a review for this recipe.</noscript>
-              </>
-            )}
+            <ReviewForm documentId={reviewsState.data.documentId} />
+            <noscript>Please enable JavaScript to submit a review for this recipe.</noscript>
           </p>
         </header>
 
