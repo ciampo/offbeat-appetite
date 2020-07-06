@@ -187,7 +187,10 @@ export function generateRecipeStructuredData({
       '@type': 'AggregateRating',
       reviewCount: blogPostData.reviews.length,
       ratingValue:
-        blogPostData.reviews.reduce((acc, curr) => acc + curr, 0) / blogPostData.reviews.length,
+        Math.round(
+          (100 * blogPostData.reviews.reduce((acc, curr) => acc + curr, 0)) /
+            blogPostData.reviews.length
+        ) / 100,
     };
   }
 
