@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fetch = require('node-fetch');
+const sanityClient = require('@sanity/client');
 
 // Read env variables.
 require('dotenv').config();
@@ -153,5 +154,54 @@ exports.handler = async (event) => {
             });
         })
     );
+  }
+
+  if (payload.form_name === 'review-rating') {
+    const ratingAsString = (payload.data.rating || '').trim();
+    const sanityDocumentId = (payload.data.documentId || '').trim();
+
+    if (
+      isNaN(ratingAsString) ||
+      parseInt(ratingAsString, 10) < 1 ||
+      parseInt(ratingAsString, 10) > 5
+    ) {
+      const message = `Invalid rating: ${ratingAsString}`;
+      console.error(message);
+      return {
+        statusCode: 422,
+        body: message,
+      };
+    }
+
+    if (!sanityDocumentId) {
+      console.error('Invalid document ID');
+      return {
+        statusCode: 422,
+        body: 'Invalid documentID',
+      };
+    }
+
+    const client = sanityClient({
+      projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+      dataset: 'production',
+      token: process.env.SANITY_WRITE_TOKEN || '',
+      // Always use the freshest data (as we're going to save it to disk)
+      useCdn: false,
+    });
+
+    try {
+      const result = await client
+        .patch(sanityDocumentId)
+        .setIfMissing({ reviews: [] })
+        .append('reviews', [parseInt(ratingAsString, 10)])
+        .commit();
+      console.log('All Good?!');
+      console.log(result);
+    } catch (e) {
+      return {
+        statusCode: 422,
+        body: `Error while pushing rating to Sanity: ${e}`,
+      };
+    }
   }
 };

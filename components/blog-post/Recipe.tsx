@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useRouter } from 'next/router';
 
+import { usePostReviewsState } from './blog-post-reviews-context';
+// import { submitPostReview } from './sanity-client';
 import SimplePortableText from '../portable-text/SimplePortableText';
 import { ArticleContentContainer } from '../layouts/Containers';
 import { stringifyRecipeIngredient, stringifyRecipeQuantity, joinUrl } from '../../scripts/utils';
@@ -21,6 +23,132 @@ import { AllSharingButtons } from '../sharing/sharing-links';
 
 import { socialShareLabel } from '../../data/siteMiscContent.json';
 
+const FORM_NAME = 'review-rating';
+const FORM_METHOD = 'POST';
+const FORM_ACTION = '/thank-you';
+const FIELD_NAMES = {
+  BOT: 'bot-field',
+  RATING: 'rating',
+  DOCUMENT_ID: 'document-id',
+  FORM_NAME: 'form-name',
+};
+
+function encode(data: { [key: string]: string }): string {
+  return Object.keys(data)
+    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+    .join('&');
+}
+
+const ReviewForm: React.FC<{ documentId: string }> = ({ documentId }) => {
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = useCallback((e?: React.FormEvent<HTMLFormElement>): void => {
+    e?.preventDefault();
+
+    function onSubmissionError(error: string): void {
+      // setIsSubmitting(false);
+
+      // if (reaptchaRef.current) {
+      //   reaptchaRef.current.reset();
+      // }
+
+      const errorMsg = JSON.stringify(error);
+
+      // setfeedbackMessage({
+      //   isError: true,
+      //   message: `${subscribeFormMessageError} [${errorMsg}]`,
+      // });
+      console.warn(errorMsg);
+
+      // ReactGA.event({
+      //   ...GA_BASE_EVENT,
+      //   label: `Error [${errorMsg}]`,
+      // });
+    }
+
+    function onSubmissionSuccess(): void {
+      // setIsSubmitting(false);
+
+      formRef.current?.reset();
+      // if (reaptchaRef.current) {
+      //   reaptchaRef.current.reset();
+      // }
+
+      // setfeedbackMessage({ isError: false, message: subscribeFormMessageSuccess });
+
+      // ReactGA.event({
+      //   ...GA_BASE_EVENT,
+      //   label: 'Success',
+      // });
+    }
+
+    if (formRef.current) {
+      // setIsSubmitting(true);
+      // setfeedbackMessage({ isError: false, message: '' });
+
+      const formData = new FormData(formRef.current);
+
+      fetch(FORM_ACTION, {
+        method: FORM_METHOD,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode({
+          [FIELD_NAMES.FORM_NAME]: FORM_NAME,
+          [FIELD_NAMES.DOCUMENT_ID]: formData.get(FIELD_NAMES.DOCUMENT_ID) as string,
+          [FIELD_NAMES.RATING]: formData.get(FIELD_NAMES.RATING) as string,
+          // 'g-recaptcha-response': recaptchaValue,
+        }),
+      })
+        .then((response) => {
+          if (response.status === 200) {
+            onSubmissionSuccess();
+          } else {
+            onSubmissionError(`${response.status} ${response.statusText} ${response.body}`);
+          }
+        })
+        .catch((error) => onSubmissionError(error));
+    }
+  }, []);
+
+  const handleRadioChange = useCallback((): void => {
+    handleSubmit();
+  }, [handleSubmit]);
+
+  return (
+    <form
+      ref={formRef}
+      name={FORM_NAME}
+      method={FORM_METHOD}
+      action={FORM_ACTION}
+      data-netlify="true"
+      data-netlify-honeypot={FIELD_NAMES.BOT}
+      // data-netlify-recaptcha="true"
+      // data-testid="newsletter-form"
+      onSubmit={handleSubmit}
+    >
+      {/* Form name (for netlify) */}
+      <input type="hidden" name={FIELD_NAMES.FORM_NAME} value={FORM_NAME} />
+
+      {/* Honeypot field (anti-spam) */}
+      <p hidden>
+        <label>
+          Don&apos;t fill this out if you&apos;re human:
+          <input name={FIELD_NAMES.BOT} type="text" />
+        </label>
+      </p>
+
+      <input type="hidden" name={FIELD_NAMES.DOCUMENT_ID} value={documentId} />
+
+      {/* Stars */}
+      {[1, 2, 3, 4, 5].map((i) => (
+        <label key={`rating-${i}`}>
+          {i}
+          <input onChange={handleRadioChange} name={FIELD_NAMES.RATING} type="radio" value={i} />
+        </label>
+      ))}
+    </form>
+  );
+};
+
 const RecipeSectionTitle: React.FC<{ text: string }> = ({ text }) => (
   <h3 className="type-heading-2 text-center">{text}</h3>
 );
@@ -31,6 +159,7 @@ type RecipeProps = {
 };
 const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
   const { asPath } = useRouter();
+  const reviewsState = usePostReviewsState();
 
   return (
     <article
@@ -51,7 +180,15 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
           <h2 className="type-display-2 text-center">{recipe.title}</h2>
 
           {/* Rating */}
-          {/* <p className="">TODO: rating</p> */}
+          {reviewsState.data.documentId &&
+            reviewsState.data.ratingValue >= 1 &&
+            reviewsState.data.reviewCount > 0 && (
+              <p className="">
+                TODO: rating
+                <ReviewForm documentId={reviewsState.data.documentId} />
+                <noscript>Please enable JavaScript to submit a review for this recipe.</noscript>
+              </p>
+            )}
         </header>
 
         {/* Sharing */}
