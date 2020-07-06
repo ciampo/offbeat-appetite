@@ -166,7 +166,7 @@ exports.handler = async (event) => {
       parseInt(ratingAsString, 10) > 5
     ) {
       const message = `Invalid rating: ${ratingAsString}`;
-      console.error(message);
+      console.log(message);
       return {
         statusCode: 422,
         body: message,
@@ -198,6 +198,7 @@ exports.handler = async (event) => {
       console.log('All Good?!');
       console.log(result);
     } catch (e) {
+      console.log(e);
       return {
         statusCode: 422,
         body: `Error while pushing rating to Sanity: ${e}`,
