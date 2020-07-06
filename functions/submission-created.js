@@ -195,8 +195,64 @@ exports.handler = async (event) => {
         .setIfMissing({ reviews: [] })
         .append('reviews', [parseInt(ratingAsString, 10)])
         .commit();
-      console.log('All Good?!');
-      console.log(result);
+
+      await fetch(SLACK_WEBHOOK_URL, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          text: 'New recipe rating:',
+          blocks: [
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: 'New recipe rating:',
+              },
+            },
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: [`*Post ID*: ${sanityDocumentId}`, `*Rating*: ${ratingAsString}`].join('\n'),
+              },
+            },
+            {
+              type: 'context',
+              elements: [
+                {
+                  type: 'mrkdwn',
+                  text: [
+                    `Submitted to the *${payload.form_name}* form on the *${site.name}* site`,
+                    `on the *${new Date(payload.created_at).toLocaleString('en-GB', {
+                      dateStyle: 'long',
+                      timeStyle: 'long',
+                      timeZone: 'Europe/Rome',
+                    })}*`,
+                    `on the page ${payload.data.referrer}`,
+                  ].join('\n'),
+                },
+              ],
+            },
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: `*<https://app.netlify.com/sites/${site.name}/forms/${payload.form_id}|See all ${site.name} submissions>*  |  *<https://studio.offbeatappetite.com/desk/blogPost|See all Blog Posts on the CMS>*`,
+              },
+            },
+            {
+              type: 'divider',
+            },
+          ],
+        }),
+      });
+
+      return {
+        statusCode: 200,
+        body: 'success',
+      };
     } catch (e) {
       console.log(e);
       return {
