@@ -158,7 +158,7 @@ exports.handler = async (event) => {
 
   if (payload.form_name === 'review-rating') {
     const ratingAsString = (payload.data.rating || '').trim();
-    const sanityDocumentId = (payload.data.documentId || '').trim();
+    const sanityDocumentId = (payload.data['document-id'] || '').trim();
 
     if (
       isNaN(ratingAsString) ||
