@@ -180,15 +180,18 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
           <h2 className="type-display-2 text-center">{recipe.title}</h2>
 
           {/* Rating */}
-          {reviewsState.data.documentId &&
-            reviewsState.data.ratingValue >= 1 &&
-            reviewsState.data.reviewCount > 0 && (
-              <p className="">
-                TODO: rating
+          <p className="">
+            TODO: rating Current average: {reviewsState.data.ratingValue}
+            <br />
+            Current number of reviews: {reviewsState.data.reviewCount}
+            <br />
+            {reviewsState.data.documentId && (
+              <>
                 <ReviewForm documentId={reviewsState.data.documentId} />
                 <noscript>Please enable JavaScript to submit a review for this recipe.</noscript>
-              </p>
+              </>
             )}
+          </p>
         </header>
 
         {/* Sharing */}
