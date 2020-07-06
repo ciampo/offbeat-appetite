@@ -6,6 +6,7 @@ import { render as rtlRender, RenderOptions, RenderResult } from '@testing-libra
 
 import { NavVariantProvider } from '../components/nav/nav-variant-context';
 import { SharingImageProvider } from '../components/meta/sharing-image-context';
+import { PostReviewsProvider } from '../components/blog-post/blog-post-reviews-context';
 
 interface AugmentedRenderOptions extends RenderOptions {
   router?: Partial<NextRouter>;
@@ -42,7 +43,9 @@ function render(ui: ReactElement, options: AugmentedRenderOptions = {}): RenderR
       }}
     >
       <SharingImageProvider>
-        <NavVariantProvider>{children}</NavVariantProvider>
+        <NavVariantProvider>
+          <PostReviewsProvider>{children}</PostReviewsProvider>
+        </NavVariantProvider>
       </SharingImageProvider>
     </RouterContext.Provider>
   );
