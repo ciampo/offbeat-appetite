@@ -180,13 +180,6 @@ export function generateRecipeStructuredData({
     },
     datePublished: blogPostData.datePublished,
     // Missing: video
-    // Missing: review[]
-    // TODO
-    // aggregateRating: {
-    //   '@type': 'AggregateRating',
-    //   reviewCount: 3,
-    //   ratingValue: 4.5,
-    // },
   };
 }
 

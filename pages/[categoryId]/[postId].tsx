@@ -1,8 +1,7 @@
-import React, { memo, useEffect, useMemo, useReducer } from 'react';
+import React, { memo, useEffect, useMemo } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
 import ReactGA from 'react-ga';
-import sanityClient from '@sanity/client';
 
 import PageMeta from '../../components/meta/PageMeta';
 import AccessibleImage from '../../components/media/AccessibleImage';
@@ -13,6 +12,12 @@ import { AllSharingButtons } from '../../components/sharing/sharing-links';
 import RichPortableText from '../../components/portable-text/RichPortableText';
 import { ArticleContentContainer } from '../../components/layouts/Containers';
 import { useNavVariantDispatch } from '../../components/nav/nav-variant-context';
+import {
+  PostReviewsProvider,
+  usePostReviewsState,
+  usePostReviewsDispatch,
+} from '../../components/blog-post/blog-post-reviews-context';
+import { getPostReviews } from '../../components/blog-post/sanity-client';
 
 import { joinUrl, postDateToHumanString } from '../../scripts/utils';
 
@@ -33,53 +38,6 @@ import {
 } from '../../typings';
 
 const BLOG_POST_PAGE_ROUTE = '/[categoryId]/[postId]';
-const BLOG_POST_REVIEWS_QUERY = /* groq */ `*[_type == "tag"] {
-  _id,
-  name,
-  "slug": slug.current
-}`;
-
-const client = sanityClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '',
-  dataset: 'production',
-  token: process.env.NEXT_PUBLIC_SANITY_READ_TOKEN || '',
-  // Always use the freshest data (as we're going to save it to disk)
-  useCdn: false,
-});
-
-type DataFetchState = {
-  isLoading: boolean;
-  isError: boolean;
-  data: unknown[];
-};
-type DataFetchAction = {
-  type: 'FETCH_INIT' | 'FETCH_SUCCESS' | 'FETCH_ERROR';
-  payload?: unknown[];
-};
-
-const dataFetchReducer = (state: DataFetchState, action: DataFetchAction): DataFetchState => {
-  switch (action.type) {
-    case 'FETCH_INIT':
-      return {
-        ...state,
-        isError: false,
-        isLoading: true,
-      };
-    case 'FETCH_SUCCESS':
-      return {
-        ...state,
-        isError: false,
-        isLoading: false,
-        data: action.payload || [],
-      };
-    case 'FETCH_ERROR':
-      return {
-        ...state,
-        isError: true,
-        isLoading: false,
-      };
-  }
-};
 
 const BasicArticleEl: React.FC = memo((props) => <article {...props} />);
 BasicArticleEl.displayName = 'memo(BasicArticleEl)';
@@ -92,16 +50,9 @@ type PageBlogPostProps = {
   path: string;
   structuredData: StructuredData[];
 };
-const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
-  blogPostData,
-  path,
-  structuredData,
-}) => {
-  const [dataFetchState, dataFetchDispatch] = useReducer(dataFetchReducer, {
-    isLoading: false,
-    isError: false,
-    data: [],
-  });
+const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, structuredData }) => {
+  const postReviewsState = usePostReviewsState();
+  const postReviewsDispatch = usePostReviewsDispatch();
   const setVariant = useNavVariantDispatch();
   useEffect(() => {
     setVariant('transparent');
@@ -114,22 +65,42 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
     [blogPostData]
   );
 
+  if (structuredData.length && postReviewsState.data.reviewCount > 0) {
+    structuredData[structuredData.length - 1].aggregateRating = {
+      '@type': 'AggregateRating',
+      reviewCount: postReviewsState.data.reviewCount,
+      ratingValue: postReviewsState.data.ratingValue,
+    };
+  }
+
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
-      dataFetchDispatch({ type: 'FETCH_INIT' });
+      postReviewsDispatch({ type: 'FETCH_INIT' });
 
       try {
-        const reviews = await client.fetch(BLOG_POST_REVIEWS_QUERY);
-        dataFetchDispatch({ type: 'FETCH_SUCCESS', payload: reviews });
+        const { reviews } = await getPostReviews(blogPostData._id);
+
+        let ratingValue = -1;
+        if (reviews.length) {
+          // average
+          ratingValue = reviews.reduce((acc, curr) => acc + curr, 0) / reviews.length;
+        }
+
+        postReviewsDispatch({
+          type: 'FETCH_SUCCESS',
+          payload: {
+            ratingValue,
+            reviewCount: reviews.length,
+            documentId: blogPostData._id,
+          },
+        });
       } catch (error) {
-        dataFetchDispatch({ type: 'FETCH_ERROR' });
+        postReviewsDispatch({ type: 'FETCH_ERROR' });
       }
     };
 
     fetchData();
-  }, []);
-
-  console.log(dataFetchState);
+  }, [postReviewsDispatch, blogPostData._id]);
 
   return (
     <>
@@ -260,6 +231,12 @@ const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = ({
     </>
   );
 };
+
+const BlogPost: NextComponentTypeWithLayout<PageBlogPostProps> = (props) => (
+  <PostReviewsProvider>
+    <BlogPostWrapped {...props} />
+  </PostReviewsProvider>
+);
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const blogPostRoute = routesConfig.find(({ route }) => route === '/[categoryId]/[postId]');
