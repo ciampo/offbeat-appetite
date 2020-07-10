@@ -10,6 +10,3 @@ const client = sanityClient({
 
 export const getPostReviews = async (postId: string): Promise<{ reviews: number[] }> =>
   await client.fetch(`*[_id == "${postId}"] {"reviews": coalesce(reviews[], [])}[0]`);
-
-// export const submitPostReview = async (postId: string, rating: number): Promise<unknown> =>
-//   await client.patch(postId).setIfMissing({ reviews: [] }).append('reviews', [rating]).commit();

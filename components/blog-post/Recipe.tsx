@@ -1,8 +1,8 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { usePostReviewsState } from './blog-post-reviews-context';
-// import { submitPostReview } from './sanity-client';
+import { StarEmptyIcon, StarHalfIcon, StarFullIcon } from '../icons';
 import SimplePortableText from '../portable-text/SimplePortableText';
 import { ArticleContentContainer } from '../layouts/Containers';
 import { stringifyRecipeIngredient, stringifyRecipeQuantity, joinUrl } from '../../scripts/utils';
@@ -41,24 +41,27 @@ function encode(data: { [key: string]: string }): string {
 
 const ReviewForm: React.FC<{ documentId: string | null }> = ({ documentId }) => {
   const formRef = useRef<HTMLFormElement>(null);
+  const [highlightedStarIndex, setHighlightedStarIndex] = useState(-1);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const isDisabled = !documentId || isSubmitting;
 
   const handleSubmit = useCallback((e?: React.FormEvent<HTMLFormElement>): void => {
     e?.preventDefault();
 
     function onSubmissionError(error: string): void {
-      // setIsSubmitting(false);
+      setIsSubmitting(false);
+      setShowErrorMessage(true);
+      setShowSuccessMessage(false);
+
+      const errorMsg = JSON.stringify(error);
+      console.warn(errorMsg);
 
       // if (reaptchaRef.current) {
       //   reaptchaRef.current.reset();
       // }
-
-      const errorMsg = JSON.stringify(error);
-
-      // setfeedbackMessage({
-      //   isError: true,
-      //   message: `${subscribeFormMessageError} [${errorMsg}]`,
-      // });
-      console.warn(errorMsg);
 
       // ReactGA.event({
       //   ...GA_BASE_EVENT,
@@ -67,14 +70,15 @@ const ReviewForm: React.FC<{ documentId: string | null }> = ({ documentId }) => 
     }
 
     function onSubmissionSuccess(): void {
-      // setIsSubmitting(false);
+      setIsSubmitting(false);
+      setShowErrorMessage(false);
+      setShowSuccessMessage(true);
 
       formRef.current?.reset();
+
       // if (reaptchaRef.current) {
       //   reaptchaRef.current.reset();
       // }
-
-      // setfeedbackMessage({ isError: false, message: subscribeFormMessageSuccess });
 
       // ReactGA.event({
       //   ...GA_BASE_EVENT,
@@ -83,8 +87,9 @@ const ReviewForm: React.FC<{ documentId: string | null }> = ({ documentId }) => 
     }
 
     if (formRef.current) {
-      // setIsSubmitting(true);
-      // setfeedbackMessage({ isError: false, message: '' });
+      setIsSubmitting(true);
+      setShowErrorMessage(false);
+      setShowSuccessMessage(false);
 
       const formData = new FormData(formRef.current);
 
@@ -109,49 +114,98 @@ const ReviewForm: React.FC<{ documentId: string | null }> = ({ documentId }) => 
     }
   }, []);
 
-  const handleRadioChange = useCallback((): void => {
-    handleSubmit();
-  }, [handleSubmit]);
+  const handleRadioKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>): void => {
+      if (event.keyCode === 13) {
+        handleSubmit();
+      }
+    },
+    [handleSubmit]
+  );
 
-  return (
-    <form
-      ref={formRef}
-      name={FORM_NAME}
-      method={FORM_METHOD}
-      action={FORM_ACTION}
-      data-netlify="true"
-      data-netlify-honeypot={FIELD_NAMES.BOT}
-      // data-netlify-recaptcha="true"
-      // data-testid="newsletter-form"
-      onSubmit={handleSubmit}
-    >
-      {/* Form name (for netlify) */}
-      <input type="hidden" name={FIELD_NAMES.FORM_NAME} value={FORM_NAME} />
+  const handleStarMouseEnter = useCallback(
+    (starIndex): void => {
+      if (!isDisabled) {
+        setHighlightedStarIndex(starIndex);
+      }
+    },
+    [setHighlightedStarIndex, isDisabled]
+  );
+  const handleStarMouseLeave = useCallback((): void => {
+    if (!isDisabled) {
+      setHighlightedStarIndex(-1);
+    }
+  }, [setHighlightedStarIndex, isDisabled]);
 
-      {/* Honeypot field (anti-spam) */}
-      <p hidden>
-        <label>
-          Don&apos;t fill this out if you&apos;re human:
-          <input name={FIELD_NAMES.BOT} type="text" />
-        </label>
-      </p>
+  return showSuccessMessage ? (
+    <p className="type-heading-4 text-center">Thank you for rating this recipe!</p>
+  ) : (
+    <>
+      <div className="flex items-center justify-center flex-col 2xsm:flex-row space-y-2 2xsm:space-x-6 2xsm:space-y-0">
+        <p className="type-heading-4">Rate this recipe</p>
+        <form
+          ref={formRef}
+          name={FORM_NAME}
+          method={FORM_METHOD}
+          action={FORM_ACTION}
+          data-netlify="true"
+          data-netlify-honeypot={FIELD_NAMES.BOT}
+          // data-netlify-recaptcha="true"
+          // data-testid="newsletter-form"
+          onSubmit={handleSubmit}
+          className="flex"
+          onMouseLeave={(): void => handleStarMouseLeave()}
+        >
+          {/* Form name (for netlify) */}
+          <input type="hidden" name={FIELD_NAMES.FORM_NAME} value={FORM_NAME} />
 
-      <input type="hidden" name={FIELD_NAMES.DOCUMENT_ID} value={documentId || ''} />
+          {/* Honeypot field (anti-spam) */}
+          <p hidden>
+            <label>
+              Don&apos;t fill this out if you&apos;re human:
+              <input name={FIELD_NAMES.BOT} type="text" />
+            </label>
+          </p>
 
-      {/* Stars */}
-      {[1, 2, 3, 4, 5].map((i) => (
-        <label key={`rating-${i}`}>
-          {i}
-          <input
-            onChange={handleRadioChange}
-            name={FIELD_NAMES.RATING}
-            type="radio"
-            value={i}
-            disabled={!documentId}
-          />
-        </label>
-      ))}
-    </form>
+          <input type="hidden" name={FIELD_NAMES.DOCUMENT_ID} value={documentId || ''} />
+
+          {/* Stars */}
+          {[1, 2, 3, 4, 5].map((i) => {
+            const starClassName = [
+              'w-6 h-6 xl:w-8 xl:h-8',
+              isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
+            ].join(' ');
+            const StarElement = highlightedStarIndex >= i ? StarFullIcon : StarEmptyIcon;
+            const highlightStars = (): void => handleStarMouseEnter(i);
+            return (
+              <label key={`rating-${i}`}>
+                <input
+                  name={FIELD_NAMES.RATING}
+                  type="radio"
+                  value={i}
+                  disabled={isDisabled}
+                  className="sr-only"
+                  onFocus={highlightStars}
+                  onBlur={handleStarMouseLeave}
+                  onKeyDown={handleRadioKeyDown}
+                />
+                <StarElement
+                  className={starClassName}
+                  onMouseEnter={highlightStars}
+                  onMouseLeave={handleStarMouseLeave}
+                  onClick={handleSubmit}
+                />
+              </label>
+            );
+          })}
+        </form>
+      </div>
+      {showErrorMessage && (
+        <p className="type-footnote italic text-center mt-2">
+          There was an error with your submission, please try again later.
+        </p>
+      )}
+    </>
   );
 };
 
@@ -172,27 +226,45 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
       data-testid="recipe-wrapper"
       id="recipe"
       className={[
-        'bg-gray-lighter sm:rounded overflow-hidden contain-l-p shadow-neu-lighter',
-        'py-10 sm:py-12 md:py-16 xl:py-20 outline-none',
+        'bg-gray-lighter sm:rounded-lg overflow-hidden contain-l-p shadow-neu-lighter',
+        'pt-10 sm:pt-12 md:pt-16 xl:pt-20 outline-none',
         className,
       ]
         .filter(Boolean)
         .join(' ')}
       tabIndex={-1}
     >
-      <ArticleContentContainer>
-        <header className="flex flex-col-reverse items-center space-y-4">
+      <ArticleContentContainer className="pb-10 sm:pb-12 md:pb-16 xl:pb-20">
+        <header className="flex flex-col-reverse items-center">
           {/* Title */}
-          <h2 className="type-display-2 text-center">{recipe.title}</h2>
+          <h2 className="type-display-2 text-center mt-4 xl:mt-6">{recipe.title}</h2>
 
-          {/* Rating */}
-          <p className="">
-            TODO: rating Current average: {reviewsState.data.ratingValue}
-            <br />
-            Current number of reviews: {reviewsState.data.reviewCount}
-            <br />
-            <ReviewForm documentId={reviewsState.data.documentId} />
-            <noscript>Please enable JavaScript to submit a review for this recipe.</noscript>
+          {/* Rating — read only */}
+          <p className="flex flex-col items-center text-olive-darker space-y-1">
+            <span
+              aria-label={
+                reviewsState.data.reviewCount > 0
+                  ? `Rating: ${reviewsState.data.ratingValue} out of 5`
+                  : 'No reviews yet'
+              }
+              className="flex"
+            >
+              {[1, 2, 3, 4, 5].map((i) => {
+                const starClassName = 'w-6 h-6 xl:w-8 xl:h-8';
+                if (reviewsState.data.ratingValue >= i) {
+                  return <StarFullIcon className={starClassName} />;
+                } else if (reviewsState.data.ratingValue >= i - 0.5) {
+                  return <StarHalfIcon className={starClassName} />;
+                } else {
+                  return <StarEmptyIcon className={starClassName} />;
+                }
+              })}
+            </span>
+            <span className="type-footnote italic">
+              {reviewsState.data.reviewCount > 0
+                ? `${reviewsState.data.reviewCount} reviews`
+                : 'No reviews yet'}
+            </span>
           </p>
         </header>
 
@@ -326,9 +398,15 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
             ))}
           </ol>
         </section>
-
-        {/* TODO: Rating */}
       </ArticleContentContainer>
+
+      {/* Interactive rating */}
+      <aside className="bg-olive-darker text-white py-10 sm:py-12 md:py-16 xl:py-20">
+        <ArticleContentContainer>
+          <ReviewForm documentId={reviewsState.data.documentId} />
+          <noscript>Please enable JavaScript to submit a review for this recipe.</noscript>
+        </ArticleContentContainer>
+      </aside>
     </article>
   );
 };
