@@ -1,6 +1,8 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useRouter } from 'next/router';
+import { useLocalStorage } from 'react-use';
 
+import RatingForm from './RatingForm';
 import { usePostReviewsState } from './blog-post-reviews-context';
 import { StarEmptyIcon, StarHalfIcon, StarFullIcon } from '../icons';
 import SimplePortableText from '../portable-text/SimplePortableText';
@@ -23,195 +25,16 @@ import { AllSharingButtons } from '../sharing/sharing-links';
 
 import { socialShareLabel } from '../../data/siteMiscContent.json';
 
-const FORM_NAME = 'review-rating';
-const FORM_METHOD = 'POST';
-const FORM_ACTION = '/thank-you';
-const FIELD_NAMES = {
-  BOT: 'bot-field',
-  RATING: 'rating',
-  DOCUMENT_ID: 'document-id',
-  FORM_NAME: 'form-name',
+type ReviewsRegistry = {
+  [key: string]: number;
 };
-
-function encode(data: { [key: string]: string }): string {
-  return Object.keys(data)
-    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
-    .join('&');
-}
-
-const ReviewForm: React.FC<{ documentId: string | null }> = ({ documentId }) => {
-  const formRef = useRef<HTMLFormElement>(null);
-  const [highlightedStarIndex, setHighlightedStarIndex] = useState(-1);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const isDisabled = !documentId || isSubmitting;
-
-  const handleSubmit = useCallback((e?: React.FormEvent<HTMLFormElement>): void => {
-    e?.preventDefault();
-
-    function onSubmissionError(error: string): void {
-      setIsSubmitting(false);
-      setShowErrorMessage(true);
-      setShowSuccessMessage(false);
-
-      const errorMsg = JSON.stringify(error);
-      console.warn(errorMsg);
-
-      // if (reaptchaRef.current) {
-      //   reaptchaRef.current.reset();
-      // }
-
-      // ReactGA.event({
-      //   ...GA_BASE_EVENT,
-      //   label: `Error [${errorMsg}]`,
-      // });
-    }
-
-    function onSubmissionSuccess(): void {
-      setIsSubmitting(false);
-      setShowErrorMessage(false);
-      setShowSuccessMessage(true);
-
-      formRef.current?.reset();
-
-      // if (reaptchaRef.current) {
-      //   reaptchaRef.current.reset();
-      // }
-
-      // ReactGA.event({
-      //   ...GA_BASE_EVENT,
-      //   label: 'Success',
-      // });
-    }
-
-    if (formRef.current) {
-      setIsSubmitting(true);
-      setShowErrorMessage(false);
-      setShowSuccessMessage(false);
-
-      const formData = new FormData(formRef.current);
-
-      fetch(FORM_ACTION, {
-        method: FORM_METHOD,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({
-          [FIELD_NAMES.FORM_NAME]: FORM_NAME,
-          [FIELD_NAMES.DOCUMENT_ID]: formData.get(FIELD_NAMES.DOCUMENT_ID) as string,
-          [FIELD_NAMES.RATING]: formData.get(FIELD_NAMES.RATING) as string,
-          // 'g-recaptcha-response': recaptchaValue,
-        }),
-      })
-        .then((response) => {
-          if (response.status === 200) {
-            onSubmissionSuccess();
-          } else {
-            onSubmissionError(`${response.status} ${response.statusText} ${response.body}`);
-          }
-        })
-        .catch((error) => onSubmissionError(error));
-    }
-  }, []);
-
-  const handleRadioKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLInputElement>): void => {
-      if (event.keyCode === 13) {
-        handleSubmit();
-      }
-    },
-    [handleSubmit]
-  );
-
-  const handleStarMouseEnter = useCallback(
-    (starIndex): void => {
-      if (!isDisabled) {
-        setHighlightedStarIndex(starIndex);
-      }
-    },
-    [setHighlightedStarIndex, isDisabled]
-  );
-  const handleStarMouseLeave = useCallback((): void => {
-    if (!isDisabled) {
-      setHighlightedStarIndex(-1);
-    }
-  }, [setHighlightedStarIndex, isDisabled]);
-
-  return showSuccessMessage ? (
-    <p className="type-heading-4 text-center">Thank you for rating this recipe!</p>
-  ) : (
-    <>
-      <div className="flex items-center justify-center flex-col 2xsm:flex-row space-y-2 2xsm:space-x-6 2xsm:space-y-0">
-        <p className="type-heading-4">Rate this recipe</p>
-        <form
-          ref={formRef}
-          name={FORM_NAME}
-          method={FORM_METHOD}
-          action={FORM_ACTION}
-          data-netlify="true"
-          data-netlify-honeypot={FIELD_NAMES.BOT}
-          // data-netlify-recaptcha="true"
-          // data-testid="newsletter-form"
-          onSubmit={handleSubmit}
-          className="flex"
-          onMouseLeave={(): void => handleStarMouseLeave()}
-        >
-          {/* Form name (for netlify) */}
-          <input type="hidden" name={FIELD_NAMES.FORM_NAME} value={FORM_NAME} />
-
-          {/* Honeypot field (anti-spam) */}
-          <p hidden>
-            <label>
-              Don&apos;t fill this out if you&apos;re human:
-              <input name={FIELD_NAMES.BOT} type="text" />
-            </label>
-          </p>
-
-          <input type="hidden" name={FIELD_NAMES.DOCUMENT_ID} value={documentId || ''} />
-
-          {/* Stars */}
-          {[1, 2, 3, 4, 5].map((i) => {
-            const starClassName = [
-              'w-6 h-6 xl:w-8 xl:h-8',
-              isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
-            ].join(' ');
-            const StarElement = highlightedStarIndex >= i ? StarFullIcon : StarEmptyIcon;
-            const highlightStars = (): void => handleStarMouseEnter(i);
-            return (
-              <label key={`rating-${i}`}>
-                <input
-                  name={FIELD_NAMES.RATING}
-                  type="radio"
-                  value={i}
-                  disabled={isDisabled}
-                  className="sr-only"
-                  onFocus={highlightStars}
-                  onBlur={handleStarMouseLeave}
-                  onKeyDown={handleRadioKeyDown}
-                />
-                <StarElement
-                  className={starClassName}
-                  onMouseEnter={highlightStars}
-                  onMouseLeave={handleStarMouseLeave}
-                  onClick={handleSubmit}
-                />
-              </label>
-            );
-          })}
-        </form>
-      </div>
-      {showErrorMessage && (
-        <p className="type-footnote italic text-center mt-2">
-          There was an error with your submission, please try again later.
-        </p>
-      )}
-    </>
-  );
-};
+const RECIPE_REVIEW_LS_KEY = 'oa-reviews';
 
 const RecipeSectionTitle: React.FC<{ text: string }> = ({ text }) => (
   <h3 className="type-heading-2 text-center">{text}</h3>
 );
+
+const REVIEW_THANK_YOU_MESSAGE = 'Thank you for rating this recipe!';
 
 type RecipeProps = {
   recipe: SanityRecipe;
@@ -220,6 +43,23 @@ type RecipeProps = {
 const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
   const { asPath } = useRouter();
   const reviewsState = usePostReviewsState();
+
+  const [postReviews, setpostReviews] = useLocalStorage<ReviewsRegistry>(RECIPE_REVIEW_LS_KEY, {});
+
+  const localReviewExists =
+    reviewsState?.data?.documentId && postReviews[reviewsState.data.documentId];
+
+  const addReviewToLocalStorage = useCallback(
+    (rating: number) => {
+      if (reviewsState?.data?.documentId) {
+        setpostReviews({
+          ...postReviews,
+          [reviewsState.data.documentId]: rating,
+        });
+      }
+    },
+    [reviewsState?.data?.documentId, postReviews, setpostReviews]
+  );
 
   return (
     <article
@@ -403,7 +243,14 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
       {/* Interactive rating */}
       <aside className="bg-olive-darker text-white py-10 sm:py-12 md:py-16 xl:py-20">
         <ArticleContentContainer>
-          <ReviewForm documentId={reviewsState.data.documentId} />
+          {localReviewExists ? (
+            <p className="type-heading-4 text-center">{REVIEW_THANK_YOU_MESSAGE}</p>
+          ) : (
+            <RatingForm
+              documentId={reviewsState.data.documentId}
+              successCallback={addReviewToLocalStorage}
+            />
+          )}
           <noscript>Please enable JavaScript to submit a review for this recipe.</noscript>
         </ArticleContentContainer>
       </aside>

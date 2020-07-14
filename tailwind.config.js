@@ -141,6 +141,7 @@ module.exports = {
     animationIterationCount: ['responsive'],
     aspectRatio: ['responsive'],
     backgroundColor: ['responsive', 'hover', 'focus', 'disabled'],
+    backgroundOpacity: ['responsive', 'hover', 'focus', 'focus-within'],
     borderStyle: ['responsive', 'focus'],
     borderWidth: ['responsive', 'focus'],
     boxShadow: ['responsive', 'hover', 'focus', 'disabled'],
