@@ -34,12 +34,12 @@
 }
 
 .portable-text > blockquote {
-  @apply ._type-body-large-m italic;
+  @apply leading-snug tracking-tight text-2xl italic;
 }
 
 @screen xl {
   .portable-text > blockquote {
-    @apply ._type-body-large-d italic;
+    @apply leading-snug tracking-tight text-3xl italic;
   }
 }
 
@@ -56,13 +56,13 @@
   @apply mt-2;
 }
 
-.portable-text > * + h2 {
+.portable-text > * + h2,
+.portable-text > * + blockquote,
+.portable-text > blockquote + * {
   @apply mt-8;
 }
 
-.portable-text > * + h3,
-.portable-text > * + blockquote,
-.portable-text > blockquote + * {
+.portable-text > * + h3 {
   @apply mt-4;
 }
 
@@ -76,13 +76,13 @@
     @apply mt-4;
   }
 
-  .portable-text > * + h2 {
+  .portable-text > * + h2,
+  .portable-text > * + blockquote,
+  .portable-text > blockquote + * {
     @apply mt-10;
   }
 
-  .portable-text > * + h3,
-  .portable-text > * + blockquote,
-  .portable-text > blockquote + * {
+  .portable-text > * + h3 {
     @apply mt-6;
   }
 }
@@ -92,13 +92,13 @@
     @apply mt-6;
   }
 
-  .portable-text > * + h2 {
+  .portable-text > * + h2,
+  .portable-text > * + blockquote,
+  .portable-text > blockquote + * {
     @apply mt-12;
   }
 
-  .portable-text > * + h3,
-  .portable-text > * + blockquote,
-  .portable-text > blockquote + * {
+  .portable-text > * + h3 {
     @apply mt-8;
   }
 }
@@ -133,5 +133,23 @@
 
 /* Quote */
 .portable-text blockquote {
-  @apply pl-4 py-1 border-l-4 border-gray-medium;
+  @apply text-center px-6;
+}
+
+@screen sm {
+  .portable-text blockquote {
+    @apply -mx-12 px-0;
+  }
+}
+
+@screen md {
+  .portable-text blockquote {
+    @apply -mx-16;
+  }
+}
+
+@screen xl {
+  .portable-text blockquote {
+    @apply -mx-20;
+  }
 }

@@ -269,7 +269,7 @@ module.exports = {
     content: ['./pages/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
     options: {
       // Order utilities used in the recipe dynamically
-      whitelistPatterns: [/^(2xsm:|md:)?order-[1-7]$/],
+      whitelistPatterns: [/^(2xsm:|md:)?order-[1-7]$/, /blockquote/],
     },
   },
 };
