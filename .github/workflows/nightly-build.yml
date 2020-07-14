@@ -1,0 +1,19 @@
+name: Scheduled Nightly Builds
+
+# Every day at 3:30 AM UTC
+on:
+  schedule:
+    - cron: '30 3 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger our build webhooks on Netlify
+        run: |
+          curl -s -X POST -d {} "https://api.netlify.com/build_hooks/${TOKEN_STAGING}",
+          curl -s -X POST -d {} "https://api.netlify.com/build_hooks/${TOKEN_PRODUCTION}",
+        env:
+          TOKEN_STAGING: ${{ secrets.NETLIFY_CRON_BUILD_HOOK_STAGING }}
+          TOKEN_PRODUCTION: ${{ secrets.NETLIFY_CRON_BUILD_HOOK_PRODUCTION }}
