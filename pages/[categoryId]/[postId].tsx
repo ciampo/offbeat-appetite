@@ -15,9 +15,9 @@ import { useNavVariantDispatch } from '../../components/nav/nav-variant-context'
 import {
   PostReviewsProvider,
   usePostReviewsState,
-  usePostReviewsDispatch,
+  // usePostReviewsDispatch,
 } from '../../components/blog-post/blog-post-reviews-context';
-import { getPostReviews } from '../../components/blog-post/sanity-browser-client';
+// import { getPostReviews } from '../../components/blog-post/sanity-browser-client';
 
 import { joinUrl, postDateToHumanString } from '../../scripts/utils';
 
@@ -52,7 +52,7 @@ type PageBlogPostProps = {
 };
 const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, structuredData }) => {
   const postReviewsState = usePostReviewsState();
-  const postReviewsDispatch = usePostReviewsDispatch();
+  // const postReviewsDispatch = usePostReviewsDispatch();
   const setVariant = useNavVariantDispatch();
   useEffect(() => {
     setVariant('transparent');
@@ -73,34 +73,34 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
     };
   }
 
-  useEffect(() => {
-    const fetchData = async (): Promise<void> => {
-      postReviewsDispatch({ type: 'FETCH_INIT' });
+  // useEffect(() => {
+  //   const fetchData = async (): Promise<void> => {
+  //     postReviewsDispatch({ type: 'FETCH_INIT' });
 
-      try {
-        const { reviews } = await getPostReviews(blogPostData._id);
+  //     try {
+  //       const { reviews } = await getPostReviews(blogPostData._id);
 
-        let ratingValue = -1;
-        if (reviews.length) {
-          // average
-          ratingValue = reviews.reduce((acc, curr) => acc + curr, 0) / reviews.length;
-        }
+  //       let ratingValue = -1;
+  //       if (reviews.length) {
+  //         // average
+  //         ratingValue = reviews.reduce((acc, curr) => acc + curr, 0) / reviews.length;
+  //       }
 
-        postReviewsDispatch({
-          type: 'FETCH_SUCCESS',
-          payload: {
-            ratingValue,
-            reviewCount: reviews.length,
-            documentId: blogPostData._id,
-          },
-        });
-      } catch (error) {
-        postReviewsDispatch({ type: 'FETCH_ERROR' });
-      }
-    };
+  //       postReviewsDispatch({
+  //         type: 'FETCH_SUCCESS',
+  //         payload: {
+  //           ratingValue,
+  //           reviewCount: reviews.length,
+  //           documentId: blogPostData._id,
+  //         },
+  //       });
+  //     } catch (error) {
+  //       postReviewsDispatch({ type: 'FETCH_ERROR' });
+  //     }
+  //   };
 
-    fetchData();
-  }, [postReviewsDispatch, blogPostData._id]);
+  //   fetchData();
+  // }, [postReviewsDispatch, blogPostData._id]);
 
   return (
     <>

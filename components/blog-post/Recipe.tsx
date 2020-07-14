@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
-import { useLocalStorage } from 'react-use';
+// import { useLocalStorage } from 'react-use';
 
-import RatingForm from './RatingForm';
-import { usePostReviewsState } from './blog-post-reviews-context';
-import { StarEmptyIcon, StarHalfIcon, StarFullIcon } from '../icons';
+// import RatingForm from './RatingForm';
+// import { usePostReviewsState } from './blog-post-reviews-context';
+// import { StarEmptyIcon, StarHalfIcon, StarFullIcon } from '../icons';
 import SimplePortableText from '../portable-text/SimplePortableText';
 import { ArticleContentContainer } from '../layouts/Containers';
 import { stringifyRecipeIngredient, stringifyRecipeQuantity, joinUrl } from '../../scripts/utils';
@@ -25,16 +25,16 @@ import { AllSharingButtons } from '../sharing/sharing-links';
 
 import { socialShareLabel } from '../../data/siteMiscContent.json';
 
-type ReviewsRegistry = {
-  [key: string]: number;
-};
-const RECIPE_REVIEW_LS_KEY = 'oa-reviews';
+// type ReviewsRegistry = {
+//   [key: string]: number;
+// };
+// const RECIPE_REVIEW_LS_KEY = 'oa-reviews';
 
 const RecipeSectionTitle: React.FC<{ text: string }> = ({ text }) => (
   <h3 className="type-heading-2 text-center">{text}</h3>
 );
 
-const REVIEW_THANK_YOU_MESSAGE = 'Thank you for rating this recipe!';
+// const REVIEW_THANK_YOU_MESSAGE = 'Thank you for rating this recipe!';
 
 type RecipeProps = {
   recipe: SanityRecipe;
@@ -42,24 +42,24 @@ type RecipeProps = {
 };
 const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
   const { asPath } = useRouter();
-  const reviewsState = usePostReviewsState();
+  // const reviewsState = usePostReviewsState();
 
-  const [postReviews, setpostReviews] = useLocalStorage<ReviewsRegistry>(RECIPE_REVIEW_LS_KEY, {});
+  // const [postReviews, setpostReviews] = useLocalStorage<ReviewsRegistry>(RECIPE_REVIEW_LS_KEY, {});
 
-  const localReviewExists =
-    reviewsState?.data?.documentId && postReviews[reviewsState.data.documentId];
+  // const localReviewExists =
+  //   reviewsState?.data?.documentId && postReviews[reviewsState.data.documentId];
 
-  const addReviewToLocalStorage = useCallback(
-    (rating: number) => {
-      if (reviewsState?.data?.documentId) {
-        setpostReviews({
-          ...postReviews,
-          [reviewsState.data.documentId]: rating,
-        });
-      }
-    },
-    [reviewsState?.data?.documentId, postReviews, setpostReviews]
-  );
+  // const addReviewToLocalStorage = useCallback(
+  //   (rating: number) => {
+  //     if (reviewsState?.data?.documentId) {
+  //       setpostReviews({
+  //         ...postReviews,
+  //         [reviewsState.data.documentId]: rating,
+  //       });
+  //     }
+  //   },
+  //   [reviewsState?.data?.documentId, postReviews, setpostReviews]
+  // );
 
   return (
     <article
@@ -80,7 +80,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
           <h2 className="type-display-2 text-center mt-4 xl:mt-6">{recipe.title}</h2>
 
           {/* Rating — read only */}
-          <p className="flex flex-col items-center text-olive-darker space-y-1">
+          {/* <p className="flex flex-col items-center text-olive-darker space-y-1">
             <span
               aria-label={
                 reviewsState.data.reviewCount > 0
@@ -105,7 +105,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
                 ? `${reviewsState.data.reviewCount} reviews`
                 : 'No reviews yet'}
             </span>
-          </p>
+          </p> */}
         </header>
 
         {/* Sharing */}
@@ -241,7 +241,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
       </ArticleContentContainer>
 
       {/* Interactive rating */}
-      <aside className="bg-olive-darker text-white py-10 sm:py-12 md:py-16 xl:py-20">
+      {/* <aside className="bg-olive-darker text-white py-10 sm:py-12 md:py-16 xl:py-20">
         <ArticleContentContainer>
           {localReviewExists ? (
             <p className="type-heading-4 text-center">{REVIEW_THANK_YOU_MESSAGE}</p>
@@ -253,7 +253,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
           )}
           <noscript>Please enable JavaScript to submit a review for this recipe.</noscript>
         </ArticleContentContainer>
-      </aside>
+      </aside> */}
     </article>
   );
 };
