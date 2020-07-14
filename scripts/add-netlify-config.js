@@ -31,7 +31,7 @@ ${routesConfig
     // Allow script coming from same origin, inline and Google / Google Analytics (incl. recaptcha)
     `script-src 'self' 'unsafe-inline' https://www.google.com/ https://www.gstatic.com/ https://www.google-analytics.com https://recaptcha.net`,
     // Allow XHR to same origin and Google Analytics
-    `connect-src 'self' https://www.google-analytics.com`,
+    `connect-src 'self' https://www.google-analytics.com https://*.api.sanity.io`,
     // Allow webmanifest files from same origin
     `manifest-src 'self'`,
     // Allow prefetching files from same origin

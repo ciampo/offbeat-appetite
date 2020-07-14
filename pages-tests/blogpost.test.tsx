@@ -1,6 +1,6 @@
 import React from 'react';
 import { axe } from 'jest-axe';
-import { render } from 'offbeat-appetite-render';
+import { render, waitFor } from 'offbeat-appetite-render';
 
 import BlogPostPage from '../pages/[categoryId]/[postId]';
 import testRecipeData from '../data/posts/will-malta-s-spinach-and-tuna-pie-make-the-cut.json';
@@ -14,6 +14,14 @@ import { compileDynamicItem } from '../scripts/compile-routes';
 import { SanityBlogPostFull } from '../typings';
 
 const blogPostData = testRecipeData as SanityBlogPostFull;
+
+jest.mock('../components/blog-post/sanity-browser-client', () => {
+  return {
+    getPostReviews: (): { reviews: number[] } => {
+      return { reviews: [1, 5, 3] };
+    },
+  };
+});
 
 beforeAll(() => {
   process.env = Object.assign(process.env);
@@ -68,7 +76,9 @@ describe('Post Page', () => {
       router: { asPath: '/recipes/egg-in-coffee-behind-vietnam-s-egg-coffee-recipe' },
     });
 
-    expect(getByText('subscribe to the newsletter')).toHaveAttribute('href', '#subscribe');
+    await waitFor(() =>
+      expect(getByText('subscribe to the newsletter')).toHaveAttribute('href', '#subscribe')
+    );
 
     expect(await axe(container)).toHaveNoViolations();
 

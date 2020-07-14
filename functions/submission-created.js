@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fetch = require('node-fetch');
+const sanityClient = require('@sanity/client');
 
 // Read env variables.
 require('dotenv').config();
@@ -153,5 +154,112 @@ exports.handler = async (event) => {
             });
         })
     );
+  }
+
+  if (payload.form_name === 'review-rating') {
+    const ratingAsString = (payload.data.rating || '').trim();
+    const sanityDocumentId = (payload.data['document-id'] || '').trim();
+
+    if (
+      isNaN(ratingAsString) ||
+      parseInt(ratingAsString, 10) < 1 ||
+      parseInt(ratingAsString, 10) > 5
+    ) {
+      const message = `Invalid rating: ${ratingAsString}`;
+      console.log(message);
+      return {
+        statusCode: 422,
+        body: message,
+      };
+    }
+
+    if (!sanityDocumentId) {
+      console.error('Invalid document ID');
+      return {
+        statusCode: 422,
+        body: 'Invalid documentID',
+      };
+    }
+
+    const client = sanityClient({
+      projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+      dataset: 'production',
+      token: process.env.SANITY_WRITE_TOKEN || '',
+      // Always use the freshest data (as we're going to save it to disk)
+      useCdn: false,
+    });
+
+    try {
+      const result = await client
+        .patch(sanityDocumentId)
+        .setIfMissing({ reviews: [] })
+        .append('reviews', [parseInt(ratingAsString, 10)])
+        .commit();
+      console.log('Reviews updated', result);
+
+      await fetch(SLACK_WEBHOOK_URL, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          text: 'New recipe rating:',
+          blocks: [
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: 'New recipe rating:',
+              },
+            },
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: [`*Post ID*: ${sanityDocumentId}`, `*Rating*: ${ratingAsString}`].join('\n'),
+              },
+            },
+            {
+              type: 'context',
+              elements: [
+                {
+                  type: 'mrkdwn',
+                  text: [
+                    `Submitted to the *${payload.form_name}* form on the *${site.name}* site`,
+                    `on the *${new Date(payload.created_at).toLocaleString('en-GB', {
+                      dateStyle: 'long',
+                      timeStyle: 'long',
+                      timeZone: 'Europe/Rome',
+                    })}*`,
+                    `on the page ${payload.data.referrer}`,
+                  ].join('\n'),
+                },
+              ],
+            },
+            {
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: `*<https://app.netlify.com/sites/${site.name}/forms/${payload.form_id}|See all ${site.name} submissions>*  |  *<https://studio.offbeatappetite.com/desk/blogPost|See all Blog Posts on the CMS>*`,
+              },
+            },
+            {
+              type: 'divider',
+            },
+          ],
+        }),
+      });
+
+      return {
+        statusCode: 200,
+        body: 'success',
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        statusCode: 422,
+        body: `Error while pushing rating to Sanity: ${e}`,
+      };
+    }
   }
 };

@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useRouter } from 'next/router';
+import { useLocalStorage } from 'react-use';
 
+import RatingForm from './RatingForm';
+import { usePostReviewsState } from './blog-post-reviews-context';
+import { StarEmptyIcon, StarHalfIcon, StarFullIcon } from '../icons';
 import SimplePortableText from '../portable-text/SimplePortableText';
 import { ArticleContentContainer } from '../layouts/Containers';
 import { stringifyRecipeIngredient, stringifyRecipeQuantity, joinUrl } from '../../scripts/utils';
@@ -21,9 +25,16 @@ import { AllSharingButtons } from '../sharing/sharing-links';
 
 import { socialShareLabel } from '../../data/siteMiscContent.json';
 
+type ReviewsRegistry = {
+  [key: string]: number;
+};
+const RECIPE_REVIEW_LS_KEY = 'oa-reviews';
+
 const RecipeSectionTitle: React.FC<{ text: string }> = ({ text }) => (
   <h3 className="type-heading-2 text-center">{text}</h3>
 );
+
+const REVIEW_THANK_YOU_MESSAGE = 'Thank you for rating this recipe!';
 
 type RecipeProps = {
   recipe: SanityRecipe;
@@ -31,27 +42,70 @@ type RecipeProps = {
 };
 const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
   const { asPath } = useRouter();
+  const reviewsState = usePostReviewsState();
+
+  const [postReviews, setpostReviews] = useLocalStorage<ReviewsRegistry>(RECIPE_REVIEW_LS_KEY, {});
+
+  const localReviewExists =
+    reviewsState?.data?.documentId && postReviews[reviewsState.data.documentId];
+
+  const addReviewToLocalStorage = useCallback(
+    (rating: number) => {
+      if (reviewsState?.data?.documentId) {
+        setpostReviews({
+          ...postReviews,
+          [reviewsState.data.documentId]: rating,
+        });
+      }
+    },
+    [reviewsState?.data?.documentId, postReviews, setpostReviews]
+  );
 
   return (
     <article
       data-testid="recipe-wrapper"
       id="recipe"
       className={[
-        'bg-gray-lighter sm:rounded overflow-hidden contain-l-p shadow-neu-lighter',
-        'py-10 sm:py-12 md:py-16 xl:py-20 outline-none',
+        'bg-gray-lighter sm:rounded-lg overflow-hidden contain-l-p shadow-neu-lighter',
+        'pt-10 sm:pt-12 md:pt-16 xl:pt-20 outline-none',
         className,
       ]
         .filter(Boolean)
         .join(' ')}
       tabIndex={-1}
     >
-      <ArticleContentContainer>
-        <header className="flex flex-col-reverse items-center space-y-4">
+      <ArticleContentContainer className="pb-10 sm:pb-12 md:pb-16 xl:pb-20">
+        <header className="flex flex-col-reverse items-center">
           {/* Title */}
-          <h2 className="type-display-2 text-center">{recipe.title}</h2>
+          <h2 className="type-display-2 text-center mt-4 xl:mt-6">{recipe.title}</h2>
 
-          {/* Rating */}
-          {/* <p className="">TODO: rating</p> */}
+          {/* Rating — read only */}
+          <p className="flex flex-col items-center text-olive-darker space-y-1">
+            <span
+              aria-label={
+                reviewsState.data.reviewCount > 0
+                  ? `Rating: ${reviewsState.data.ratingValue} out of 5`
+                  : 'No reviews yet'
+              }
+              className="flex"
+            >
+              {[1, 2, 3, 4, 5].map((i) => {
+                const StarIcon =
+                  reviewsState.data.ratingValue >= i
+                    ? StarFullIcon
+                    : reviewsState.data.ratingValue >= i - 0.5
+                    ? StarHalfIcon
+                    : StarEmptyIcon;
+
+                return <StarIcon key={`star-icon-${i}`} className="w-6 h-6 xl:w-8 xl:h-8" />;
+              })}
+            </span>
+            <span className="type-footnote italic">
+              {reviewsState.data.reviewCount > 0
+                ? `${reviewsState.data.reviewCount} reviews`
+                : 'No reviews yet'}
+            </span>
+          </p>
         </header>
 
         {/* Sharing */}
@@ -184,9 +238,22 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
             ))}
           </ol>
         </section>
-
-        {/* TODO: Rating */}
       </ArticleContentContainer>
+
+      {/* Interactive rating */}
+      <aside className="bg-olive-darker text-white py-10 sm:py-12 md:py-16 xl:py-20">
+        <ArticleContentContainer>
+          {localReviewExists ? (
+            <p className="type-heading-4 text-center">{REVIEW_THANK_YOU_MESSAGE}</p>
+          ) : (
+            <RatingForm
+              documentId={reviewsState.data.documentId}
+              successCallback={addReviewToLocalStorage}
+            />
+          )}
+          <noscript>Please enable JavaScript to submit a review for this recipe.</noscript>
+        </ArticleContentContainer>
+      </aside>
     </article>
   );
 };

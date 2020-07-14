@@ -142,7 +142,7 @@ export function generateRecipeStructuredData({
   recipeData,
   path,
 }: RecipeData): StructuredData {
-  return {
+  const toReturn: StructuredData = {
     '@context': 'https://schema.org/',
     '@type': 'Recipe',
     name: recipeData.title,
@@ -180,14 +180,21 @@ export function generateRecipeStructuredData({
     },
     datePublished: blogPostData.datePublished,
     // Missing: video
-    // Missing: review[]
-    // TODO
-    // aggregateRating: {
-    //   '@type': 'AggregateRating',
-    //   reviewCount: 3,
-    //   ratingValue: 4.5,
-    // },
   };
+
+  if (blogPostData.reviews.length) {
+    toReturn.aggregateRating = {
+      '@type': 'AggregateRating',
+      reviewCount: blogPostData.reviews.length,
+      ratingValue:
+        Math.round(
+          (100 * blogPostData.reviews.reduce((acc, curr) => acc + curr, 0)) /
+            blogPostData.reviews.length
+        ) / 100,
+    };
+  }
+
+  return toReturn;
 }
 
 type ArticleData = {

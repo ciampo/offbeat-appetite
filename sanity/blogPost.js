@@ -26,6 +26,7 @@ const allBlogPostsQuery = /* groq */ `*[_type == "${blogPostType}"] {
   "seoTitle": ${pageBlogPostQuery}[0].seoTitle,
   "seoDescription": ${pageBlogPostQuery}[0].seoDescription,
   "seoImage": seoImage.asset->url,
+  "reviews": coalesce(reviews[], []),
 }`;
 
 function replaceBlogPostContent(blogPostItem, content) {
