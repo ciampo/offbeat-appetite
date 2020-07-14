@@ -90,14 +90,14 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
               className="flex"
             >
               {[1, 2, 3, 4, 5].map((i) => {
-                const starClassName = 'w-6 h-6 xl:w-8 xl:h-8';
-                if (reviewsState.data.ratingValue >= i) {
-                  return <StarFullIcon className={starClassName} />;
-                } else if (reviewsState.data.ratingValue >= i - 0.5) {
-                  return <StarHalfIcon className={starClassName} />;
-                } else {
-                  return <StarEmptyIcon className={starClassName} />;
-                }
+                const StarIcon =
+                  reviewsState.data.ratingValue >= i
+                    ? StarFullIcon
+                    : reviewsState.data.ratingValue >= i - 0.5
+                    ? StarHalfIcon
+                    : StarEmptyIcon;
+
+                return <StarIcon key={`star-icon-${i}`} className="w-6 h-6 xl:w-8 xl:h-8" />;
               })}
             </span>
             <span className="type-footnote italic">
