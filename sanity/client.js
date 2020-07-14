@@ -17,7 +17,7 @@ sanityFetch(query).then((posts) => console.log(posts));
 const client = sanityClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: 'production',
-  token: process.env.NEXT_PUBLIC_SANITY_READ_TOKEN || '',
+  token: process.env.SANITY_READ_TOKEN || '',
   // Always use the freshest data (as we're going to save it to disk)
   useCdn: false,
 });

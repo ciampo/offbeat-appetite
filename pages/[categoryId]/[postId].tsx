@@ -17,7 +17,7 @@ import {
   usePostReviewsState,
   usePostReviewsDispatch,
 } from '../../components/blog-post/blog-post-reviews-context';
-import { getPostReviews } from '../../components/blog-post/sanity-client';
+import { getPostReviews } from '../../components/blog-post/sanity-browser-client';
 
 import { joinUrl, postDateToHumanString } from '../../scripts/utils';
 
