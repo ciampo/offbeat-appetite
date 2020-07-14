@@ -195,6 +195,7 @@ exports.handler = async (event) => {
         .setIfMissing({ reviews: [] })
         .append('reviews', [parseInt(ratingAsString, 10)])
         .commit();
+      console.log('Reviews updated', result);
 
       await fetch(SLACK_WEBHOOK_URL, {
         headers: {
