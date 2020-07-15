@@ -101,7 +101,12 @@ const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
   // When the recaptcha library is ready, and only if a widget hasn't already been
   // created, create a new recaptcha widget
   useEffect(() => {
+    console.log(isReady);
+    console.log(containerRef.current);
+    console.log(window.grecaptcha);
+    console.log(widgetId.current);
     if (isReady && containerRef.current && window.grecaptcha && !widgetId.current) {
+      console.log('initialised!');
       widgetId.current = window.grecaptcha.render(containerRef.current, {
         sitekey: siteKey,
         size: 'invisible',
