@@ -11,9 +11,6 @@ jobs:
 
     steps:
       - name: Trigger our build webhooks on Netlify
-        run: |
-          curl -s -X POST -d {} "https://api.netlify.com/build_hooks/${TOKEN_STAGING}",
-          curl -s -X POST -d {} "https://api.netlify.com/build_hooks/${TOKEN_PRODUCTION}",
+        run: curl -s -X POST "https://api.netlify.com/build_hooks/${TOKEN_PRODUCTION}"
         env:
-          TOKEN_STAGING: ${{ secrets.NETLIFY_CRON_BUILD_HOOK_STAGING }}
           TOKEN_PRODUCTION: ${{ secrets.NETLIFY_CRON_BUILD_HOOK_PRODUCTION }}
