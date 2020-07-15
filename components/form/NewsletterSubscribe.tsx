@@ -172,11 +172,9 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
         return;
       }
 
-      console.log(e.currentTarget.checkValidity());
-      console.log(reaptchaRef.current);
       if (!reaptchaRef.current) {
         const errorMsg =
-          'An unexpected error occured with Google Recaptcha. Please try again with a different browser, or subscribe by emailing us at offbeatappetite@gmail.com';
+          'Unexpected Google Recaptcha error. Please try again with a different browser, or subscribe by emailing us at offbeatappetite@gmail.com';
 
         setfeedbackMessage({
           isError: true,
@@ -197,7 +195,6 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
           ...GA_BASE_EVENT,
           label: 'Attempt submission',
         });
-        console.log('executing recaptcha');
         reaptchaRef.current.execute();
       }
     },
