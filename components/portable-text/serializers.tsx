@@ -27,19 +27,26 @@ const InternalLink: React.FC<SanityMarkNode> = ({ children, mark }) =>
     <span>{children}</span>
   );
 
-const targetBlankProps = {
-  target: '_blank',
-  rel: 'noopener noreferrer',
+const ExternalLink: React.FC<SanityMarkNode> = ({ children, mark }) => {
+  let relAttrs: string[] = [];
+  if (mark.blank) {
+    relAttrs = [...relAttrs, 'noopener', 'noreferrer'];
+  }
+  if (mark.nofollow) {
+    relAttrs = [...relAttrs, 'nofollow'];
+  }
+
+  return (
+    <a
+      href={mark.href as string}
+      target={mark.blank ? '_blank' : undefined}
+      rel={relAttrs.length > 0 ? relAttrs.join(' ') : undefined}
+      className={linkClassName}
+    >
+      {children}
+    </a>
+  );
 };
-const ExternalLink: React.FC<SanityMarkNode> = ({ children, mark }) => (
-  <a
-    href={mark.href as string}
-    {...(mark.blank ? targetBlankProps : undefined)}
-    className={linkClassName}
-  >
-    {children}
-  </a>
-);
 
 const simpleSerializers = {
   // Serializers for marks - data that annotates a text child of a block.
