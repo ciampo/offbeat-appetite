@@ -174,7 +174,25 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
 
       console.log(e.currentTarget.checkValidity());
       console.log(reaptchaRef.current);
-      if (e.currentTarget.checkValidity() && reaptchaRef.current) {
+      if (!reaptchaRef.current) {
+        const errorMsg =
+          'An unexpected error occured with Google Recaptcha. Please try again with a different browser, or subscribe by emailing us at offbeatappetite@gmail.com';
+
+        setfeedbackMessage({
+          isError: true,
+          message: `${subscribeFormMessageError} [${errorMsg}]`,
+        });
+        console.warn(errorMsg);
+
+        ReactGA.event({
+          ...GA_BASE_EVENT,
+          label: `Error [${errorMsg}]`,
+        });
+
+        return;
+      }
+
+      if (e.currentTarget.checkValidity()) {
         ReactGA.event({
           ...GA_BASE_EVENT,
           label: 'Attempt submission',
@@ -183,7 +201,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
         reaptchaRef.current.execute();
       }
     },
-    [forceDisabled]
+    [forceDisabled, reaptchaRef]
   );
 
   const onInputInvalid = useCallback((e: React.FormEvent<HTMLInputElement>): void => {
