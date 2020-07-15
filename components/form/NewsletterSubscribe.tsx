@@ -172,11 +172,14 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
         return;
       }
 
+      console.log(e.currentTarget.checkValidity());
+      console.log(reaptchaRef.current);
       if (e.currentTarget.checkValidity() && reaptchaRef.current) {
         ReactGA.event({
           ...GA_BASE_EVENT,
           label: 'Attempt submission',
         });
+        console.log('executing recaptcha');
         reaptchaRef.current.execute();
       }
     },
