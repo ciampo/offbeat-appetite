@@ -8,6 +8,8 @@ const ROOT_FOLDER = process.cwd();
 const DATA_FOLDER = path.join(ROOT_FOLDER, 'data');
 const PUBLIC_FOLDER = path.join(ROOT_FOLDER, 'public');
 
+const joinUrl = (a, b) => a.replace(/\/+$/, '') + (b ? '/' + b.replace(/^\/+/, '') : '');
+
 // Read pre-compiled list of routes
 const { indexedPaths } = JSON.parse(
   fs.readFileSync(path.join(DATA_FOLDER, 'pathIndexConfig.json'))
@@ -26,7 +28,7 @@ const sitemapString = `<?xml version="1.0" encoding="UTF-8"?>
   ${indexedPaths
     .map(
       (url) => `<url>
-  <loc>${process.env.NEXT_PUBLIC_CANONICAL_URL}${url}</loc>
+  <loc>${joinUrl(process.env.NEXT_PUBLIC_CANONICAL_URL, url)}</loc>
   <lastmod>${formattedDateTime}</lastmod>
   <priority>${url === '/' ? '1.0' : '0.5'}</priority>
 </url>`
