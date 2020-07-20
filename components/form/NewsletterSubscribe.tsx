@@ -242,7 +242,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
             {/* Honeypot field (anti-spam) */}
             <p hidden>
               <label>
-                Don’t fill this out if you&apos;re human:
+                Don&apos;t fill this out if you&apos;re human:
                 <input name={FIELD_NAMES.BOT} type="text" />
               </label>
             </p>
