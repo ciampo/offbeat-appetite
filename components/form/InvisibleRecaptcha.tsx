@@ -2,7 +2,13 @@ import React, { useRef, useEffect, useState, MutableRefObject } from 'react';
 import { useIntersection } from 'react-use';
 
 const isRecaptchaReady = (): boolean =>
-  Boolean(process.browser && window && window.grecaptcha && window.grecaptcha.ready);
+  Boolean(
+    process.browser &&
+      window &&
+      window.grecaptcha &&
+      window.grecaptcha.ready &&
+      window.grecaptcha.execute
+  );
 
 const isIoSupported =
   'IntersectionObserver' in window &&
