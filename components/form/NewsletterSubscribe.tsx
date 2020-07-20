@@ -79,9 +79,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
   const onRecapchaError = useCallback((errorMessage: string): void => {
     setIsSubmitting(false);
 
-    if (reaptchaRef.current) {
-      reaptchaRef.current.reset();
-    }
+    reaptchaRef.current?.reset();
 
     setfeedbackMessage({
       isError: true,
@@ -96,9 +94,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
       function onSubmissionError(error: string): void {
         setIsSubmitting(false);
 
-        if (reaptchaRef.current) {
-          reaptchaRef.current.reset();
-        }
+        reaptchaRef.current?.reset();
 
         const errorMsg = JSON.stringify(error);
 
@@ -117,12 +113,8 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
       function onSubmissionSuccess(): void {
         setIsSubmitting(false);
 
-        if (formRef.current) {
-          formRef.current.reset();
-        }
-        if (reaptchaRef.current) {
-          reaptchaRef.current.reset();
-        }
+        formRef.current?.reset();
+        reaptchaRef.current?.reset();
 
         setfeedbackMessage({ isError: false, message: subscribeFormMessageSuccess });
 
@@ -242,7 +234,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
             {/* Honeypot field (anti-spam) */}
             <p hidden>
               <label>
-                Don’t fill this out if you&apos;re human:
+                Don&apos;t fill this out if you&apos;re human:
                 <input name={FIELD_NAMES.BOT} type="text" />
               </label>
             </p>
