@@ -9,5 +9,10 @@ const client = sanityClient({
   ignoreBrowserTokenWarning: true,
 });
 
-export const getPostReviews = async (postId: string): Promise<{ reviews: number[] }> =>
-  await client.fetch(`*[_id == "${postId}"] {"reviews": coalesce(reviews[], [])}[0]`);
+// export const getPostReviews = async (postId: string): Promise<{ reviews: number[] }> =>
+//   await client.fetch(`*[_id == "${postId}"] {"reviews": coalesce(reviews[], [])}[0]`);\
+type BlogPostRating = {
+  rating: number;
+};
+export const getPostReviews = async (postId: string): Promise<BlogPostRating[]> =>
+  await client.fetch(`*[_type == "blogPostRating" && post._ref == "${postId}" ]`);
