@@ -197,14 +197,9 @@ exports.handler = async (event) => {
           _ref: sanityDocumentId,
           _type: 'reference',
         },
-        rating: ratingAsString,
+        rating: parseInt(ratingAsString, 10),
       };
 
-      // const result = await client
-      //   .patch(sanityDocumentId)
-      //   .setIfMissing({ reviews: [] })
-      //   .append('reviews', [parseInt(ratingAsString, 10)])
-      //   .commit();
       const result = await client.create(doc);
       console.log('New document created', result._id);
 
