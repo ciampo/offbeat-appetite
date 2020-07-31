@@ -17,8 +17,8 @@ const blogPostData = testRecipeData as SanityBlogPostFull;
 
 jest.mock('../components/blog-post/sanity-browser-client', () => {
   return {
-    getPostReviews: (): { reviews: number[] } => {
-      return { reviews: [1, 5, 3] };
+    getPostReviews: (): { rating: number }[] => {
+      return [{ rating: 1 }, { rating: 5 }, { rating: 3 }];
     },
   };
 });

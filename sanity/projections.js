@@ -137,7 +137,6 @@ const blogPostPreviewProjection = /* groq */ `{
   "tags":tags[]->${tagPreviewProjection},
   datePublished,
   previewImage->${accessibleImageProjection},
-  "reviews": coalesce(reviews[], []),
 }`;
 
 module.exports = {

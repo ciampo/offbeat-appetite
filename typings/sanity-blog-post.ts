@@ -15,7 +15,6 @@ export type SanityBlogPostBase = {
   category: SanityCategoryPreview;
   tags: SanityTag[];
   datePublished: string;
-  reviews: number[];
 };
 
 export type SanityBlogPostPreview = SanityBlogPostBase & {

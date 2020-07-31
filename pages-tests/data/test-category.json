@@ -105,8 +105,7 @@
           "categoryId": "test-category",
           "postId": "blog-post-slug"
         }
-      },
-      "reviews": []
+      }
     }
   ],
   "featuredBlogPosts": [
@@ -214,8 +213,7 @@
           "categoryId": "test-category",
           "postId": "blog-post-slug"
         }
-      },
-      "reviews": []
+      }
     }
   ],
   "name": "Test category",
