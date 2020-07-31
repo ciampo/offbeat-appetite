@@ -171,7 +171,7 @@ export function generateRecipeStructuredData({
     prepTime: `PT${recipeData.preparationTime}M`,
     cookTime: `PT${recipeData.cookingTime}M`,
     totalTime: `PT${recipeData.preparationTime + recipeData.cookingTime}M`,
-    recipeYield: `${recipeData.servings.quantity} ${recipeData.servings.unit}`,
+    recipeYield: recipeData.servings.quantity,
     recipeCategory: recipeData.category,
     recipeCuisine: recipeData.cuisine,
     nutrition: {
