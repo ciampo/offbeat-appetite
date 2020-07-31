@@ -173,11 +173,12 @@ exports.handler = async (event) => {
       };
     }
 
-    if (!sanityDocumentId) {
-      console.error('Invalid document ID');
+    if (!sanityDocumentId || /^draft/.test(sanityDocumentId)) {
+      const msg = `Invalid document ID: ${sanityDocumentId}`;
+      console.error(msg);
       return {
         statusCode: 422,
-        body: 'Invalid documentID',
+        body: msg,
       };
     }
 
@@ -190,12 +191,17 @@ exports.handler = async (event) => {
     });
 
     try {
-      const result = await client
-        .patch(sanityDocumentId)
-        .setIfMissing({ reviews: [] })
-        .append('reviews', [parseInt(ratingAsString, 10)])
-        .commit();
-      console.log('Reviews updated', result);
+      const doc = {
+        _type: 'blogPostRating',
+        post: {
+          _ref: sanityDocumentId,
+          _type: 'reference',
+        },
+        rating: parseInt(ratingAsString, 10),
+      };
+
+      const result = await client.create(doc);
+      console.log('New document created', result._id);
 
       await fetch(SLACK_WEBHOOK_URL, {
         headers: {

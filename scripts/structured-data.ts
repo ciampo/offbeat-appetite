@@ -171,7 +171,7 @@ export function generateRecipeStructuredData({
     prepTime: `PT${recipeData.preparationTime}M`,
     cookTime: `PT${recipeData.cookingTime}M`,
     totalTime: `PT${recipeData.preparationTime + recipeData.cookingTime}M`,
-    recipeYield: `${recipeData.servings.quantity} ${recipeData.servings.unit}`,
+    recipeYield: recipeData.servings.quantity,
     recipeCategory: recipeData.category,
     recipeCuisine: recipeData.cuisine,
     nutrition: {
@@ -182,17 +182,17 @@ export function generateRecipeStructuredData({
     // Missing: video
   };
 
-  if (blogPostData.reviews.length) {
-    toReturn.aggregateRating = {
-      '@type': 'AggregateRating',
-      reviewCount: blogPostData.reviews.length,
-      ratingValue:
-        Math.round(
-          (100 * blogPostData.reviews.reduce((acc, curr) => acc + curr, 0)) /
-            blogPostData.reviews.length
-        ) / 100,
-    };
-  }
+  // if (blogPostData.reviews.length) {
+  //   toReturn.aggregateRating = {
+  //     '@type': 'AggregateRating',
+  //     reviewCount: blogPostData.reviews.length,
+  //     ratingValue:
+  //       Math.round(
+  //         (100 * blogPostData.reviews.reduce((acc, curr) => acc + curr, 0)) /
+  //           blogPostData.reviews.length
+  //       ) / 100,
+  //   };
+  // }
 
   return toReturn;
 }
