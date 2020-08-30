@@ -24,7 +24,7 @@ const allBlogPostsQuery = /* groq */ `*[_type == "${blogPostType}"] {
   datePublished,
   keywords,
   "seoTitle": ${pageBlogPostQuery}[0].seoTitle,
-  "seoDescription": ${pageBlogPostQuery}[0].seoDescription,
+  seoDescription,
   "seoImage": seoImage.asset->url,
 }`;
 
@@ -32,7 +32,6 @@ function replaceBlogPostContent(blogPostItem, content) {
   return JSON.parse(
     JSON.stringify(content)
       .replace(/:blogPostTitle/g, blogPostItem.title)
-      .replace(/:blogPostExcerpt/g, blogPostItem.excerpt)
       .replace(/:categoryName/g, blogPostItem.category.name)
   );
 }
