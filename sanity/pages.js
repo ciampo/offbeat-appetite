@@ -48,7 +48,6 @@ const pageBlogPostType = 'pageBlogPost';
 const pageBlogPostQuery = /* groq */ `*[_type == "${pageBlogPostType}"] {
   _id,
   seoTitle,
-  seoDescription,
 }`;
 
 const pageSearchType = 'pageSearch';
