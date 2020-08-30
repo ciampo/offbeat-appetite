@@ -134,6 +134,10 @@ const HeaderNav: React.FC = () => {
 
     window.addEventListener('scroll', onScroll);
 
+    // Check scroll position when component it mounted
+    // e.g. in case the page is already scrolled down
+    onScroll();
+
     return (): void => {
       window.removeEventListener('scroll', onScroll);
     };
