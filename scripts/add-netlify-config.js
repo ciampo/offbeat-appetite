@@ -24,14 +24,14 @@ ${routesConfig
     `img-src 'self' https://cdn.sanity.io https://www.google-analytics.com data:`,
     // Allow audio/video from same origin, Sanity and data scheme (e.g. base64)
     `media-src 'self' https://cdn.sanity.io data:`,
-    // Allow styles from same origin and inline
-    `style-src 'self' 'unsafe-inline'`,
+    // Allow styles from same origin, inline and Commento.io
+    `style-src 'self' 'unsafe-inline' https://cdn.commento.io`,
     // No external fonts allowed
     `font-src 'self' data:`,
-    // Allow script coming from same origin, inline and Google / Google Analytics (incl. recaptcha)
+    // Allow script coming from same origin, inline and Google / Google Analytics (incl. recaptcha)  and Commento.io
     `script-src 'self' 'unsafe-inline' https://www.google.com/ https://www.gstatic.com/ https://www.google-analytics.com https://recaptcha.net https://cdn.commento.io`,
-    // Allow XHR to same origin and Google Analytics
-    `connect-src 'self' https://www.google-analytics.com https://*.api.sanity.io`,
+    // Allow XHR to same origin, Google Analytics and Commento.io
+    `connect-src 'self' https://www.google-analytics.com https://*.api.sanity.io https://commento.io`,
     // Allow webmanifest files from same origin
     `manifest-src 'self'`,
     // Allow prefetching files from same origin
