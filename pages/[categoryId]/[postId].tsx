@@ -227,6 +227,9 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
             ))}
           </ul>
         </footer>
+
+        <script defer src="https://cdn.commento.io/js/commento.js" data-auto-init="true"></script>
+        <div id="commento"></div>
       </ArticleContentContainer>
     </>
   );
