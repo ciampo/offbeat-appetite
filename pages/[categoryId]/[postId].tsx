@@ -11,6 +11,7 @@ import { ButtonOliveInverted } from '../../components/button/Button';
 import { AllSharingButtons } from '../../components/sharing/sharing-links';
 import RichPortableText from '../../components/portable-text/RichPortableText';
 import { ArticleContentContainer } from '../../components/layouts/Containers';
+import Commento from '../../components/comments/Commento';
 import { useNavVariantDispatch } from '../../components/nav/nav-variant-context';
 import {
   PostReviewsProvider,
@@ -228,9 +229,7 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
           </ul>
         </footer>
 
-        <div id="commento"></div>
-
-        <script defer src="https://cdn.commento.io/js/commento.js"></script>
+        <Commento />
       </ArticleContentContainer>
     </>
   );
