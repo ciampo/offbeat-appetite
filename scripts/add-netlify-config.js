@@ -26,8 +26,8 @@ ${routesConfig
     `media-src 'self' https://cdn.sanity.io data:`,
     // Allow styles from same origin, inline and Commento.io
     `style-src 'self' 'unsafe-inline' https://cdn.commento.io`,
-    // No external fonts allowed
-    `font-src 'self' data:`,
+    // No external fonts allowed apart from Commento.io
+    `font-src 'self' data: https://cdn.commento.io`,
     // Allow script coming from same origin, inline and Google / Google Analytics (incl. recaptcha)  and Commento.io
     `script-src 'self' 'unsafe-inline' https://www.google.com/ https://www.gstatic.com/ https://www.google-analytics.com https://recaptcha.net https://cdn.commento.io`,
     // Allow XHR to same origin, Google Analytics and Commento.io
