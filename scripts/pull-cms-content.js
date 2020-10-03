@@ -269,7 +269,7 @@ async function getData() {
           );
 
           const commentoRequestBody = JSON.stringify({
-            domain: process.env.NEXT_PUBLIC_CANONICAL_URL.replace(/^https:\/\/./, ''),
+            domain: process.env.NEXT_PUBLIC_CANONICAL_URL.replace(/^https?:\/\//, ''),
             paths: allPostIds,
           });
 
