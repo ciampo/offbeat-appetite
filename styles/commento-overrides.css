@@ -1,3 +1,4 @@
+/* purgecss start ignore */
 .commento-root {
   padding-top: 32px;
 }
@@ -16,3 +17,4 @@
     width: 100%;
   }
 }
+/* purgecss end ignore */
