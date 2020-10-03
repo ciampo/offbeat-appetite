@@ -66,6 +66,7 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
     [blogPostData]
   );
 
+  // Update Recipt Ratings
   if (structuredData.length && postReviewsState.data.reviewCount > 0) {
     structuredData[structuredData.length - 1].aggregateRating = {
       '@type': 'AggregateRating',
@@ -102,6 +103,40 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
 
     fetchData();
   }, [postReviewsDispatch, blogPostData._id]);
+
+  // Update Commento's comment counts
+  useEffect(() => {
+    if (!window || !window.fetch) {
+      return;
+    }
+
+    window
+      .fetch('https://commento.io/api/comment/count', {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify({
+          domain: (process.env.NEXT_PUBLIC_CANONICAL_URL || '').replace(/^https?:\/\//, ''),
+          paths: [blogPostData._id],
+        }),
+      })
+      .then((response) => response.json())
+      .then(({ success, commentCounts }) => {
+        if (!success) {
+          console.error('Something went wront while updating Commento comments count');
+          return;
+        }
+
+        if (commentCounts[blogPostData._id]) {
+          const blogPostStructuredDataIndex = structuredData.findIndex(
+            (sdItem) => sdItem['@type'] === 'BlogPosting'
+          );
+          if (blogPostStructuredDataIndex > -1) {
+            structuredData[blogPostStructuredDataIndex].commentCount =
+              commentCounts[blogPostData._id];
+          }
+        }
+      });
+  }, [blogPostData._id, structuredData]);
 
   return (
     <>
