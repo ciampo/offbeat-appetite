@@ -81,6 +81,7 @@
     "@typescript-eslint/parser": "^3.0.2",
     "@zeit/next-css": "^1.0.1",
     "autoprefixer": "^9.7.1",
+    "axios": "^0.20.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-dynamic-import": "^2.1.0",
     "chalk": "^4.0.0",
