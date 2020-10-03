@@ -38,7 +38,9 @@ const RatingForm: React.FC<{
   const [selectedStarIndex, setSelectedStarIndex] = useState(-1);
   const solidStarIndex = highlightedStarIndex > -1 ? highlightedStarIndex : selectedStarIndex;
 
-  const isDisabled = !documentId || isSubmitting;
+  // Do not allow star rating on draft posts (this is also disallowed in the
+  // netlify lambda function)
+  const isDisabled = !documentId || /^draft/.test(documentId) || isSubmitting;
 
   const starClassName = [
     'w-6 h-6 sm:w-8 sm:h-8',
