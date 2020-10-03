@@ -229,7 +229,7 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
           </ul>
         </footer>
 
-        <Commento />
+        <Commento pageId={blogPostData._id} />
       </ArticleContentContainer>
     </>
   );

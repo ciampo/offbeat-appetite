@@ -1,34 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-const insertScript = (src: string): Promise<HTMLScriptElement> =>
-  new Promise((resolve) => {
-    const script = window.document.createElement('script');
+const COMMENTO_SCRIPT_PATH = '/js/commento.js';
+const COMMENTO_ORIGIN_LOCAL = 'http://localhost:8080';
+const COMMENTO_ORIGIN_REMOTE = 'https://cdn.commento.io';
 
-    script.async = true;
-    script.src = src;
-    script.id = 'commento-script';
-    script.addEventListener('load', () => resolve(script));
-    document.body.appendChild(script);
-  });
+const COMMENTO_SCRIPT_ID = 'commento-script';
 
-const removeScript = (id: string): void => {
-  const script = window.document.getElementById(id);
+const insertCommentoScript = (pageId: string): void => {
+  const script = window.document.createElement('script');
+
+  script.defer = true;
+  script.src = `${
+    /localhost/.test(window?.origin) ? COMMENTO_ORIGIN_LOCAL : COMMENTO_ORIGIN_REMOTE
+  }${COMMENTO_SCRIPT_PATH}`;
+  script.id = COMMENTO_SCRIPT_ID;
+
+  // Optional data attributes
+  script.dataset.noFonts = 'true';
+  script.dataset.pageId = pageId;
+
+  document.body.appendChild(script);
+};
+
+const removeCommentoScript = (): void => {
+  const script = window?.document?.getElementById(COMMENTO_SCRIPT_ID);
 
   if (script) {
     document.body.removeChild(script);
   }
 };
 
-const Commento: React.FC<{ host?: string }> = ({ host = 'https://cdn.commento.io' }) => {
-  const [isLoaded, setLoaded] = useState(false);
-
+const Commento: React.FC<{ pageId: string }> = ({ pageId }) => {
   useEffect(() => {
-    if (!isLoaded) {
-      insertScript(`${host}/js/commento.js`).then(() => setLoaded(true));
-    }
+    insertCommentoScript(pageId);
 
-    return (): void => removeScript('commento-script');
-  }, []);
+    return (): void => removeCommentoScript();
+  }, [pageId]);
 
   return <div id="commento" />;
 };
