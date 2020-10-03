@@ -1,0 +1,17 @@
+.commento-root {
+  @apply pt-8;
+}
+
+.commento-root .commento-textarea-container {
+  @apply w-full;
+}
+
+.commento-root .commento-markdown-button {
+  @apply inline-block;
+}
+
+@media screen and (max-width: 840px) {
+  .commento-root .commento-logged-container .commento-logged-in-as {
+    @apply w-full inline-block;
+  }
+}
