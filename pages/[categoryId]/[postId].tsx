@@ -229,7 +229,8 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
           </ul>
         </footer>
 
-        <Commento pageId={blogPostData._id} />
+        {/* Published and draft version of a blog post share same comments */}
+        <Commento pageId={blogPostData._id.replace(/^drafts\./, '')} />
       </ArticleContentContainer>
     </>
   );

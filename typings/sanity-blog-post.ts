@@ -38,4 +38,8 @@ export type SanityBlogPostFull = SanityBlogPostBase & {
   seoTitle: string;
   seoDescription: string;
   seoImage: string;
+  // Data from commento added in pull-cms-content.js
+  comments: {
+    count: number;
+  };
 };

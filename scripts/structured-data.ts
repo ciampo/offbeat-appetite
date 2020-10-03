@@ -232,7 +232,7 @@ export function generateArticleStructuredData({
       mainEntityOfPage: {
         '@id': GRAPH_IDS.WEBPAGE,
       },
-      // Missing: "commentCount": "443",
+      commentCount: blogPostData.comments.count,
     },
   ];
 

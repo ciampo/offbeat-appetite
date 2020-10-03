@@ -4,6 +4,7 @@ const path = require('path');
 const del = require('del');
 const { promisify } = require('util');
 const chalk = require('chalk');
+const axios = require('axios');
 
 const routesConfig = require('../routes-config.js');
 const { compileSingleRoute, compileDynamicItem } = require('./compile-routes.js');
@@ -262,12 +263,47 @@ async function getData() {
       {
         query: allBlogPostsQuery,
         onResultsFetched: async (allBlogPostsData) => {
-          const replacedBlogPostsContent = allBlogPostsData.map((blogPostItem) =>
-            replaceBlogPostContent(blogPostItem, blogPostItem)
+          // Published and draft version of a blog post share same comments
+          const allPostIds = allBlogPostsData.map((blogPostItem) =>
+            blogPostItem._id.replace(/^drafts\./, '')
           );
 
+          const commentoRequestBody = JSON.stringify({
+            domain: process.env.NEXT_PUBLIC_CANONICAL_URL.replace(/^https:\/\/./, ''),
+            paths: allPostIds,
+          });
+
+          let commentoResponse;
+          try {
+            commentoResponse = await axios.post(
+              'https://commento.io/api/comment/count',
+              commentoRequestBody
+            );
+          } catch (e) {
+            console.error(`Error while loading Commento comment counts: ${e}`);
+          }
+
+          if (!commentoResponse || !commentoResponse.data || !commentoResponse.data.success) {
+            console.warn('Warning: Commento comment counts API request was not successfull');
+          }
+
+          const allCommentCounts =
+            commentoResponse && commentoResponse.data && commentoResponse.data.commentCounts
+              ? commentoResponse.data.commentCounts
+              : {};
+
+          const replacedBlogPostsContent = allBlogPostsData.map((blogPostItem) => {
+            const blogPostTransformedContent = replaceBlogPostContent(blogPostItem, blogPostItem);
+            compilePortableTextInternalLinks(blogPostTransformedContent.content);
+
+            blogPostTransformedContent.comments = {
+              count: allCommentCounts[blogPostItem._id.replace(/^drafts\./, '')] || 0,
+            };
+
+            return blogPostTransformedContent;
+          });
+
           for (const blogPostData of replacedBlogPostsContent) {
-            compilePortableTextInternalLinks(blogPostData.content);
             await saveToFile(blogPostData, path.join(POSTS_FOLDERNAME, blogPostData.slug));
           }
 
