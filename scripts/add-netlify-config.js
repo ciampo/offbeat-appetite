@@ -20,8 +20,8 @@ ${routesConfig
   Content-Security-Policy: ${[
     // Only accept same-origin sources by default
     `default-src 'self'`,
-    // Allow images from same origin, Sanity, Google Analytics and data scheme (e.g. base64)
-    `img-src 'self' https://cdn.sanity.io https://www.google-analytics.com data:`,
+    // Allow images from same origin, Sanity, Google Analytics, Commento and data scheme (e.g. base64)
+    `img-src 'self' https://cdn.sanity.io https://www.google-analytics.com https://cdn.commento.io data:`,
     // Allow audio/video from same origin, Sanity and data scheme (e.g. base64)
     `media-src 'self' https://cdn.sanity.io data:`,
     // Allow styles from same origin, inline and Commento.io
