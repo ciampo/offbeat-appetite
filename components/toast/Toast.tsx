@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocalStorage } from 'react-use';
 import ReactGA from 'react-ga';
 
-import { HIDE_TOAST_KEY } from './subscribe-toast-local-storage';
+import { DISMISS_TOAST_MS_KEY } from './subscribe-toast-local-storage';
 
 const buttonCommonClassName = [
   'type-tag bg-gray-white bg-opacity-0 text-gray-white rounded outline-none',
@@ -11,12 +11,16 @@ const buttonCommonClassName = [
   'focus:bg-opacity-15',
 ];
 
-const SHOW_TOAST_TIMEOUT = 20000;
+const SHOW_TOAST_TIMEOUT_MS = 20000;
+const ONE_WEEK_MS = 1000 * 60 * 60 * 24 * 7;
 
 const SubscribeToast: React.FC = () => {
   const [hideStillWaiting, setHideStillWaiting] = useState(true);
   const [hideUserInteraction, setHideUserInteraction] = useState(false);
-  const [hideSavedPref, sethideSavedPref] = useLocalStorage(HIDE_TOAST_KEY, false);
+  const [dismissToastMs, setDismissToastMs] = useLocalStorage(DISMISS_TOAST_MS_KEY, 0);
+
+  const enoughTimeSinceLastDismissed = dismissToastMs + ONE_WEEK_MS < Date.now();
+  const userPrefShowToast = enoughTimeSinceLastDismissed && !hideUserInteraction;
 
   const onSubscribeClick = (): void => {
     ReactGA.event({
@@ -32,12 +36,12 @@ const SubscribeToast: React.FC = () => {
       action: 'Interacted with Subscribe toast',
       label: 'Dismiss',
     });
-    sethideSavedPref(true);
+    setDismissToastMs(Date.now());
   };
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | undefined;
-    if (!hideUserInteraction && !hideSavedPref) {
+    if (userPrefShowToast) {
       timeoutId = setTimeout(() => {
         ReactGA.event({
           category: 'Promotion',
@@ -45,7 +49,7 @@ const SubscribeToast: React.FC = () => {
           nonInteraction: true,
         });
         setHideStillWaiting(false);
-      }, SHOW_TOAST_TIMEOUT);
+      }, SHOW_TOAST_TIMEOUT_MS);
     }
 
     return (): void => {
@@ -53,9 +57,9 @@ const SubscribeToast: React.FC = () => {
         clearTimeout(timeoutId);
       }
     };
-  }, [hideUserInteraction, hideSavedPref]);
+  }, [userPrefShowToast]);
 
-  return hideStillWaiting || hideSavedPref || hideUserInteraction ? null : (
+  return hideStillWaiting || !userPrefShowToast ? null : (
     <div
       className={[
         'bg-olive-darker fixed z-30 left-0 bottom-0 w-full sm:w-auto shadow-top-right-md sm:rounded-tr',
@@ -80,7 +84,7 @@ const SubscribeToast: React.FC = () => {
           className={[...buttonCommonClassName, 'font-medium border-0'].join(' ')}
           onClick={onDismissClick}
         >
-          Don&#39;t show again
+          Dismiss
         </button>
       </p>
     </div>
