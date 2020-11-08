@@ -4,7 +4,7 @@ import ReactGA from 'react-ga';
 
 import { ButtonOlive } from '../button/Button';
 
-import { DISMISS_TOAST_MS_KEY } from './local-storage';
+import { DISMISS_TOAST_MS_KEY, HIDE_TOAST_KEY } from './local-storage';
 
 const SHOW_MODAL_TIMEOUT_MS = 10000;
 const HALF_DAY_MS = (1000 * 60 * 60 * 24) / 2;
@@ -38,10 +38,14 @@ const SubscribeModal: React.FC = () => {
   const [isWaitingForInitialTimeout, setIsWaitingForInitialTimeout] = useState(true);
   const [hasUserClikedSubscribe, sethasUserClikedSubscribe] = useState(false);
   const [dismissToastMs, setDismissToastMs] = useLocalStorage(DISMISS_TOAST_MS_KEY, 0);
+  const userHasAlreadySubscribedOnThisBrowser = useLocalStorage(HIDE_TOAST_KEY, false)[0];
 
   const enoughTimeSinceLastDismissed = dismissToastMs + HALF_DAY_MS < Date.now();
   const shouldShowBasedOnUserPreferences = enoughTimeSinceLastDismissed && !hasUserClikedSubscribe;
-  const shouldRender = shouldShowBasedOnUserPreferences && !isWaitingForInitialTimeout;
+  const shouldRender =
+    shouldShowBasedOnUserPreferences &&
+    !isWaitingForInitialTimeout &&
+    !userHasAlreadySubscribedOnThisBrowser;
 
   const hasModalBeenFocused = useRef(false);
 
