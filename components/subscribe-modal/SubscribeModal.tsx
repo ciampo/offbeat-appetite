@@ -3,8 +3,18 @@ import { useLocalStorage } from 'react-use';
 import ReactGA from 'react-ga';
 
 import { ButtonOlive } from '../button/Button';
+import AccessibleImage from '../media/AccessibleImage';
+
+import { subscribeModalImageResponsiveConfig } from '../media/image-responsive-configurations';
 
 import { DISMISS_TOAST_MS_KEY, HIDE_TOAST_KEY } from './local-storage';
+
+import {
+  subscribeModalTitle,
+  subscribeModalDescription,
+  subscribeModalImage,
+  subscribeModalCTAButton,
+} from '../../data/siteMiscContent.json';
 
 const SHOW_MODAL_TIMEOUT_MS = 10000;
 const HALF_DAY_MS = (1000 * 60 * 60 * 24) / 2;
@@ -139,8 +149,9 @@ const SubscribeModal: React.FC = () => {
       />
       <div
         className={[
-          'fixed z-50 transform-translate-center max-w-lg xl:max-w-xl',
-          'flex flex-col-reverse xsm:flex-row-reverse bg-white focus:outline-none',
+          'fixed z-50 transform-translate-center max-w-lg sm:max-w-xl xl:max-w-3xl',
+          'flex flex-row-reverse bg-white focus:outline-none',
+          'rounded',
         ].join(' ')}
         style={{
           width: 'calc(100% - 3rem)',
@@ -152,12 +163,12 @@ const SubscribeModal: React.FC = () => {
         ref={modalContainerRef}
         onKeyDown={onModalKeyDown}
       >
-        <div className="p-4 xsm:pt-8 xl:py-12 xl:px-6 xl:pb-6">
+        <div className="p-4 pt-8 xl:py-12 xl:px-6 xl:pb-6">
           <h2 id="modal-title" className="type-display-3 mb-2 xsm:mb-3 xl:mb-4">
-            The 2020 Sustainable Holiday Gift Guide is out!
+            {subscribeModalTitle}
           </h2>
           <p id="modal-descr" className="type-body mb-4 xsm:mb-6 xl:mb-8">
-            Subscribe now to get a copy in your inbox!
+            {subscribeModalDescription}
           </p>
 
           <ButtonOlive
@@ -167,7 +178,7 @@ const SubscribeModal: React.FC = () => {
             onKeyDown={onSubscribeKeyDown}
             className="mx-auto w-full justify-center"
           >
-            Subscribe
+            {subscribeModalCTAButton}
           </ButtonOlive>
 
           <button
@@ -194,8 +205,14 @@ const SubscribeModal: React.FC = () => {
             </svg>
           </button>
         </div>
-        <div className="flex-shrink-0 flex-grow-0 w-full h-20 xsm:w-48 xsm:h-auto xsm:self-stretch xl:w-56 bg-gray-400">
-          img
+
+        <div className="hidden xsm:block flex-shrink-0 flex-grow-0 relative w-48 sm:w-64 xl:w-72 overflow-hidden self-stretch border-4 xl:border-8 border-gray-white rounded">
+          <AccessibleImage
+            image={subscribeModalImage}
+            lazy={true}
+            responsiveConfig={subscribeModalImageResponsiveConfig}
+            className="absolute left-0 top-0 w-full h-full"
+          />
         </div>
       </div>
     </>
