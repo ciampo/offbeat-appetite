@@ -92,7 +92,7 @@ describe('Nav', () => {
     expect(getAllByRole('link')).toHaveLength(allLinks.length + 1);
 
     expect(getByText('Skip to content')).toBeInTheDocument();
-    expect(getByText('Skip to content')).toHaveAttribute('href', '#content');
+    expect(getByText('Skip to content')).toHaveAttribute('href', '#site-content');
 
     // debug();
 

@@ -27,7 +27,7 @@ const MenuButton = dynamic(() => import('./DrawerMenu').then((mod) => mod.MenuBu
   ssr: false,
 });
 
-const BasicAnchorEl: React.FC = memo((props) => <a {...props} href="#content" />);
+const BasicAnchorEl: React.FC = memo((props) => <a {...props} href="#site-content" />);
 BasicAnchorEl.displayName = 'memo(BasicAnchorEl)';
 
 const BasicLinkEl: React.FC<{ href: string; as: string }> = memo(
@@ -153,6 +153,7 @@ const HeaderNav: React.FC = () => {
           isSolid ? 'bg-olive-darker shadow-md' : 'bg-transparent',
         ].join(' ')}
         data-testid="header-nav-wrapper"
+        id="site-header"
       >
         <ButtonOlive
           component={BasicAnchorEl}

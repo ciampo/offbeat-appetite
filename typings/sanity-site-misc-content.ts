@@ -1,4 +1,4 @@
-import { SanityPersonFull } from '.';
+import { SanityPersonFull, SanityAccessibleImage } from '.';
 
 export type SanitySocialPlatform = 'instagram' | 'facebook' | 'pinterest';
 
@@ -34,4 +34,8 @@ export type SanitySiteMiscContent = {
   subscribeFormMessageDisabled: string;
   subscribeFormMessageSuccess: string;
   subscribeFormMessageError: string;
+  subscribeModalTitle: string;
+  subscribeModalDescription: string;
+  subscribeModalImage: SanityAccessibleImage;
+  subscribeModalCTAButton: string;
 };

@@ -94,6 +94,35 @@
   }
 }
 
+/* Display 3 */
+._type-display-3-m {
+  @apply _type-display-base text-2xl;
+}
+
+._type-display-3-t {
+  @apply _type-display-base text-4xl;
+}
+
+._type-display-3-d {
+  @apply _type-display-base text-4xl;
+}
+
+.type-display-3 {
+  @apply _type-display-base text-2xl;
+}
+
+@screen sm {
+  .type-display-3 {
+    @apply text-3xl;
+  }
+}
+
+@screen xl {
+  .type-display-3 {
+    @apply text-4xl;
+  }
+}
+
 /*******************************************************************************
 * Body
 *******************************************************************************/

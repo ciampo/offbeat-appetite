@@ -294,3 +294,24 @@ export const contentMediaGalleryResponsiveConfig: AccessibleImageResponsiveConfi
   ],
   forceRatio: 4 / 5,
 };
+
+// Used in subscribe modal banner
+export const subscribeModalImageResponsiveConfig: AccessibleImageResponsiveConfig = {
+  exports: sortBreakpoints({
+    breakpoints: ['184', '248', '312'],
+    addDoubleRes: true,
+  }) as number[],
+  sizes: [
+    {
+      queryMinWidth: twTheme.maxWidth['screen-xl'],
+      width: `${pxToRem('312px')}rem`,
+    },
+    {
+      queryMinWidth: twTheme.maxWidth['screen-sm'],
+      width: `${pxToRem('248px')}rem`,
+    },
+    {
+      width: `${pxToRem('184px')}rem`,
+    },
+  ],
+};

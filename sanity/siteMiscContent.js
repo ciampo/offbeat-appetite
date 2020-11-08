@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const { personFullProjection } = require('./projections');
+const { personFullProjection, accessibleImageProjection } = require('./projections');
 
 const siteMiscContentType = 'siteMiscContent';
 const siteMiscContentQuery = /* groq */ `*[_type == "${siteMiscContentType}"] {
@@ -31,6 +31,10 @@ const siteMiscContentQuery = /* groq */ `*[_type == "${siteMiscContentType}"] {
   subscribeFormMessageDisabled,
   subscribeFormMessageSuccess,
   subscribeFormMessageError,
+  subscribeModalTitle,
+  subscribeModalDescription,
+  subscribeModalImage->${accessibleImageProjection},
+  subscribeModalCTAButton,
 }`;
 
 module.exports = {
