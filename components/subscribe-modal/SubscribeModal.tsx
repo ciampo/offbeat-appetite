@@ -7,7 +7,7 @@ import { ButtonOlive } from '../button/Button';
 import { DISMISS_TOAST_MS_KEY } from './local-storage';
 
 const SHOW_MODAL_TIMEOUT_MS = 10000;
-const ONE_DAY_MS = 1000 * 60 * 60 * 24;
+const HALF_DAY_MS = (1000 * 60 * 60 * 24) / 2;
 
 const ELEMENTS_TO_MAKE_ARIA_HIDDEN_WHEN_MODAL_OPENS = [
   window?.document?.getElementById('site-header'),
@@ -39,7 +39,7 @@ const SubscribeModal: React.FC = () => {
   const [hasUserClikedSubscribe, sethasUserClikedSubscribe] = useState(false);
   const [dismissToastMs, setDismissToastMs] = useLocalStorage(DISMISS_TOAST_MS_KEY, 0);
 
-  const enoughTimeSinceLastDismissed = dismissToastMs + ONE_DAY_MS < Date.now();
+  const enoughTimeSinceLastDismissed = dismissToastMs + HALF_DAY_MS < Date.now();
   const shouldShowBasedOnUserPreferences = enoughTimeSinceLastDismissed && !hasUserClikedSubscribe;
   const shouldRender = shouldShowBasedOnUserPreferences && !isWaitingForInitialTimeout;
 
