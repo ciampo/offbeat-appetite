@@ -23,8 +23,12 @@ const sendModalGaEvent = (label: string): void => {
   });
 };
 
-const SubscribeAnchorEl: React.FC = memo((props) => <a {...props} href="#subscribe" />);
-SubscribeAnchorEl.displayName = 'memo(SubscribeAnchorEl)';
+const SubscribeAnchorEl = memo(
+  React.forwardRef<HTMLAnchorElement | null, unknown>((props, forwardedRef) => (
+    <a {...props} href="#subscribe" ref={forwardedRef} />
+  ))
+);
+SubscribeAnchorEl.displayName = 'memo(forwardRef(SubscribeAnchorEl))';
 
 const SubscribeModal: React.FC = () => {
   const modalContainerRef = useRef<HTMLDivElement>(null);
@@ -153,7 +157,7 @@ const SubscribeModal: React.FC = () => {
           </p>
 
           <ButtonOlive
-            href="#subscribe"
+            component={SubscribeAnchorEl}
             onClick={onSubscribeClick}
             ref={subscribeButtonRef}
             onKeyDown={onSubscribeKeyDown}
