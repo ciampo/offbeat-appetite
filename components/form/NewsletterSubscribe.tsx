@@ -9,7 +9,7 @@ import { ButtonPink } from '../button/Button';
 import { ArticleContentContainer } from '../layouts/Containers';
 import { InvisibleRecaptchaRef, InvisibleRecaptchaProps } from './InvisibleRecaptcha';
 
-import { HIDE_TOAST_KEY } from '../toast/subscribe-toast-local-storage';
+import { HIDE_TOAST_KEY } from '../subscribe-modal/local-storage';
 
 import {
   subscribeFormTitle,

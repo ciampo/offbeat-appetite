@@ -16,7 +16,9 @@ import { SharingImageProvider } from '../components/meta/sharing-image-context';
 import MainLayout from '../components/layouts/Main';
 
 const Analytics = dynamic(() => import('../components/Analytics'), { ssr: false });
-const Toast = dynamic(() => import('../components/toast/Toast'), { ssr: false });
+const SubscribeModal = dynamic(() => import('../components/subscribe-modal/SubscribeModal'), {
+  ssr: false,
+});
 
 import { NextComponentTypeWithLayout } from '../typings';
 
@@ -35,7 +37,7 @@ export default class MyApp extends App {
             <Component {...pageProps} key={router.asPath} />
           </Layout>
 
-          <Toast />
+          <SubscribeModal />
         </NavVariantProvider>
       </SharingImageProvider>
     );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocalStorage } from 'react-use';
 import ReactGA from 'react-ga';
 
-import { DISMISS_TOAST_MS_KEY } from './subscribe-toast-local-storage';
+import { DISMISS_TOAST_MS_KEY } from './local-storage';
 
 const buttonCommonClassName = [
   'type-tag bg-gray-white bg-opacity-0 text-gray-white rounded outline-none',
