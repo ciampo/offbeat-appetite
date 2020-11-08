@@ -10,7 +10,7 @@ const MainLayout: React.FC = ({ children }) => (
 
     <main
       data-testid="main-layout-main-content"
-      id="content"
+      id="site-content"
       tabIndex={-1}
       className="outline-none relative bg-gray-lighter"
     >
