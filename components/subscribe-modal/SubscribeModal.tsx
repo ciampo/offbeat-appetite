@@ -16,7 +16,7 @@ import {
   subscribeModalCTAButton,
 } from '../../data/siteMiscContent.json';
 
-const SHOW_MODAL_TIMEOUT_MS = 10000;
+const SHOW_MODAL_TIMEOUT_MS = 100;
 const HALF_DAY_MS = (1000 * 60 * 60 * 24) / 2;
 
 const ELEMENTS_TO_MAKE_ARIA_HIDDEN_WHEN_MODAL_OPENS = [
