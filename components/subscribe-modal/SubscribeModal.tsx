@@ -190,7 +190,7 @@ const SubscribeModal: React.FC = () => {
               height="24"
               viewBox="0 0 24 24"
               width="24"
-              className="w-6 h-6 xl:w-8 xl:h-8"
+              className="w-6 h-6 xl:w-8 xl:h-8 pointer-events-none"
             >
               <path
                 d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
