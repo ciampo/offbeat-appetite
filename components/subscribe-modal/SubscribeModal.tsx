@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
-import { useLocalStorage } from 'react-use';
 import ReactGA from 'react-ga';
 
 import { ButtonOlive } from '../button/Button';
 import AccessibleImage from '../media/AccessibleImage';
 
 import { subscribeModalImageResponsiveConfig } from '../media/image-responsive-configurations';
-
-import { DISMISS_TOAST_MS_KEY /*, HIDE_TOAST_KEY */ } from './local-storage';
 
 import {
   subscribeModalTitle,
@@ -17,8 +14,6 @@ import {
 } from '../../data/siteMiscContent.json';
 
 const SHOW_MODAL_TIMEOUT_MS = 100;
-// One hour
-const DISMISSED_TIMEOUT = 0; //(1000 * 60 * 60) / 2;
 
 const ELEMENTS_TO_MAKE_ARIA_HIDDEN_WHEN_MODAL_OPENS = [
   window?.document?.getElementById('site-header'),
@@ -47,21 +42,15 @@ const SubscribeModal: React.FC = () => {
   const dismissButtonRef = useRef<HTMLButtonElement>(null);
 
   const [isWaitingForInitialTimeout, setIsWaitingForInitialTimeout] = useState(true);
-  const [hasUserClikedSubscribe, sethasUserClikedSubscribe] = useState(false);
-  const [dismissToastMs, setDismissToastMs] = useLocalStorage(DISMISS_TOAST_MS_KEY, 0);
-  // const userHasAlreadySubscribedOnThisBrowser = useLocalStorage(HIDE_TOAST_KEY, false)[0];
-
-  const enoughTimeSinceLastDismissed = dismissToastMs + DISMISSED_TIMEOUT < Date.now();
-  const shouldShowBasedOnUserPreferences = enoughTimeSinceLastDismissed && !hasUserClikedSubscribe;
-  const shouldRender = shouldShowBasedOnUserPreferences && !isWaitingForInitialTimeout; // &&
-  // !userHasAlreadySubscribedOnThisBrowser;
+  const [userInteractedDismissingTheModal, setUserInteractedDismissingTheModal] = useState(false);
+  const shouldRender = !userInteractedDismissingTheModal && !isWaitingForInitialTimeout;
 
   const hasModalBeenFocused = useRef(false);
 
   // Initial timeout logic
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | undefined;
-    if (shouldShowBasedOnUserPreferences) {
+    if (!userInteractedDismissingTheModal) {
       timeoutId = setTimeout(() => {
         ReactGA.event({
           category: 'Promotion',
@@ -77,16 +66,16 @@ const SubscribeModal: React.FC = () => {
         clearTimeout(timeoutId);
       }
     };
-  }, [shouldShowBasedOnUserPreferences]);
+  }, [userInteractedDismissingTheModal]);
 
   // Click events
   const onSubscribeClick = (): void => {
     sendModalGaEvent('Subscribe button');
-    sethasUserClikedSubscribe(true);
+    setUserInteractedDismissingTheModal(true);
   };
   const onDismissClick = (): void => {
     sendModalGaEvent('Dismiss button');
-    setDismissToastMs(Date.now());
+    setUserInteractedDismissingTheModal(true);
   };
 
   // Keyboard events: trap focus between subscribe and dismiss buttons
@@ -105,9 +94,9 @@ const SubscribeModal: React.FC = () => {
 
   // Keyboard events: press ESC to dismiss modal
   const onModalKeyDown = (e: React.KeyboardEvent<HTMLDivElement>): void => {
-    if (e.key === 'Esc') {
+    if (e.key === 'Escape') {
       sendModalGaEvent('ESC key');
-      setDismissToastMs(Date.now());
+      setUserInteractedDismissingTheModal(true);
       e.preventDefault();
     }
   };
