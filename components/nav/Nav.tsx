@@ -71,6 +71,7 @@ const HeaderNavLink: React.FC<HeaderNavLinkProps> = ({
       additionalHover="underline"
       paddingClassName="p-2 xl:px-4"
       sizeClassName=""
+      typeClassName="type-body-large"
       className={[selected && 'underline', !solid && 'text-shadow'].filter(Boolean).join(' ')}
       href={href}
       as={as}

@@ -24,7 +24,11 @@ type MenuButtonProps = {
 };
 export const MenuButton: React.FC<MenuButtonProps> = memo(({ onClick }) => (
   <li className="md:hidden -mx-4">
-    <ButtonTransparent onClick={onClick} aria-label="Open the navigation menu">
+    <ButtonTransparent
+      onClick={onClick}
+      aria-label="Open the navigation menu"
+      typeClassName="type-body-large"
+    >
       Menu
     </ButtonTransparent>
   </li>
