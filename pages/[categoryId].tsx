@@ -44,7 +44,7 @@ const CategoryPage: NextComponentTypeWithLayout<CategoryProps> = ({
         structuredData={structuredData}
       />
 
-      <header className="pt-40 pb-12 md:pt-48 md:pb-16 xl:pt-64 xl:pb-24">
+      <header className="pt-56 pb-12 md:pt-64 md:pb-16 xl:pt-72 xl:pb-24">
         <h1 className="text-center type-display-1">{categoryData.title}</h1>
       </header>
 

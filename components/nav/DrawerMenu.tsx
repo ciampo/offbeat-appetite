@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { PageContentContainer } from '../layouts/Containers';
 import { ButtonOliveInverted, ButtonTransparent } from '../button/Button';
-import { OALogoShort } from '../icons';
+import { OALogoFull } from '../icons';
 
 import { UiLink } from '../../typings';
 
@@ -23,7 +23,7 @@ type MenuButtonProps = {
   onClick: (event: React.MouseEvent) => void;
 };
 export const MenuButton: React.FC<MenuButtonProps> = memo(({ onClick }) => (
-  <li className="md:hidden -mx-4">
+  <li className="md:hidden ml-auto -mr-4 -mb-3">
     <ButtonTransparent
       onClick={onClick}
       aria-label="Open the navigation menu"
@@ -168,30 +168,30 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
       data-testid="drawer-menu-wrapper"
     >
       <PageContentContainer className="relative h-full flex flex-col">
-        <div className="relative w-full h-16 flex items-center flex-shrink-0">
-          {/* CLose button */}
-          <ButtonOliveInverted
-            className="-mx-4"
-            onClick={onCloseButtonClick}
-            tabIndex={open ? undefined : -1}
-            aria-label="Close the navigation menu"
-          >
-            Close
-          </ButtonOliveInverted>
-
+        <div className="relative w-full h-32 pb-5 flex items-end flex-shrink-0">
           {/* OA logo */}
           <ButtonOliveInverted
             component={BasicLinkEl}
             sizeClassName=""
-            paddingClassName="py-0 px-1"
-            className="absolute transform-translate-center"
+            paddingClassName="p-0"
+            className="border-none"
             onClick={onLinkClick}
             tabIndex={open ? undefined : -1}
             href={links[0].href}
             as={links[0].as}
           >
             <span className="sr-only">{links[0].label}</span>
-            <OALogoShort className="h-12 md:h-16 xl:h-20" idPrefix="oa-logo-short-drawer" />
+            <OALogoFull className="h-24" idPrefix="oa-logo-full-drawer" />
+          </ButtonOliveInverted>
+
+          {/* Close button */}
+          <ButtonOliveInverted
+            className="ml-auto -mr-4 -mb-3"
+            onClick={onCloseButtonClick}
+            tabIndex={open ? undefined : -1}
+            aria-label="Close the navigation menu"
+          >
+            Close
           </ButtonOliveInverted>
         </div>
 

@@ -48,6 +48,9 @@ module.exports = {
         'ch-32': '32ch',
         'ch-40': '40ch',
       },
+      height: {
+        '28': '7rem',
+      },
       minHeight: {
         'hero-m': '32rem',
         'hero-t': '38rem',

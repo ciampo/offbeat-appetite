@@ -148,7 +148,7 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
         structuredData={structuredData}
       />
 
-      <header className="relative contain-l-p flex items-center py-32 sm:py-40 md:py-48 xl:py-64 min-h-hero-m sm:min-h-hero-t xl:min-h-hero-d">
+      <header className="relative contain-l-p flex items-center pt-48 sm:pt-56 md:pt-64 xl:pt-72 pb-32 sm:pb-40 md:pb-48 xl:pb-56 min-h-hero-m sm:min-h-hero-t xl:min-h-hero-d">
         <ArticleContentContainer
           className="relative z-10"
           internalWrapperClassName="flex flex-col items-center text-gray-white text-shadow text-center"

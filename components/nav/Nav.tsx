@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { useNavVariantState } from './nav-variant-context';
 import { PageContentContainer } from '../layouts/Containers';
 import { ButtonOlive, ButtonTransparent } from '../button/Button';
-import { OALogoShort } from '../icons';
+import { /*OALogoShort,*/ OALogoFull } from '../icons';
 
 import {
   beforeLogo as beforeLogoLinks,
@@ -44,26 +44,20 @@ BasicNavEl.displayName = 'memo(BasicNavEl)';
 
 type HeaderNavLinkProps = {
   solid: boolean;
-  beforeLogo: boolean;
-  last: boolean;
+  first: boolean;
   selected: boolean;
   link: UiLink;
 };
 const HeaderNavLink: React.FC<HeaderNavLinkProps> = ({
   link: { href, label, as },
-  beforeLogo,
-  last,
+  first,
   selected,
   solid,
 }) => (
   <li
     className={[
-      'hidden md:inline-block',
-      beforeLogo
-        ? last
-          ? '-ml-6 mr-auto'
-          : '-ml-6 mr-6 lg:mr-8 xl:mr-6'
-        : '-mr-6 ml-6 lg:ml-8 xl:ml-6',
+      'hidden md:inline-block -mr-2 xl:-mr-4 -mb-4',
+      first ? 'ml-auto' : 'ml-6 lg:ml-8 xl:ml-6',
     ].join(' ')}
   >
     <ButtonTransparent
@@ -87,19 +81,24 @@ type HeaderLogoLinkProps = {
 };
 const HeaderLogoLink: React.FC<HeaderLogoLinkProps> = memo(
   ({ link: { href, label, as }, solid }) => (
-    <li className="absolute transform-translate-center">
+    <li className="mr-auto">
       <ButtonTransparent
         component={BasicLinkEl}
         sizeClassName=""
-        paddingClassName="py-0 px-1"
-        additionalHover="scaleUp"
+        paddingClassName="p-2"
+        className="-ml-2 -mb-2 border-none"
         href={href}
         as={as}
       >
         <span className="sr-only">{label}</span>
-        <OALogoShort
+        {/* <OALogoShort
           className="h-12 md:h-16 xl:h-20"
-          idPrefix="oa-logo-short-haeder"
+          idPrefix="oa-logo-short-header"
+          shadow={!solid}
+        /> */}
+        <OALogoFull
+          className="h-24 md:h-28 xl:h-32"
+          idPrefix="oa-logo-full-header"
           shadow={!solid}
         />
       </ButtonTransparent>
@@ -164,7 +163,7 @@ const HeaderNav: React.FC = () => {
           disableTransitions={true}
           className={[
             'z-50 sr-only',
-            'focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:mt-16 md:focus:mt-20 xl:focus:mt-24 focus:px-4 focus:py-3 xl:focus:px-6 xl:focus:py-4',
+            'focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:px-4 focus:py-3 xl:focus:px-6 xl:focus:py-4',
           ]
             .filter(Boolean)
             .join(' ')}
@@ -174,31 +173,19 @@ const HeaderNav: React.FC = () => {
 
         <PageContentContainer
           component={BasicNavEl}
-          className="relative h-16 md:h-20 xl:h-24 overflow-hidden flex items-center contain-s"
+          className="relative h-32 md:h-40 xl:h-48 overflow-hidden flex items-center contain-s"
         >
-          <ul className="flex items-center h-full w-full">
+          <ul className="flex items-end h-full w-full pb-5 md:pb-7 xl:pb-8">
+            <HeaderLogoLink link={logoLinks[0] as UiLink} solid={isSolid} />
+
             <MenuButton onClick={openDrawer} />
 
-            {(beforeLogoLinks as UiLink[]).map((link, index, array) => (
+            {([...beforeLogoLinks, ...afterLogoLinks] as UiLink[]).map((link, index) => (
               <HeaderNavLink
                 key={`${index}-${link.as || link.href}`}
                 link={link}
-                beforeLogo={true}
                 solid={isSolid}
-                last={index === array.length - 1}
-                selected={router.asPath === (link.as || link.href)}
-              />
-            ))}
-
-            <HeaderLogoLink link={logoLinks[0] as UiLink} solid={isSolid} />
-
-            {(afterLogoLinks as UiLink[]).map((link, index, array) => (
-              <HeaderNavLink
-                key={`${index}-${link.href}`}
-                link={link}
-                beforeLogo={false}
-                solid={isSolid}
-                last={index === array.length - 1}
+                first={index === 0}
                 selected={router.asPath === (link.as || link.href)}
               />
             ))}
