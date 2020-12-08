@@ -4,32 +4,32 @@
 
 /* Typography */
 .portable-text > h2 {
-  @apply ._type-heading-1-m;
+  @apply ._type-display-2-m;
 }
 
 @screen xl {
   .portable-text > h2 {
-    @apply ._type-heading-1-d;
+    @apply ._type-display-2-d;
   }
 }
 
 .portable-text > h3 {
-  @apply ._type-heading-2-m;
+  @apply ._type-display-3-m;
 }
 
 @screen xl {
   .portable-text > h3 {
-    @apply ._type-heading-2-d;
+    @apply ._type-display-3-d;
   }
 }
 
 .portable-text > h4 {
-  @apply ._type-heading-3-m;
+  @apply ._type-heading-1-m;
 }
 
 @screen xl {
   .portable-text > h4 {
-    @apply ._type-heading-3-d;
+    @apply ._type-heading-1-d;
   }
 }
 

@@ -64,8 +64,8 @@ module.exports = {
       },
     },
     fontFamily: {
-      display: ['Yeseva One', 'sans-serif'],
-      body: ['Raleway', 'sans-serif'],
+      display: ['Playfair Display', 'sans-serif'],
+      body: ['IBM Plex Sans', 'sans-serif'],
     },
     fontSize: {
       xs: '.75rem',

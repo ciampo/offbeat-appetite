@@ -31,7 +31,7 @@ const ButtonBase: React.FC<ButtonBaseProps> = React.forwardRef(
   (
     {
       className,
-      typeClassName = 'type-heading-4',
+      typeClassName = 'type-heading-2',
       paddingClassName = 'px-4 xl:h-12 xl:px-6',
       sizeClassName = 'h-10',
       additionalHover,

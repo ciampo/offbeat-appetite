@@ -77,11 +77,11 @@ const BlogPostTile: React.FC<BlogPostTileProps> = memo(
 
           {layoutVariant === 'horizontal' ? (
             <>
-              <h3 className="md:hidden type-heading-3 mb-1 max-w-ch-22">{postData.title}</h3>
-              <h3 className="hidden md:block type-heading-2 max-w-ch-22">{postData.title}</h3>
+              <h3 className="md:hidden type-display-4 mb-1 max-w-ch-22">{postData.title}</h3>
+              <h3 className="hidden md:block type-display-3 max-w-ch-22">{postData.title}</h3>
             </>
           ) : (
-            <h3 className="type-heading-3 mb-1">{postData.title}</h3>
+            <h3 className="type-display-4 mb-1">{postData.title}</h3>
           )}
 
           {layoutVariant === 'horizontal' && (
