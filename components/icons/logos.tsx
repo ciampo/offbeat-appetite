@@ -2,7 +2,11 @@ import React from 'react';
 
 import { IconProps } from './types';
 
-export const OALogoFull: React.FC<IconProps> = ({ idPrefix = 'offbeatAppetite', ...props }) => (
+export const OALogoFull: React.FC<IconProps> = ({
+  shadow = false,
+  idPrefix = 'offbeatAppetite',
+  ...props
+}) => (
   <svg
     {...props}
     viewBox="0 0 205 130"
@@ -12,7 +16,10 @@ export const OALogoFull: React.FC<IconProps> = ({ idPrefix = 'offbeatAppetite', 
     aria-labelledby={`${idPrefix}-logo-full-title`}
   >
     <title id={`${idPrefix}-logo-full-title`}>The Offbeat Appetite</title>
-    <g fillRule="evenodd">
+    <filter id={`${idPrefix}-logo-full-shadow`}>
+      <feDropShadow dx="0" dy="0" stdDeviation="4" floodOpacity="0.4" />
+    </filter>
+    <g fillRule="evenodd" style={{ filter: shadow ? `url(#${idPrefix}-logo-full-shadow)` : '' }}>
       <path
         d="M204.5 129.6v-1.4h-16.4v-18.7h11.4V108h-11.4V91.3h16.4V90h-22.1v39.6h22.1zM131.3 129.6V91.3h11.2V90h-33.2v1.3h16.3v38.3h5.7z"
         fill="currentColor"
@@ -55,7 +62,7 @@ export const OALogoShort: React.FC<IconProps> = ({
   <svg
     {...props}
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 128 128"
+    viewBox="0 0 192 132"
     role="img"
     aria-labelledby={`${idPrefix}-logo-short-title`}
   >
@@ -69,8 +76,8 @@ export const OALogoShort: React.FC<IconProps> = ({
       fillRule="evenodd"
       style={{ filter: shadow ? `url(#${idPrefix}-logo-short-shadow)` : '' }}
     >
-      <path d="M47.8 24.1c11 1.6 17.3 6 23.6 14a38 38 0 017 30.3 39.6 39.6 0 01-14.5 27 32 32 0 01-27 7.4 32.2 32.2 0 01-23.7-14.5A40 40 0 016.5 58a37.9 37.9 0 0115-26.7c8.2-6 15.3-8.6 26.3-7zm-.4 2.9c-8.4-1.2-13 1.3-18.5 6.7A46.3 46.3 0 0018.4 60a46.6 46.6 0 002.9 28.3c3.7 6.8 7.6 10.5 16.7 11.8 8 1 13.5-1.3 19-6.7 5.4-5.5 7.7-14.4 9.5-26.5 1.6-11.8 1.9-21-1.8-28a21 21 0 00-17.3-12z" />
-      <path d="M90.2 24l.1.4L122 102h-11.8l-5.6-14.3L99 73.4H79.7l.5-2.6h17.9L84.9 38.1l-4.8 12.4c-.3-1.2-.7-2.5-1.2-3.7l8.9-22.4.2-.4h2.2zM66.8 77.2l-.5 2H66z" />
+      <path d="M95.8 118.7A53.1 53.1 0 0151.1 131a53.2 53.2 0 01-39.1-24A66.2 66.2 0 01.9 56.5c2.7-19.3 11-34 24.7-44A53.6 53.6 0 0169.2.7 54.8 54.8 0 01108.3 24C119 37.2 122.8 54 120 74a65.5 65.5 0 01-24.2 44.7zM25.3 107c6.2 11.2 12.7 17.2 27.7 19.3 13.2 2 22.3-2 31.3-11s13-23.8 15.8-43.9c2.7-19.5 3.2-34.7-3-46.1A34.6 34.6 0 0068.7 5.4C54.6 3.4 47 7.6 38 16.6c-8.8 9-14.6 23.6-17.4 43.5-2.8 20.2-1.2 35.7 4.7 46.9z" />
+      <path d="M154 82.2h-32l.9-4.3h29.5l-21.7-54-8 20.5c-.6-2.1-1.2-4.2-2-6.2l14.7-37 .3-.7h3.6l.3.7L192 129.6h-19.5a20746 20746 0 00-9.3-23.7L154 82.2zm-53.3 6.4l-.9 3.3h-.5l1.4-3.3z" />
     </g>
   </svg>
 );
