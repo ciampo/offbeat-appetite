@@ -49,12 +49,16 @@ module.exports = {
         'ch-40': '40ch',
       },
       height: {
+        '14': '3.5rem',
         '28': '7rem',
       },
       minHeight: {
         'hero-m': '32rem',
-        'hero-t': '38rem',
-        'hero-d': '50rem',
+        'hero-m-short': '28rem',
+        'hero-t': '40rem',
+        'hero-t-short': '30rem',
+        'hero-d': '54rem',
+        'hero-d-short': '42rem',
       },
       opacity: {
         '10': '0.1',
