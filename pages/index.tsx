@@ -1,11 +1,10 @@
-import React, { useEffect, memo } from 'react';
+import React, { memo } from 'react';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
 
 import PageMeta from '../components/meta/PageMeta';
 import { PageContentContainer } from '../components/layouts/Containers';
-import { OALogoFull } from '../components/icons';
-import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
+import PageHero from '../components/hero/hero';
 import BlogPostTileList from '../components/blog-post-tile/BlogPostTileList';
 import { ButtonOliveInverted } from '../components/button/Button';
 
@@ -78,56 +77,38 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
 );
 HomeCategorySection.displayName = 'memo(HomeCategorySection)';
 
-// Home Page
 type HomeProps = {
   homeData: SanityPageHome;
   path: string;
   structuredData: StructuredData[];
 };
-const HomePage: NextComponentTypeWithLayout<HomeProps> = ({ homeData, path, structuredData }) => {
-  const setVariant = useNavVariantDispatch();
-  useEffect(() => {
-    setVariant('solid');
-  }, [setVariant]);
+const HomePage: NextComponentTypeWithLayout<HomeProps> = ({ homeData, path, structuredData }) => (
+  <>
+    <PageMeta
+      path={path}
+      title={homeData.seoTitle}
+      description={homeData.seoDescription}
+      previewImage={homeData.seoImage}
+      structuredData={structuredData}
+    />
 
-  return (
-    <>
-      <PageMeta
-        path={path}
-        title={homeData.seoTitle}
-        description={homeData.seoDescription}
-        previewImage={homeData.seoImage}
-        structuredData={structuredData}
+    <PageHero variant="short" className="bg-gray-800 text-gray-white">
+      <PageContentContainer>
+        <h1 className="type-display-1 mb-4 md:mb-6">{homeData.subtitle}</h1>
+        <p>The Offbeat Appetite is an incredible site built by a very skilled bear</p>
+      </PageContentContainer>
+    </PageHero>
+
+    {homeData.categorySections.map((categorySectionData, index) => (
+      <HomeCategorySection
+        key={categorySectionData.category._id}
+        categorySectionData={categorySectionData}
+        even={index % 2 === 0}
+        eagerLoadImages={index === 0}
       />
-
-      <header
-        className={[
-          'flex flex-col items-center justify-center',
-          'mt-32 md:mt-40 xl:mt-48',
-          'py-4 xsm:py-8 md:py-12 lg:py-16 xl:py-20',
-          '-mb-2 xsm:-mb-4 md:-mb-6 lg:-mb-8 xl:-mb-10',
-          'space-y-2 sm:space-y-3 md:space-y-4 xl:space-y-5',
-        ].join(' ')}
-      >
-        <h1>
-          <OALogoFull
-            aria-label={homeData.title}
-            className="w-64 xsm:w-72 md:w-80 lg:w-88 xl:w-96"
-          />
-        </h1>
-        <p className="type-eyebrow">{homeData.subtitle}</p>
-      </header>
-      {homeData.categorySections.map((categorySectionData, index) => (
-        <HomeCategorySection
-          key={categorySectionData.category._id}
-          categorySectionData={categorySectionData}
-          even={index % 2 === 0}
-          eagerLoadImages={index === 0}
-        />
-      ))}
-    </>
-  );
-};
+    ))}
+  </>
+);
 
 export const getStaticProps: GetStaticProps = async () => {
   const path = '/';

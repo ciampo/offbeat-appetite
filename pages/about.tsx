@@ -1,10 +1,11 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo } from 'react';
 import { GetStaticProps } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
+import { PageContentContainer } from '../components/layouts/Containers';
 import RichPortableText from '../components/portable-text/RichPortableText';
 import { ArticleContentContainer } from '../components/layouts/Containers';
-import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
+import PageHero from '../components/hero/hero';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
@@ -22,35 +23,31 @@ const AboutPage: NextComponentTypeWithLayout<AboutProps> = ({
   aboutData,
   path,
   structuredData,
-}) => {
-  const setVariant = useNavVariantDispatch();
-  useEffect(() => {
-    setVariant('solid');
-  }, [setVariant]);
+}) => (
+  <>
+    <PageMeta
+      path={path}
+      title={aboutData.seoTitle}
+      description={aboutData.seoDescription}
+      previewImage={aboutData.seoImage}
+      structuredData={structuredData}
+    />
 
-  return (
-    <>
-      <PageMeta
-        path={path}
-        title={aboutData.seoTitle}
-        description={aboutData.seoDescription}
-        previewImage={aboutData.seoImage}
-        structuredData={structuredData}
-      />
+    {/* TODO: Add hero header image to CMS */}
+    <PageHero variant="short" className="bg-pink-medium">
+      <PageContentContainer>
+        <h1 className="type-display-1">{aboutData.heroTitle}</h1>
+      </PageContentContainer>
+    </PageHero>
 
-      <header className="pt-56 pb-12 md:pt-64 md:pb-16 xl:pt-72 xl:pb-24">
-        <h1 className="text-center type-display-1">{aboutData.heroTitle}</h1>
-      </header>
-
-      <ArticleContentContainer
-        component={BasicSectionEl}
-        className="pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32"
-      >
-        <RichPortableText blocks={aboutData.content} />
-      </ArticleContentContainer>
-    </>
-  );
-};
+    <ArticleContentContainer
+      component={BasicSectionEl}
+      className="pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32"
+    >
+      <RichPortableText blocks={aboutData.content} />
+    </ArticleContentContainer>
+  </>
+);
 
 export const getStaticProps: GetStaticProps = async () => {
   const path = '/about';

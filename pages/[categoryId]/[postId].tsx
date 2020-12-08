@@ -4,21 +4,19 @@ import { useRouter } from 'next/router';
 import ReactGA from 'react-ga';
 
 import PageMeta from '../../components/meta/PageMeta';
-import AccessibleImage from '../../components/media/AccessibleImage';
-import { fullBleedImageResponsiveConfig } from '../../components/media/image-responsive-configurations';
 import Tag from '../../components/tag/Tag';
 import { ButtonOliveInverted } from '../../components/button/Button';
 import { AllSharingButtons } from '../../components/sharing/sharing-links';
 import RichPortableText from '../../components/portable-text/RichPortableText';
 import { ArticleContentContainer } from '../../components/layouts/Containers';
 import Commento from '../../components/comments/Commento';
-import { useNavVariantDispatch } from '../../components/nav/nav-variant-context';
 import {
   PostReviewsProvider,
   usePostReviewsState,
   usePostReviewsDispatch,
 } from '../../components/blog-post/blog-post-reviews-context';
 import { getPostReviews } from '../../components/blog-post/sanity-browser-client';
+import PageHero from '../../components/hero/hero';
 
 import { joinUrl, postDateToHumanString } from '../../scripts/utils';
 
@@ -54,10 +52,6 @@ type PageBlogPostProps = {
 const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, structuredData }) => {
   const postReviewsState = usePostReviewsState();
   const postReviewsDispatch = usePostReviewsDispatch();
-  const setVariant = useNavVariantDispatch();
-  useEffect(() => {
-    setVariant('transparent');
-  }, [setVariant]);
 
   const { asPath } = useRouter();
 
@@ -148,7 +142,7 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
         structuredData={structuredData}
       />
 
-      <header className="relative contain-l-p flex items-center pt-48 sm:pt-56 md:pt-64 xl:pt-72 pb-32 sm:pb-40 md:pb-48 xl:pb-56 min-h-hero-m sm:min-h-hero-t xl:min-h-hero-d">
+      <PageHero backgroundImage={blogPostData.heroImage}>
         <ArticleContentContainer
           className="relative z-10"
           internalWrapperClassName="flex flex-col items-center text-gray-white text-shadow text-center"
@@ -168,16 +162,6 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
           </p>
         </ArticleContentContainer>
 
-        <AccessibleImage
-          image={blogPostData.heroImage}
-          responsiveConfig={fullBleedImageResponsiveConfig}
-          className="z-0 absolute inset-0 w-full h-full"
-          darker={true}
-          style={{
-            paddingBottom: '0',
-          }}
-        />
-
         {/* {contentHasRecipe && (
           <ButtonTransparent
             component={AnchorToRecipeEl}
@@ -190,7 +174,7 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
             Jump to recipe
           </ButtonTransparent>
         )} */}
-      </header>
+      </PageHero>
 
       <ArticleContentContainer
         className="pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32"

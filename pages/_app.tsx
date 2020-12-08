@@ -11,7 +11,6 @@ import React from 'react';
 import App from 'next/app';
 import dynamic from 'next/dynamic';
 
-import { NavVariantProvider } from '../components/nav/nav-variant-context';
 import { SharingImageProvider } from '../components/meta/sharing-image-context';
 import MainLayout from '../components/layouts/Main';
 
@@ -30,15 +29,13 @@ export default class MyApp extends App {
 
     return (
       <SharingImageProvider>
-        <NavVariantProvider>
-          <Analytics />
+        <Analytics />
 
-          <Layout>
-            <Component {...pageProps} key={router.asPath} />
-          </Layout>
+        <Layout>
+          <Component {...pageProps} key={router.asPath} />
+        </Layout>
 
-          <SubscribeModal />
-        </NavVariantProvider>
+        <SubscribeModal />
       </SharingImageProvider>
     );
   }
