@@ -6,7 +6,7 @@ import PageMeta from '../components/meta/PageMeta';
 import { PageContentContainer } from '../components/layouts/Containers';
 import PageHero from '../components/hero/hero';
 import BlogPostTileList from '../components/blog-post-tile/BlogPostTileList';
-import { ButtonOliveInverted } from '../components/button/Button';
+import { ButtonOliveInverted, ButtonTransparent } from '../components/button/Button';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
@@ -17,14 +17,17 @@ import {
   NextComponentTypeWithLayout,
 } from '../typings';
 
-const BasicSeeMoreLinkEl: React.FC<{ as: string }> = memo(
-  ({ as, ...props }): JSX.Element => (
-    <Link href="/[categoryId]" as={as}>
+const homeSectionId = (category?: SanityPageHomeCategorySection): string =>
+  category ? `home-category-section-${category.category.slug}` : '';
+
+const ButtonLinkComponent: React.FC<{ href: string; as?: string }> = memo(
+  ({ as, href, ...props }): JSX.Element => (
+    <Link href={href} as={as}>
       <a {...props} />
     </Link>
   )
 );
-BasicSeeMoreLinkEl.displayName = 'memo(BasicSeeMoreLinkEl)';
+ButtonLinkComponent.displayName = 'memo(ButtonLinkComponent)';
 
 // Home Category Section
 type HomeCategorySectionProps = {
@@ -35,9 +38,14 @@ type HomeCategorySectionProps = {
 const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
   ({ categorySectionData, even, eagerLoadImages = false }) => (
     <section
-      className={['py-16 md:py-20 xl:py-24', even ? 'bg-gray-lighter' : 'bg-gray-light']
+      className={[
+        'focus:outline-none py-16 md:py-20 xl:py-24',
+        even ? 'bg-gray-lighter' : 'bg-gray-light',
+      ]
         .filter(Boolean)
         .join(' ')}
+      id={homeSectionId(categorySectionData)}
+      tabIndex={-1}
     >
       <PageContentContainer className="flex flex-col items-stretch space-y-10 md:space-y-12 xl:space-y-16 bg-inherit">
         {/* Title */}
@@ -62,11 +70,12 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
         />
         {/* See more link */}
         <ButtonOliveInverted
-          component={BasicSeeMoreLinkEl}
+          component={ButtonLinkComponent}
           className="self-center"
           aria-label={`See more ${categorySectionData.category.name} posts`}
           shadow={true}
           border={true}
+          href="/[categoryId]"
           as={`/${categorySectionData.category.slug}`}
         >
           More {categorySectionData.title.toLowerCase()}
@@ -92,10 +101,26 @@ const HomePage: NextComponentTypeWithLayout<HomeProps> = ({ homeData, path, stru
       structuredData={structuredData}
     />
 
-    <PageHero variant="short" className="bg-gray-800 text-gray-white">
-      <PageContentContainer>
-        <h1 className="type-display-1 mb-4 md:mb-6">{homeData.subtitle}</h1>
-        <p>The Offbeat Appetite is an incredible site built by a very skilled bear</p>
+    <PageHero variant="short" backgroundImage={homeData.heroImage}>
+      <PageContentContainer className="text-gray-white text-shadow text-center">
+        <h1 className="type-display-1 max-w-ch-22 mx-auto mb-6 sm:mb-8 md:mb-10 xl:mb-12 ">
+          {homeData.subtitle}
+        </h1>
+        <ButtonTransparent
+          component={ButtonLinkComponent}
+          href={`#${homeSectionId(homeData.categorySections?.[0])}`}
+          className="inline-flex group type-tag border-gray-white border-opacity-35"
+        >
+          {homeData.heroCtaLabel}
+          <svg
+            className="w-6 h-6 ml-1 -mr-2 transform duration-100 transition-transform translate-y-px group-hover:translate-y-1 group-focus:translate-y-1"
+            role="presentation"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path fill="currentColor" d="M7.4 8.6l4.6 4.6 4.6-4.6L18 10l-6 6-6-6 1.4-1.4z" />
+          </svg>
+        </ButtonTransparent>
       </PageContentContainer>
     </PageHero>
 

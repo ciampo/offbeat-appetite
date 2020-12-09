@@ -16,6 +16,8 @@ export type SanityPageHome = {
   _id: string;
   title: string;
   subtitle: string;
+  heroImage: SanityAccessibleImage;
+  heroCtaLabel: string;
   categorySections: SanityPageHomeCategorySection[];
   seoDescription: string;
   seoImage: string;
