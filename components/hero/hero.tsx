@@ -25,7 +25,7 @@ const PageHero: React.FC<PageHeroProps> = ({
       className,
     ].join(' ')}
   >
-    <div className="w-full flex-1 flex items-center pt-12 sm:pt-16 md:pt-20 xl:pt-24 pb-24 sm:pb-28 md:pb-32 xl:pb-40">
+    <div className="z-10 w-full flex-1 flex items-center pt-12 sm:pt-16 md:pt-20 xl:pt-24 pb-24 sm:pb-28 md:pb-32 xl:pb-40">
       {children}
     </div>
 
