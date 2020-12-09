@@ -33,10 +33,9 @@ const AboutPage: NextComponentTypeWithLayout<AboutProps> = ({
       structuredData={structuredData}
     />
 
-    {/* TODO: Add hero header image to CMS */}
-    <PageHero variant="short" className="bg-pink-medium">
+    <PageHero backgroundImage={aboutData.heroImage}>
       <PageContentContainer>
-        <h1 className="type-display-1">{aboutData.heroTitle}</h1>
+        <h1 className="type-display-1 text-gray-white text-shadow">{aboutData.heroTitle}</h1>
       </PageContentContainer>
     </PageHero>
 

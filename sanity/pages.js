@@ -30,6 +30,7 @@ const pageAboutQuery = /* groq */ `*[_type == "${pageAboutType}"] {
   _id,
   title,
   heroTitle,
+  heroImage->${accessibleImageProjection},
   content[] ${richPortabletextProjection},
   seoTitle,
   seoDescription,
