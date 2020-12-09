@@ -38,10 +38,10 @@ const CategoryPage: NextComponentTypeWithLayout<CategoryProps> = ({
       structuredData={structuredData}
     />
 
-    <PageHero variant="short" className="bg-blue-300">
-      <PageContentContainer>
-        <h1 className="type-display-1 mb-4 md:mb-6">{categoryData.title}</h1>
-        <p>Something about this category</p>
+    <PageHero variant="short" backgroundImage={categoryData.heroImage}>
+      <PageContentContainer className="text-gray-white text-shadow">
+        <h1 className="type-display-1 mb-4 md:mb-5 xl:mb-6">{categoryData.title}</h1>
+        <p>{categoryData.description}</p>
       </PageContentContainer>
     </PageHero>
 

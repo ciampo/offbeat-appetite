@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { blogPostPreviewProjection } = require('./projections');
+const { blogPostPreviewProjection, accessibleImageProjection } = require('./projections');
 const { pageCategoryQuery } = require('./pages.js');
 
 const categoryType = 'category';
@@ -8,6 +8,8 @@ const allCategoriesQuery = /* groq */ `*[_type == "${categoryType}"] {
   _id,
   name,
   nameSingular,
+  description,
+  heroImage->${accessibleImageProjection},
   "slug": slug.current,
   "featuredBlogPosts": featured[] {
   	"post": *[_type == "blogPost" && (_id == ^._ref || _id == "drafts." + ^._ref)] ${blogPostPreviewProjection},
