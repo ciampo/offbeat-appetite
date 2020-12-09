@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { PageContentContainer } from '../layouts/Containers';
 import { ButtonOliveInverted, ButtonTransparent } from '../button/Button';
-import { OALogoFull } from '../icons';
+import { OALogoShort, OALogoFull } from '../icons';
 
 import { UiLink } from '../../typings';
 
@@ -86,12 +86,14 @@ type DrawerNavProps = {
   open: boolean;
   onLinkClick: (event?: React.MouseEvent) => void;
   onCloseButtonClick: (event?: React.MouseEvent) => void;
+  isCompactLayout: boolean;
 };
 export const DrawerNav: React.FC<DrawerNavProps> = ({
   links,
   open,
   onLinkClick,
   onCloseButtonClick,
+  isCompactLayout,
 }) => {
   const router = useRouter();
   const drawerWrapper = useRef<HTMLElement>(null);
@@ -168,20 +170,34 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
       data-testid="drawer-menu-wrapper"
     >
       <PageContentContainer className="relative h-full flex flex-col">
-        <div className="relative w-full h-32 pb-5 flex items-end flex-shrink-0">
+        <div
+          className={[
+            'relative w-full h-32 pb-5 flex items-end flex-shrink-0 transform',
+            isCompactLayout
+              ? '-translate-y-16 md:-translate-y-20 xl:-translate-y-24'
+              : 'translate-y-0',
+          ].join(' ')}
+        >
           {/* OA logo */}
           <ButtonOliveInverted
             component={BasicLinkEl}
             sizeClassName=""
             paddingClassName="p-0"
-            className="border-none"
+            className={[
+              'border-none',
+              isCompactLayout ? 'transform translate-y-2 md:translate-y-3 xl:translate-y-3' : '',
+            ].join(' ')}
             onClick={onLinkClick}
             tabIndex={open ? undefined : -1}
             href={links[0].href}
             as={links[0].as}
           >
             <span className="sr-only">{links[0].label}</span>
-            <OALogoFull className="h-24" idPrefix="oa-logo-full-drawer" />
+            {isCompactLayout ? (
+              <OALogoShort className="h-10" idPrefix="oa-logo-short-drawer" />
+            ) : (
+              <OALogoFull className="h-24" idPrefix="oa-logo-full-drawer" />
+            )}
           </ButtonOliveInverted>
 
           {/* Close button */}

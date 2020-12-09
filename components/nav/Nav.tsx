@@ -112,6 +112,10 @@ const HeaderNav: React.FC = () => {
 
   useEffect(() => {
     function onScroll(): void {
+      if (isDrawerOpen) {
+        return;
+      }
+
       const isPageBelowScrollThreshold = window.scrollY >= 10;
 
       if (isPageScrolled && !isPageBelowScrollThreshold) {
@@ -130,7 +134,7 @@ const HeaderNav: React.FC = () => {
     return (): void => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, [isPageScrolled, setPageScrolled]);
+  }, [isPageScrolled, setPageScrolled, isDrawerOpen]);
 
   return (
     <>
@@ -174,7 +178,7 @@ const HeaderNav: React.FC = () => {
               >
                 <OALogoShort
                   className="h-10 md:h-12 xl:h-14"
-                  idPrefix="oa-logo-short-drawer"
+                  idPrefix="oa-logo-short-header"
                   shadow={!isPageScrolled}
                 />
               </HeaderLogoLink>
@@ -212,6 +216,7 @@ const HeaderNav: React.FC = () => {
         }}
         onCloseButtonClick={closeDrawer}
         links={[...logoLinks, ...beforeLogoLinks, ...afterLogoLinks] as UiLink[]}
+        isCompactLayout={isPageScrolled}
       />
     </>
   );
