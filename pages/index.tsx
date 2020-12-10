@@ -50,17 +50,16 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
       id={homeSectionId(categorySectionData)}
       tabIndex={-1}
     >
-      <PageContentContainer className="flex flex-col items-stretch space-y-10 md:space-y-12 xl:space-y-16 bg-inherit">
+      <PageContentContainer className="flex flex-col items-stretch bg-inherit">
         {/* Title */}
-        <h2 className="type-display-2 flex justify-center">
-          <span className="mr-3" aria-hidden="true">
-            —
-          </span>
+        <h2 className="type-display-2 flex justify-center items-center space-y-3 mb-5 md:mb-6 xl:mb-8">
+          <span aria-hidden="true">—</span>
           {categorySectionData.title}
-          <span className="ml-3" aria-hidden="true">
-            —
-          </span>
+          <span aria-hidden="true">—</span>
         </h2>
+        <p className="max-w-ch-40 mx-auto italic mb-12 sm:mb-16 xl:mb-20">
+          {categorySectionData.category.description}
+        </p>
         {/* Tiles */}
         <BlogPostTileList
           tileShadowVariant={even ? 'lighter' : 'light'}
@@ -74,14 +73,14 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
         {/* See more link */}
         <ButtonOliveInverted
           component={ButtonLinkComponent}
-          className="self-center"
+          className="self-center mt-10 md:mt-12 xl:mt-16"
           aria-label={`See more ${categorySectionData.category.name} posts`}
           shadow={true}
           border={true}
           href="/[categoryId]"
           as={`/${categorySectionData.category.slug}`}
         >
-          More {categorySectionData.title.toLowerCase()}
+          See all {categorySectionData.category.name.toLowerCase()}
         </ButtonOliveInverted>
       </PageContentContainer>
     </section>

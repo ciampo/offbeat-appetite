@@ -23,6 +23,7 @@ const pageHomeQuery = /* groq */ `*[_type == "${pageHomeType}"] {
   		"slug": slug.current,
   		name,
   		nameSingular,
+      description,
   		"featuredBlogPosts": featured[]->${blogPostPreviewProjection},
 		}
 	},
