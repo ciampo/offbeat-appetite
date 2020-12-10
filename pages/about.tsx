@@ -33,9 +33,11 @@ const AboutPage: NextComponentTypeWithLayout<AboutProps> = ({
       structuredData={structuredData}
     />
 
-    <PageHero backgroundImage={aboutData.heroImage}>
+    <PageHero variant="short" backgroundImage={aboutData.heroImage}>
       <PageContentContainer>
-        <h1 className="type-display-1 text-gray-white text-shadow">{aboutData.heroTitle}</h1>
+        <h1 className="type-display-1 text-gray-white text-shadow text-center max-w-ch-12 mx-auto">
+          {aboutData.heroTitle}
+        </h1>
       </PageContentContainer>
     </PageHero>
 

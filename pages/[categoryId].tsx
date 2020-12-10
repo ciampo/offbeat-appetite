@@ -39,7 +39,7 @@ const CategoryPage: NextComponentTypeWithLayout<CategoryProps> = ({
     />
 
     <PageHero variant="short" backgroundImage={categoryData.heroImage}>
-      <PageContentContainer className="text-gray-white text-shadow">
+      <PageContentContainer className="text-gray-white text-shadow text-center">
         <h1 className="type-display-1 mb-4 md:mb-5 xl:mb-6">{categoryData.title}</h1>
         <p>{categoryData.description}</p>
       </PageContentContainer>
