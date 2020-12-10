@@ -52,7 +52,9 @@ const BlogPostTile: React.FC<BlogPostTileProps> = memo(
         <div
           className={[
             'relative w-full p-6',
-            layoutVariant === 'horizontal' ? 'md:p-8 lg:px-16 xl:p-20' : 'xl:p-8',
+            layoutVariant === 'horizontal'
+              ? 'md:p-8 lg:px-16 xl:pl-20 xl:pr-16 xl:py-10'
+              : 'xl:p-8',
             layoutVariant === 'horizontal'
               ? 'sm:w-1/2 sm:flex sm:flex-col sm:justify-center'
               : 'flex-1',
