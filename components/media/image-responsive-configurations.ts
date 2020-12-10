@@ -315,3 +315,40 @@ export const subscribeModalImageResponsiveConfig: AccessibleImageResponsiveConfi
     },
   ],
 };
+
+// Used in homepage about section
+export const homeAboutImageResponsiveConfig: AccessibleImageResponsiveConfig = {
+  exports: sortBreakpoints({
+    breakpoints: ['272', '320', '384', `${remToPx(twTheme.maxWidth.md)}`],
+    addDoubleRes: true,
+  }) as number[],
+  sizes: [
+    {
+      queryMinWidth: twTheme.maxWidth['screen-xl'],
+      width: `${pxToRem('384')}rem`,
+    },
+    {
+      queryMinWidth: twTheme.maxWidth['screen-lg'],
+      width: `${pxToRem('320')}rem`,
+    },
+    {
+      queryMinWidth: twTheme.maxWidth['screen-md'],
+      width: `${pxToRem('256')}rem`,
+    },
+    {
+      queryMinWidth: twTheme.maxWidth['screen-sm'],
+      width: `${pxToRem('256')}rem`,
+    },
+    {
+      queryMinWidth: `${remToPx(twTheme.maxWidth.md) + 2 * pagePadding.xsm.px}px`,
+      width: twTheme.maxWidth.md,
+    },
+    {
+      queryMinWidth: twTheme.maxWidth['screen-xsm'],
+      width: `calc(100vw - ${2 * pagePadding.xsm.rem}rem)`,
+    },
+    {
+      width: `calc(100vw - ${2 * pagePadding.initial.rem}rem)`,
+    },
+  ],
+};

@@ -2,6 +2,7 @@ import {
   SanityCategoryPreview,
   SanityBlogPostPreview,
   SanityRichPortableText,
+  SanityBlock,
   SanityAccessibleImage,
 } from '.';
 
@@ -18,6 +19,9 @@ export type SanityPageHome = {
   subtitle: string;
   heroImage: SanityAccessibleImage;
   heroCtaLabel: string;
+  aboutTitle: string;
+  aboutContent: SanityBlock[];
+  aboutImage: SanityAccessibleImage;
   categorySections: SanityPageHomeCategorySection[];
   seoDescription: string;
   seoImage: string;

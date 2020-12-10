@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const {
   blogPostPreviewProjection,
+  simplePortabletextProjection,
   richPortabletextProjection,
   accessibleImageProjection,
 } = require('./projections.js');
@@ -12,6 +13,9 @@ const pageHomeQuery = /* groq */ `*[_type == "${pageHomeType}"] {
   subtitle,
   heroImage->${accessibleImageProjection},
   heroCtaLabel,
+  aboutTitle,
+  aboutContent[] ${simplePortabletextProjection},
+  aboutImage->${accessibleImageProjection},
   categorySections[] {
   	title,
 	  category->{

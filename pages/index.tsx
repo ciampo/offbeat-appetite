@@ -7,6 +7,9 @@ import { PageContentContainer } from '../components/layouts/Containers';
 import PageHero from '../components/hero/hero';
 import BlogPostTileList from '../components/blog-post-tile/BlogPostTileList';
 import { ButtonOliveInverted, ButtonTransparent } from '../components/button/Button';
+import SimplePortableText from '../components/portable-text/SimplePortableText';
+import AccessibleImage from '../components/media/AccessibleImage';
+import { homeAboutImageResponsiveConfig } from '../components/media/image-responsive-configurations';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
@@ -123,6 +126,28 @@ const HomePage: NextComponentTypeWithLayout<HomeProps> = ({ homeData, path, stru
         </ButtonTransparent>
       </PageContentContainer>
     </PageHero>
+
+    {/* About section */}
+    <section className="bg-olive-medium pt-16 pb-20 sm:pt-20 sm:pb-24 md:py-24 xl:py-32">
+      <PageContentContainer className="flex flex-col md:flex-row md:justify-between md:items-stretch">
+        <div className="mb-12 md:mb-0 md:pb-2 max-w-xl">
+          <h2 className="type-display-2 mb-4 md:mb-5 xl:mb-6">{homeData.aboutTitle}</h2>
+          <SimplePortableText blocks={homeData.aboutContent} />
+        </div>
+        <div className="w-full max-w-md self-end md:max-w-none md:self-stretch md:w-64 md:ml-16 md:flex-grow-0 md:flex-shrink-0 lg:w-72 xl:w-80">
+          <div className="relative w-full h-0 aspect-ratio-16/9 md:h-full md:aspect-ratio-none">
+            <AccessibleImage
+              image={homeData.aboutImage}
+              responsiveConfig={homeAboutImageResponsiveConfig}
+              className="absolute inset-0 w-full h-full rounded"
+              style={{
+                paddingBottom: '0',
+              }}
+            />
+          </div>
+        </div>
+      </PageContentContainer>
+    </section>
 
     {homeData.categorySections.map((categorySectionData, index) => (
       <HomeCategorySection
