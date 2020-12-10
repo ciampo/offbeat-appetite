@@ -53,7 +53,7 @@ module.exports = {
         '28': '7rem',
       },
       minHeight: {
-        'hero-m': '32rem',
+        'hero-m': '36rem',
         'hero-m-short': '28rem',
         'hero-t': '40rem',
         'hero-t-short': '30rem',
