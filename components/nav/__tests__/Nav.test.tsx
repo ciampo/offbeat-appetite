@@ -77,7 +77,7 @@ describe('Nav', () => {
       container,
     } = render(<Nav />);
 
-    const allLinks: UiLink[] = [...beforeLogoLinks, ...logoLinks, ...afterLogoLinks];
+    const allLinks: UiLink[] = [...logoLinks, ...beforeLogoLinks, ...afterLogoLinks];
 
     expect(getByTestId('header-nav-wrapper')).toBeInTheDocument();
     expect(getAllByTestId('layout-page-container')).toHaveLength(2);
@@ -136,20 +136,24 @@ describe('Nav', () => {
 
     expect(await axe(container)).toHaveNoViolations();
 
-    getByText('Close').focus();
+    // Test that focused is trapped inside the modal
+    getAllByText(allLinks[allLinks.length - 1].label)[1].focus();
+
+    fireEvent.keyDown(getByTestId('drawer-menu-wrapper'), {
+      key: 'tab',
+      code: 'Tab',
+      shiftKey: false,
+    });
+
+    expect(getAllByText(allLinks[0].label)[1].parentElement).toHaveFocus();
 
     fireEvent.keyDown(getByTestId('drawer-menu-wrapper'), {
       key: 'tab',
       code: 'Tab',
       shiftKey: true,
     });
+
     expect(getAllByText(allLinks[allLinks.length - 1].label)[1]).toHaveFocus();
-    fireEvent.keyDown(getByTestId('drawer-menu-wrapper'), {
-      key: 'tab',
-      code: 'Tab',
-      shiftKey: false,
-    });
-    expect(getByText('Close')).toHaveFocus();
 
     // Close menu
     fireEvent.keyDown(getByTestId('drawer-menu-wrapper'), {
