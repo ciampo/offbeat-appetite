@@ -1,13 +1,15 @@
-import React, { useEffect, memo } from 'react';
+import React, { memo } from 'react';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
 
 import PageMeta from '../components/meta/PageMeta';
 import { PageContentContainer } from '../components/layouts/Containers';
-import { OALogoFull } from '../components/icons';
-import { useNavVariantDispatch } from '../components/nav/nav-variant-context';
+import PageHero from '../components/hero/hero';
 import BlogPostTileList from '../components/blog-post-tile/BlogPostTileList';
-import { ButtonOliveInverted } from '../components/button/Button';
+import { ButtonOliveInverted, ButtonTransparent } from '../components/button/Button';
+import SimplePortableText from '../components/portable-text/SimplePortableText';
+import AccessibleImage from '../components/media/AccessibleImage';
+import { homeAboutImageResponsiveConfig } from '../components/media/image-responsive-configurations';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
@@ -18,14 +20,17 @@ import {
   NextComponentTypeWithLayout,
 } from '../typings';
 
-const BasicSeeMoreLinkEl: React.FC<{ as: string }> = memo(
-  ({ as, ...props }): JSX.Element => (
-    <Link href="/[categoryId]" as={as}>
+const homeSectionId = (category?: SanityPageHomeCategorySection): string =>
+  category ? `home-category-section-${category.category.slug}` : '';
+
+const ButtonLinkComponent: React.FC<{ href: string; as?: string }> = memo(
+  ({ as, href, ...props }): JSX.Element => (
+    <Link href={href} as={as}>
       <a {...props} />
     </Link>
   )
 );
-BasicSeeMoreLinkEl.displayName = 'memo(BasicSeeMoreLinkEl)';
+ButtonLinkComponent.displayName = 'memo(ButtonLinkComponent)';
 
 // Home Category Section
 type HomeCategorySectionProps = {
@@ -36,21 +41,25 @@ type HomeCategorySectionProps = {
 const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
   ({ categorySectionData, even, eagerLoadImages = false }) => (
     <section
-      className={['py-16 md:py-20 xl:py-24', even ? 'bg-gray-lighter' : 'bg-gray-light']
+      className={[
+        'focus:outline-none py-16 md:py-20 xl:py-24',
+        even ? 'bg-gray-lighter' : 'bg-gray-light',
+      ]
         .filter(Boolean)
         .join(' ')}
+      id={homeSectionId(categorySectionData)}
+      tabIndex={-1}
     >
-      <PageContentContainer className="flex flex-col items-stretch space-y-10 md:space-y-12 xl:space-y-16 bg-inherit">
+      <PageContentContainer className="flex flex-col items-stretch bg-inherit">
         {/* Title */}
-        <h2 className="type-display-2 flex justify-center">
-          <span className="mr-3" aria-hidden="true">
-            —
-          </span>
+        <h2 className="type-display-2 flex justify-center items-center space-y-3 mb-5 md:mb-6 xl:mb-8">
+          <span aria-hidden="true">—</span>
           {categorySectionData.title}
-          <span className="ml-3" aria-hidden="true">
-            —
-          </span>
+          <span aria-hidden="true">—</span>
         </h2>
+        <p className="text-center mx-auto italic mb-12 sm:mb-16 xl:mb-20">
+          {categorySectionData.category.description}
+        </p>
         {/* Tiles */}
         <BlogPostTileList
           tileShadowVariant={even ? 'lighter' : 'light'}
@@ -63,14 +72,15 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
         />
         {/* See more link */}
         <ButtonOliveInverted
-          component={BasicSeeMoreLinkEl}
-          className="self-center"
+          component={ButtonLinkComponent}
+          className="self-center mt-10 md:mt-12 xl:mt-16"
           aria-label={`See more ${categorySectionData.category.name} posts`}
           shadow={true}
           border={true}
+          href="/[categoryId]"
           as={`/${categorySectionData.category.slug}`}
         >
-          More {categorySectionData.title.toLowerCase()}
+          See all {categorySectionData.category.name.toLowerCase()}
         </ButtonOliveInverted>
       </PageContentContainer>
     </section>
@@ -78,56 +88,76 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
 );
 HomeCategorySection.displayName = 'memo(HomeCategorySection)';
 
-// Home Page
 type HomeProps = {
   homeData: SanityPageHome;
   path: string;
   structuredData: StructuredData[];
 };
-const HomePage: NextComponentTypeWithLayout<HomeProps> = ({ homeData, path, structuredData }) => {
-  const setVariant = useNavVariantDispatch();
-  useEffect(() => {
-    setVariant('solid');
-  }, [setVariant]);
+const HomePage: NextComponentTypeWithLayout<HomeProps> = ({ homeData, path, structuredData }) => (
+  <>
+    <PageMeta
+      path={path}
+      title={homeData.seoTitle}
+      description={homeData.seoDescription}
+      previewImage={homeData.seoImage}
+      structuredData={structuredData}
+    />
 
-  return (
-    <>
-      <PageMeta
-        path={path}
-        title={homeData.seoTitle}
-        description={homeData.seoDescription}
-        previewImage={homeData.seoImage}
-        structuredData={structuredData}
-      />
-
-      <header
-        className={[
-          'flex flex-col items-center justify-center',
-          'mt-20 xsm:mt-16 md:mt-20 xl:mt-24',
-          'py-4 xsm:py-8 md:py-12 lg:py-16 xl:py-20',
-          '-mb-2 xsm:-mb-4 md:-mb-6 lg:-mb-8 xl:-mb-10',
-          'space-y-2 sm:space-y-3 md:space-y-4 xl:space-y-5',
-        ].join(' ')}
-      >
-        <h1>
-          <OALogoFull
-            aria-label={homeData.title}
-            className="w-64 xsm:w-72 md:w-80 lg:w-88 xl:w-96"
-          />
+    <PageHero variant="short" backgroundImage={homeData.heroImage}>
+      <PageContentContainer className="text-gray-white text-shadow text-center">
+        <h1 className="type-display-1 max-w-ch-22 mx-auto mb-6 sm:mb-8 md:mb-10 xl:mb-12 ">
+          {homeData.subtitle}
         </h1>
-        <p className="type-eyebrow">{homeData.subtitle}</p>
-      </header>
-      {homeData.categorySections.map((categorySectionData, index) => (
-        <HomeCategorySection
-          key={categorySectionData.category._id}
-          categorySectionData={categorySectionData}
-          even={index % 2 === 0}
-          eagerLoadImages={index === 0}
-        />
-      ))}
-    </>
-  );
-};
+        <ButtonTransparent
+          component={ButtonLinkComponent}
+          href={`#${homeSectionId(homeData.categorySections?.[0])}`}
+          className="inline-flex group type-tag border-gray-white border-opacity-35"
+        >
+          {homeData.heroCtaLabel}
+          <svg
+            className="w-6 h-6 ml-1 -mr-2 transform duration-100 transition-transform translate-y-px group-hover:translate-y-1 group-focus:translate-y-1"
+            role="presentation"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path fill="currentColor" d="M7.4 8.6l4.6 4.6 4.6-4.6L18 10l-6 6-6-6 1.4-1.4z" />
+          </svg>
+        </ButtonTransparent>
+      </PageContentContainer>
+    </PageHero>
+
+    {/* About section */}
+    <section className="bg-olive-medium pt-16 pb-20 sm:pt-20 sm:pb-24 md:py-24 xl:py-32">
+      <PageContentContainer className="flex flex-col md:flex-row md:justify-between md:items-stretch">
+        <div className="mb-12 md:mb-0 md:pb-2 max-w-xl">
+          <h2 className="type-display-2 mb-4 md:mb-5 xl:mb-6">{homeData.aboutTitle}</h2>
+          <SimplePortableText blocks={homeData.aboutContent} />
+        </div>
+        <div className="w-full max-w-md self-end md:max-w-none md:self-stretch md:w-64 md:ml-16 md:flex-grow-0 md:flex-shrink-0 lg:w-72 xl:w-80">
+          <div className="relative w-full h-0 aspect-ratio-16/9 md:h-full md:aspect-ratio-none">
+            <AccessibleImage
+              image={homeData.aboutImage}
+              responsiveConfig={homeAboutImageResponsiveConfig}
+              className="absolute inset-0 w-full h-full rounded"
+              style={{
+                paddingBottom: '0',
+              }}
+            />
+          </div>
+        </div>
+      </PageContentContainer>
+    </section>
+
+    {homeData.categorySections.map((categorySectionData, index) => (
+      <HomeCategorySection
+        key={categorySectionData.category._id}
+        categorySectionData={categorySectionData}
+        even={index % 2 === 0}
+        eagerLoadImages={index === 0}
+      />
+    ))}
+  </>
+);
 
 export const getStaticProps: GetStaticProps = async () => {
   const path = '/';

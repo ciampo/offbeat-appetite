@@ -4,7 +4,6 @@ import { NextRouter } from 'next/router';
 import { RouterContext } from 'next/dist/next-server/lib/router-context';
 import { render as rtlRender, RenderOptions, RenderResult } from '@testing-library/react';
 
-import { NavVariantProvider } from '../components/nav/nav-variant-context';
 import { SharingImageProvider } from '../components/meta/sharing-image-context';
 import { PostReviewsProvider } from '../components/blog-post/blog-post-reviews-context';
 
@@ -43,9 +42,7 @@ function render(ui: ReactElement, options: AugmentedRenderOptions = {}): RenderR
       }}
     >
       <SharingImageProvider>
-        <NavVariantProvider>
-          <PostReviewsProvider>{children}</PostReviewsProvider>
-        </NavVariantProvider>
+        <PostReviewsProvider>{children}</PostReviewsProvider>
       </SharingImageProvider>
     </RouterContext.Provider>
   );

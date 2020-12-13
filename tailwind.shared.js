@@ -45,7 +45,7 @@ const sharedTheme = {
     // none: 'none',
     xs: '20rem',
     // sm: '24rem',
-    // md: '28rem',
+    md: '28rem',
     lg: '32rem',
     xl: '38rem',
     '2xl': '42rem',
@@ -64,7 +64,7 @@ const sharedTheme = {
     olive: {
       darker: '#546050',
       dark: '#6D7E67',
-      medium: '#C5CBB4',
+      medium: '#E3E7DA',
       light: '#F3F5F0',
       lighter: '#FDFDFC',
     },

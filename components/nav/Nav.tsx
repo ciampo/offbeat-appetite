@@ -3,10 +3,9 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import { useNavVariantState } from './nav-variant-context';
 import { PageContentContainer } from '../layouts/Containers';
 import { ButtonOlive, ButtonTransparent } from '../button/Button';
-import { OALogoShort } from '../icons';
+import { OALogoShort, OALogoFull } from '../icons';
 
 import {
   beforeLogo as beforeLogoLinks,
@@ -44,26 +43,20 @@ BasicNavEl.displayName = 'memo(BasicNavEl)';
 
 type HeaderNavLinkProps = {
   solid: boolean;
-  beforeLogo: boolean;
-  last: boolean;
+  first: boolean;
   selected: boolean;
   link: UiLink;
 };
 const HeaderNavLink: React.FC<HeaderNavLinkProps> = ({
   link: { href, label, as },
-  beforeLogo,
-  last,
+  first,
   selected,
   solid,
 }) => (
   <li
     className={[
-      'hidden md:inline-block',
-      beforeLogo
-        ? last
-          ? '-ml-6 mr-auto'
-          : '-ml-6 mr-6 lg:mr-8 xl:mr-6'
-        : '-mr-6 ml-6 lg:ml-8 xl:ml-6',
+      'hidden md:inline-block -mr-2 xl:-mr-4 -mb-4',
+      first ? 'ml-auto' : 'ml-6 lg:ml-8 xl:ml-6',
     ].join(' ')}
   >
     <ButtonTransparent
@@ -71,6 +64,7 @@ const HeaderNavLink: React.FC<HeaderNavLinkProps> = ({
       additionalHover="underline"
       paddingClassName="p-2 xl:px-4"
       sizeClassName=""
+      typeClassName="type-body-large"
       className={[selected && 'underline', !solid && 'text-shadow'].filter(Boolean).join(' ')}
       href={href}
       as={as}
@@ -81,26 +75,22 @@ const HeaderNavLink: React.FC<HeaderNavLinkProps> = ({
 );
 
 type HeaderLogoLinkProps = {
-  solid: boolean;
   link: UiLink;
+  className?: string;
 };
 const HeaderLogoLink: React.FC<HeaderLogoLinkProps> = memo(
-  ({ link: { href, label, as }, solid }) => (
-    <li className="absolute transform-translate-center">
+  ({ link: { href, label, as }, children, className = '' }) => (
+    <li className="mr-auto">
       <ButtonTransparent
         component={BasicLinkEl}
         sizeClassName=""
-        paddingClassName="py-0 px-1"
-        additionalHover="scaleUp"
+        paddingClassName="p-2"
+        className={['-ml-2 -mb-2 border-none', className].join(' ')}
         href={href}
         as={as}
       >
         <span className="sr-only">{label}</span>
-        <OALogoShort
-          className="h-12 md:h-16 xl:h-20"
-          idPrefix="oa-logo-short-haeder"
-          shadow={!solid}
-        />
+        {children}
       </ButtonTransparent>
     </li>
   )
@@ -108,7 +98,6 @@ const HeaderLogoLink: React.FC<HeaderLogoLinkProps> = memo(
 HeaderLogoLink.displayName = 'memo(HeaderLogoLink)';
 
 const HeaderNav: React.FC = () => {
-  const variant = useNavVariantState();
   const [isPageScrolled, setPageScrolled] = useState(false);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const router = useRouter();
@@ -123,6 +112,10 @@ const HeaderNav: React.FC = () => {
 
   useEffect(() => {
     function onScroll(): void {
+      if (isDrawerOpen) {
+        return;
+      }
+
       const isPageBelowScrollThreshold = window.scrollY >= 10;
 
       if (isPageScrolled && !isPageBelowScrollThreshold) {
@@ -141,16 +134,17 @@ const HeaderNav: React.FC = () => {
     return (): void => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, [isPageScrolled, setPageScrolled]);
-
-  const isSolid = variant === 'solid' || isPageScrolled;
+  }, [isPageScrolled, setPageScrolled, isDrawerOpen]);
 
   return (
     <>
       <div
         className={[
-          'z-50 fixed top-0 left-0 w-full contain-l will-change-transform transition-bg-color-transform duration-300 ease-out',
-          isSolid ? 'bg-olive-darker shadow-md' : 'bg-transparent',
+          'z-50 fixed top-0 left-0 w-full contain-l transform will-change-transform transition-bg-color-transform duration-300 ease-out',
+          isPageScrolled ? 'bg-olive-darker shadow-md' : 'bg-transparent',
+          isPageScrolled
+            ? '-translate-y-16 md:-translate-y-20 xl:-translate-y-24'
+            : 'translate-y-0',
         ].join(' ')}
         data-testid="header-nav-wrapper"
         id="site-header"
@@ -163,41 +157,49 @@ const HeaderNav: React.FC = () => {
           disableTransitions={true}
           className={[
             'z-50 sr-only',
-            'focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:mt-16 md:focus:mt-20 xl:focus:mt-24 focus:px-4 focus:py-3 xl:focus:px-6 xl:focus:py-4',
+            'focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:px-4 focus:py-3 xl:focus:px-6 xl:focus:py-4',
           ]
             .filter(Boolean)
             .join(' ')}
+          onFocus={(): void => window.scrollTo(0, 0)}
         >
           Skip to content
         </ButtonOlive>
 
         <PageContentContainer
           component={BasicNavEl}
-          className="relative h-16 md:h-20 xl:h-24 overflow-hidden flex items-center contain-s"
+          className="relative h-32 md:h-40 xl:h-48 overflow-hidden flex items-center contain-s"
         >
-          <ul className="flex items-center h-full w-full">
+          <ul className="flex items-end h-full w-full pb-5 md:pb-7 xl:pb-8">
+            {isPageScrolled ? (
+              <HeaderLogoLink
+                link={logoLinks[0] as UiLink}
+                className="transform translate-y-2 md:translate-y-3 xl:translate-y-3"
+              >
+                <OALogoShort
+                  className="h-10 md:h-12 xl:h-14"
+                  idPrefix="oa-logo-short-header"
+                  shadow={!isPageScrolled}
+                />
+              </HeaderLogoLink>
+            ) : (
+              <HeaderLogoLink link={logoLinks[0] as UiLink}>
+                <OALogoFull
+                  className="h-24 md:h-28 xl:h-32"
+                  idPrefix="oa-logo-full-header"
+                  shadow={!isPageScrolled}
+                />
+              </HeaderLogoLink>
+            )}
+
             <MenuButton onClick={openDrawer} />
 
-            {(beforeLogoLinks as UiLink[]).map((link, index, array) => (
+            {([...beforeLogoLinks, ...afterLogoLinks] as UiLink[]).map((link, index) => (
               <HeaderNavLink
                 key={`${index}-${link.as || link.href}`}
                 link={link}
-                beforeLogo={true}
-                solid={isSolid}
-                last={index === array.length - 1}
-                selected={router.asPath === (link.as || link.href)}
-              />
-            ))}
-
-            <HeaderLogoLink link={logoLinks[0] as UiLink} solid={isSolid} />
-
-            {(afterLogoLinks as UiLink[]).map((link, index, array) => (
-              <HeaderNavLink
-                key={`${index}-${link.href}`}
-                link={link}
-                beforeLogo={false}
-                solid={isSolid}
-                last={index === array.length - 1}
+                solid={isPageScrolled}
+                first={index === 0}
                 selected={router.asPath === (link.as || link.href)}
               />
             ))}
@@ -214,6 +216,7 @@ const HeaderNav: React.FC = () => {
         }}
         onCloseButtonClick={closeDrawer}
         links={[...logoLinks, ...beforeLogoLinks, ...afterLogoLinks] as UiLink[]}
+        isCompactLayout={isPageScrolled}
       />
     </>
   );

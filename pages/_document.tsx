@@ -23,11 +23,10 @@ const PRECONNECT_ORIGINS = [
 ];
 
 const PRELOAD_WEBFONTS = [
-  '/fonts/raleway-v14-latin-regular.woff2',
-  '/fonts/raleway-v14-latin-500.woff2',
-  '/fonts/raleway-v14-latin-600.woff2',
-  '/fonts/raleway-v14-latin-600.woff2',
-  '/fonts/yeseva-one-v14-latin-regular.woff2',
+  '/fonts/ibm-plex-sans-v8-vietnamese_latin-300.woff2',
+  '/fonts/ibm-plex-sans-v8-vietnamese_latin-regular.woff2',
+  '/fonts/ibm-plex-sans-v8-vietnamese_latin-500.woff2',
+  '/fonts/playfair-display-v21-latin-700.woff2',
 ];
 
 class CustomDocument extends Document<DocumentProps> {

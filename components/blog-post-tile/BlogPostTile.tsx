@@ -52,7 +52,9 @@ const BlogPostTile: React.FC<BlogPostTileProps> = memo(
         <div
           className={[
             'relative w-full p-6',
-            layoutVariant === 'horizontal' ? 'md:p-8 lg:px-16 xl:p-20' : 'xl:p-8',
+            layoutVariant === 'horizontal'
+              ? 'md:p-8 lg:px-16 xl:pl-20 xl:pr-16 xl:py-10'
+              : 'xl:p-8',
             layoutVariant === 'horizontal'
               ? 'sm:w-1/2 sm:flex sm:flex-col sm:justify-center'
               : 'flex-1',
@@ -77,11 +79,11 @@ const BlogPostTile: React.FC<BlogPostTileProps> = memo(
 
           {layoutVariant === 'horizontal' ? (
             <>
-              <h3 className="md:hidden type-heading-3 mb-1 max-w-ch-22">{postData.title}</h3>
-              <h3 className="hidden md:block type-heading-2 max-w-ch-22">{postData.title}</h3>
+              <h3 className="md:hidden type-display-4 mb-1 max-w-ch-22">{postData.title}</h3>
+              <h3 className="hidden md:block type-display-3 max-w-ch-22">{postData.title}</h3>
             </>
           ) : (
-            <h3 className="type-heading-3 mb-1">{postData.title}</h3>
+            <h3 className="type-display-4 mb-1">{postData.title}</h3>
           )}
 
           {layoutVariant === 'horizontal' && (

@@ -20,7 +20,7 @@ export const Palette: React.FC = () => (
   <ul className="space-y-8">
     {Object.entries(sharedTheme.colors).map(([colorFamily, colors]) => (
       <li className="space-y-4" key={colorFamily}>
-        <h2 className="type-heading-2">{colorFamily}</h2>
+        <h2 className="type-display-3">{colorFamily}</h2>
         <ul className="flex">
           {Object.keys(colors).map((colorVariation) => (
             <Color key={colorVariation} tailwindColor={`${colorFamily}-${colorVariation}`} />

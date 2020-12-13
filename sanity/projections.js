@@ -102,6 +102,7 @@ const categoryPreviewProjection = /* groq */ `{
   _id,
   name,
   nameSingular,
+  description,
   "slug": slug.current
 }`;
 

@@ -31,7 +31,7 @@ type ReviewsRegistry = {
 const RECIPE_REVIEW_LS_KEY = 'oa-reviews';
 
 const RecipeSectionTitle: React.FC<{ text: string }> = ({ text }) => (
-  <h3 className="type-heading-2 text-center">{text}</h3>
+  <h3 className="type-display-3 text-center">{text}</h3>
 );
 
 const REVIEW_THANK_YOU_MESSAGE = 'Thank you for rating this recipe!';
@@ -229,7 +229,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
           >
             {recipe.method.map(({ title, content, _key }, index) => (
               <li key={_key} id={`recipe-step-${index + 1}`}>
-                <p className="type-heading-4 mb-2 md:mb-4 xl:mb-6">
+                <p className="type-heading-2 mb-2 md:mb-4 xl:mb-6">
                   <span aria-label={`Step ${index + 1}`}>{index + 1}. </span>
                   {title}
                 </p>
@@ -244,7 +244,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
       <aside className="bg-olive-darker text-white py-10 sm:py-12 md:py-16 xl:py-20">
         <ArticleContentContainer>
           {localReviewExists ? (
-            <p className="type-heading-4 text-center">{REVIEW_THANK_YOU_MESSAGE}</p>
+            <p className="type-heading-2 text-center">{REVIEW_THANK_YOU_MESSAGE}</p>
           ) : (
             <RatingForm
               documentId={reviewsState.data.documentId}

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const {
   blogPostPreviewProjection,
+  simplePortabletextProjection,
   richPortabletextProjection,
   accessibleImageProjection,
 } = require('./projections.js');
@@ -10,6 +11,11 @@ const pageHomeQuery = /* groq */ `*[_type == "${pageHomeType}"] {
   _id,
   title,
   subtitle,
+  heroImage->${accessibleImageProjection},
+  heroCtaLabel,
+  aboutTitle,
+  aboutContent[] ${simplePortabletextProjection},
+  aboutImage->${accessibleImageProjection},
   categorySections[] {
   	title,
 	  category->{
@@ -17,6 +23,7 @@ const pageHomeQuery = /* groq */ `*[_type == "${pageHomeType}"] {
   		"slug": slug.current,
   		name,
   		nameSingular,
+      description,
   		"featuredBlogPosts": featured[]->${blogPostPreviewProjection},
 		}
 	},
@@ -30,6 +37,7 @@ const pageAboutQuery = /* groq */ `*[_type == "${pageAboutType}"] {
   _id,
   title,
   heroTitle,
+  heroImage->${accessibleImageProjection},
   content[] ${richPortabletextProjection},
   seoTitle,
   seoDescription,

@@ -44,14 +44,22 @@ module.exports = {
         '1/4': '25%',
         '1/2': '50%',
         '3/4': '75%',
+        'ch-12': '12ch',
         'ch-22': '22ch',
         'ch-32': '32ch',
         'ch-40': '40ch',
       },
+      height: {
+        '14': '3.5rem',
+        '28': '7rem',
+      },
       minHeight: {
-        'hero-m': '32rem',
-        'hero-t': '38rem',
-        'hero-d': '50rem',
+        'hero-m': '36rem',
+        'hero-m-short': '28rem',
+        'hero-t': '40rem',
+        'hero-t-short': '30rem',
+        'hero-d': '54rem',
+        'hero-d-short': '42rem',
       },
       opacity: {
         '10': '0.1',
@@ -64,8 +72,8 @@ module.exports = {
       },
     },
     fontFamily: {
-      display: ['Yeseva One', 'sans-serif'],
-      body: ['Raleway', 'sans-serif'],
+      display: ['Playfair Display', 'sans-serif'],
+      body: ['IBM Plex Sans', 'sans-serif'],
     },
     fontSize: {
       xs: '.75rem',

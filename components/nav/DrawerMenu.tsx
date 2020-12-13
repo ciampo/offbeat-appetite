@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 
 import { PageContentContainer } from '../layouts/Containers';
 import { ButtonOliveInverted, ButtonTransparent } from '../button/Button';
-import { OALogoShort } from '../icons';
+import { OALogoShort, OALogoFull } from '../icons';
 
 import { UiLink } from '../../typings';
 
@@ -23,8 +23,12 @@ type MenuButtonProps = {
   onClick: (event: React.MouseEvent) => void;
 };
 export const MenuButton: React.FC<MenuButtonProps> = memo(({ onClick }) => (
-  <li className="md:hidden -mx-4">
-    <ButtonTransparent onClick={onClick} aria-label="Open the navigation menu">
+  <li className="md:hidden ml-auto -mr-4 -mb-3">
+    <ButtonTransparent
+      onClick={onClick}
+      aria-label="Open the navigation menu"
+      typeClassName="type-body-large"
+    >
       Menu
     </ButtonTransparent>
   </li>
@@ -82,12 +86,14 @@ type DrawerNavProps = {
   open: boolean;
   onLinkClick: (event?: React.MouseEvent) => void;
   onCloseButtonClick: (event?: React.MouseEvent) => void;
+  isCompactLayout: boolean;
 };
 export const DrawerNav: React.FC<DrawerNavProps> = ({
   links,
   open,
   onLinkClick,
   onCloseButtonClick,
+  isCompactLayout,
 }) => {
   const router = useRouter();
   const drawerWrapper = useRef<HTMLElement>(null);
@@ -164,30 +170,44 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
       data-testid="drawer-menu-wrapper"
     >
       <PageContentContainer className="relative h-full flex flex-col">
-        <div className="relative w-full h-16 flex items-center flex-shrink-0">
-          {/* CLose button */}
-          <ButtonOliveInverted
-            className="-mx-4"
-            onClick={onCloseButtonClick}
-            tabIndex={open ? undefined : -1}
-            aria-label="Close the navigation menu"
-          >
-            Close
-          </ButtonOliveInverted>
-
+        <div
+          className={[
+            'relative w-full h-32 pb-5 flex items-end flex-shrink-0 transform',
+            isCompactLayout
+              ? '-translate-y-16 md:-translate-y-20 xl:-translate-y-24'
+              : 'translate-y-0',
+          ].join(' ')}
+        >
           {/* OA logo */}
           <ButtonOliveInverted
             component={BasicLinkEl}
             sizeClassName=""
-            paddingClassName="py-0 px-1"
-            className="absolute transform-translate-center"
+            paddingClassName="p-0"
+            className={[
+              'border-none',
+              isCompactLayout ? 'transform translate-y-2 md:translate-y-3 xl:translate-y-3' : '',
+            ].join(' ')}
             onClick={onLinkClick}
             tabIndex={open ? undefined : -1}
             href={links[0].href}
             as={links[0].as}
           >
             <span className="sr-only">{links[0].label}</span>
-            <OALogoShort className="h-12 md:h-16 xl:h-20" idPrefix="oa-logo-short-drawer" />
+            {isCompactLayout ? (
+              <OALogoShort className="h-10" idPrefix="oa-logo-short-drawer" />
+            ) : (
+              <OALogoFull className="h-24" idPrefix="oa-logo-full-drawer" />
+            )}
+          </ButtonOliveInverted>
+
+          {/* Close button */}
+          <ButtonOliveInverted
+            className="ml-auto -mr-4 -mb-3"
+            onClick={onCloseButtonClick}
+            tabIndex={open ? undefined : -1}
+            aria-label="Close the navigation menu"
+          >
+            Close
           </ButtonOliveInverted>
         </div>
 
