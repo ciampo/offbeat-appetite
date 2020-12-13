@@ -57,7 +57,7 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
           {categorySectionData.title}
           <span aria-hidden="true">—</span>
         </h2>
-        <p className="max-w-ch-40 mx-auto italic mb-12 sm:mb-16 xl:mb-20">
+        <p className="text-center mx-auto italic mb-12 sm:mb-16 xl:mb-20">
           {categorySectionData.category.description}
         </p>
         {/* Tiles */}
