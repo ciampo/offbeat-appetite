@@ -31,7 +31,7 @@ ${routesConfig
     // Allow script coming from same origin, inline and Google / Google Analytics (incl. recaptcha)  and Commento.io
     `script-src 'self' 'unsafe-inline' https://www.google.com/ https://www.gstatic.com/ https://www.google-analytics.com https://recaptcha.net https://cdn.commento.io`,
     // Allow XHR to same origin, Google Analytics and Commento.io
-    `connect-src 'self' https://www.google-analytics.com https://*.api.sanity.io https://commento.io`,
+    `connect-src 'self' https://www.google-analytics.com https://stats.g.doubleclick.net https://*.api.sanity.io https://commento.io`,
     // Allow webmanifest files from same origin
     `manifest-src 'self'`,
     // Allow prefetching files from same origin
