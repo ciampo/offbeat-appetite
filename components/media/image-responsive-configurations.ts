@@ -320,7 +320,6 @@ export const subscribeModalImageResponsiveConfig: AccessibleImageResponsiveConfi
 export const homeAboutImageResponsiveConfig: AccessibleImageResponsiveConfig = {
   exports: sortBreakpoints({
     breakpoints: ['272', '320', '384', `${remToPx(twTheme.maxWidth.md)}`],
-    addDoubleRes: true,
   }) as number[],
   sizes: [
     {
@@ -337,7 +336,7 @@ export const homeAboutImageResponsiveConfig: AccessibleImageResponsiveConfig = {
     },
     {
       queryMinWidth: twTheme.maxWidth['screen-sm'],
-      width: `${pxToRem('256')}rem`,
+      width: `${pxToRem('448')}rem`,
     },
     {
       queryMinWidth: `${remToPx(twTheme.maxWidth.md) + 2 * pagePadding.xsm.px}px`,
@@ -351,4 +350,5 @@ export const homeAboutImageResponsiveConfig: AccessibleImageResponsiveConfig = {
       width: `calc(100vw - ${2 * pagePadding.initial.rem}rem)`,
     },
   ],
+  forceRatio: 1,
 };
