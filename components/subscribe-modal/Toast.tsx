@@ -12,7 +12,7 @@ const buttonCommonClassName = [
 ];
 
 const SHOW_TOAST_TIMEOUT_MS = 20000;
-const ONE_WEEK_MS = 1000; //1000 * 60 * 60 * 24 * 7;
+const ONE_WEEK_MS = 1000 * 60 * 60 * 24 * 7;
 
 const SubscribeToast: React.FC = () => {
   const [hideStillWaiting, setHideStillWaiting] = useState(true);
