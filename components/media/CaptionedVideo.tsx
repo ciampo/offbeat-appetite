@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import * as React from 'react';
 
 import AccessibleVideo from './AccessibleVideo';
 import { AccessibleImageResponsiveConfig } from './image-responsive-configurations';
@@ -41,6 +41,6 @@ const CaptionedVideo: React.FC<CaptionedVideoProps> = ({
   </div>
 );
 
-const MemoizedCaptionedVideo = memo(CaptionedVideo);
+const MemoizedCaptionedVideo = React.memo(CaptionedVideo);
 
 export default MemoizedCaptionedVideo;

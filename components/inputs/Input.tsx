@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import * as React from 'react';
 
 type InputProps = {
   name: string;
@@ -48,7 +48,7 @@ const inputClassesPink = [
   'focus:bg-pink-light focus:border-pink-darker',
 ];
 
-export const TextInputPink: React.FC<InputProps> = memo(({ className, ...props }) => (
+export const TextInputPink: React.FC<InputProps> = React.memo(({ className, ...props }) => (
   <TextInputBase
     {...props}
     className={[...inputClassesPink, className].filter(Boolean).join(' ')}
@@ -56,7 +56,7 @@ export const TextInputPink: React.FC<InputProps> = memo(({ className, ...props }
 ));
 TextInputPink.displayName = 'memo(TextInputPink)';
 
-export const EmailInputPink: React.FC<InputProps> = memo(({ className, ...props }) => (
+export const EmailInputPink: React.FC<InputProps> = React.memo(({ className, ...props }) => (
   <EmailInputBase
     {...props}
     className={[...inputClassesPink, className].filter(Boolean).join(' ')}

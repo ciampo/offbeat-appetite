@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import { ArticleContentContainer, PageContentContainer } from '../components/layouts/Containers';
 

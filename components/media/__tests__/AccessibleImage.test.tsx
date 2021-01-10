@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import * as React from 'react';
 import { axe } from 'jest-axe';
 import { render } from 'offbeat-appetite-render';
 
@@ -132,7 +132,7 @@ describe('AccessibleImage', () => {
   });
 
   test('correctly applies given styles', () => {
-    const testStyles: CSSProperties = {
+    const testStyles: React.CSSProperties = {
       position: 'fixed',
       backgroundColor: 'tomato',
     };

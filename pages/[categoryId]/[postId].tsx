@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo } from 'react';
+import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
 import ReactGA from 'react-ga';
@@ -38,10 +38,10 @@ import {
 
 const BLOG_POST_PAGE_ROUTE = '/[categoryId]/[postId]';
 
-const BasicArticleEl: React.FC = memo((props) => <article {...props} />);
+const BasicArticleEl: React.FC = React.memo((props) => <article {...props} />);
 BasicArticleEl.displayName = 'memo(BasicArticleEl)';
 
-const AnchorToRecipeEl: React.FC = memo((props) => <a {...props} href="#recipe" />);
+const AnchorToRecipeEl: React.FC = React.memo((props) => <a {...props} href="#recipe" />);
 AnchorToRecipeEl.displayName = 'memo(AnchorToRecipeEl)';
 
 type PageBlogPostProps = {
@@ -55,7 +55,7 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
 
   const { asPath } = useRouter();
 
-  const contentHasRecipe = useMemo(
+  const contentHasRecipe = React.useMemo(
     () => blogPostData.content.some((block) => block._type === 'recipe'),
     [blogPostData]
   );
@@ -69,7 +69,7 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
     };
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchData = async (): Promise<void> => {
       postReviewsDispatch({ type: 'FETCH_INIT' });
 
@@ -99,7 +99,7 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
   }, [postReviewsDispatch, blogPostData._id]);
 
   // Update Commento's comment counts
-  useEffect(() => {
+  React.useEffect(() => {
     if (!window || !window.fetch) {
       return;
     }

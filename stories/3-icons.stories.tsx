@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import * as logos from '../components/icons/logos';
 import * as social from '../components/icons/social';

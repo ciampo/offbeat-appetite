@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback, useEffect } from 'react';
+import * as React from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -26,10 +26,10 @@ const MenuButton = dynamic(() => import('./DrawerMenu').then((mod) => mod.MenuBu
   ssr: false,
 });
 
-const BasicAnchorEl: React.FC = memo((props) => <a {...props} href="#site-content" />);
+const BasicAnchorEl: React.FC = React.memo((props) => <a {...props} href="#site-content" />);
 BasicAnchorEl.displayName = 'memo(BasicAnchorEl)';
 
-const BasicLinkEl: React.FC<{ href: string; as: string }> = memo(
+const BasicLinkEl: React.FC<{ href: string; as: string }> = React.memo(
   ({ href, as, ...props }): JSX.Element => (
     <Link href={href} as={as}>
       <a {...props} />
@@ -38,7 +38,9 @@ const BasicLinkEl: React.FC<{ href: string; as: string }> = memo(
 );
 BasicLinkEl.displayName = 'memo(BasicLinkEl)';
 
-const BasicNavEl: React.FC = memo((props) => <nav {...props} aria-label="Header navigation" />);
+const BasicNavEl: React.FC = React.memo((props) => (
+  <nav {...props} aria-label="Header navigation" />
+));
 BasicNavEl.displayName = 'memo(BasicNavEl)';
 
 type HeaderNavLinkProps = {
@@ -78,7 +80,7 @@ type HeaderLogoLinkProps = {
   link: UiLink;
   className?: string;
 };
-const HeaderLogoLink: React.FC<HeaderLogoLinkProps> = memo(
+const HeaderLogoLink: React.FC<HeaderLogoLinkProps> = React.memo(
   ({ link: { href, label, as }, children, className = '' }) => (
     <li className="mr-auto">
       <ButtonTransparent
@@ -98,19 +100,19 @@ const HeaderLogoLink: React.FC<HeaderLogoLinkProps> = memo(
 HeaderLogoLink.displayName = 'memo(HeaderLogoLink)';
 
 const HeaderNav: React.FC = () => {
-  const [isPageScrolled, setPageScrolled] = useState(false);
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [isPageScrolled, setPageScrolled] = React.useState(false);
+  const [isDrawerOpen, setDrawerOpen] = React.useState(false);
   const router = useRouter();
 
-  const openDrawer = useCallback(() => {
+  const openDrawer = React.useCallback(() => {
     setDrawerOpen(true);
   }, []);
 
-  const closeDrawer = useCallback(() => {
+  const closeDrawer = React.useCallback(() => {
     setDrawerOpen(false);
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     function onScroll(): void {
       if (isDrawerOpen) {
         return;

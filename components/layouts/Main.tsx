@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import Nav from '../nav/Nav';
 import NewsletterSubscribeForm from '../form/NewsletterSubscribe';

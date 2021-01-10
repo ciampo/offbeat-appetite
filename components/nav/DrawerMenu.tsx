@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef } from 'react';
+import * as React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -10,7 +10,7 @@ import { UiLink } from '../../typings';
 
 const SUBSCRIBE_FORM_ID = 'subscribe';
 
-const BasicLinkEl: React.FC<{ href: string; as: string }> = memo(
+const BasicLinkEl: React.FC<{ href: string; as: string }> = React.memo(
   ({ href, as, ...props }): JSX.Element => (
     <Link href={href} as={as}>
       <a {...props} />
@@ -22,7 +22,7 @@ BasicLinkEl.displayName = 'memo(BasicLinkEl)';
 type MenuButtonProps = {
   onClick: (event: React.MouseEvent) => void;
 };
-export const MenuButton: React.FC<MenuButtonProps> = memo(({ onClick }) => (
+export const MenuButton: React.FC<MenuButtonProps> = React.memo(({ onClick }) => (
   <li className="md:hidden ml-auto -mr-4 -mb-3">
     <ButtonTransparent
       onClick={onClick}
@@ -44,7 +44,7 @@ type DrawerNavLinkProps = {
   border?: boolean;
   className?: string;
 };
-const DrawerNavLink: React.FC<DrawerNavLinkProps> = memo(
+const DrawerNavLink: React.FC<DrawerNavLinkProps> = React.memo(
   ({
     link: { href, label, as },
     selected,
@@ -96,10 +96,10 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
   isCompactLayout,
 }) => {
   const router = useRouter();
-  const drawerWrapper = useRef<HTMLElement>(null);
+  const drawerWrapper = React.useRef<HTMLElement>(null);
 
   // ESC key closes the menu
-  useEffect(() => {
+  React.useEffect(() => {
     function closeMenuOnEsc(e: KeyboardEvent): void {
       if (/^esc/i.test(e.key)) {
         onCloseButtonClick();
@@ -118,7 +118,7 @@ export const DrawerNav: React.FC<DrawerNavProps> = ({
   }, [open, onCloseButtonClick]);
 
   // Focus management
-  useEffect(() => {
+  React.useEffect(() => {
     if (open && drawerWrapper.current) {
       drawerWrapper.current.focus();
     }

@@ -1,4 +1,4 @@
-import React, { useReducer, useContext, createContext } from 'react';
+import * as React from 'react';
 
 type Action =
   | {
@@ -26,8 +26,8 @@ type State = {
   };
 };
 
-const PostReviewsStateContext = createContext<State | undefined>(undefined);
-const PostReviewsDispatchContext = createContext<Dispatch | undefined>(undefined);
+const PostReviewsStateContext = React.createContext<State | undefined>(undefined);
+const PostReviewsDispatchContext = React.createContext<Dispatch | undefined>(undefined);
 
 const postReviewsContext = (state: State, action: Action): State => {
   switch (action.type) {
@@ -54,7 +54,7 @@ const postReviewsContext = (state: State, action: Action): State => {
 };
 
 const PostReviewsProvider: React.FC = ({ children }) => {
-  const [state, dispatch] = useReducer(postReviewsContext, {
+  const [state, dispatch] = React.useReducer(postReviewsContext, {
     isLoading: false,
     isError: false,
     data: {
@@ -74,14 +74,14 @@ const PostReviewsProvider: React.FC = ({ children }) => {
 };
 
 function usePostReviewsState(): State {
-  const context = useContext(PostReviewsStateContext);
+  const context = React.useContext(PostReviewsStateContext);
   if (context === undefined) {
     throw new Error('usePostReviewsState must be used within a PostReviewsProvider');
   }
   return context;
 }
 function usePostReviewsDispatch(): Dispatch {
-  const context = useContext(PostReviewsDispatchContext);
+  const context = React.useContext(PostReviewsDispatchContext);
   if (context === undefined) {
     throw new Error('usePostReviewsDispatch must be used within a PostReviewsProvider');
   }

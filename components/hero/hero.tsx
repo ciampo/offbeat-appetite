@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import AccessibleImage from '../../components/media/AccessibleImage';
 import { fullBleedImageResponsiveConfig } from '../../components/media/image-responsive-configurations';

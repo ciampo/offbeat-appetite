@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';

@@ -1,7 +1,7 @@
 // @ts-ignore
 import preloadAll from 'jest-next-dynamic';
 
-import React from 'react';
+import * as React from 'react';
 import { axe } from 'jest-axe';
 import { render } from 'offbeat-appetite-render';
 

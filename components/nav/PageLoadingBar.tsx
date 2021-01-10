@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -6,10 +6,10 @@ type PageLoadingBarProps = {
   className?: string;
 };
 const PageLoadingBar: React.FC<PageLoadingBarProps> = ({ className }) => {
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = React.useState<boolean>(false);
   const router = useRouter();
 
-  useEffect(() => {
+  React.useEffect(() => {
     function handleRouteChange(): void {
       setLoading(true);
     }

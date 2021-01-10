@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import * as React from 'react';
 
 import { NextRouter } from 'next/router';
 import { RouterContext } from 'next/dist/next-server/lib/router-context';
@@ -31,7 +31,7 @@ const emptyRouter: NextRouter = {
   },
 };
 
-function render(ui: ReactElement, options: AugmentedRenderOptions = {}): RenderResult {
+function render(ui: React.ReactElement, options: AugmentedRenderOptions = {}): RenderResult {
   const { router, ...otherOptions } = options;
 
   const Wrapper: React.FC = ({ children }) => (
