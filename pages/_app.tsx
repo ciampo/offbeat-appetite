@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'development') {
 
 import '../styles/index.css';
 
-import React from 'react';
+import * as React from 'react';
 import App from 'next/app';
 import dynamic from 'next/dynamic';
 

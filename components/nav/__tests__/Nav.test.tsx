@@ -9,7 +9,7 @@ import {
 
 import { useRouter as mockUseRouter } from 'next/router';
 
-import React from 'react';
+import * as React from 'react';
 import { axe } from 'jest-axe';
 import { render, fireEvent, act } from 'offbeat-appetite-render';
 

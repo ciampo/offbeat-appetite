@@ -1,11 +1,11 @@
-import React, { useReducer, useContext, createContext } from 'react';
+import * as React from 'react';
 
 type Action = { type: 'changeImage'; details: { url?: string } };
 type Dispatch = (action: Action) => void;
 type State = { image?: string };
 
-const SharingImageStateContext = createContext<State | undefined>(undefined);
-const SharingImageDispatchContext = createContext<Dispatch | undefined>(undefined);
+const SharingImageStateContext = React.createContext<State | undefined>(undefined);
+const SharingImageDispatchContext = React.createContext<Dispatch | undefined>(undefined);
 
 const sharingImageReducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -19,7 +19,7 @@ const sharingImageReducer = (state: State, action: Action): State => {
 };
 
 const SharingImageProvider: React.FC = ({ children }) => {
-  const [state, dispatch] = useReducer(sharingImageReducer, { image: undefined });
+  const [state, dispatch] = React.useReducer(sharingImageReducer, { image: undefined });
 
   return (
     <SharingImageStateContext.Provider value={state}>
@@ -31,14 +31,14 @@ const SharingImageProvider: React.FC = ({ children }) => {
 };
 
 function useSharingImageState(): State {
-  const context = useContext(SharingImageStateContext);
+  const context = React.useContext(SharingImageStateContext);
   if (context === undefined) {
     throw new Error('useSharingImageState must be used within a SharingImageProvider');
   }
   return context;
 }
 function useSharingImageDispatch(): Dispatch {
-  const context = useContext(SharingImageDispatchContext);
+  const context = React.useContext(SharingImageDispatchContext);
   if (context === undefined) {
     throw new Error('useSharingImageDispatch must be used within a SharingImageProvider');
   }

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 import GenericPortableText from './GenericPortableText';
 import { simpleSerializers } from './serializers';

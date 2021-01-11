@@ -1,10 +1,10 @@
-import React, { memo } from 'react';
+import * as React from 'react';
 
 type TagProps = {
   className?: string;
 };
 
-const Tag: React.FC<TagProps> = memo(({ children, className }) => (
+const Tag: React.FC<TagProps> = React.memo(({ children, className }) => (
   <span
     className={[
       'inline-flex items-center px-1 py-1 xl:px-2 xl:py-1half',

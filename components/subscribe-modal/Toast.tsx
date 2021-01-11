@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
 import { useLocalStorage } from 'react-use';
 import ReactGA from 'react-ga';
 
@@ -15,8 +15,8 @@ const SHOW_TOAST_TIMEOUT_MS = 20000;
 const ONE_WEEK_MS = 1000 * 60 * 60 * 24 * 7;
 
 const SubscribeToast: React.FC = () => {
-  const [hideStillWaiting, setHideStillWaiting] = useState(true);
-  const [hideUserInteraction, setHideUserInteraction] = useState(false);
+  const [hideStillWaiting, setHideStillWaiting] = React.useState(true);
+  const [hideUserInteraction, setHideUserInteraction] = React.useState(false);
   const [dismissToastMs, setDismissToastMs] = useLocalStorage(DISMISS_TOAST_MS_KEY, 0);
 
   const enoughTimeSinceLastDismissed = dismissToastMs + ONE_WEEK_MS < Date.now();
@@ -39,7 +39,7 @@ const SubscribeToast: React.FC = () => {
     setDismissToastMs(Date.now());
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     let timeoutId: NodeJS.Timeout | undefined;
     if (userPrefShowToast) {
       timeoutId = setTimeout(() => {

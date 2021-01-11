@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, memo } from 'react';
+import * as React from 'react';
 import ReactGA from 'react-ga';
 
 import { ButtonOlive } from '../button/Button';
@@ -29,7 +29,7 @@ const sendModalGaEvent = (label: string): void => {
   });
 };
 
-const SubscribeAnchorEl = memo(
+const SubscribeAnchorEl = React.memo(
   React.forwardRef<HTMLAnchorElement | null, unknown>((props, forwardedRef) => (
     <a {...props} href="#subscribe" ref={forwardedRef} />
   ))
@@ -37,18 +37,20 @@ const SubscribeAnchorEl = memo(
 SubscribeAnchorEl.displayName = 'memo(forwardRef(SubscribeAnchorEl))';
 
 const SubscribeModal: React.FC = () => {
-  const modalContainerRef = useRef<HTMLDivElement>(null);
-  const subscribeButtonRef = useRef<HTMLAnchorElement>(null);
-  const dismissButtonRef = useRef<HTMLButtonElement>(null);
+  const modalContainerRef = React.useRef<HTMLDivElement>(null);
+  const subscribeButtonRef = React.useRef<HTMLAnchorElement>(null);
+  const dismissButtonRef = React.useRef<HTMLButtonElement>(null);
 
-  const [isWaitingForInitialTimeout, setIsWaitingForInitialTimeout] = useState(true);
-  const [userInteractedDismissingTheModal, setUserInteractedDismissingTheModal] = useState(false);
+  const [isWaitingForInitialTimeout, setIsWaitingForInitialTimeout] = React.useState(true);
+  const [userInteractedDismissingTheModal, setUserInteractedDismissingTheModal] = React.useState(
+    false
+  );
   const shouldRender = !userInteractedDismissingTheModal && !isWaitingForInitialTimeout;
 
-  const hasModalBeenFocused = useRef(false);
+  const hasModalBeenFocused = React.useRef(false);
 
   // Initial timeout logic
-  useEffect(() => {
+  React.useEffect(() => {
     let timeoutId: NodeJS.Timeout | undefined;
     if (!userInteractedDismissingTheModal) {
       timeoutId = setTimeout(() => {
@@ -102,13 +104,13 @@ const SubscribeModal: React.FC = () => {
   };
 
   // Prevent body from scrolling when modal is visible
-  useEffect(() => {
+  React.useEffect(() => {
     document.body.style.overflow = shouldRender ? 'hidden' : '';
   }, [shouldRender]);
 
   // Set aria-hidden on other parts of the page to exclude them from the
   // screen reader while the modal is open
-  useEffect(() => {
+  React.useEffect(() => {
     ELEMENTS_TO_MAKE_ARIA_HIDDEN_WHEN_MODAL_OPENS.map((el) => {
       if (el) {
         el.setAttribute('aria-hidden', shouldRender ? 'true' : 'false');
@@ -117,7 +119,7 @@ const SubscribeModal: React.FC = () => {
   }, [shouldRender]);
 
   // Move focus on the modal when it's shown
-  useEffect(() => {
+  React.useEffect(() => {
     if (shouldRender && modalContainerRef.current && !hasModalBeenFocused.current) {
       modalContainerRef.current.focus();
       hasModalBeenFocused.current = true;

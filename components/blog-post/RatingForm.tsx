@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import * as React from 'react';
 
 import { ButtonTransparent } from '../button/Button';
 import { StarEmptyIcon, StarFullIcon } from '../icons';
@@ -30,12 +30,12 @@ const RatingForm: React.FC<{
   documentId: string | null;
   successCallback: (rating: number) => void;
 }> = ({ documentId, successCallback }) => {
-  const formRef = useRef<HTMLFormElement>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const formRef = React.useRef<HTMLFormElement>(null);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [showErrorMessage, setShowErrorMessage] = React.useState(false);
 
-  const [highlightedStarIndex, setHighlightedStarIndex] = useState(-1);
-  const [selectedStarIndex, setSelectedStarIndex] = useState(-1);
+  const [highlightedStarIndex, setHighlightedStarIndex] = React.useState(-1);
+  const [selectedStarIndex, setSelectedStarIndex] = React.useState(-1);
   const solidStarIndex = highlightedStarIndex > -1 ? highlightedStarIndex : selectedStarIndex;
 
   // Do not allow star rating on draft posts (this is also disallowed in the
@@ -47,7 +47,7 @@ const RatingForm: React.FC<{
     isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer',
   ].join(' ');
 
-  const handleSubmit = useCallback(
+  const handleSubmit = React.useCallback(
     (e?: React.FormEvent<HTMLFormElement>): void => {
       e?.preventDefault();
 
@@ -122,7 +122,7 @@ const RatingForm: React.FC<{
     [successCallback, isDisabled]
   );
 
-  const handleStarMouseEnter = useCallback(
+  const handleStarMouseEnter = React.useCallback(
     (starIndex): void => {
       if (!isDisabled) {
         setHighlightedStarIndex(starIndex);
@@ -130,13 +130,13 @@ const RatingForm: React.FC<{
     },
     [setHighlightedStarIndex, isDisabled]
   );
-  const handleStarMouseLeave = useCallback((): void => {
+  const handleStarMouseLeave = React.useCallback((): void => {
     if (!isDisabled) {
       setHighlightedStarIndex(-1);
     }
   }, [setHighlightedStarIndex, isDisabled]);
 
-  const handleRatingInputChange = useCallback(
+  const handleRatingInputChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>): void => {
       if (!isDisabled) {
         setSelectedStarIndex(parseInt(e.target.value, 10));

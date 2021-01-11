@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import * as React from 'react';
 import { urlFor } from '../../sanity/get-image-url';
 
 import { AccessibleImageResponsiveConfig } from './image-responsive-configurations';
@@ -126,5 +126,5 @@ const AccessibleImage: React.FC<AccessibleImageProps> = ({
   );
 };
 
-const MemoizedAccessibleImage = memo(AccessibleImage);
+const MemoizedAccessibleImage = React.memo(AccessibleImage);
 export default MemoizedAccessibleImage;

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import * as React from 'react';
 
 const COMMENTO_SCRIPT_PATH = '/js/commento.js';
 const COMMENTO_ORIGIN_LOCAL = 'http://localhost:8080';
@@ -31,7 +31,7 @@ const removeCommentoScript = (): void => {
 };
 
 const Commento: React.FC<{ pageId: string }> = ({ pageId }) => {
-  useEffect(() => {
+  React.useEffect(() => {
     insertCommentoScript(pageId);
 
     return (): void => removeCommentoScript();

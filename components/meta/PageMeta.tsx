@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import * as React from 'react';
 import Head from 'next/head';
 
 import { joinUrl, sanitySimpleImageUrl } from '../../scripts/utils';
@@ -37,7 +37,7 @@ const PageMeta: React.FC<PageMetaProps> = ({
   });
 
   // Sets the current sharing image globally
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch({ type: 'changeImage', details: { url: resizedPreviewImage } });
   }, [resizedPreviewImage, dispatch]);
 

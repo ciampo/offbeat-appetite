@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { withKnobs, text } from '@storybook/addon-knobs';
 
 import Tag from '../components/tag/Tag';

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import * as React from 'react';
 
 import Link from 'next/link';
 
@@ -16,7 +16,7 @@ import { socialLinks } from '../../data/siteMiscContent.json';
 
 import { UiLink, SanitySocialLink } from '../../typings';
 
-const BasicLinkEl: React.FC<{ href: string; as: string }> = memo(
+const BasicLinkEl: React.FC<{ href: string; as: string }> = React.memo(
   ({ href, as, ...props }): JSX.Element => (
     <Link href={href} as={as}>
       <a {...props} />
@@ -25,7 +25,7 @@ const BasicLinkEl: React.FC<{ href: string; as: string }> = memo(
 );
 BasicLinkEl.displayName = 'memo(BasicLinkEl)';
 
-const BasicExternalAnchorEl: React.FC<{ href: string }> = memo(({ href, ...props }) => (
+const BasicExternalAnchorEl: React.FC<{ href: string }> = React.memo(({ href, ...props }) => (
   <a href={href} target="_blank" rel="noopener noreferrer" {...props} />
 ));
 BasicExternalAnchorEl.displayName = 'memo(BasicExternalAnchorEl)';
@@ -78,7 +78,7 @@ const FooterSocialLink: React.FC<FooterSocialLinkProps> = ({ link: { platform, l
   );
 };
 
-const Footer: React.FC = memo(() => (
+const Footer: React.FC = React.memo(() => (
   <footer className="bg-olive-darker" data-testid="site-footer-wrapper" id="site-footer">
     <PageContentContainer className="py-12 sm:py-16 md:py-20 xl:py-24 -mb-4 flex flex-col items-center sm:flex-wrap sm:flex-row sm:justify-center">
       {/* logo */}

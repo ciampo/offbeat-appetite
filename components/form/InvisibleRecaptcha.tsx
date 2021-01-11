@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, MutableRefObject } from 'react';
+import * as React from 'react';
 import { useIntersection } from 'react-use';
 
 const isRecaptchaReady = (): boolean =>
@@ -42,7 +42,7 @@ export type InvisibleRecaptchaProps = {
 };
 
 type InvisibleRecaptchaPropsWithRef = InvisibleRecaptchaProps & {
-  forwardedRef: MutableRefObject<InvisibleRecaptchaRef | null>;
+  forwardedRef: React.MutableRefObject<InvisibleRecaptchaRef | null>;
 };
 const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
   siteKey,
@@ -51,15 +51,15 @@ const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
   forwardedRef,
   ...props
 }) => {
-  const isReadyIntervalRef = useRef<NodeJS.Timeout>();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const widgetId = useRef<number | null>(null);
-  const [isReady, setReady] = useState(false);
-  const [inView, setInView] = useState<boolean>(!isIoSupported);
+  const isReadyIntervalRef = React.useRef<NodeJS.Timeout>();
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const widgetId = React.useRef<number | null>(null);
+  const [isReady, setReady] = React.useState(false);
+  const [inView, setInView] = React.useState<boolean>(!isIoSupported);
   const ioResults = useIntersection(containerRef, {});
 
   // Initially, wait until the component enters the viewport
-  useEffect(() => {
+  React.useEffect(() => {
     if (ioResults && ioResults.intersectionRatio > 0) {
       setInView(true);
     }
@@ -67,7 +67,7 @@ const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
 
   // When the component enters the viewport, check if the recaptcha script
   // needs to be injected in the page.
-  useEffect(() => {
+  React.useEffect(() => {
     if (
       inView &&
       !document.querySelector(`script[src="${RECAPTCHA_SCRIPT_URL}"]`) &&
@@ -79,7 +79,7 @@ const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
 
   // In the meantime, as soon as the component enters the viewport, start
   // checking periodically for the recaptcha library to be initialised and ready
-  useEffect(() => {
+  React.useEffect(() => {
     function checkIsReady(): boolean {
       const readyCheck = isRecaptchaReady();
       if (readyCheck) {
@@ -106,7 +106,7 @@ const InvisibleRecaptcha: React.FC<InvisibleRecaptchaPropsWithRef> = ({
 
   // When the recaptcha library is ready, and only if a widget hasn't already been
   // created, create a new recaptcha widget
-  useEffect(() => {
+  React.useEffect(() => {
     if (isReady && containerRef.current && window.grecaptcha && !widgetId.current) {
       widgetId.current = window.grecaptcha.render(containerRef.current, {
         sitekey: siteKey,

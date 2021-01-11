@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import * as React from 'react';
 
 import BlogPostTile, { BlogPostTileShadowVariant, BlogPostTileLayoutVariant } from './BlogPostTile';
 import { SanityBlogPostPreview } from '../../typings';
@@ -13,7 +13,7 @@ type BlogPostTileListProps = {
   tileClassName?: string;
   eagerLoadFirstTileImage?: boolean;
 };
-const BlogPostTileList: React.FC<BlogPostTileListProps> = memo(
+const BlogPostTileList: React.FC<BlogPostTileListProps> = React.memo(
   ({
     postsData,
     className,

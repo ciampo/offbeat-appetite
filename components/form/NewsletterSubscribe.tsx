@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useRef, useCallback, MutableRefObject } from 'react';
+import * as React from 'react';
 import { useLocalStorage } from 'react-use';
 import ReactGA from 'react-ga';
 
@@ -27,14 +27,15 @@ const FORM_METHOD = 'POST';
 const FORM_ACTION = '/thank-you';
 
 const InvisibleRecaptcha = dynamic(() => import('./InvisibleRecaptcha'), { ssr: false });
-const ForwardedInvisibleRecaptcha = forwardRef<InvisibleRecaptchaRef, InvisibleRecaptchaProps>(
-  (props, ref) => (
-    <InvisibleRecaptcha
-      forwardedRef={ref as MutableRefObject<InvisibleRecaptchaRef | null>}
-      {...props}
-    />
-  )
-);
+const ForwardedInvisibleRecaptcha = React.forwardRef<
+  InvisibleRecaptchaRef,
+  InvisibleRecaptchaProps
+>((props, ref) => (
+  <InvisibleRecaptcha
+    forwardedRef={ref as React.MutableRefObject<InvisibleRecaptchaRef | null>}
+    {...props}
+  />
+));
 ForwardedInvisibleRecaptcha.displayName = 'forwardRef(InvisibleRecaptcha)';
 
 const FIELD_NAMES = {
@@ -61,22 +62,22 @@ type NewsletterSubscribeProps = {
 const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance }) => {
   const forceDisabled = process.env.NEXT_PUBLIC_IS_SUBMIT_FORM_ENABLED !== 'true';
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [feedbackMessage, setfeedbackMessage] = useState({
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [feedbackMessage, setfeedbackMessage] = React.useState({
     isError: forceDisabled ? true : false,
     message: forceDisabled ? subscribeFormMessageDisabled : '',
   });
-  const reaptchaRef = useRef<InvisibleRecaptchaRef>(null);
-  const formRef = useRef<HTMLFormElement>(null);
+  const reaptchaRef = React.useRef<InvisibleRecaptchaRef>(null);
+  const formRef = React.useRef<HTMLFormElement>(null);
 
   const setHideToastPref = useLocalStorage(HIDE_TOAST_KEY, false)[1];
 
-  const onInputChange = useCallback((e: React.FormEvent<HTMLInputElement>): void => {
+  const onInputChange = React.useCallback((e: React.FormEvent<HTMLInputElement>): void => {
     (e.target as HTMLInputElement).setCustomValidity('');
   }, []);
 
   // Show error message from Recatpcha
-  const onRecapchaError = useCallback((errorMessage: string): void => {
+  const onRecapchaError = React.useCallback((errorMessage: string): void => {
     setIsSubmitting(false);
 
     reaptchaRef.current?.reset();
@@ -89,7 +90,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
   }, []);
 
   // Send form data on recaptcha successfull verification
-  const onRecaptchaSuccess = useCallback(
+  const onRecaptchaSuccess = React.useCallback(
     (recaptchaValue: string): void => {
       function onSubmissionError(error: string): void {
         setIsSubmitting(false);
@@ -156,7 +157,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
     [setHideToastPref]
   );
 
-  const handleSubmit = useCallback(
+  const handleSubmit = React.useCallback(
     (e: React.FormEvent<HTMLFormElement>): void => {
       e.preventDefault();
 
@@ -193,7 +194,7 @@ const NewsletterSubscribe: React.FC<NewsletterSubscribeProps> = ({ formInstance 
     [forceDisabled, reaptchaRef]
   );
 
-  const onInputInvalid = useCallback((e: React.FormEvent<HTMLInputElement>): void => {
+  const onInputInvalid = React.useCallback((e: React.FormEvent<HTMLInputElement>): void => {
     const inputEl = e.target as HTMLInputElement;
     inputEl.setCustomValidity(`Enter a valid ${inputEl.placeholder.toLowerCase()}`);
   }, []);

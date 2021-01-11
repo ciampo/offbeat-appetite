@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import * as React from 'react';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
 
@@ -23,14 +23,14 @@ import {
 const homeSectionId = (category?: SanityPageHomeCategorySection): string =>
   category ? `home-category-section-${category.category.slug}` : '';
 
-const ButtonLinkComponent: React.FC<{ href: string; as?: string }> = memo(
+const ButtonLinkComponent: React.FC<{ href: string; as?: string }> = React.memo(
   ({ as, href, ...props }): JSX.Element => (
     <Link href={href} as={as}>
       <a {...props} />
     </Link>
   )
 );
-ButtonLinkComponent.displayName = 'memo(ButtonLinkComponent)';
+ButtonLinkComponent.displayName = 'React.memo(ButtonLinkComponent)';
 
 // Home Category Section
 type HomeCategorySectionProps = {
@@ -38,7 +38,7 @@ type HomeCategorySectionProps = {
   even: boolean;
   eagerLoadImages?: boolean;
 };
-const HomeCategorySection: React.FC<HomeCategorySectionProps> = memo(
+const HomeCategorySection: React.FC<HomeCategorySectionProps> = React.memo(
   ({ categorySectionData, even, eagerLoadImages = false }) => (
     <section
       className={[

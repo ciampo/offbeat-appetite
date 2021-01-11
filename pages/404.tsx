@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import * as React from 'react';
 import { GetStaticProps } from 'next';
 
 import { NextComponentTypeWithLayout } from '../typings';
@@ -10,7 +10,7 @@ type Custom404Props = {
   homeSeoImage: string;
 };
 const Custom404: NextComponentTypeWithLayout<Custom404Props> = ({ homeSeoImage }) => {
-  const onHomeClick = (e: MouseEvent): void => {
+  const onHomeClick = (e: React.MouseEvent): void => {
     e.preventDefault();
     if (window && window.location && window.location.replace) {
       window.location.replace('/');

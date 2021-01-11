@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import * as React from 'react';
 import Link from 'next/link';
 
 import AccessibleImage from '../media/AccessibleImage';
@@ -27,7 +27,7 @@ export type BlogPostTileProps = {
 
 const transformTransitionCommonClassName = 'transition-transform duration-300 ease-out transform';
 
-const BlogPostTile: React.FC<BlogPostTileProps> = memo(
+const BlogPostTile: React.FC<BlogPostTileProps> = React.memo(
   ({
     postData,
     layoutVariant,

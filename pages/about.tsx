@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import * as React from 'react';
 import { GetStaticProps } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
@@ -11,7 +11,7 @@ import { generateWebpageStructuredData } from '../scripts/structured-data';
 
 import { SanityPageAbout, StructuredData, NextComponentTypeWithLayout } from '../typings';
 
-const BasicSectionEl: React.FC = memo((props) => <section {...props} />);
+const BasicSectionEl: React.FC = React.memo((props) => <section {...props} />);
 BasicSectionEl.displayName = 'memo(BasicSectionEl)';
 
 type AboutProps = {

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import * as React from 'react';
 import { useRouter } from 'next/router';
 import { useLocalStorage } from 'react-use';
 
@@ -49,7 +49,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
   const localReviewExists =
     reviewsState?.data?.documentId && postReviews[reviewsState.data.documentId];
 
-  const addReviewToLocalStorage = useCallback(
+  const addReviewToLocalStorage = React.useCallback(
     (rating: number) => {
       if (reviewsState?.data?.documentId) {
         setPostReviews({

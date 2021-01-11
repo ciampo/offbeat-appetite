@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import * as React from 'react';
 import ReactGA from 'react-ga';
 
 import { useSharingImageState } from '../meta/sharing-image-context';
@@ -17,7 +17,7 @@ import {
 } from '../icons';
 import { socialShareLabel } from '../../data/siteMiscContent.json';
 
-const BasicExternalAnchorEl: React.FC<{ href: string }> = memo(({ href, ...props }) => (
+const BasicExternalAnchorEl: React.FC<{ href: string }> = React.memo(({ href, ...props }) => (
   <a href={href} target="_blank" rel="noopener noreferrer" {...props} />
 ));
 BasicExternalAnchorEl.displayName = 'memo(BasicExternalAnchorEl)';
@@ -39,7 +39,7 @@ export type SharingLinkWithMessageProps = {
   className?: string;
 };
 
-const BasicSharingLink: React.FC<BasicSharingLinkProps> = memo(
+const BasicSharingLink: React.FC<BasicSharingLinkProps> = React.memo(
   ({
     iconPrefix,
     href,
@@ -188,7 +188,7 @@ export const NativeSharingButton: React.FC<SharingLinkWithMessageProps> = ({
   className,
   iconPrefix,
 }) => {
-  const onNativeShareButtonClick = useCallback(async () => {
+  const onNativeShareButtonClick = React.useCallback(async () => {
     try {
       await ((navigator.share as unknown) as NavigatorShare)({
         title: message,

@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import * as React from 'react';
 
 import CaptionedImage from './CaptionedImage';
 import CaptionedVideo from './CaptionedVideo';
@@ -53,6 +53,6 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({ className, items }) => (
   </div>
 );
 
-const MemoizedMediaGallery = memo(MediaGallery);
+const MemoizedMediaGallery = React.memo(MediaGallery);
 
 export default MemoizedMediaGallery;

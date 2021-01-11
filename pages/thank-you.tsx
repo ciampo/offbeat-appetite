@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import * as React from 'react';
 import { GetStaticProps } from 'next';
 
 import PageMeta from '../components/meta/PageMeta';
@@ -12,14 +12,14 @@ type ThankYouProps = {
 };
 
 const ThankYouPage: NextComponentTypeWithLayout<ThankYouProps> = ({ thankYouData, path }) => {
-  const onBackClick = useCallback((e) => {
+  const onBackClick = React.useCallback((e) => {
     e.preventDefault();
     if (window && window.history && window.history.back) {
       window.history.back();
     }
   }, []);
 
-  const onHomeClick = useCallback((e) => {
+  const onHomeClick = React.useCallback((e) => {
     e.preventDefault();
     if (window && window.location && window.location.replace) {
       window.location.replace('/');

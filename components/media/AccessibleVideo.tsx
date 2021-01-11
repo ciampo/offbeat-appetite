@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import * as React from 'react';
 
 import { SanityAccessibleVideo } from '../../typings';
 import { AccessibleImageResponsiveConfig } from './image-responsive-configurations';
@@ -15,10 +15,10 @@ const AccessibleVideo: React.FC<AccessibleVideoProps> = ({
   className = 'relative',
   ...props
 }) => {
-  const [isVideoInitialised, setVideoInitialised] = useState(false);
-  const videoEl = useRef<HTMLVideoElement>(null);
+  const [isVideoInitialised, setVideoInitialised] = React.useState(false);
+  const videoEl = React.useRef<HTMLVideoElement>(null);
 
-  const onThumbnailClick = useCallback(() => {
+  const onThumbnailClick = React.useCallback(() => {
     setVideoInitialised(true);
     (videoEl.current as HTMLVideoElement).play();
     (videoEl.current as HTMLVideoElement).focus();
