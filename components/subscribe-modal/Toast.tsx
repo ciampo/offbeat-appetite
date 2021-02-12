@@ -84,7 +84,7 @@ const SubscribeToast: React.FC = () => {
           className={[...buttonCommonClassName, 'font-medium border-0'].join(' ')}
           onClick={onDismissClick}
         >
-          Dismiss
+          Remind me later
         </button>
       </p>
     </div>
