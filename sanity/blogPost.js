@@ -5,6 +5,7 @@ const {
   tagPreviewProjection,
   accessibleImageProjection,
   richPortabletextProjection,
+  blogPostPreviewProjection,
 } = require('./projections');
 
 const { pageBlogPostQuery } = require('./pages.js');
@@ -28,6 +29,8 @@ const allBlogPostsQuery = /* groq */ `*[_type == "${blogPostType}"] {
   "seoImage": seoImage.asset->url,
 }`;
 
+const allBlogPostPreviewsQuery = /* groq */ `*[_type == "${blogPostType}"] ${blogPostPreviewProjection}`;
+
 function replaceBlogPostContent(blogPostItem, content) {
   return JSON.parse(
     JSON.stringify(content)
@@ -38,6 +41,7 @@ function replaceBlogPostContent(blogPostItem, content) {
 
 module.exports = {
   allBlogPostsQuery,
+  allBlogPostPreviewsQuery,
   blogPostType,
   replaceBlogPostContent,
 };
