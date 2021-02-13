@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
 import { useLocalStorage } from 'react-use';
+import Link from 'next/link';
 
 import RatingForm from './RatingForm';
 import { usePostReviewsState } from './blog-post-reviews-context';
@@ -60,6 +61,9 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
     },
     [reviewsState?.data?.documentId, postReviews, setPostReviews]
   );
+
+  const ingredientWrapperClassName = 'w-48 2xsm:w-56 xsm:w-64 text-left leading-snug';
+  const linkClassName = 'underline';
 
   return (
     <article
@@ -200,6 +204,12 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
         </section>
 
         {/* Ingredients  */}
+        {/* TODO:
+          - common serializer component
+          - common types
+          - test external link
+          - styles
+        */}
         <section className="mt-8 2xsm:mt-10 md:mt-12 xl:mt-16 space-y-5 sm:space-y-6 md:space-y-8 xl:space-y-10">
           <RecipeSectionTitle text={recipeIngredientsSectionTitle} />
           <ul className="space-y-2 md:space-y-3 xl:space-y-4" data-testid="recipe-ingredients-list">
@@ -212,9 +222,26 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
                 <span className="w-16 2xsm:w-20 xsm:w-24 font-medium text-right leading-snug">
                   {stringifyRecipeQuantity(ingredient) || '—'}
                 </span>
-                <span className="w-48 2xsm:w-56 xsm:w-64 text-left leading-snug">
-                  {ingredient.name}
-                </span>
+                {ingredient?.internalLink?.routeInfo ? (
+                  <Link
+                    href={ingredient.internalLink.routeInfo.page}
+                    as={ingredient.internalLink.routeInfo.path}
+                  >
+                    <a className={[ingredientWrapperClassName, linkClassName].join(' ')}>
+                      {ingredient.name}
+                    </a>
+                  </Link>
+                ) : ingredient.externalLink ? (
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={[ingredientWrapperClassName, linkClassName].join(' ')}
+                  >
+                    {ingredient.name}
+                  </a>
+                ) : (
+                  <span className={ingredientWrapperClassName}>{ingredient.name}</span>
+                )}
               </li>
             ))}
           </ul>
