@@ -54,16 +54,18 @@ const captionedVideoProjection = /* groq */ `{
   video->${accessibleVideoProjection}
 }`;
 
+const internalLinkProjection = /* groq */ `{
+  _id,
+  "slug": slug.current,
+  "category": category->{
+    "slug": slug.current,
+  },
+}`;
+
 const portableTextCustomMarkDefProjection = /* groq */ `{
   ...,
   _type == "internalLink" => {
-    "reference": reference->{
-      _id,
-      "slug": slug.current,
-      "category": category->{
-        "slug": slug.current,
-      },
-    },
+    "reference": reference->${internalLinkProjection},
   },
 }`;
 
@@ -88,6 +90,7 @@ const richPortabletextProjection = /* groq */ `{
     ingredients[] {
       ...,
       "unit": unit[0],
+      internalLink->${internalLinkProjection},
     },
     method[] {
       _key,

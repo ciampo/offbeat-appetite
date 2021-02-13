@@ -19,8 +19,8 @@ import {
 const linkClassName = 'border-b border-dashed border-gray-darker outline-none focus:border-solid';
 
 const InternalLink: React.FC<SanityMarkNode> = ({ children, mark }) =>
-  mark.routeInfo ? (
-    <Link href={mark.routeInfo.page} as={mark.routeInfo.path}>
+  mark?.reference?.routeInfo ? (
+    <Link href={mark.reference.routeInfo.page} as={mark.reference.routeInfo.path}>
       <a className={linkClassName}>{children}</a>
     </Link>
   ) : (

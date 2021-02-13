@@ -19,6 +19,18 @@ export type SanityIngredient = {
   _key: string;
   name: string;
   quantity: number;
+  internalLink?: {
+    _id: string;
+    slug: string;
+    category: {
+      slug: string;
+    };
+    routeInfo?: {
+      page: string;
+      path: string;
+    };
+  };
+  externalLink?: string;
   unit: SanityIngredientUnit;
 };
 

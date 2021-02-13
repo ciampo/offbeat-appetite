@@ -195,7 +195,19 @@ function compilePortableTextInternalLinks(subTree) {
           dynamicItem: markDef.reference,
         });
         if (compiledBlogPostRoute) {
-          markDef.routeInfo = compiledBlogPostRoute.routeInfo;
+          markDef.reference.routeInfo = compiledBlogPostRoute.routeInfo;
+        }
+      }
+    });
+  } else if (Object.prototype.hasOwnProperty.call(subTree, 'ingredients')) {
+    subTree.ingredients.forEach((ingredient) => {
+      if (Object.prototype.hasOwnProperty.call(ingredient, 'internalLink')) {
+        const compiledBlogPostRoute = compileDynamicItem({
+          routeConfig: blogPostRoute,
+          dynamicItem: ingredient.internalLink,
+        });
+        if (compiledBlogPostRoute) {
+          ingredient.internalLink.routeInfo = compiledBlogPostRoute.routeInfo;
         }
       }
     });
