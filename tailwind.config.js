@@ -15,7 +15,7 @@ module.exports = {
           '4px -4px 6px -1px rgba(0, 0, 0, 0.1), 2px -2px 4px -1px rgba(0, 0, 0, 0.06)',
       },
       fontSize: {
-        '0': '0',
+        0: '0',
       },
       lineHeight: {
         none: 1,
@@ -50,8 +50,8 @@ module.exports = {
         'ch-40': '40ch',
       },
       height: {
-        '14': '3.5rem',
-        '28': '7rem',
+        14: '3.5rem',
+        28: '7rem',
       },
       minHeight: {
         'hero-m': '36rem',
@@ -62,10 +62,10 @@ module.exports = {
         'hero-d-short': '42rem',
       },
       opacity: {
-        '10': '0.1',
-        '15': '0.15',
-        '20': '0.2',
-        '35': '0.35',
+        10: '0.1',
+        15: '0.15',
+        20: '0.2',
+        35: '0.35',
       },
       transitionProperty: {
         'bg-color-transform': 'background-color, transform',

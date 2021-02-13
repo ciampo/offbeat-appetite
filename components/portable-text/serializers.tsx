@@ -29,9 +29,9 @@ const InternalLink: React.FC<SanityMarkNode> = ({ children, mark }) =>
 
 const ExternalLink: React.FC<SanityMarkNode> = ({ children, mark }) => {
   const variableProps: {
-    rel: string[]
-    target?: '_blank'
-  } = { rel: [], target: undefined};
+    rel: string[];
+    target?: '_blank';
+  } = { rel: [], target: undefined };
 
   if (mark.blank) {
     variableProps.target = '_blank';

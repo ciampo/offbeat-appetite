@@ -196,7 +196,9 @@ describe('Nav', () => {
     expect(getAllByRole('link')).toHaveLength(2 * allLinks.length + 3);
 
     expect(getByText('Subscribe')).toBeInTheDocument();
-    expect(getByText('Subscribe').getAttribute('href')).toEqual(expect.stringMatching(/#subscribe$/));
+    expect(getByText('Subscribe').getAttribute('href')).toEqual(
+      expect.stringMatching(/#subscribe$/)
+    );
 
     expect(await axe(container)).toHaveNoViolations();
   }, 15000);
