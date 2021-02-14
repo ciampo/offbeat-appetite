@@ -42,4 +42,5 @@ export type SanityBlogPostFull = SanityBlogPostBase & {
   comments: {
     count: number;
   };
+  relatedBlogPosts: SanityBlogPostPreview[];
 };

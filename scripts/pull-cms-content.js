@@ -11,7 +11,12 @@ const { compileSingleRoute, compileDynamicItem } = require('./compile-routes.js'
 
 const { sanityFetch } = require('../sanity/client');
 const { allCategoriesQuery, categoryType, replaceCategoryContent } = require('../sanity/category');
-const { allBlogPostsQuery, blogPostType, replaceBlogPostContent } = require('../sanity/blogPost');
+const {
+  allBlogPostsQuery,
+  allBlogPostPreviewsQuery,
+  blogPostType,
+  replaceBlogPostContent,
+} = require('../sanity/blogPost');
 const { allTagsQuery, tagType } = require('../sanity/tag');
 const { siteSettingsQuery, siteSettingsType } = require('../sanity/siteSettings');
 const { siteMiscContentQuery, siteMiscContentType } = require('../sanity/siteMiscContent');
@@ -43,6 +48,8 @@ const blogPostRoute = routesConfig.find(({ route }) => route === BLOGPOST_PAGE_R
 
 let siteName;
 let categoriesOrder;
+
+let previewBlogPostsData;
 
 async function cleanDataFolder() {
   if (await existsAsync(DATA_FOLDER)) {
@@ -197,6 +204,55 @@ function compilePortableTextInternalLinks(subTree) {
   }
 }
 
+function addRelatedPosts(blogPostsContent) {
+  const matchingBlogPosts = {};
+
+  for (const currentBlogPost of blogPostsContent) {
+    matchingBlogPosts[currentBlogPost._id] = {};
+
+    for (const otherBlogPost of blogPostsContent) {
+      if (otherBlogPost._id === currentBlogPost._id) {
+        continue;
+      }
+
+      for (const cbpTag of currentBlogPost.tags) {
+        for (const obpTag of otherBlogPost.tags) {
+          if (cbpTag._id === obpTag._id) {
+            if (!(otherBlogPost._id in matchingBlogPosts[currentBlogPost._id])) {
+              const matchingPreviewBlogPostObject = previewBlogPostsData.find(
+                (pbp) => otherBlogPost._id === pbp._id
+              );
+
+              matchingBlogPosts[currentBlogPost._id][otherBlogPost._id] = {
+                data: matchingPreviewBlogPostObject,
+                count: 0,
+              };
+            }
+
+            matchingBlogPosts[currentBlogPost._id][otherBlogPost._id].count += 1;
+          }
+        }
+      }
+    }
+  }
+
+  for (const currentBlogPost of blogPostsContent) {
+    const relatedBlogPosts = Object.values(matchingBlogPosts[currentBlogPost._id])
+      // Sort by higher number of matching tags, and by more recently published in case of draw
+      .sort((a, b) => {
+        if (b.count !== a.count) {
+          return b.count - a.count;
+        }
+
+        return new Date(b.data.datePublished) - new Date(a.data.datePublished);
+      })
+      .slice(0, 3)
+      .map((obj) => augmentBlogPostWithCompiledRoute(obj.data));
+
+    currentBlogPost.relatedBlogPosts = relatedBlogPosts;
+  }
+}
+
 async function getData() {
   await cleanDataFolder();
   console.log(chalk.blue('Cleaned data folder'));
@@ -261,6 +317,10 @@ async function getData() {
         },
       },
       {
+        query: allBlogPostPreviewsQuery,
+        onResultsFetched: async (data) => (previewBlogPostsData = data),
+      },
+      {
         query: allBlogPostsQuery,
         onResultsFetched: async (allBlogPostsData) => {
           // Published and draft version of a blog post share same comments
@@ -302,6 +362,8 @@ async function getData() {
 
             return blogPostTransformedContent;
           });
+
+          addRelatedPosts(replacedBlogPostsContent);
 
           for (const blogPostData of replacedBlogPostsContent) {
             await saveToFile(blogPostData, path.join(POSTS_FOLDERNAME, blogPostData.slug));

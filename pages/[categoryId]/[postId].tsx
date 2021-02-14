@@ -8,7 +8,7 @@ import Tag from '../../components/tag/Tag';
 import { ButtonOliveInverted } from '../../components/button/Button';
 import { AllSharingButtons } from '../../components/sharing/sharing-links';
 import RichPortableText from '../../components/portable-text/RichPortableText';
-import { ArticleContentContainer } from '../../components/layouts/Containers';
+import { ArticleContentContainer, PageContentContainer } from '../../components/layouts/Containers';
 import Commento from '../../components/comments/Commento';
 import {
   PostReviewsProvider,
@@ -17,6 +17,7 @@ import {
 } from '../../components/blog-post/blog-post-reviews-context';
 import { getPostReviews } from '../../components/blog-post/sanity-browser-client';
 import PageHero from '../../components/hero/hero';
+import BlogPostTileList from '../../components/blog-post-tile/BlogPostTileList';
 
 import { joinUrl, postDateToHumanString } from '../../scripts/utils';
 
@@ -40,6 +41,9 @@ const BLOG_POST_PAGE_ROUTE = '/[categoryId]/[postId]';
 
 const BasicArticleEl: React.FC = React.memo((props) => <article {...props} />);
 BasicArticleEl.displayName = 'memo(BasicArticleEl)';
+
+const BasicAsideEl: React.FC = React.memo((props) => <aside {...props} />);
+BasicAsideEl.displayName = 'memo(BasicAsideEl)';
 
 const AnchorToRecipeEl: React.FC = React.memo((props) => <a {...props} href="#recipe" />);
 AnchorToRecipeEl.displayName = 'memo(AnchorToRecipeEl)';
@@ -177,7 +181,7 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
       </PageHero>
 
       <ArticleContentContainer
-        className="pt-12 pb-16 xsm:pb-20 md:pt-16 md:pb-24 xl:pt-24 xl:pb-32"
+        className="py-12 md:py-16 xl:py-24"
         internalWrapperClassName="space-y-8 sm:space-y-10 md:space-y-12 xl:space-y-16"
         component={BasicArticleEl}
       >
@@ -251,6 +255,22 @@ const BlogPostWrapped: React.FC<PageBlogPostProps> = ({ blogPostData, path, stru
         {/* Published and draft version of a blog post share same comments */}
         <Commento pageId={blogPostData._id.replace(/^drafts\./, '')} />
       </ArticleContentContainer>
+      <PageContentContainer
+        component={BasicAsideEl}
+        className="pb-16 xsm:pb-20 md:pb-24 xl:pb-32 space-y-8 sm:space-y-10 md:space-y-12 xl:space-y-16"
+        aria-labelledby="related-posts-title"
+      >
+        <h2 id="related-posts-title" className="type-display-2 text-center">
+          Related posts
+        </h2>
+        <BlogPostTileList
+          tileShadowVariant={'light'}
+          tileLayoutVariant={'vertical'}
+          postsData={blogPostData.relatedBlogPosts}
+          showOnlyFirstRow={true}
+          eagerLoadFirstTileImage={false}
+        />
+      </PageContentContainer>
     </>
   );
 };
