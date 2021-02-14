@@ -63,7 +63,8 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
   );
 
   const ingredientWrapperClassName = 'w-48 2xsm:w-56 xsm:w-64 text-left leading-snug';
-  const linkClassName = 'underline';
+  const linkClassName =
+    'underline underline-dashed underline-thickness-1 underline-offset-2em outline-none hover:underline-solid focus:underline-solid focus:underline-thickness-2';
 
   return (
     <article
@@ -207,7 +208,7 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
         {/* TODO:
           - common serializer component
           - common types
-          - test external link
+          - test external
           - styles
         */}
         <section className="mt-8 2xsm:mt-10 md:mt-12 xl:mt-16 space-y-5 sm:space-y-6 md:space-y-8 xl:space-y-10">
