@@ -1,4 +1,4 @@
-import { SanityBlock } from '.';
+import { SanityBlock, SanityInternalLink } from '.';
 
 export type SanityIngredientUnit = 'gr' | 'kg' | 'ml' | 'l' | 'unitless';
 
@@ -19,17 +19,7 @@ export type SanityIngredient = {
   _key: string;
   name: string;
   quantity: number;
-  internalLink?: {
-    _id: string;
-    slug: string;
-    category: {
-      slug: string;
-    };
-    routeInfo?: {
-      page: string;
-      path: string;
-    };
-  };
+  internalLink?: SanityInternalLink;
   externalLink?: string;
   unit: SanityIngredientUnit;
 };
