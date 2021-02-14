@@ -52,9 +52,9 @@ const HomeCategorySection: React.FC<HomeCategorySectionProps> = React.memo(
     >
       <PageContentContainer className="flex flex-col items-stretch bg-inherit">
         {/* Title */}
-        <h2 className="type-display-2 flex justify-center items-center space-y-3 mb-5 md:mb-6 xl:mb-8">
+        <h2 className="type-display-2 flex justify-center items-center space-x-3 mb-5 md:mb-6 xl:mb-8">
           <span aria-hidden="true">—</span>
-          {categorySectionData.title}
+          <span>{categorySectionData.title}</span>
           <span aria-hidden="true">—</span>
         </h2>
         <p className="text-center mx-auto italic mb-12 sm:mb-16 xl:mb-20">

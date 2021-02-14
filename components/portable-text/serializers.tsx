@@ -28,20 +28,25 @@ const InternalLink: React.FC<SanityMarkNode> = ({ children, mark }) =>
   );
 
 const ExternalLink: React.FC<SanityMarkNode> = ({ children, mark }) => {
-  let relAttrs: string[] = [];
+  const variableProps: {
+    rel: string[];
+    target?: '_blank';
+  } = { rel: [], target: undefined };
+
   if (mark.blank) {
-    relAttrs = [...relAttrs, 'noopener', 'noreferrer'];
+    variableProps.target = '_blank';
+    variableProps.rel = [...variableProps.rel, 'noopener', 'noreferrer'];
   }
   if (mark.nofollow) {
-    relAttrs = [...relAttrs, 'nofollow'];
+    variableProps.rel = [...variableProps.rel, 'nofollow'];
   }
 
   return (
     <a
       href={mark.href as string}
-      target={mark.blank ? '_blank' : undefined}
-      rel={relAttrs.length > 0 ? relAttrs.join(' ') : undefined}
       className={linkClassName}
+      target={variableProps.target}
+      rel={variableProps.rel.length > 0 ? variableProps.rel.join(' ') : undefined}
     >
       {children}
     </a>
