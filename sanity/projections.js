@@ -56,6 +56,7 @@ const captionedVideoProjection = /* groq */ `{
 
 const internalLinkProjection = /* groq */ `{
   _id,
+  _type,
   "slug": slug.current,
   "category": category->{
     "slug": slug.current,

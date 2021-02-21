@@ -2,6 +2,7 @@ import { SanityRecipe, SanityCaptionedImage, SanityCaptionedVideo, SanityMediaGa
 
 export interface SanityInternalLink {
   _id: string;
+  _type: 'blogPost' | 'category' | 'pageHome' | 'pageAbout';
   slug: string;
   category: {
     slug: string;
