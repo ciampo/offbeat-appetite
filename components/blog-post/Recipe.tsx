@@ -203,12 +203,6 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
         </section>
 
         {/* Ingredients  */}
-        {/* TODO:
-          - common serializer component
-          - common types
-          - test external
-          - styles
-        */}
         <section className="mt-8 2xsm:mt-10 md:mt-12 xl:mt-16 space-y-5 sm:space-y-6 md:space-y-8 xl:space-y-10">
           <RecipeSectionTitle text={recipeIngredientsSectionTitle} />
           <ul className="space-y-2 md:space-y-3 xl:space-y-4" data-testid="recipe-ingredients-list">

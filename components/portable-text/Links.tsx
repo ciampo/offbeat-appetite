@@ -3,7 +3,6 @@ import Link from 'next/link';
 
 import { SanityInternalLink } from '../../typings';
 
-// const linkClassName = 'border-b border-dashed border-gray-darker outline-none focus:border-solid';
 const linkClassName =
   'underline underline-dashed underline-thickness-1 underline-offset-2em outline-none hover:underline-solid focus:underline-solid focus:underline-thickness-2';
 
