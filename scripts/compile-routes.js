@@ -3,7 +3,7 @@ function compileDynamicItem({ dynamicItem, routeConfig }) {
     return;
   }
 
-  const { route, generateParams } = routeConfig;
+  const { route, generateParams = () => ({}) } = routeConfig;
 
   // Generate dynamic route (replace query params).
   let dynamicRoute = route;
