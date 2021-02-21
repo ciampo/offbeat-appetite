@@ -1,11 +1,11 @@
 import * as React from 'react';
-import Link from 'next/link';
 
 import CaptionedImage from '../media/CaptionedImage';
 import CaptionedVideo from '../media/CaptionedVideo';
 import MediaGallery from '../media/MediaGallery';
 import { contentFullWidthResponsiveConfig } from '../media/image-responsive-configurations';
 import Recipe from '../blog-post/Recipe';
+import { InternalLink, ExternalLink } from './Links';
 
 import {
   SanityMarkNode,
@@ -14,20 +14,14 @@ import {
   SanityCaptionedVideo,
   SanityMediaGallery,
   SanityRecipe,
+  SanityInternalLink,
 } from '../../typings';
 
-const linkClassName = 'border-b border-dashed border-gray-darker outline-none focus:border-solid';
+const InternalLinkWrapper: React.FC<SanityMarkNode> = ({ children, mark }) => (
+  <InternalLink internalLink={mark.reference as SanityInternalLink}>{children}</InternalLink>
+);
 
-const InternalLink: React.FC<SanityMarkNode> = ({ children, mark }) =>
-  mark.routeInfo ? (
-    <Link href={mark.routeInfo.page} as={mark.routeInfo.path}>
-      <a className={linkClassName}>{children}</a>
-    </Link>
-  ) : (
-    <span>{children}</span>
-  );
-
-const ExternalLink: React.FC<SanityMarkNode> = ({ children, mark }) => {
+const ExternalLinkWrapper: React.FC<SanityMarkNode> = ({ children, mark }) => {
   const variableProps: {
     rel: string[];
     target?: '_blank';
@@ -42,22 +36,21 @@ const ExternalLink: React.FC<SanityMarkNode> = ({ children, mark }) => {
   }
 
   return (
-    <a
+    <ExternalLink
       href={mark.href as string}
-      className={linkClassName}
       target={variableProps.target}
       rel={variableProps.rel.length > 0 ? variableProps.rel.join(' ') : undefined}
     >
       {children}
-    </a>
+    </ExternalLink>
   );
 };
 
 const simpleSerializers = {
   // Serializers for marks - data that annotates a text child of a block.
   marks: {
-    internalLink: InternalLink,
-    link: ExternalLink,
+    internalLink: InternalLinkWrapper,
+    link: ExternalLinkWrapper,
   },
 };
 

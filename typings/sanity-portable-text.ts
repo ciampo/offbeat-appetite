@@ -1,12 +1,26 @@
 import { SanityRecipe, SanityCaptionedImage, SanityCaptionedVideo, SanityMediaGallery } from '.';
 
-export interface SanityMarkDefs {
-  _key: string;
-  _type: string;
+export interface SanityInternalLink {
+  _id: string;
+  _type: 'blogPost' | 'category' | 'pageHome' | 'pageAbout';
+  slug: string;
+  category: {
+    slug: string;
+  };
   routeInfo?: {
     page: string;
     path: string;
   };
+}
+
+export interface SanityMarkDefs {
+  _key: string;
+  _type: string;
+  reference?:
+    | SanityInternalLink
+    | {
+        [key: string]: unknown;
+      };
   [key: string]: unknown;
 }
 

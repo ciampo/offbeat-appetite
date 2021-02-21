@@ -43,8 +43,12 @@ const DATA_FOLDER = path.join(ROOT_FOLDER, 'data');
 const POSTS_FOLDER = path.join(DATA_FOLDER, POSTS_FOLDERNAME);
 const CATEGORIES_FOLDER = path.join(DATA_FOLDER, CATEGORIES_FOLDERNAME);
 const BLOGPOST_PAGE_ROUTE = '/[categoryId]/[postId]';
+const CATEGORY_PAGE_ROUTE = '/[categoryId]';
 
 const blogPostRoute = routesConfig.find(({ route }) => route === BLOGPOST_PAGE_ROUTE);
+const categoryRoute = routesConfig.find(({ route }) => route === CATEGORY_PAGE_ROUTE);
+const homeRoute = routesConfig.find(({ route }) => route === '/');
+const aboutRoute = routesConfig.find(({ route }) => route === '/about');
 
 let siteName;
 let categoriesOrder;
@@ -185,18 +189,46 @@ function compilePortableTextInternalLinks(subTree) {
     return;
   }
 
+  function compileInternalLink(internalLinkObj) {
+    let routeConfig;
+    if (internalLinkObj._type === 'blogPost') {
+      routeConfig = blogPostRoute;
+    } else if (internalLinkObj._type === 'category') {
+      routeConfig = categoryRoute;
+    } else if (internalLinkObj._type === 'pageHome') {
+      routeConfig = homeRoute;
+    } else if (internalLinkObj._type === 'pageAbout') {
+      routeConfig = aboutRoute;
+    }
+
+    if (!routeConfig) {
+      return;
+    }
+
+    const compiledBlogPostRoute = compileDynamicItem({
+      routeConfig,
+      dynamicItem: internalLinkObj,
+    });
+
+    if (compiledBlogPostRoute) {
+      internalLinkObj.routeInfo = compiledBlogPostRoute.routeInfo;
+    }
+  }
+
   if (Array.isArray(subTree)) {
     subTree.forEach(compilePortableTextInternalLinks);
   } else if (Object.prototype.hasOwnProperty.call(subTree, 'markDefs')) {
     subTree.markDefs.forEach((markDef) => {
       if (markDef._type === 'internalLink') {
-        const compiledBlogPostRoute = compileDynamicItem({
-          routeConfig: blogPostRoute,
-          dynamicItem: markDef.reference,
-        });
-        if (compiledBlogPostRoute) {
-          markDef.routeInfo = compiledBlogPostRoute.routeInfo;
-        }
+        // Internal links in portable text
+        compileInternalLink(markDef.reference);
+      }
+    });
+  } else if (Object.prototype.hasOwnProperty.call(subTree, 'ingredients')) {
+    subTree.ingredients.forEach((ingredient) => {
+      if (Object.prototype.hasOwnProperty.call(ingredient, 'internalLink')) {
+        // Internal links in recipe ingredients
+        compileInternalLink(ingredient.internalLink);
       }
     });
   } else {

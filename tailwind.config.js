@@ -256,6 +256,21 @@ module.exports = {
         '.underline-under': {
           textUnderlinePosition: 'under',
         },
+        '.underline-dashed': {
+          textDecorationStyle: 'dashed',
+        },
+        '.underline-solid': {
+          textDecorationStyle: 'solid',
+        },
+        '.underline-thickness-1': {
+          textDecorationThickness: '1px',
+        },
+        '.underline-thickness-2': {
+          textDecorationThickness: '1px',
+        },
+        '.underline-offset-2em': {
+          textUnderlineOffset: '0.2em',
+        },
         // Flexbox
         '.flex-break-column': {
           flexBasis: '100%',

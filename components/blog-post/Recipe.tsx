@@ -6,6 +6,7 @@ import RatingForm from './RatingForm';
 import { usePostReviewsState } from './blog-post-reviews-context';
 import { StarEmptyIcon, StarHalfIcon, StarFullIcon } from '../icons';
 import SimplePortableText from '../portable-text/SimplePortableText';
+import { InternalLink, ExternalLink } from '../portable-text/Links';
 import { ArticleContentContainer } from '../layouts/Containers';
 import { stringifyRecipeIngredient, stringifyRecipeQuantity, joinUrl } from '../../scripts/utils';
 
@@ -60,6 +61,8 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
     },
     [reviewsState?.data?.documentId, postReviews, setPostReviews]
   );
+
+  const ingredientWrapperClassName = 'w-48 2xsm:w-56 xsm:w-64 text-left leading-snug';
 
   return (
     <article
@@ -212,9 +215,25 @@ const Recipe: React.FC<RecipeProps> = ({ recipe, className }) => {
                 <span className="w-16 2xsm:w-20 xsm:w-24 font-medium text-right leading-snug">
                   {stringifyRecipeQuantity(ingredient) || '—'}
                 </span>
-                <span className="w-48 2xsm:w-56 xsm:w-64 text-left leading-snug">
-                  {ingredient.name}
-                </span>
+                {ingredient.internalLink ? (
+                  <InternalLink
+                    internalLink={ingredient.internalLink}
+                    className={ingredientWrapperClassName}
+                  >
+                    {ingredient.name}
+                  </InternalLink>
+                ) : ingredient.externalLink ? (
+                  <ExternalLink
+                    href={ingredient.externalLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={ingredientWrapperClassName}
+                  >
+                    {ingredient.name}
+                  </ExternalLink>
+                ) : (
+                  <span className={ingredientWrapperClassName}>{ingredient.name}</span>
+                )}
               </li>
             ))}
           </ul>
