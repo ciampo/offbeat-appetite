@@ -85,6 +85,14 @@ class CustomDocument extends Document<DocumentProps> {
               href={url}
             />
           ))}
+
+          <script
+            async
+            defer
+            data-pin-hover="true"
+            data-pin-tall="true"
+            src="//assets.pinterest.com/js/pinit.js"
+          ></script>
         </Head>
         <body className="text-gray-darker bg-gray-lighter m-0 type-body">
           <Main />
