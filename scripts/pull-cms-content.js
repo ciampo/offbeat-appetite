@@ -349,7 +349,15 @@ async function getData() {
       },
       {
         query: allBlogPostPreviewsQuery,
-        onResultsFetched: async (data) => (previewBlogPostsData = data),
+        onResultsFetched: async (allBlogPostsPreviewData) => {
+          previewBlogPostsData = allBlogPostsPreviewData;
+
+          const replacedBlogPostPreviewsContent = allBlogPostsPreviewData
+            .map((blogPostItem) => replaceBlogPostContent(blogPostItem, blogPostItem))
+            .map(augmentBlogPostWithCompiledRoute);
+
+          await saveToFile(replacedBlogPostPreviewsContent, `${blogPostType}Preview`);
+        },
       },
       {
         query: allBlogPostsQuery,
