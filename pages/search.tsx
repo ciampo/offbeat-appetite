@@ -1,0 +1,132 @@
+import * as React from 'react';
+import { GetStaticProps } from 'next';
+import { useDebounce } from 'react-use';
+
+import PageMeta from '../components/meta/PageMeta';
+import { getPostsByText } from '../components/blog-post/sanity-browser-client';
+import BlogPostTileList from '../components/blog-post-tile/BlogPostTileList';
+
+import { generateWebpageStructuredData } from '../scripts/structured-data';
+
+import {
+  SanityPageAbout,
+  StructuredData,
+  NextComponentTypeWithLayout,
+  SanityBlogPostPreview,
+} from '../typings';
+
+type AboutProps = {
+  searchData: SanityPageAbout;
+  allPostsData: SanityBlogPostPreview[];
+  path: string;
+  structuredData: StructuredData[];
+};
+const AboutPage: NextComponentTypeWithLayout<AboutProps> = ({
+  searchData,
+  allPostsData,
+  path,
+  structuredData,
+}) => {
+  const [searchTerm, setSearchTerm] = React.useState<string>('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = React.useState<string>('');
+
+  // @TODO: start with undefined
+  const [searchResults, setSearchResults] = React.useState<SanityBlogPostPreview[]>([]);
+
+  useDebounce(
+    () => {
+      setDebouncedSearchTerm(searchTerm);
+    },
+    1000,
+    [searchTerm]
+  );
+
+  React.useEffect(() => {
+    const fetchData = async (): Promise<void> => {
+      // postReviewsDispatch({ type: 'FETCH_INIT' });
+
+      try {
+        const searchResults = await getPostsByText(debouncedSearchTerm);
+        setSearchResults(
+          allPostsData.filter(({ _id }) => searchResults.map(({ _id }) => _id).includes(_id))
+        );
+
+        // postReviewsDispatch({
+        //   type: 'FETCH_SUCCESS',
+        //   payload: {
+        //     ratingValue,
+        //     reviewCount: reviews.length,
+        //     documentId: blogPostData._id,
+        //   },
+        // });
+      } catch (error) {
+        // postReviewsDispatch({ type: 'FETCH_ERROR' });
+      }
+    };
+
+    if (debouncedSearchTerm === '') {
+      setSearchResults([]);
+    } else {
+      fetchData();
+    }
+  }, [allPostsData, debouncedSearchTerm]);
+
+  const onSearchInputChange: React.ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) => {
+    setSearchTerm(currentTarget.value);
+  };
+
+  return (
+    <>
+      <PageMeta
+        path={path}
+        title={searchData.seoTitle}
+        description={searchData.seoDescription}
+        previewImage={searchData.seoImage}
+        structuredData={structuredData}
+      />
+      <div style={{ height: '200px' }}></div>
+      Search:
+      <input
+        type="text"
+        value={searchTerm}
+        placeholder="Debounced input"
+        onChange={onSearchInputChange}
+      />
+      <BlogPostTileList
+        tileShadowVariant={'light'}
+        tileLayoutVariant={'vertical'}
+        postsData={searchResults}
+        showOnlyFirstRow={false}
+        eagerLoadFirstTileImage={false}
+      />
+    </>
+  );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const path = '/search';
+  const searchData = await import(`../data/pageAbout.json`).then((m) => m.default);
+  const allPostsData = await import(`../data/blogPostPreview.json`).then((m) => m.default);
+
+  return {
+    props: {
+      searchData,
+      allPostsData,
+      path,
+      structuredData: [
+        generateWebpageStructuredData({
+          path,
+          title: searchData.seoTitle,
+          description: searchData.seoDescription,
+          breadcrumbPages: [
+            {
+              path,
+              title: searchData.title,
+            },
+          ],
+        }),
+      ],
+    },
+  };
+};
+export default AboutPage;
