@@ -24,6 +24,8 @@ const {
   pageHomeQuery,
   pageAboutType,
   pageAboutQuery,
+  pageSearchType,
+  pageSearchQuery,
   pageCategoryType,
   pageCategoryQuery,
   pageThankYouType,
@@ -334,6 +336,12 @@ async function getData() {
         onResultsFetched: async (data) => {
           compilePortableTextInternalLinks(data[0].content);
           await saveToFile(data[0], pageAboutType);
+        },
+      },
+      {
+        query: pageSearchQuery,
+        onResultsFetched: async (data) => {
+          await saveToFile(data[0], pageSearchType);
         },
       },
       {

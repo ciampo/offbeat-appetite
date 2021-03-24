@@ -9,14 +9,14 @@ import BlogPostTileList from '../components/blog-post-tile/BlogPostTileList';
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
 import {
-  SanityPageAbout,
+  SanityPageSearch,
   StructuredData,
   NextComponentTypeWithLayout,
   SanityBlogPostPreview,
 } from '../typings';
 
 type AboutProps = {
-  searchData: SanityPageAbout;
+  searchData: SanityPageSearch;
   allPostsData: SanityBlogPostPreview[];
   path: string;
   structuredData: StructuredData[];
@@ -105,7 +105,7 @@ const AboutPage: NextComponentTypeWithLayout<AboutProps> = ({
 
 export const getStaticProps: GetStaticProps = async () => {
   const path = '/search';
-  const searchData = await import(`../data/pageAbout.json`).then((m) => m.default);
+  const searchData = await import(`../data/pageSearch.json`).then((m) => m.default);
   const allPostsData = await import(`../data/blogPostPreview.json`).then((m) => m.default);
 
   return {
