@@ -20,18 +20,18 @@ ${routesConfig
   Content-Security-Policy: ${[
     // Only accept same-origin sources by default
     `default-src 'self'`,
-    // Allow images from same origin, Sanity, Google Analytics, Commento, Pinterest and data scheme (e.g. base64)
-    `img-src 'self' https://cdn.sanity.io https://www.google-analytics.com https://cdn.commento.io data: https://i.pinimg.com https://log.pinterest.com`,
+    // Allow images from same origin, Sanity, Google Analytics, Pinterest and data scheme (e.g. base64)
+    `img-src 'self' https://cdn.sanity.io https://www.google-analytics.com data: https://i.pinimg.com https://log.pinterest.com`,
     // Allow audio/video from same origin, Sanity, data scheme (e.g. base64) and Pinterest
     `media-src 'self' https://cdn.sanity.io data: https://v.pinimg.com`,
-    // Allow styles from same origin, inline and Commento.io
-    `style-src 'self' 'unsafe-inline' https://cdn.commento.io`,
-    // No external fonts allowed apart from Commento.io
-    `font-src 'self' data: https://cdn.commento.io`,
-    // Allow script coming from same origin, inline and Google / Google Analytics (incl. recaptcha), Commento.io and Pinterest
-    `script-src 'self' 'unsafe-inline' https://www.google.com/ https://www.gstatic.com/ https://www.google-analytics.com https://recaptcha.net https://cdn.commento.io https://assets.pinterest.com https://widgets.pinterest.com`,
-    // Allow XHR to same origin, Google Analytics and Commento.io
-    `connect-src 'self' https://www.google-analytics.com https://stats.g.doubleclick.net https://*.api.sanity.io https://commento.io`,
+    // Allow styles from same origin, inline
+    `style-src 'self' 'unsafe-inline'`,
+    // No external fonts allowed
+    `font-src 'self' data:`,
+    // Allow script coming from same origin, inline and Google / Google Analytics (incl. recaptcha), and Pinterest
+    `script-src 'self' 'unsafe-inline' https://www.google.com/ https://www.gstatic.com/ https://www.google-analytics.com https://recaptcha.net https://assets.pinterest.com https://widgets.pinterest.com`,
+    // Allow XHR to same origin, Google Analytics
+    `connect-src 'self' https://www.google-analytics.com https://stats.g.doubleclick.net https://*.api.sanity.io`,
     // Allow webmanifest files from same origin
     `manifest-src 'self'`,
     // Allow prefetching files from same origin
