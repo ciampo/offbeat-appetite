@@ -6,7 +6,6 @@
 /* Components */
 @import './_tailwind-components.css';
 @import './portable-text.css';
-@import './commento-overrides.css';
 
 /* Utilities */
 @import './_tailwind-utilities.css';
