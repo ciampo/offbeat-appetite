@@ -39,6 +39,16 @@ export type SanityPageAbout = {
   seoTitle: string;
 };
 
+export type SanityPageSearch = {
+  _id: string;
+  title: string;
+  tagFilterTitle: string;
+  categoryFilterTitle: string;
+  seoDescription: string;
+  seoImage: string;
+  seoTitle: string;
+};
+
 export type SanityPageThankYou = {
   _id: string;
   title: string;

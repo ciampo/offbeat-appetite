@@ -3,6 +3,7 @@ import * as React from 'react';
 type InputProps = {
   name: string;
   placeholder: string;
+  value?: string;
   onInvalid?: (event: React.FormEvent<HTMLInputElement>) => void;
   onInput?: (event: React.FormEvent<HTMLInputElement>) => void;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -10,6 +11,7 @@ type InputProps = {
   id?: string;
   'aria-label'?: string;
   required?: boolean;
+  disableInnerShadow?: boolean;
 };
 
 type InputBaseProps = InputProps & {
@@ -17,15 +19,15 @@ type InputBaseProps = InputProps & {
   pattern?: string;
 };
 
-const InputBase: React.FC<InputBaseProps> = ({ className, ...props }) => (
+const InputBase: React.FC<InputBaseProps> = ({ className, disableInnerShadow, ...props }) => (
   <input
     {...props}
     className={[
       'flex items-center h-10 px-4 xl:h-12 xl:px-6',
       'type-body',
       'border rounded outline-none',
-      'hover:shadow-inner-currentcolor',
-      'focus:shadow-inner-currentcolor',
+      !disableInnerShadow && 'hover:shadow-inner-currentcolor',
+      !disableInnerShadow && 'focus:shadow-inner-currentcolor',
       className,
     ]
       .filter(Boolean)
@@ -63,3 +65,16 @@ export const EmailInputPink: React.FC<InputProps> = React.memo(({ className, ...
   />
 ));
 EmailInputPink.displayName = 'memo(EmailInputPink)';
+
+const inputClassesOlive = [
+  'bg-olive-lighter border-olive-medium text-olive-darker placeholder-olive-dark',
+  'focus:bg-olive-light focus:border-olive-darker',
+];
+
+export const TextInputOlive: React.FC<InputProps> = React.memo(({ className, ...props }) => (
+  <TextInputBase
+    {...props}
+    className={[...inputClassesOlive, className].filter(Boolean).join(' ')}
+  />
+));
+TextInputOlive.displayName = 'memo(TextInputOlive)';

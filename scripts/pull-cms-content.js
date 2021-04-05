@@ -24,6 +24,8 @@ const {
   pageHomeQuery,
   pageAboutType,
   pageAboutQuery,
+  pageSearchType,
+  pageSearchQuery,
   pageCategoryType,
   pageCategoryQuery,
   pageThankYouType,
@@ -109,6 +111,14 @@ async function generateNavLinks() {
     })
   );
 
+  // Search page
+  const searchRoute = routesConfig.find(({ dataType }) => dataType === pageSearchType);
+  const searchPage = JSON.parse(
+    await readFileAsync(path.join(DATA_FOLDER, `${searchRoute.dataType}.json`), {
+      encoding: 'utf-8',
+    })
+  );
+
   const navLinks = {
     beforeLogo: [
       ...compiledCategories.map(({ routeInfo }) => {
@@ -131,6 +141,10 @@ async function generateNavLinks() {
       {
         href: aboutRoute.route,
         label: aboutPage.title,
+      },
+      {
+        href: searchRoute.route,
+        label: searchPage.title,
       },
     ],
   };
@@ -337,6 +351,12 @@ async function getData() {
         },
       },
       {
+        query: pageSearchQuery,
+        onResultsFetched: async (data) => {
+          await saveToFile(data[0], pageSearchType);
+        },
+      },
+      {
         query: pageCategoryQuery,
         onResultsFetched: async (data) => await saveToFile(data[0], pageCategoryType),
       },
@@ -349,7 +369,15 @@ async function getData() {
       },
       {
         query: allBlogPostPreviewsQuery,
-        onResultsFetched: async (data) => (previewBlogPostsData = data),
+        onResultsFetched: async (allBlogPostsPreviewData) => {
+          previewBlogPostsData = allBlogPostsPreviewData;
+
+          const replacedBlogPostPreviewsContent = allBlogPostsPreviewData
+            .map((blogPostItem) => replaceBlogPostContent(blogPostItem, blogPostItem))
+            .map(augmentBlogPostWithCompiledRoute);
+
+          await saveToFile(replacedBlogPostPreviewsContent, `${blogPostType}Preview`);
+        },
       },
       {
         query: allBlogPostsQuery,

@@ -57,7 +57,7 @@ const BasicSharingLink: React.FC<BasicSharingLinkProps> = React.memo(
         ReactGA.event({
           category: 'User',
           action: `Interacted with "${platformName}" Share button`,
-          label: href,
+          label: href ?? '[No url]',
         });
         if (onClick) {
           onClick(e);

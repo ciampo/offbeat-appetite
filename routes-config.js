@@ -6,6 +6,7 @@ const {
   pageThankYouType,
   pageBlogPostType,
   pageCategoryType,
+  pageSearchType,
 } = require('./sanity/pages.js');
 const { categoryType } = require('./sanity/category');
 const { blogPostType } = require('./sanity/blogPost');
@@ -18,6 +19,10 @@ module.exports = [
   {
     route: '/about',
     dataType: pageAboutType,
+  },
+  {
+    route: '/search',
+    dataType: pageSearchType,
   },
   {
     route: '/[categoryId]',
