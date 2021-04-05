@@ -129,9 +129,15 @@ module.exports = {
           opacity: '1',
         },
       },
+      spin: {
+        '100%': {
+          transform: 'rotate(360deg)',
+        },
+      },
     },
     animationDuration: {
       '.5s': '0.5s',
+      '1s': '1s',
     },
     animationTimingFunction: {
       default: 'ease',
@@ -282,6 +288,14 @@ module.exports = {
         },
         '.top-full': {
           top: '100%',
+        },
+        // Spinner
+        '.loading-spinner': {
+          width: '1em',
+          height: '1em',
+          border: '0.15em solid rgba(255, 255, 255, 0.2)',
+          borderTop: '0.15em solid currentColor',
+          borderRadius: '50%',
         },
       };
 

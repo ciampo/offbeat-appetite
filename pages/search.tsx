@@ -39,13 +39,21 @@ const sortPostByMostRecent = (p1: SanityBlogPostPreview, p2: SanityBlogPostPrevi
   return p2Timestamp - p1Timestamp;
 };
 
+const SearchLoadingSpinner: React.FC = () => (
+  <div aria-hidden="true" className="relative">
+    <div className="absolute transform-translate-center">
+      <div className="mt-12 sm:ml-12 sm:mt-0 loading-spinner text-white text-3xl animation-spin animation-1s animation-ease-in-out animation-fill-both animation-infinite" />
+    </div>
+  </div>
+);
+
 type PageProps = {
   searchData: SanityPageSearch;
   allPostsData: SanityBlogPostPreview[];
   path: string;
   structuredData: StructuredData[];
 };
-const AboutPage: NextComponentTypeWithLayout<PageProps> = ({
+const SearchPage: NextComponentTypeWithLayout<PageProps> = ({
   searchData,
   allPostsData,
   path,
@@ -111,7 +119,7 @@ const AboutPage: NextComponentTypeWithLayout<PageProps> = ({
       />
 
       <PageHero variant="short" className="bg-olive-darker">
-        <PageContentContainer className="flex items-center justify-center">
+        <PageContentContainer className="flex flex-col sm:flex-row items-center justify-center">
           <h1 className="sr-only">{searchData.title}</h1>
           <TextInputOlive
             className="w-full max-w-sm shadow-lg hover:shadow-lg focus:shadow-lg focus-within:shadow-lg"
@@ -120,6 +128,7 @@ const AboutPage: NextComponentTypeWithLayout<PageProps> = ({
             value={searchTerm}
             onChange={onSearchInputChange}
           />
+          {searchDataFetchState === 'LOADING' && <SearchLoadingSpinner />}
         </PageContentContainer>
       </PageHero>
 
@@ -173,4 +182,4 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   };
 };
-export default AboutPage;
+export default SearchPage;
