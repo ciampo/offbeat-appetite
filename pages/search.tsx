@@ -72,7 +72,7 @@ const SearchPage: NextComponentTypeWithLayout<PageProps> = ({
 
   useDebounce(
     () => {
-      setDebouncedSearchTerm(searchTerm.trim());
+      setDebouncedSearchTerm(searchTerm);
     },
     1000,
     [searchTerm]
@@ -112,7 +112,7 @@ const SearchPage: NextComponentTypeWithLayout<PageProps> = ({
   }, [allPostsData, debouncedSearchTerm]);
 
   const onSearchInputChange: React.ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) => {
-    setSearchTerm(currentTarget.value);
+    setSearchTerm(currentTarget.value.trim());
   };
 
   return (
