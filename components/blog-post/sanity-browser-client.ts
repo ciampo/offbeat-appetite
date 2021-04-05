@@ -26,10 +26,9 @@ const TEXT_MATCHERS = [
   // 'content[].video->video.alt',
 ];
 
-console.log('TODO: remove * from search query');
 export const getPostsByText = async (searchTerm: string): Promise<{ _id: string }[]> =>
   await client.fetch(
     `*[_type == "blogPost" && ( ${TEXT_MATCHERS.map(
-      (matcher) => `${matcher} match "*${searchTerm}*"`
+      (matcher) => `${matcher} match "*${searchTerm.trim().replaceAll('*', '')}*"`
     ).join(' || ')} )] { _id }`
   );
