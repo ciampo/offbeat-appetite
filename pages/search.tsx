@@ -54,12 +54,13 @@ const AboutPage: NextComponentTypeWithLayout<PageProps> = ({
   const [searchTerm, setSearchTerm] = React.useState<string>('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = React.useState<string>('');
 
-  // @TODO: start with undefined
-  const [searchResults, setSearchResults] = React.useState<SanityBlogPostPreview[]>([]);
+  // Initially, all currently available posts are shown
+  // TODO: sorting?
+  const [searchResults, setSearchResults] = React.useState<SanityBlogPostPreview[]>(allPostsData);
 
   useDebounce(
     () => {
-      setDebouncedSearchTerm(searchTerm);
+      setDebouncedSearchTerm(searchTerm.trim());
     },
     1000,
     [searchTerm]
@@ -70,7 +71,11 @@ const AboutPage: NextComponentTypeWithLayout<PageProps> = ({
       setsearchDataFetchState('LOADING');
 
       try {
+        // Fetch text search results from Sanity
         const searchResults = await getPostsByText(debouncedSearchTerm);
+        // Use them to filter the list of all posts saved locally
+        // (this is to make sure that only posts available in current site build
+        // are shown to the user)
         setSearchResults(
           allPostsData.filter(({ _id }) => searchResults.map(({ _id }) => _id).includes(_id))
         );
@@ -82,7 +87,7 @@ const AboutPage: NextComponentTypeWithLayout<PageProps> = ({
     };
 
     if (debouncedSearchTerm === '') {
-      setSearchResults([]);
+      setSearchResults(allPostsData);
     } else {
       fetchData();
     }
