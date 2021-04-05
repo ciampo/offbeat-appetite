@@ -111,6 +111,14 @@ async function generateNavLinks() {
     })
   );
 
+  // Search page
+  const searchRoute = routesConfig.find(({ dataType }) => dataType === pageSearchType);
+  const searchPage = JSON.parse(
+    await readFileAsync(path.join(DATA_FOLDER, `${searchRoute.dataType}.json`), {
+      encoding: 'utf-8',
+    })
+  );
+
   const navLinks = {
     beforeLogo: [
       ...compiledCategories.map(({ routeInfo }) => {
@@ -133,6 +141,10 @@ async function generateNavLinks() {
       {
         href: aboutRoute.route,
         label: aboutPage.title,
+      },
+      {
+        href: searchRoute.route,
+        label: searchPage.title,
       },
     ],
   };

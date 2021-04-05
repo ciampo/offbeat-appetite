@@ -64,7 +64,7 @@ const HeaderNavLink: React.FC<HeaderNavLinkProps> = ({
     <ButtonTransparent
       component={BasicLinkEl}
       additionalHover="underline"
-      paddingClassName="p-2 xl:px-4"
+      paddingClassName="px-1 py-2 lg:px-2 xl:px-4"
       sizeClassName=""
       typeClassName="type-body-large"
       className={[selected && 'underline', !solid && 'text-shadow'].filter(Boolean).join(' ')}
