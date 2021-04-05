@@ -5,6 +5,9 @@ import { useDebounce } from 'react-use';
 import PageMeta from '../components/meta/PageMeta';
 import { getPostsByText } from '../components/blog-post/sanity-browser-client';
 import BlogPostTileList from '../components/blog-post-tile/BlogPostTileList';
+import PageHero from '../components/hero/hero';
+import { PageContentContainer } from '../components/layouts/Containers';
+import { TextInputOlive } from '../components/inputs/Input';
 
 import { generateWebpageStructuredData } from '../scripts/structured-data';
 
@@ -106,21 +109,39 @@ const AboutPage: NextComponentTypeWithLayout<PageProps> = ({
         previewImage={searchData.seoImage}
         structuredData={structuredData}
       />
-      <div style={{ height: '200px' }}></div>
-      Search:
-      <input
-        type="text"
-        value={searchTerm}
-        placeholder="Debounced input"
-        onChange={onSearchInputChange}
-      />
-      <BlogPostTileList
-        tileShadowVariant={'light'}
-        tileLayoutVariant={'vertical'}
-        postsData={searchResults}
-        showOnlyFirstRow={false}
-        eagerLoadFirstTileImage={false}
-      />
+
+      <PageHero variant="short" className="bg-olive-darker">
+        <PageContentContainer className="flex items-center justify-center">
+          <h1 className="sr-only">{searchData.title}</h1>
+          <TextInputOlive
+            className="w-full max-w-sm shadow-lg hover:shadow-lg focus:shadow-lg focus-within:shadow-lg"
+            name="search"
+            placeholder="Search posts"
+            value={searchTerm}
+            onChange={onSearchInputChange}
+          />
+        </PageContentContainer>
+      </PageHero>
+
+      <section className="py-16 md:py-20 xl:py-24">
+        <PageContentContainer>
+          {searchDataFetchState === 'ERROR' ? (
+            <p className="text-red-700 type-heading-2 text-center">
+              An error has occurred while retrieving the search results, please try again.
+            </p>
+          ) : searchResults.length === 0 ? (
+            <p className="type-heading-2 text-center">Sorry, no results were found.</p>
+          ) : (
+            <BlogPostTileList
+              tileShadowVariant={'light'}
+              tileLayoutVariant={'vertical'}
+              postsData={searchResults}
+              showOnlyFirstRow={false}
+              eagerLoadFirstTileImage={false}
+            />
+          )}
+        </PageContentContainer>
+      </section>
     </>
   );
 };
