@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { GetStaticProps } from 'next';
 import { useDebounce } from 'react-use';
+import ReactGA from 'react-ga';
 
 import PageMeta from '../components/meta/PageMeta';
 import { getPostsByText } from '../components/blog-post/sanity-browser-client';
@@ -90,6 +91,12 @@ const SearchPage: NextComponentTypeWithLayout<PageProps> = ({
         setSearchResults(
           allPostsData.filter(({ _id }) => searchResults.map(({ _id }) => _id).includes(_id))
         );
+
+        ReactGA.event({
+          category: 'User',
+          action: 'New search',
+          label: `q=${debouncedSearchTerm}`,
+        });
 
         setsearchDataFetchState('SUCCESS');
       } catch (error) {
