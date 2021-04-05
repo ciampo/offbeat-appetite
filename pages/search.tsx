@@ -15,18 +15,23 @@ import {
   SanityBlogPostPreview,
 } from '../typings';
 
-type AboutProps = {
+type SearchState = 'INITIAL' | 'LOADING' | 'SUCCESS' | 'ERROR';
+
+type PageProps = {
   searchData: SanityPageSearch;
   allPostsData: SanityBlogPostPreview[];
   path: string;
   structuredData: StructuredData[];
 };
-const AboutPage: NextComponentTypeWithLayout<AboutProps> = ({
+const AboutPage: NextComponentTypeWithLayout<PageProps> = ({
   searchData,
   allPostsData,
   path,
   structuredData,
 }) => {
+  const [searchDataFetchState, setsearchDataFetchState] = React.useState<SearchState>('INITIAL');
+
+  // TODO: load from query string
   const [searchTerm, setSearchTerm] = React.useState<string>('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = React.useState<string>('');
 
@@ -43,7 +48,7 @@ const AboutPage: NextComponentTypeWithLayout<AboutProps> = ({
 
   React.useEffect(() => {
     const fetchData = async (): Promise<void> => {
-      // postReviewsDispatch({ type: 'FETCH_INIT' });
+      setsearchDataFetchState('LOADING');
 
       try {
         const searchResults = await getPostsByText(debouncedSearchTerm);
@@ -51,16 +56,9 @@ const AboutPage: NextComponentTypeWithLayout<AboutProps> = ({
           allPostsData.filter(({ _id }) => searchResults.map(({ _id }) => _id).includes(_id))
         );
 
-        // postReviewsDispatch({
-        //   type: 'FETCH_SUCCESS',
-        //   payload: {
-        //     ratingValue,
-        //     reviewCount: reviews.length,
-        //     documentId: blogPostData._id,
-        //   },
-        // });
+        setsearchDataFetchState('SUCCESS');
       } catch (error) {
-        // postReviewsDispatch({ type: 'FETCH_ERROR' });
+        setsearchDataFetchState('ERROR');
       }
     };
 
