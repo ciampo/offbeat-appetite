@@ -3,6 +3,7 @@ import * as React from 'react';
 type InputProps = {
   name: string;
   placeholder: string;
+  value?: string;
   onInvalid?: (event: React.FormEvent<HTMLInputElement>) => void;
   onInput?: (event: React.FormEvent<HTMLInputElement>) => void;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -63,3 +64,16 @@ export const EmailInputPink: React.FC<InputProps> = React.memo(({ className, ...
   />
 ));
 EmailInputPink.displayName = 'memo(EmailInputPink)';
+
+const inputClassesOlive = [
+  'bg-olive-lighter border-olive-dark text-olive-darker placeholder-olive-dark',
+  'focus:bg-olive-light focus:border-olive-darker',
+];
+
+export const TextInputOlive: React.FC<InputProps> = React.memo(({ className, ...props }) => (
+  <TextInputBase
+    {...props}
+    className={[...inputClassesOlive, className].filter(Boolean).join(' ')}
+  />
+));
+TextInputOlive.displayName = 'memo(TextInputOlive)';
