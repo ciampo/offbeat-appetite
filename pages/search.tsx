@@ -118,7 +118,7 @@ const SearchPage: NextComponentTypeWithLayout<PageProps> = ({
         structuredData={structuredData}
       />
 
-      <PageHero variant="short" className="bg-olive-darker">
+      <PageHero variant="shorter" className="bg-olive-darker">
         <PageContentContainer className="flex flex-col sm:flex-row items-center justify-center">
           <h1 className="sr-only">{searchData.title}</h1>
           <TextInputOlive

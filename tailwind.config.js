@@ -56,10 +56,13 @@ module.exports = {
       minHeight: {
         'hero-m': '36rem',
         'hero-m-short': '28rem',
+        'hero-m-shorter': '16rem',
         'hero-t': '40rem',
         'hero-t-short': '30rem',
+        'hero-t-shorter': '20rem',
         'hero-d': '54rem',
         'hero-d-short': '42rem',
+        'hero-d-shorter': '30rem',
       },
       opacity: {
         10: '0.1',
