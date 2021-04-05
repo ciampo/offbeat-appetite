@@ -122,11 +122,12 @@ const SearchPage: NextComponentTypeWithLayout<PageProps> = ({
         <PageContentContainer className="flex flex-col sm:flex-row items-center justify-center">
           <h1 className="sr-only">{searchData.title}</h1>
           <TextInputOlive
-            className="w-full max-w-sm shadow-lg hover:shadow-lg focus:shadow-lg focus-within:shadow-lg"
+            className="w-full max-w-md shadow-lg hover:shadow-lg focus:shadow-lg focus-within:shadow-lg"
             name="search"
             placeholder="Search posts"
             value={searchTerm}
             onChange={onSearchInputChange}
+            disableInnerShadow={true}
           />
           {searchDataFetchState === 'LOADING' && <SearchLoadingSpinner />}
         </PageContentContainer>
