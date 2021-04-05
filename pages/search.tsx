@@ -17,6 +17,25 @@ import {
 
 type SearchState = 'INITIAL' | 'LOADING' | 'SUCCESS' | 'ERROR';
 
+const sortPostByMostRecent = (p1: SanityBlogPostPreview, p2: SanityBlogPostPreview): number => {
+  const p1Timestamp = Date.parse(p1.datePublished);
+  const p2Timestamp = Date.parse(p2.datePublished);
+
+  if (isNaN(p1Timestamp) && isNaN(p2Timestamp)) {
+    return 0;
+  }
+
+  // If we reach this point, they are not both NaN (but one may be)
+  if (isNaN(p1Timestamp)) {
+    return 1;
+  }
+  if (isNaN(p2Timestamp)) {
+    return -1;
+  }
+
+  return p2Timestamp - p1Timestamp;
+};
+
 type PageProps = {
   searchData: SanityPageSearch;
   allPostsData: SanityBlogPostPreview[];
@@ -105,6 +124,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const path = '/search';
   const searchData = await import(`../data/pageSearch.json`).then((m) => m.default);
   const allPostsData = await import(`../data/blogPostPreview.json`).then((m) => m.default);
+  allPostsData.sort(sortPostByMostRecent);
 
   return {
     props: {
