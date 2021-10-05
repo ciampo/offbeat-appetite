@@ -37,7 +37,7 @@ ${routesConfig
     // Allow prefetching files from same origin
     `prefetch-src 'self'`,
     // Allow iframes from google, Pinterest and same origin
-    `frame-src 'self' https://www.google.com/recaptcha/ https://assets.pinterest.com`,
+    `frame-src 'self' https://www.google.com/recaptcha/ https://recaptcha.net https://assets.pinterest.com`,
   ].join('; ')}
   X-XSS-Protection: 1; mode=block`
   )
