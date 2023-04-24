@@ -3189,7 +3189,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sanity/image-url@npm:^0.140.15":
+"@sanity/image-url@npm:^0.140.15, @sanity/image-url@npm:^0.140.19":
   version: 0.140.22
   resolution: "@sanity/image-url@npm:0.140.22"
   checksum: b076338f6326ca397081f737b60ce919b3b18e5d026d7a95e7216c36c4f1c605a4d0e47eb9293d76edfdfecb85a2419ceb5f2964a32eee2e733b016c1ac00cb0
@@ -17144,6 +17144,7 @@ __metadata:
     "@prefresh/next": "npm:^0.3.1"
     "@sanity/block-content-to-react": "npm:^2.0.7"
     "@sanity/client": "npm:^1.149.2"
+    "@sanity/image-url": "npm:^0.140.19"
     "@storybook/addon-actions": "npm:^5.3.18"
     "@storybook/addon-knobs": "npm:^5.3.18"
     "@storybook/addon-links": "npm:^5.3.18"
@@ -17165,6 +17166,7 @@ __metadata:
     babel-plugin-transform-dynamic-import: "npm:^2.1.0"
     chalk: "npm:^4.0.0"
     cssnano: "npm:^4.1.10"
+    del: "npm:^6.0.0"
     dotenv: "npm:^8.2.0"
     eslint: "npm:^7.1.0"
     eslint-config-prettier: "npm:^6.5.0"
