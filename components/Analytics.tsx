@@ -12,7 +12,7 @@ const Analytics: React.FC = () => {
   React.useEffect(() => {
     // Init GA the first time.
     if (!window.IS_GA_INIT && process.env.NEXT_PUBLIC_GA) {
-      ReactGA.initialize(process.env.GA ?? '', {
+      ReactGA.initialize(process.env.NEXT_PUBLIC_GA, {
         gtagOptions: {
           // Disable automatic page view (to work properly, it also needs to disable
           // enhanced measurement on GA4 dashboard)
