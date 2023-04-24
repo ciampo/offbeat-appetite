@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { GetStaticProps } from 'next';
 import { useDebounce } from 'react-use';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
 import PageMeta from '../components/meta/PageMeta';
 import { getPostsByText } from '../components/blog-post/sanity-browser-client';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useLocalStorage } from 'react-use';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
 import dynamic from 'next/dynamic';
 
