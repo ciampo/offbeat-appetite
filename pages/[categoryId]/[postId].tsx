@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
 import PageMeta from '../../components/meta/PageMeta';
 import Tag from '../../components/tag/Tag';

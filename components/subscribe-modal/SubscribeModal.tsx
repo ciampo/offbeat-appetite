@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
 import { ButtonOlive } from '../button/Button';
 import AccessibleImage from '../media/AccessibleImage';

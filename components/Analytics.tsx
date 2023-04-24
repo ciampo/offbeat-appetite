@@ -1,11 +1,10 @@
 import * as React from 'react';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import Router from 'next/router';
 
 const pageView = (): void => {
   if (window.IS_GA_INIT) {
-    ReactGA.set({ page: window.location.pathname });
-    ReactGA.pageview(window.location.pathname);
+    ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
   }
 };
 
@@ -13,7 +12,14 @@ const Analytics: React.FC = () => {
   React.useEffect(() => {
     // Init GA the first time.
     if (!window.IS_GA_INIT && process.env.NEXT_PUBLIC_GA) {
-      ReactGA.initialize(process.env.NEXT_PUBLIC_GA);
+      ReactGA.initialize(process.env.GA ?? '', {
+        gtagOptions: {
+          // Disable automatic page view (to work properly, it also needs to disable
+          // enhanced measurement on GA4 dashboard)
+          // https://developers.google.com/analytics/devguides/collection/ga4/views?client_type=gtag#disable_pageview_measurement
+          send_page_view: false,
+        },
+      });
       window.IS_GA_INIT = true;
     }
 
