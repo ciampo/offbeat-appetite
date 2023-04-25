@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { axe } from 'jest-axe';
-import { render, fireEvent } from 'offbeat-appetite-render';
+import { render, fireEvent } from '../../../test/offbeat-appetite-render';
 import userEvent from '@testing-library/user-event';
 
 import { TextInputPink, EmailInputPink } from '../Input';

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { axe } from 'jest-axe';
-import { render } from 'offbeat-appetite-render';
 
 import Recipe from '../Recipe';
+import { render } from '../../../test/offbeat-appetite-render'
 
 import { joinUrl } from '../../../scripts/utils';
 

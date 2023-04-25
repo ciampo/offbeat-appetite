@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { axe } from 'jest-axe';
-import { render, fireEvent, waitFor } from 'offbeat-appetite-render';
+import { render, fireEvent, waitFor } from '../../../test/offbeat-appetite-render';
 
 import { socialShareLabel } from '../../../data/siteMiscContent.json';
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { axe } from 'jest-axe';
-import { render, waitFor } from 'offbeat-appetite-render';
+import { render, waitFor } from '../test/offbeat-appetite-render';
 
 import BlogPostPage from '../pages/[categoryId]/[postId]';
 import testRecipeData from '../data/posts/will-malta-s-spinach-and-tuna-pie-make-the-cut.json';
