@@ -10,8 +10,8 @@ module.exports = {
     '\\.css$': require.resolve('./style-mock.js'),
   },
   watchPlugins: [
-    'jest-watch-select-projects',
-    'jest-watch-typeahead/filename',
-    'jest-watch-typeahead/testname',
+    'select-projects',
+    'typeahead/filename',
+    'typeahead/testname',
   ],
 };
