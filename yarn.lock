@@ -17368,7 +17368,7 @@ __metadata:
     tailwindcss-aspect-ratio: "npm:3.0.0"
     tailwindcss-pseudo-elements: "npm:^1.1.2"
     ts-loader: "npm:^7.0.2"
-    typescript: "npm:^3.7.2"
+    typescript: "npm:^5.0.4"
     webpack: "npm:^4.41.2"
   languageName: unknown
   linkType: soft
@@ -23541,7 +23541,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^3.7.2, typescript@npm:^3.8.3, typescript@npm:^3.9.7":
+"typescript@npm:^3.8.3, typescript@npm:^3.9.7":
   version: 3.9.9
   resolution: "typescript@npm:3.9.9"
   bin:
@@ -23551,13 +23551,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^3.7.2#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^3.8.3#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^3.9.7#optional!builtin<compat/typescript>":
+"typescript@npm:^5.0.4":
+  version: 5.0.4
+  resolution: "typescript@npm:5.0.4"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 56649de784c427e8f3f63d4ebfcada4fcf03bb2a301f3327342111798db7f26f8a86285f979f376cf6cec4774bd96b4650f2693a07fc409f4544ad4c4d9fe4c9
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A^3.8.3#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^3.9.7#optional!builtin<compat/typescript>":
   version: 3.9.9
   resolution: "typescript@patch:typescript@npm%3A3.9.9#optional!builtin<compat/typescript>::version=3.9.9&hash=3bd3d3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: b08540cc4358eb559550d001e2fa42c32c28024d4ad3c7605a84f279bb13df5a6a0ab59167411c34d21ef0d6daa0889d8d5588f65e085c7239c459c02fd226ab
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A^5.0.4#optional!builtin<compat/typescript>":
+  version: 5.0.4
+  resolution: "typescript@patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=b5f058"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: e4296a207d18264eb9b17a912b0929c4e8be5a4e48aefa016e952eaa445e5a4ed363a72d9023f151dc7f100d48d4bfa35480aec199f123a664ef8a622355ae4f
   languageName: node
   linkType: hard
 
