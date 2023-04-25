@@ -13,7 +13,7 @@ export const OALogoFull: React.FC<IconProps> = ({
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     role="img"
-    aria-labelledby={`${idPrefix}-logo-full-title`}
+    aria-labelledby={props.role !== 'presentation' ? `${idPrefix}-logo-full-title` : undefined}
   >
     <title id={`${idPrefix}-logo-full-title`}>The Offbeat Appetite</title>
     <filter id={`${idPrefix}-logo-full-shadow`}>
@@ -64,7 +64,7 @@ export const OALogoShort: React.FC<IconProps> = ({
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 192 132"
     role="img"
-    aria-labelledby={`${idPrefix}-logo-short-title`}
+    aria-labelledby={props.role !== 'presentation' ? `${idPrefix}-logo-short-title` : undefined}
   >
     <title id={`${idPrefix}-logo-short-title`}>The Offbeat Appetite</title>
     <filter id={`${idPrefix}-logo-short-shadow`}>

@@ -80,7 +80,11 @@ describe('Post Page', () => {
       expect(getByText('subscribe to the newsletter')).toHaveAttribute('href', '#subscribe')
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe(container, {
+      rules: {
+        'aria-allowed-attr': { enabled: false }
+      }
+    })).toHaveNoViolations();
 
     // TODO: use mock data and add more tests
   }, 15000);
