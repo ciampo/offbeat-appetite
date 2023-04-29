@@ -29,6 +29,7 @@
     ".yarn"
   ],
   "include": [
+    ".eslintrc.js",
     "next-env.d.ts",
     "*.js",
     "**/*.js",
