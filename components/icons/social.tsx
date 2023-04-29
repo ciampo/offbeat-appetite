@@ -5,7 +5,7 @@ import { IconProps } from './types';
 export const FacebookIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ...props }) => (
   <svg
     {...props}
-    aria-labelledby={`${idPrefix}-facebook`}
+    aria-labelledby={props.role !== 'presentation' ? `${idPrefix}-facebook`: undefined}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
   >
@@ -20,7 +20,7 @@ export const FacebookIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ..
 export const InstagramIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ...props }) => (
   <svg
     {...props}
-    aria-labelledby={`${idPrefix}-instagram`}
+    aria-labelledby={props.role !== 'presentation' ? `${idPrefix}-instagram`: undefined}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 512 512"
   >
@@ -40,7 +40,7 @@ export const InstagramIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', .
 export const MailIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ...props }) => (
   <svg
     {...props}
-    aria-labelledby={`${idPrefix}-mail`}
+    aria-labelledby={props.role !== 'presentation' ? `${idPrefix}-mail`: undefined}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
   >
@@ -55,7 +55,7 @@ export const MailIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ...pro
 export const PinterestIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ...props }) => (
   <svg
     {...props}
-    aria-labelledby={`${idPrefix}-pinterest`}
+    aria-labelledby={props.role !== 'presentation' ? `${idPrefix}-pinterest`: undefined}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
   >
@@ -70,7 +70,7 @@ export const PinterestIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', .
 export const TwitterIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ...props }) => (
   <svg
     {...props}
-    aria-labelledby={`${idPrefix}-twitter`}
+    aria-labelledby={props.role !== 'presentation' ? `${idPrefix}-twitter`: undefined}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
   >
@@ -85,7 +85,7 @@ export const TwitterIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ...
 export const WhatsappIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ...props }) => (
   <svg
     {...props}
-    aria-labelledby={`${idPrefix}-whatsapp`}
+    aria-labelledby={props.role !== 'presentation' ? `${idPrefix}-whatsapp`: undefined}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
   >
@@ -100,7 +100,7 @@ export const WhatsappIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ..
 export const PocketIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ...props }) => (
   <svg
     {...props}
-    aria-labelledby={`${idPrefix}-pocket`}
+    aria-labelledby={props.role !== 'presentation' ? `${idPrefix}-pocket`: undefined}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 512 512"
   >
@@ -115,7 +115,7 @@ export const PocketIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ...p
 export const GenericShareIcon: React.FC<IconProps> = ({ idPrefix = 'icon-social', ...props }) => (
   <svg
     {...props}
-    aria-labelledby={`${idPrefix}-genericshare`}
+    aria-labelledby={props.role !== 'presentation' ? `${idPrefix}-genericshare`: undefined}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
   >

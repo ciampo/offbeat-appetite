@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { axe } from 'jest-axe';
-import { render } from 'offbeat-appetite-render';
+import { render } from '../../../test/offbeat-appetite-render';
 
 import Footer from '../Footer';
 

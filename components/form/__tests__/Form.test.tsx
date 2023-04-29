@@ -3,7 +3,7 @@ import preloadAll from 'jest-next-dynamic';
 
 import * as React from 'react';
 import { axe } from 'jest-axe';
-import { render, act, waitFor } from 'offbeat-appetite-render';
+import { render, act, waitFor } from '../../../test/offbeat-appetite-render';
 import userEvent from '@testing-library/user-event';
 
 import NewsletterSubscribe from '../NewsletterSubscribe';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { axe } from 'jest-axe';
-import { render, fireEvent } from 'offbeat-appetite-render';
+import { render, fireEvent, screen } from '../../../test/offbeat-appetite-render';
 import userEvent from '@testing-library/user-event';
 
 import { TextInputPink, EmailInputPink } from '../Input';
@@ -204,7 +204,7 @@ emailInputs.forEach(({ Component, name }) => {
 [...textInputs, ...emailInputs].forEach(({ Component, name }) => {
   describe(name, () => {
     test('correctly adds an aria-label', async () => {
-      const { container, rerender } = render(
+      const { rerender } = render(
         <Component
           name={testName}
           placeholder={testPlaceholder}
@@ -214,7 +214,7 @@ emailInputs.forEach(({ Component, name }) => {
         />
       );
 
-      expect(await axe(container)).not.toHaveNoViolations();
+      expect(screen.getByRole('textbox')).not.toHaveAttribute('aria-label');
 
       rerender(
         <Component
@@ -227,7 +227,7 @@ emailInputs.forEach(({ Component, name }) => {
         />
       );
 
-      expect(await axe(container)).toHaveNoViolations();
+      expect(screen.getByRole('textbox')).toHaveAttribute('aria-label', testLabel);
     });
 
     test('correctly adds custom classnames', async () => {

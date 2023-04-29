@@ -11,7 +11,7 @@ import { useRouter as mockUseRouter } from 'next/router';
 
 import * as React from 'react';
 import { axe } from 'jest-axe';
-import { render, fireEvent, act } from 'offbeat-appetite-render';
+import { render, fireEvent, act } from '../../../test/offbeat-appetite-render';
 
 import Nav from '../Nav';
 

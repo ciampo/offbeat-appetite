@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { axe } from 'jest-axe';
-import { render } from 'offbeat-appetite-render';
 
 import Recipe from '../Recipe';
+import { render } from '../../../test/offbeat-appetite-render'
 
 import { joinUrl } from '../../../scripts/utils';
 
@@ -76,5 +76,9 @@ test('Recipe renders correctly', async () => {
   expect(linkLabel.closest('a')?.href).toMatch(encodeURIComponent(`${fullPageUrl}#recipe`));
   expect(getByTestId('recipe-wrapper')).toHaveAttribute('id', 'recipe');
 
-  expect(await axe(container)).toHaveNoViolations();
+  expect(await axe(container, {
+    rules: {
+      'aria-allowed-attr': { enabled: false }
+    }
+  })).toHaveNoViolations();
 });

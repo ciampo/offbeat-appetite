@@ -3,7 +3,7 @@ import preloadAll from 'jest-next-dynamic';
 
 import * as React from 'react';
 import { axe } from 'jest-axe';
-import { render } from 'offbeat-appetite-render';
+import { render } from '../../../test/offbeat-appetite-render';
 
 import MainLayout from '../Main';
 

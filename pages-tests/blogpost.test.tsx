@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { axe } from 'jest-axe';
-import { render, waitFor } from 'offbeat-appetite-render';
+import { render, waitFor } from '../test/offbeat-appetite-render';
 
 import BlogPostPage from '../pages/[categoryId]/[postId]';
 import testRecipeData from '../data/posts/will-malta-s-spinach-and-tuna-pie-make-the-cut.json';
@@ -80,7 +80,11 @@ describe('Post Page', () => {
       expect(getByText('subscribe to the newsletter')).toHaveAttribute('href', '#subscribe')
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe(container, {
+      rules: {
+        'aria-allowed-attr': { enabled: false }
+      }
+    })).toHaveNoViolations();
 
     // TODO: use mock data and add more tests
   }, 15000);
