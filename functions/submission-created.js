@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-const sanityClient = require('@sanity/client');
+import fetch from 'node-fetch';
+import sanityClient from '@sanity/client';
+import {config as dotEnvConfig} from 'dotenv';
 
 // Read env variables.
-require('dotenv').config();
+dotEnvConfig();
 const { NEWSLETTER_API_KEY, NEWSLETTER_SUBSCRIBERS_GROUP_ID, SLACK_WEBHOOK_URL } = process.env;
 
 export async function handler(event) {
