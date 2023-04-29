@@ -32,6 +32,7 @@
     ".eslintrc.js",
     "next-env.d.ts",
     "*.js",
+    "**/*.mjs",
     "**/*.js",
     "**/*.jsx",
     "**/*.ts",
