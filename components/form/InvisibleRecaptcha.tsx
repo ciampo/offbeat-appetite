@@ -6,6 +6,7 @@ const isRecaptchaReady = (): boolean =>
     process.browser &&
       window &&
       window.grecaptcha &&
+      // @ts-ignore Should investigate if indeed ready is always defined
       window.grecaptcha.ready &&
       window.grecaptcha.execute
   );
