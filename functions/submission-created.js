@@ -10,11 +10,9 @@ exports.handler = async (event) => {
   console.log(JSON.parse(event.body))
   const { payload, site } = JSON.parse(event.body);
 
-  const formName = payload.data['form-name'];
+  console.log(`NEW SUBMISSION FOR ${payload.form_name}:`, payload.data);
 
-  console.log(`NEW SUBMISSION FOR ${formName}:`, payload.data);
-
-  if (formName === 'newsletter') {
+  if (payload.form_name === 'newsletter') {
     const email = (payload.data.email || '').trim();
     const name = (payload.data.name || '').trim();
 
@@ -43,7 +41,7 @@ exports.handler = async (event) => {
           {
             type: 'mrkdwn',
             text: [
-              `Submitted to the *${formName}* form on the *${site.name}* site`,
+              `Submitted to the *${payload.form_name}* form on the *${site.name}* site`,
               `on the *${new Date(payload.created_at).toLocaleString('en-GB', {
                 dateStyle: 'long',
                 timeStyle: 'long',
@@ -92,7 +90,7 @@ exports.handler = async (event) => {
         .then(() => {
           console.log('Success!');
 
-          const slackSuccessMessage = `New submission for the *${formName}* form:`;
+          const slackSuccessMessage = `New submission for the *${payload.form_name}* form:`;
 
           return fetch(SLACK_WEBHOOK_URL, {
             headers: {
@@ -127,7 +125,7 @@ exports.handler = async (event) => {
           const consoleMessage = `Oops! Something went wrong:\n${error}`;
           console.log(consoleMessage);
 
-          const slackMessage = `Error during a submission for the *${formName}* form:`;
+          const slackMessage = `Error during a submission for the *${payload.form_name}* form:`;
 
           return fetch(SLACK_WEBHOOK_URL, {
             headers: {
@@ -159,7 +157,7 @@ exports.handler = async (event) => {
     );
   }
 
-  if (formName === 'review-rating') {
+  if (payload.form_name === 'review-rating') {
     const ratingAsString = (payload.data.rating || '').trim();
     const sanityDocumentId = (payload.data['document-id'] || '').trim();
 
@@ -234,7 +232,7 @@ exports.handler = async (event) => {
                 {
                   type: 'mrkdwn',
                   text: [
-                    `Submitted to the *${formName}* form on the *${site.name}* site`,
+                    `Submitted to the *${payload.form_name}* form on the *${site.name}* site`,
                     `on the *${new Date(payload.created_at).toLocaleString('en-GB', {
                       dateStyle: 'long',
                       timeStyle: 'long',
