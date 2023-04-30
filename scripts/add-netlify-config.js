@@ -29,7 +29,7 @@ ${routesConfig
     // No external fonts allowed
     `font-src 'self' data:`,
     // Allow script coming from same origin, inline and Google / Google Analytics (incl. recaptcha), and Pinterest
-    `script-src 'self' 'unsafe-inline' https://www.google.com/ https://www.gstatic.com/ https://*.google-analytics.com https://recaptcha.net https://assets.pinterest.com https://widgets.pinterest.com https://*.netlify.app https://*.googletagmanager.com`,
+    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com/ https://www.gstatic.com/ https://*.google-analytics.com https://recaptcha.net http://assets.pinterest.com https://assets.pinterest.com https://widgets.pinterest.com https://*.netlify.app https://*.googletagmanager.com`,
     // Allow XHR to same origin, Google Analytics
     `connect-src 'self' https://*.google-analytics.com https://stats.g.doubleclick.net https://*.api.sanity.io`,
     // Allow webmanifest files from same origin
