@@ -7,7 +7,6 @@ require('dotenv').config();
 const { NEWSLETTER_API_KEY, NEWSLETTER_SUBSCRIBERS_GROUP_ID, SLACK_WEBHOOK_URL } = process.env;
 
 exports.handler = async (event) => {
-  console.log(JSON.parse(event.body))
   const { payload, site } = JSON.parse(event.body);
 
   console.log(`NEW SUBMISSION FOR ${payload.form_name}:`, payload.data);
