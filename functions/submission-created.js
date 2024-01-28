@@ -55,7 +55,7 @@ exports.handler = async (event) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*<https://app.netlify.com/sites/${site.name}/forms/${payload.form_id}|See all ${site.name} submissions>*  |  *<https://app.mailerlite.com/subscribers/view|See MailerLite subscribers>*`,
+          text: `*<https://app.netlify.com/sites/${site.name}/forms/${payload.form_id}|See all ${site.name} submissions>*  |  *<https://dashboard.mailerlite.com/subscribers?status=active|See MailerLite subscribers>*`,
         },
       },
       {
@@ -66,14 +66,19 @@ exports.handler = async (event) => {
     return (
       // First, send user information to MailerLite
       fetch(
-        `https://api.mailerlite.com/api/v2/groups/${NEWSLETTER_SUBSCRIBERS_GROUP_ID}/subscribers`,
+        `https://connect.mailerlite.com/api/subscribers`,
         {
           method: 'POST',
           headers: {
-            'X-MailerLite-ApiKey': NEWSLETTER_API_KEY,
             'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${NEWSLETTER_API_KEY}`,
           },
-          body: JSON.stringify({ email, name }),
+          body: JSON.stringify({
+            email,
+            fields:{ name },
+            groups: [NEWSLETTER_SUBSCRIBERS_GROUP_ID],
+          }),
         }
       )
         .then((response) => response.json())
