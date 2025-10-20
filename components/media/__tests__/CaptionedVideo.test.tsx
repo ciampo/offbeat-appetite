@@ -12,7 +12,7 @@ import {
 
 describe('CaptionedVideo', () => {
   test('renders with a valid configuration', async () => {
-    const { getByRole, getByText, getByTitle, rerender, } = render(
+    const { getByRole, getByText, getByTitle, rerender } = render(
       <CaptionedVideo {...testCaptionedVideoWithCaption} responsiveConfig={testResponsiveConfig} />
     );
 

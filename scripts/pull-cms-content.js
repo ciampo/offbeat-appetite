@@ -335,9 +335,8 @@ async function getData() {
         query: pageHomeQuery,
         onResultsFetched: async (data) => {
           for (const categorySection of data[0].categorySections) {
-            categorySection.category.featuredBlogPosts = categorySection.category.featuredBlogPosts.map(
-              augmentBlogPostWithCompiledRoute
-            );
+            categorySection.category.featuredBlogPosts =
+              categorySection.category.featuredBlogPosts.map(augmentBlogPostWithCompiledRoute);
           }
 
           await saveToFile(data[0], pageHomeType);

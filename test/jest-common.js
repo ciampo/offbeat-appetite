@@ -9,9 +9,5 @@ module.exports = {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
     '\\.css$': require.resolve('./style-mock.js'),
   },
-  watchPlugins: [
-    'select-projects',
-    'typeahead/filename',
-    'typeahead/testname',
-  ],
+  watchPlugins: ['select-projects', 'typeahead/filename', 'typeahead/testname'],
 };

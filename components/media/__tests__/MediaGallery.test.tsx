@@ -102,7 +102,7 @@ describe('MediaGallery', () => {
       <MediaGallery
         _type={testMediaGalleryEven._type}
         items={
-          (testMediaGalleryLastInvalid.items as unknown) as (
+          testMediaGalleryLastInvalid.items as unknown as (
             | SanityCaptionedImage
             | SanityCaptionedVideo
           )[]

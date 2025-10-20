@@ -42,9 +42,8 @@ const SubscribeModal: React.FC = () => {
   const dismissButtonRef = React.useRef<HTMLButtonElement>(null);
 
   const [isWaitingForInitialTimeout, setIsWaitingForInitialTimeout] = React.useState(true);
-  const [userInteractedDismissingTheModal, setUserInteractedDismissingTheModal] = React.useState(
-    false
-  );
+  const [userInteractedDismissingTheModal, setUserInteractedDismissingTheModal] =
+    React.useState(false);
   const shouldRender = !userInteractedDismissingTheModal && !isWaitingForInitialTimeout;
 
   const hasModalBeenFocused = React.useRef(false);

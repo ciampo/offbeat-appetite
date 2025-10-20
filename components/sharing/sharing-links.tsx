@@ -190,7 +190,7 @@ export const NativeSharingButton: React.FC<SharingLinkWithMessageProps> = ({
 }) => {
   const onNativeShareButtonClick = React.useCallback(async () => {
     try {
-      await ((navigator.share as unknown) as NavigatorShare)({
+      await (navigator.share as unknown as NavigatorShare)({
         title: message,
         text: message,
         url: link,

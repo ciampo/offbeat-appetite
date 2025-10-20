@@ -2,16 +2,10 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "*": [
-        "test/*"
-      ]
+      "*": ["test/*"]
     },
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -24,10 +18,7 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "exclude": [
-    "node_modules",
-    ".yarn"
-  ],
+  "exclude": ["node_modules", ".yarn"],
   "include": [
     ".eslintrc.js",
     "next-env.d.ts",
@@ -37,6 +28,6 @@
     "**/*.jsx",
     "**/*.ts",
     "**/*.tsx",
-    "test/*",
+    "test/*"
   ]
 }

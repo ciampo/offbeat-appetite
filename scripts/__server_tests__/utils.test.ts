@@ -36,13 +36,7 @@ test('arrayUnique', () => {
 
 test('arraySortNumberAsc', () => {
   expect(arraySortNumberAsc([1, 10, -20, 1, 2, 5999, 43])).toMatchObject([
-    -20,
-    1,
-    1,
-    2,
-    10,
-    43,
-    5999,
+    -20, 1, 1, 2, 10, 43, 5999,
   ]);
 });
 

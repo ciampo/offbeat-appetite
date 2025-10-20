@@ -18,8 +18,7 @@ export const testImage = {
         },
       },
     },
-    url:
-      'https://cdn.sanity.io/images/12345678/production/c7f3d2a5bfbf870f958d2d3ca704e0840d25f61e-3200x1800.png',
+    url: 'https://cdn.sanity.io/images/12345678/production/c7f3d2a5bfbf870f958d2d3ca704e0840d25f61e-3200x1800.png',
   },
 };
 
@@ -74,8 +73,7 @@ export const testVideo = {
           },
         },
       },
-      url:
-        'https://cdn.sanity.io/images/gpe6axmm/production/c7f3d2a5bfbf870f958d2d3ca704e0840d25f61e-3200x1800.png',
+      url: 'https://cdn.sanity.io/images/gpe6axmm/production/c7f3d2a5bfbf870f958d2d3ca704e0840d25f61e-3200x1800.png',
     },
     crop: {
       _type: 'sanity.imageCrop',
@@ -92,8 +90,7 @@ export const testVideo = {
       y: 0.2868561278863231,
     },
   },
-  url:
-    'https://cdn.sanity.io/files/gpe6axmm/production/2ffd447ced3e0a04edcdd3975c4b638f16df2f7f.mp4',
+  url: 'https://cdn.sanity.io/files/gpe6axmm/production/2ffd447ced3e0a04edcdd3975c4b638f16df2f7f.mp4',
 };
 
 export const testCaptionedVideoNoCaption = {
