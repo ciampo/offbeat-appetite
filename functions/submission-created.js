@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const sanityClient = require('@sanity/client');
 
 // Read env variables.
@@ -9,9 +9,12 @@ const { NEWSLETTER_API_KEY, NEWSLETTER_SUBSCRIBERS_GROUP_ID, SLACK_WEBHOOK_URL }
 exports.handler = async (event) => {
   const { payload, site } = JSON.parse(event.body);
 
-  console.log(`NEW SUBMISSION FOR ${payload.form_name}:`, payload.data);
+  const formName = payload.form_name || payload.data['form-name'];
+  const siteName = site.name || '[SITE_NAME]';
 
-  if (payload.form_name === 'newsletter') {
+  console.log(`NEW SUBMISSION FOR ${formName}:`, payload.data);
+
+  if (formName === 'newsletter') {
     const email = (payload.data.email || '').trim();
     const name = (payload.data.name || '').trim();
 
@@ -40,7 +43,7 @@ exports.handler = async (event) => {
           {
             type: 'mrkdwn',
             text: [
-              `Submitted to the *${payload.form_name}* form on the *${site.name}* site`,
+              `Submitted to the *${formName}* form on the *${siteName}* site`,
               `on the *${new Date(payload.created_at).toLocaleString('en-GB', {
                 dateStyle: 'long',
                 timeStyle: 'long',
@@ -55,7 +58,7 @@ exports.handler = async (event) => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*<https://app.netlify.com/sites/${site.name}/forms/${payload.form_id}|See all ${site.name} submissions>*  |  *<https://dashboard.mailerlite.com/subscribers?status=active|See MailerLite subscribers>*`,
+          text: `*<https://app.netlify.com/sites/${siteName}/forms/${payload.form_id}|See all ${siteName} submissions>*  |  *<https://dashboard.mailerlite.com/subscribers?status=active|See MailerLite subscribers>*`,
         },
       },
       {
@@ -65,22 +68,19 @@ exports.handler = async (event) => {
 
     return (
       // First, send user information to MailerLite
-      fetch(
-        `https://connect.mailerlite.com/api/subscribers`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${NEWSLETTER_API_KEY}`,
-          },
-          body: JSON.stringify({
-            email,
-            fields:{ name },
-            groups: [NEWSLETTER_SUBSCRIBERS_GROUP_ID],
-          }),
-        }
-      )
+      fetch(`https://connect.mailerlite.com/api/subscribers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${NEWSLETTER_API_KEY}`,
+        },
+        body: JSON.stringify({
+          email,
+          fields: { name },
+          groups: [NEWSLETTER_SUBSCRIBERS_GROUP_ID],
+        }),
+      })
         .then((response) => response.json())
         // Catch any errors returned by MailerLite
         .then((data) => {
@@ -94,7 +94,7 @@ exports.handler = async (event) => {
         .then(() => {
           console.log('Success!');
 
-          const slackSuccessMessage = `New submission for the *${payload.form_name}* form:`;
+          const slackSuccessMessage = `New submission for the *${formName}* form:`;
 
           return fetch(SLACK_WEBHOOK_URL, {
             headers: {
@@ -129,7 +129,7 @@ exports.handler = async (event) => {
           const consoleMessage = `Oops! Something went wrong:\n${error}`;
           console.log(consoleMessage);
 
-          const slackMessage = `Error during a submission for the *${payload.form_name}* form:`;
+          const slackMessage = `Error during a submission for the *${formName}* form:`;
 
           return fetch(SLACK_WEBHOOK_URL, {
             headers: {
@@ -161,7 +161,7 @@ exports.handler = async (event) => {
     );
   }
 
-  if (payload.form_name === 'review-rating') {
+  if (formName === 'review-rating') {
     const ratingAsString = (payload.data.rating || '').trim();
     const sanityDocumentId = (payload.data['document-id'] || '').trim();
 
@@ -236,7 +236,7 @@ exports.handler = async (event) => {
                 {
                   type: 'mrkdwn',
                   text: [
-                    `Submitted to the *${payload.form_name}* form on the *${site.name}* site`,
+                    `Submitted to the *${formName}* form on the *${siteName}* site`,
                     `on the *${new Date(payload.created_at).toLocaleString('en-GB', {
                       dateStyle: 'long',
                       timeStyle: 'long',
@@ -251,7 +251,7 @@ exports.handler = async (event) => {
               type: 'section',
               text: {
                 type: 'mrkdwn',
-                text: `*<https://app.netlify.com/sites/${site.name}/forms/${payload.form_id}|See all ${site.name} submissions>*  |  *<https://studio.offbeatappetite.com/desk/blogPost|See all Blog Posts on the CMS>*`,
+                text: `*<https://app.netlify.com/sites/${siteName}/forms/${payload.form_id}|See all ${siteName} submissions>*  |  *<https://studio.offbeatappetite.com/desk/blogPost|See all Blog Posts on the CMS>*`,
               },
             },
             {
