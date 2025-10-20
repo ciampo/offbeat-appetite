@@ -30,11 +30,11 @@ ${routesConfig
     `font-src 'self' data:`,
     // Allow script coming from same origin, inline and Google / Google Analytics (incl. recaptcha), and Pinterest
     `script-src 'self' 'unsafe-inline' https://www.google.com/ https://www.gstatic.com/ https://*.google-analytics.com https://recaptcha.net http://assets.pinterest.com https://assets.pinterest.com https://widgets.pinterest.com https://*.netlify.app https://*.googletagmanager.com`,
-    // Allow XHR to same origin, Google Analytics
-    `connect-src 'self' https://*.google-analytics.com https://stats.g.doubleclick.net https://*.api.sanity.io`,
+    // Allow XHR to same origin, Google Analytics, Google reCAPTCHA
+    `connect-src 'self' https://*.google-analytics.com https://stats.g.doubleclick.net https://*.api.sanity.io https://recaptcha.net`,
     // Allow webmanifest files from same origin
     `manifest-src 'self'`,
-    // Allow iframes from google, Pinterest, netlify, and same origin
+    // Allow iframes from google, Pinterest, netlify, Google reCAPTCHA, and same origin
     `frame-src 'self' https://www.google.com/recaptcha/ https://recaptcha.net https://assets.pinterest.com https://*.netlify.com`,
   ].join('; ')}
   X-XSS-Protection: 1; mode=block`
